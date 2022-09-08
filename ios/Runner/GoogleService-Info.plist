@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>744125101565-v9mh8varq7necem60afofouoam5lshn6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.744125101565-v9mh8varq7necem60afofouoam5lshn6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAvEVV2hpFpWif4_H66jGWOvT4I3OTMQmU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>744125101565</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>io.ksu.earnily</string>
+	<key>PROJECT_ID</key>
+	<string>earnily444</string>
+	<key>STORAGE_BUCKET</key>
+	<string>earnily444.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:744125101565:ios:0eecb921e2426b05765594</string>
+</dict>
+</plist>
