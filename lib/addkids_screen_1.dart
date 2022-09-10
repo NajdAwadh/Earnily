@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'export.dart';
-import 'kidsjoinviaQRcode_screen_1.dart';
 
 class AddKids_screen_1 extends StatefulWidget {
   const AddKids_screen_1({Key? key}) : super(key: key);

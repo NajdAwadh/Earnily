@@ -104,7 +104,7 @@ class _KidsjoinviaQRcode_screen_1State
                     width: 80,
                     height: 80,
                     child:
-                        Image.asset("assets/homebutton_ImageView_10-80x80.png"),
+                        Image.asset("assets/homebutton_ImageView_11-80x80.png"),
                   ),
                 ),
 //-- End homebutton_ImageView_10 --//
@@ -115,7 +115,7 @@ class _KidsjoinviaQRcode_screen_1State
                   child: SizedBox(
                     width: 60,
                     height: 60,
-                    child: Image.asset("assets/award_ImageView_11-60x60.png"),
+                    child: Image.asset("assets/award_ImageView_13-60x60.png"),
                   ),
                 ),
 //-- End award_ImageView_11 --//
