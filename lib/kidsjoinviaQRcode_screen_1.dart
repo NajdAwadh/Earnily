@@ -206,7 +206,7 @@ class _KidsjoinviaQRcode_screen_1State
                     left: 181,
                     top: 108,
                     child: Text(
-                      "اهلاً، سارة",
+                      "اهلاً",
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
                       style: TextStyle(

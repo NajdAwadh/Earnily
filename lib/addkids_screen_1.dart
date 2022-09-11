@@ -11,6 +11,24 @@ class AddKids_screen_1 extends StatefulWidget {
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
+  final List<String> items = <String>["ذكر", "أنثى"];
+  String? value;
+
+  DateTime date = DateTime.now();
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: date,
+      firstDate: DateTime(2001),
+      lastDate: DateTime(2021),
+    ).then((value) {
+      setState(() {
+        date = value!;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -157,7 +175,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     top: 23,
                     child: SizedBox(
                         child: Text(
-                      "إضافة أبن/أبنة",
+                      "إضافة إبن/أبنة",
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.left,
                       style: TextStyle(
@@ -214,19 +232,32 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     )),
 //-- End Rewards_TextView_18 --//
 //-- Component BirthdayTextBox --//
-                Positioned(
-                  right: 107,
-                  top: 406,
-                  child: Container(
-                    width: 254 * widthScale,
-                    height: 66 * heightScale,
-                    decoration: BoxDecoration(
-                      color: FvColors.textview24Background,
-                      borderRadius: BorderRadius.circular(56),
-                      border: Border.all(),
+                const Positioned(
+                    right: 107,
+                    top: 406,
+                    width: 254,
+                    height: 66,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: " تاريخ الميلاد",
+                      ),
+                    )
+                    /*
+                    child: MaterialButton(
+                        onPressed: _showDatePicker,
+                        child: const Text(
+                          "اختر تاريخ الميلاد",
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              backgroundColor: FvColors.textview24Background,
+                              color: FvColors.textview24FontColor,
+                              wordSpacing: 1.0),
+                        ))*/
                     ),
-                  ),
-                ),
 
 //-- End BirthdayTextBox --//
 //-- Component BirthdayTextView --//
@@ -235,7 +266,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     top: 406,
                     child: SizedBox(
                         child: Text(
-                      "تاريخ الميلاد:",
+                      "تاريخ الميلاد",
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -246,20 +277,27 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           wordSpacing: 1.0),
                     ))),
 //-- End BirthdayTextView --//
+
 //-- Component GenderTextBox --//
                 Positioned(
-                  right: 107,
-                  top: 287,
-                  child: Container(
+                    right: 107,
+                    top: 287,
                     width: 254,
                     height: 66,
-                    decoration: BoxDecoration(
-                      color: FvColors.textview24Background,
-                      borderRadius: BorderRadius.circular(56),
-                      border: Border.all(),
-                    ),
-                  ),
-                ),
+                    child: DropdownButton<String>(
+                        hint: const Text("الجنس"),
+                        value: value,
+                        items: items.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                        onChanged: (newVal) {
+                          setState(() {
+                            value = newVal!;
+                          });
+                        })),
 
 //-- End GenderTextBox --//
 //-- Component GenderTextView --//
@@ -268,7 +306,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     top: 292,
                     child: SizedBox(
                         child: Text(
-                      "الجنس:",
+                      "الجنس",
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -280,19 +318,26 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     ))),
 //-- End GenderTextView --//
 //-- Component NameTextBox --//
-                Positioned(
-                  right: 107,
-                  top: 178,
-                  child: Container(
-                    width: 251 * widthScale,
-                    height: 66 * heightScale,
-                    decoration: BoxDecoration(
-                      color: FvColors.textview24Background,
-                      borderRadius: BorderRadius.circular(56),
-                      border: Border.all(),
+                const Positioned(
+                    right: 107,
+                    top: 178,
+                    width: 251,
+                    height: 66,
+                    /*child: Container(
+                      width: 251 * widthScale,
+                      height: 66 * heightScale,
+                      decoration: BoxDecoration(
+                        color: FvColors.textview24Background,
+                        borderRadius: BorderRadius.circular(56),
+                        border: Border.all(),
+                      ),*/
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "الأسم",
+                      ),
+                    ) //),
                     ),
-                  ),
-                ),
 
 //-- End NameTextBox --//
 //-- Component NameTextView --//
@@ -301,7 +346,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     top: 178,
                     child: SizedBox(
                         child: Text(
-                      "الأسم:",
+                      "الأسم",
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
                       style: TextStyle(
