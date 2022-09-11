@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 //runApp(MyApp());
 //}
 
-void main() => runApp(MyApp());
-
 class task {
   String taskName;
   String childName;
@@ -13,15 +11,17 @@ class task {
   int points;
 }
 
+void main() => runApp(MyApp());
+
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    throw MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   int i = 0;
   void AnswerQuestion() {
     setState(() {
