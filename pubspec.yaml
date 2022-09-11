@@ -39,6 +39,8 @@ dependencies:
 
   #firebase database (lamis)
   cloud_firestore: ^3.1.5
+  firebase: ^9.0.3
+  firebase_core: ^1.22.0
 
 dev_dependencies:
   flutter_test:
