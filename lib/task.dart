@@ -7,10 +7,10 @@ class AddKids_screen_1 extends StatefulWidget {
   const AddKids_screen_1({Key? key}) : super(key: key);
 
   @override
-  _AddKids_screen_1 createState() => _AddKids_screen_1();
+  task createState() => task();
 }
 
-class _AddKids_screen_1 extends State<AddKids_screen_1> {
+class task extends State<AddKids_screen_1> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -219,7 +219,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     ),
                   ),
                 ),
+//-- Component GenderTextBox --//
 
+//-- End GenderTextBox --//
 //-- End BirthdayTextBox --//
 //-- Component BirthdayTextView --//
                 const Positioned(
@@ -238,6 +240,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           wordSpacing: 1.0),
                     ))),
 //-- End BirthdayTextView --//
+
 //-- Component GenderTextBox --//
                 Positioned(
                   right: 107,
@@ -260,7 +263,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     top: 292,
                     child: SizedBox(
                         child: Text(
-                      ":اسم الطفل",
+                      ":الفئة",
                       overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
                       style: TextStyle(
