@@ -139,13 +139,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         width: 347,
                         height: 68,
                         child: TextButton(
-                          child: const Text('إضافة ',
-                              overflow: TextOverflow.visible,
-                              style: TextStyle(
-                                color: FvColors.textview24FontColor,
-                                fontSize: 36,
-                                fontWeight: FontWeight.w400,
-                              )),
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
                             backgroundColor:
@@ -167,6 +160,13 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                               ),
                             ); // push
                           },
+                          child: const Text('إضافة ',
+                              overflow: TextOverflow.visible,
+                              style: TextStyle(
+                                color: FvColors.textview24FontColor,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w400,
+                              )),
                         ))),
 //-- End InviteButton --//
 //-- Component InviteTextView --//
