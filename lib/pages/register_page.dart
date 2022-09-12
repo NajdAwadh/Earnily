@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,6 +17,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   //text controlllers
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
@@ -22,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String gender = "male";
 
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmpasswordController.dispose();
@@ -31,11 +35,24 @@ class _RegisterPageState extends State<RegisterPage> {
 //stored in DB
   Future signup() async {
     if (passwordConfirmed()) {
-      //  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      //   email: _emailController.text.trim(),
-      //   password: _passwordController.text.trim(),
-      // );
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      // add user details
+      addUserDetails(
+        _nameController.text.trim(),
+        _emailController.text.trim(),
+      );
     }
+  }
+
+  Future addUserDetails(String name, String email) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': name,
+      'email': email,
+    });
   }
 
 //check if password is auth
@@ -61,7 +78,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 //logo
 
                 //icon
-                SizedBox(height: 75),
 
                 //اهلاٍ بك
                 Text(
@@ -84,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
-                    // controller: _emailController,
+                    controller: _nameController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
