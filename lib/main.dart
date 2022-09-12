@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'ApplicationName',
+        title: 'Earnily',
         home: AddKids_screen_1());
   }
 }

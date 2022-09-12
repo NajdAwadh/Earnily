@@ -3,6 +3,10 @@
 import 'package:flutter/material.dart';
 import 'export.dart';
 
+import 'package:intl/intl.dart';
+//import 'package:flutter_poolakey/flutter_poolakey.dart';
+import 'dart:ui' as ui;
+
 class AddKids_screen_1 extends StatefulWidget {
   const AddKids_screen_1({Key? key}) : super(key: key);
 
@@ -14,19 +18,27 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final List<String> items = <String>["ذكر", "أنثى"];
   String? value;
 
-  DateTime date = DateTime.now();
+  DateTime? date;
 
-  void _showDatePicker() {
+  void _showDatePicker() async {
     showDatePicker(
       context: context,
-      initialDate: date,
+      initialDate: date ?? DateTime.now(),
       firstDate: DateTime(2001),
-      lastDate: DateTime(2021),
+      lastDate: DateTime(2025),
     ).then((value) {
       setState(() {
         date = value!;
       });
     });
+  }
+
+  String getText() {
+    if (date == null) {
+      return "اختر تاريخ الميلاد";
+    } else {
+      return DateFormat("dd/MM/yyyy").format(date!);
+    }
   }
 
   @override
@@ -71,28 +83,15 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                   top: 0,
                   child: Container(
                     width: 390,
-                    height: 207,
+                    height: 150,
                     decoration: BoxDecoration(
                       color: FvColors.scrollcontainer3Background,
                       borderRadius: BorderRadius.circular(37),
                     ),
                     child: Stack(
-                        alignment: Alignment.center,
-                        clipBehavior: Clip.none,
-                        children: [
-//-- Component Rectangle_Container_6 --//
-                          Positioned(
-                            child: Container(
-                              width: 390 * widthScale,
-                              height: 207 * heightScale,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(56),
-                              ),
-                            ),
-                          ),
-
-//-- End Rectangle_Container_6 --//
-                        ]),
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                    ),
                   ),
                 ),
 
@@ -170,6 +169,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         ))),
 //-- End InviteButton --//
 //-- Component InviteTextView --//
+
                 const Positioned(
                     left: 86,
                     top: 23,
@@ -232,35 +232,40 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     )),
 //-- End Rewards_TextView_18 --//
 //-- Component BirthdayTextBox --//
-                const Positioned(
-                    right: 107,
-                    top: 406,
-                    width: 254,
-                    height: 66,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: " تاريخ الميلاد",
+                Positioned(
+                  right: 107,
+                  top: 406,
+                  width: 254,
+                  height: 66,
+                  child: ElevatedButton(
+                      onPressed: _showDatePicker,
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(56),
+                          side: const BorderSide(
+                            width: 5,
+                            color: FvColors.scrollcontainer3Background,
+                          ),
+                        ),
                       ),
-                    )
-                    /*
-                    child: MaterialButton(
-                        onPressed: _showDatePicker,
-                        child: const Text(
-                          "اختر تاريخ الميلاد",
-                          overflow: TextOverflow.visible,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              backgroundColor: FvColors.textview24Background,
-                              color: FvColors.textview24FontColor,
-                              wordSpacing: 1.0),
-                        ))*/
-                    ),
+                      child: Text(
+                        getText(),
+                        overflow: TextOverflow.visible,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w400,
+                            backgroundColor: FvColors.textview24Background,
+                            color: FvColors.textview24FontColor,
+                            wordSpacing: 1.0),
+                      )),
+                ),
 
 //-- End BirthdayTextBox --//
 //-- Component BirthdayTextView --//
+/*
                 const Positioned(
                     left: 280,
                     top: 406,
@@ -276,8 +281,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           color: FvColors.textview24FontColor,
                           wordSpacing: 1.0),
                     ))),
+                  
 //-- End BirthdayTextView --//
-
+*/
 //-- Component GenderTextBox --//
                 Positioned(
                     right: 107,
@@ -318,7 +324,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     ))),
 //-- End GenderTextView --//
 //-- Component NameTextBox --//
-                const Positioned(
+                Positioned(
                     right: 107,
                     top: 178,
                     width: 251,
@@ -333,8 +339,15 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       ),*/
                     child: TextField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 5,
+                            color: FvColors.scrollcontainer3Background,
+                          ),
+                          borderRadius: BorderRadius.circular(56.0),
+                        ),
                         hintText: "الأسم",
+                        hintTextDirection: ui.TextDirection.rtl,
                       ),
                     ) //),
                     ),
