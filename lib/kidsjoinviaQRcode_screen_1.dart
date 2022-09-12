@@ -34,21 +34,7 @@ class _KidsjoinviaQRcode_screen_1State
               scrollDirection: Axis.vertical,
               child: Stack(children: [
                 const SizedBox(height: 844, width: 390),
-//-- Component Bottom --//
-                Positioned(
-                  left: 0,
-                  top: 761,
-                  child: Container(
-                    width: 390,
-                    height: 83,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(206, 217, 217, 217),
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                ),
 
-//-- End Bottom --//
 //-- Component HelloRectangleContainer --//
                 Positioned(
                   left: 0,
@@ -56,9 +42,9 @@ class _KidsjoinviaQRcode_screen_1State
                   child: Container(
                     width: 390,
                     height: 298,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: FvColors.container4Background,
-                      borderRadius: BorderRadius.circular(56),
+                      //borderRadius: BorderRadius.circular(56),
                     ),
                     child: Stack(
                         alignment: Alignment.center,
@@ -95,7 +81,79 @@ class _KidsjoinviaQRcode_screen_1State
                   ),
                 ),
 
+//-- Component profile_ImageView_17 --//
+                Positioned(
+                  left: 276,
+                  top: 14,
+                  child: SizedBox(
+                    width: 85,
+                    height: 85,
+                    child: Image.asset("assets/profile_ImageView_17-85x85.png"),
+                  ),
+                ),
+//-- End profile_ImageView_17 --//
+//-- Component HelloTextView --//
+                const Positioned(
+                    left: 181,
+                    top: 108,
+                    child: Text(
+                      "اهلاً",
+                      overflow: TextOverflow.visible,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w400,
+                          //backgroundColor: Color.fromARGB(250, 243, 126, 126),
+                          color: FvColors.textview24FontColor,
+                          wordSpacing: 1.0),
+                    )),
+//-- End HelloTextView --//
+//-- Component ScanQRTextView --//
+                const Positioned(
+                    left: 50,
+                    top: 215,
+                    child: Text(
+                      "أمسح الباركود للإنضمام إلى العائلة",
+                      overflow: TextOverflow.visible,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: FvColors.textview24FontColor,
+                          wordSpacing: 1.0),
+                    )),
+//-- End ScanQRTextView --//
+//-- Component qrcode_ImageView_20 --//
+                Positioned(
+                  left: 37,
+                  top: 297,
+                  child: SizedBox(
+                    width: 330,
+                    height: 330,
+                    child:
+                        Image.asset("assets/qrcode_ImageView_20-330x330.png"),
+                  ),
+                ),
+//-- End qrcode_ImageView_20 --//
+
 //-- End HelloRectangleContainer --//
+/*
+//-- Component Bottom --//
+                Positioned(
+                  left: 0,
+                  top: 761,
+                  child: Container(
+                    width: 390,
+                    height: 83,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(206, 217, 217, 217),
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  ),
+                ),
+
+//-- End Bottom --//
+
 //-- Component homebutton_ImageView_10 --//
                 Positioned(
                   left: 155,
@@ -190,60 +248,7 @@ class _KidsjoinviaQRcode_screen_1State
                           wordSpacing: 1.0),
                     )),
 //-- End Rewards_TextView_16 --//
-//-- Component profile_ImageView_17 --//
-                Positioned(
-                  left: 276,
-                  top: 14,
-                  child: SizedBox(
-                    width: 85,
-                    height: 85,
-                    child: Image.asset("assets/profile_ImageView_17-85x85.png"),
-                  ),
-                ),
-//-- End profile_ImageView_17 --//
-//-- Component HelloTextView --//
-                const Positioned(
-                    left: 181,
-                    top: 108,
-                    child: Text(
-                      "اهلاً",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w400,
-                          //backgroundColor: Color.fromARGB(250, 243, 126, 126),
-                          color: FvColors.textview24FontColor,
-                          wordSpacing: 1.0),
-                    )),
-//-- End HelloTextView --//
-//-- Component ScanQRTextView --//
-                const Positioned(
-                    left: 0,
-                    top: 215,
-                    child: Text(
-                      "أمسح الباركود للإنضمام إلى العائلة",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: FvColors.textview24FontColor,
-                          wordSpacing: 1.0),
-                    )),
-//-- End ScanQRTextView --//
-//-- Component qrcode_ImageView_20 --//
-                Positioned(
-                  left: 37,
-                  top: 297,
-                  child: SizedBox(
-                    width: 330,
-                    height: 330,
-                    child:
-                        Image.asset("assets/qrcode_ImageView_20-330x330.png"),
-                  ),
-                ),
-//-- End qrcode_ImageView_20 --//
+*/
               ]),
             ),
 //-- Component ScrollContainer --//
