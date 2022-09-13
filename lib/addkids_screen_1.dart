@@ -258,14 +258,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           borderRadius: BorderRadius.circular(56.0),
                         ),
                         hintText: "الأسم",
-                        hintStyle: const TextStyle(
-                          overflow: TextOverflow.visible,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          backgroundColor: FvColors.textview24Background,
-                          color: FvColors.textview24FontColor,
-                          wordSpacing: 1.0,
-                        ),
                         hintTextDirection: ui.TextDirection.rtl,
                       ),
                     ) //),
@@ -326,13 +318,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                               "الجنس",
                               overflow: TextOverflow.visible,
                               textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  backgroundColor:
-                                      FvColors.textview24Background,
-                                  color: FvColors.textview24FontColor,
-                                  wordSpacing: 1.0),
                             ),
                             value: value,
                             items: items.map((valueItem) {
@@ -390,13 +375,13 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       child: Text(
                         getText(),
                         overflow: TextOverflow.visible,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            backgroundColor: FvColors.textview24Background,
-                            color: FvColors.textview24FontColor,
-                            wordSpacing: 1.0),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey,
+                        ),
+                        textDirection: ui.TextDirection.rtl,
                       )),
                 ),
 
