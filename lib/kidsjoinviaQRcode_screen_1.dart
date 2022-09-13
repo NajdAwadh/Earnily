@@ -1,7 +1,6 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
-import 'export.dart';
 
 class KidsjoinviaQRcode_screen_1 extends StatefulWidget {
   const KidsjoinviaQRcode_screen_1({Key? key}) : super(key: key);
@@ -18,11 +17,8 @@ class _KidsjoinviaQRcode_screen_1State
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    double widthScale = width / 390;
-    double heightScale = height / 844;
-
     return Scaffold(
-      backgroundColor: FvColors.screen1Background,
+      backgroundColor: Colors.white,
       body: SizedBox(
         width: width,
         height: height,
@@ -42,24 +38,11 @@ class _KidsjoinviaQRcode_screen_1State
                   child: Container(
                     width: 390,
                     height: 298,
-                    decoration: const BoxDecoration(
-                      color: FvColors.container4Background,
-                      //borderRadius: BorderRadius.circular(56),
-                    ),
                     child: Stack(
                         alignment: Alignment.center,
                         clipBehavior: Clip.none,
                         children: [
 //-- Component Rectangle_Container_5 --//
-                          Positioned(
-                            child: Container(
-                              width: 390 * widthScale,
-                              height: 298 * heightScale,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(56),
-                              ),
-                            ),
-                          ),
 
 //-- End Rectangle_Container_5 --//
 //-- Component profile_Container_7 --//
@@ -103,8 +86,7 @@ class _KidsjoinviaQRcode_screen_1State
                       style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.w400,
-                          //backgroundColor: Color.fromARGB(250, 243, 126, 126),
-                          color: FvColors.textview24FontColor,
+                          color: Colors.black,
                           wordSpacing: 1.0),
                     )),
 //-- End HelloTextView --//
@@ -119,7 +101,7 @@ class _KidsjoinviaQRcode_screen_1State
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          color: FvColors.textview24FontColor,
+                          color: Colors.black,
                           wordSpacing: 1.0),
                     )),
 //-- End ScanQRTextView --//

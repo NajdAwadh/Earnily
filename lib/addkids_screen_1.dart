@@ -1,10 +1,11 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
-import 'export.dart';
 
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
+
+import 'kidsjoinviaQRcode_screen_1.dart';
 
 class AddKids_screen_1 extends StatefulWidget {
   const AddKids_screen_1({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     double heightScale = height / 844;
 
     return Scaffold(
-      backgroundColor: FvColors.screen1Background,
+      backgroundColor: Colors.white,
       body: SizedBox(
         width: width,
         height: height,
@@ -182,7 +183,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     width: 390,
                     height: 150,
                     decoration: BoxDecoration(
-                      color: FvColors.scrollcontainer3Background,
+                      color: Colors.blue[100],
                       borderRadius: BorderRadius.circular(37),
                     ),
                     child: Stack(
@@ -206,8 +207,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.w400,
-                          backgroundColor: FvColors.textview24Background,
-                          color: FvColors.textview24FontColor,
+                          //backgroundColor: FvColors.textview24Background,
+                          color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
 //-- End InviteTextView --//
@@ -236,8 +237,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          backgroundColor: FvColors.textview24Background,
-                          color: FvColors.textview24FontColor,
+                          //backgroundColor: FvColors.textview24Background,
+                          color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
 //-- End NameTextView --//
@@ -252,9 +253,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                            width: 5,
-                            color: FvColors.scrollcontainer3Background,
-                          ),
+                              width: 5, color: Colors.blueAccent),
                           borderRadius: BorderRadius.circular(56.0),
                         ),
                         hintText: "الأسم",
@@ -277,8 +276,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          backgroundColor: FvColors.textview24Background,
-                          color: FvColors.textview24FontColor,
+                          //backgroundColor: FvColors.textview24Background,
+                          color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
 //-- End GenderTextView --//
@@ -297,19 +296,19 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           border: const Border(
                             left: BorderSide(
                               width: 5,
-                              color: FvColors.scrollcontainer3Background,
+                              color: Colors.blueAccent,
                             ),
                             right: BorderSide(
                               width: 5,
-                              color: FvColors.scrollcontainer3Background,
+                              color: Colors.blueAccent,
                             ),
                             top: BorderSide(
                               width: 5,
-                              color: FvColors.scrollcontainer3Background,
+                              color: Colors.blueAccent,
                             ),
                             bottom: BorderSide(
                               width: 5,
-                              color: FvColors.scrollcontainer3Background,
+                              color: Colors.blueAccent,
                             ),
                           ),
                         ),
@@ -346,8 +345,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          backgroundColor: FvColors.textview24Background,
-                          color: FvColors.textview24FontColor,
+                          //backgroundColor: FvColors.textview24Background,
+                          color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
 
@@ -368,7 +367,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           borderRadius: BorderRadius.circular(56),
                           side: const BorderSide(
                             width: 5,
-                            color: FvColors.scrollcontainer3Background,
+                            color: Colors.blueAccent,
                           ),
                         ),
                       ),
@@ -397,8 +396,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         child: TextButton(
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
-                            backgroundColor:
-                                FvColors.scrollcontainer3Background,
+                            backgroundColor: Colors.blueAccent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(56),
                               side: const BorderSide(
@@ -419,7 +417,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           child: const Text('إضافة ',
                               overflow: TextOverflow.visible,
                               style: TextStyle(
-                                color: FvColors.textview24FontColor,
+                                color: Colors.black,
                                 fontSize: 36,
                                 fontWeight: FontWeight.w400,
                               )),
