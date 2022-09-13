@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+final List<String> category = <String>['النظافة', 'تطوير الشخصيه', 'الدين'];
+
 class NewTask extends StatefulWidget {
   final Function addTx;
 
@@ -14,6 +17,9 @@ class _NewTaskState extends State<NewTask> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime _selectedDate;
+
+  String dropdownValue = list.first;
+  String dropdownValue2 = category.first;
 
   void _submitData() {
     if (_amountController.text.isEmpty) {
@@ -68,6 +74,59 @@ class _NewTaskState extends State<NewTask> {
               // onChanged: (val) {
               //   titleInput = val;
               // },
+            ),
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  DropdownButton(
+                    value: dropdownValue,
+                    onChanged: (String value) {
+                      // This is called when the user selects an item.
+                      setState(() {});
+                    },
+                    items: list.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  //here
+                  Expanded(
+                    child: Text(
+                      ':الطفل',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  DropdownButton(
+                    value: dropdownValue2,
+                    onChanged: (String value) {
+                      // This is called when the user selects an item.
+                      setState(() {});
+                    },
+                    items:
+                        category.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  //here
+                  Expanded(
+                    child: Text(
+                      ':فئة النشاط',
+                    ),
+                  ),
+                ],
+              ),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'عدد النقاط المستحقة'),

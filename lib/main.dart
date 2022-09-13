@@ -57,9 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTask(String txTitle, double txAmount, DateTime chosenDate) {
+  void _addNewTask(String txTitle, String TxKid, String TxCategory,double txAmount, DateTime chosenDate) {
     final newTx = Task(
+
       title: txTitle,
+      kid: TxKid,
+      category:TxCategory ,
       amount: txAmount,
       date: chosenDate,
       id: DateTime.now().toString(),
