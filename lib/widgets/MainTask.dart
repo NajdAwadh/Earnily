@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 
-import './widgets/new_task.dart';
-import './widgets/task_list.dart';
+import 'new_task.dart';
+import 'task_list.dart';
 
-import 'models/task.dart';
+import 'package:earnily/models/task.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:earnily/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+class MainTask extends StatefulWidget {
+  const MainTask({super.key});
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  runApp(MyApp());
+  @override
+  State<MainTask> createState() => _MainTaskState();
 }
 
-class MyApp extends StatelessWidget {
+class _MainTaskState extends State<MainTask> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,15 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
       _userTasks.add(newTx);
     });
     Future addTask() async {
-    await FirebaseFirestore.instance.collection('tasks').add({
-     'title': txTitle,
-      'kid': TxKid,
-      'category': TxCategory,
-      'amount': txAmount,
-      'date': chosenDate,
-      'id': DateTime.now().toString(),
-    });
-  }
+      await FirebaseFirestore.instance.collection('tasks').add({
+        'title': txTitle,
+        'kid': TxKid,
+        'category': TxCategory,
+        'amount': txAmount,
+        'date': chosenDate,
+        'id': DateTime.now().toString(),
+      });
+    }
   }
 
   void _startAddNewTask(BuildContext ctx) {

@@ -18,7 +18,8 @@ class NewTask extends StatefulWidget {
 class _NewTaskState extends State<NewTask> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _selectedDate;
+
+  DateTime _selectedDate = DateTime.now();
 
   String dropdownValue = list.first;
   String dropdownValue2 = category.first;
@@ -89,7 +90,7 @@ class _NewTaskState extends State<NewTask> {
                         child: Text(value),
                       );
                     }).toList(),
-                    onChanged: (String value) {
+                    onChanged: (String? value) {
                       setState(() {});
                     },
                   ),
@@ -121,7 +122,7 @@ class _NewTaskState extends State<NewTask> {
                         child: Text(value),
                       );
                     }).toList(),
-                    onChanged: (String value) {
+                    onChanged: (String? value) {
                       setState(() {});
                     },
                   ),

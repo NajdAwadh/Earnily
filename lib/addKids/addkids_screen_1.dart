@@ -270,9 +270,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 //-- End profile_ImageView_17 --//
 
 //-- Component NameTextView --//
-                SizedBox(
-                  height: 20,
-                ),
+
                 reuasbleTextField("الاسم الكامل", Icons.person, false,
                     TextEditingController()),
 
@@ -295,7 +293,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         hintText: "الأسم",
                         hintTextDirection: ui.TextDirection.rtl,
                       ),
-                    ) //),
+                    )
+                    //),
                     ),
 
 //-- End NameTextBox --//
