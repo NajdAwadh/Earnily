@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'package:earnily/reuasblewidgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -93,6 +94,22 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
+        title: Text(
+          'أضافة طفل',
+          style: TextStyle(fontSize: 40),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+// do something
+            },
+            icon: Icon(Icons.share),
+          )
+        ],
+      ),
       backgroundColor: Colors.white,
       body: SizedBox(
         width: width,
@@ -219,27 +236,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 //-- End Rewards_TextView_18 --//
 */
 //-- Component InviteRectangleContainer_5 --//
-                Positioned(
-                  left: 0,
-                  top: 0,
-                  child: Container(
-                    width: 390,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(37),
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      clipBehavior: Clip.none,
-                    ),
-                  ),
-                ),
 
 //-- End InviteRectangleContainer_5 --//
 //-- Component InviteTextView --//
 
-                const Positioned(
+                /*  const Positioned(
                     left: 86,
                     top: 23,
                     child: SizedBox(
@@ -252,36 +253,29 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                           wordSpacing: 1.0),
-                    ))),
+                    ))),*/
+
 //-- End InviteTextView --//
 
 //-- Component profile_ImageView_17 --//
-                Positioned(
-                  left: 276,
-                  top: 14,
-                  child: SizedBox(
-                    width: 85,
-                    height: 85,
-                    child: Image.asset("assets/profile_ImageView_17-85x85.png"),
-                  ),
-                ),
+                //  Positioned(
+                //     left: 276,
+                //    top: 14,
+                //     child: SizedBox(
+                //       width: 85,
+                //      height: 85,
+                //      child: Image.asset("assets/profile_ImageView_17-85x85.png"),
+                //   ),
+                //  ),
 //-- End profile_ImageView_17 --//
 
 //-- Component NameTextView --//
-                const Positioned(
-                    left: 300,
-                    top: 178,
-                    child: SizedBox(
-                        child: Text(
-                      "الأسم",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          wordSpacing: 1.0),
-                    ))),
+                SizedBox(
+                  height: 20,
+                ),
+                reuasbleTextField("الاسم الكامل", Icons.person, false,
+                    TextEditingController()),
+
 //-- End NameTextView --//
 
 //-- Component NameTextBox --//

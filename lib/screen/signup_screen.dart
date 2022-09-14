@@ -99,37 +99,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     reuasbleTextField(
-<<<<<<< HEAD
                         "********", Icons.lock, true, _repassController),
-=======
-                        "********", Icons.lock, true, _passController),
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
                     SizedBox(
                       height: 20,
                     ),
 
-<<<<<<< HEAD
                     signInBtn(context, "تسجيل", () async {
                       await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
                               email: _emailController.text.trim(),
                               password: _passController.text.trim())
-=======
-                    signInBtn(context, "تسجيل", () {
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: _emailController.text,
-                              password: _passController.text)
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
                           .then((value) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-<<<<<<< HEAD
                                 builder: (context) => HomePage()));
-=======
-                                builder: (context) => HomeScreen()));
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
                       }).onError((error, stackTrace) {
                         print("Error ${error.toString()}");
                       });
@@ -190,28 +174,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
             // ignore: prefer_const_literals_to_create_immutables
             children: [
               TextSpan(
-<<<<<<< HEAD
                   text: 'لديك عائلة بالفعل؟',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
-=======
-                  text: 'لديك حساب بالفعل؟',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300,
-                  )),
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
               TextSpan(
                   text: 'سجل دخول',
                   style: TextStyle(
                     color: Colors.blue,
-<<<<<<< HEAD
                     fontSize: 20,
-=======
-                    fontSize: 14,
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
                     fontWeight: FontWeight.bold,
                   ))
             ]),

@@ -66,9 +66,9 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
-      backgroundColor: Colors.deepPurple.shade100,
+      backgroundColor: Colors.white,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.deepPurple.shade100,
+        backgroundColor: Colors.white,
         color: Colors.deepPurple,
         animationDuration: Duration(milliseconds: 300),
         onTap: (index) {

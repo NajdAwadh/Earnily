@@ -99,16 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.4"
-<<<<<<< HEAD
-=======
-  firebase:
-    dependency: "direct main"
-    description:
-      name: firebase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "9.0.3"
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
   firebase_auth:
     dependency: "direct main"
     description:
@@ -131,11 +121,7 @@ packages:
     source: hosted
     version: "4.4.0"
   firebase_core:
-<<<<<<< HEAD
     dependency: transitive
-=======
-    dependency: "direct main"
->>>>>>> 6f09a56db44739e1f3ddef2fa9080089b5bdbfff
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
