@@ -98,7 +98,15 @@ class _HomePageState extends State<HomePage> {
           Icons.add,
           size: 30,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const AddKids_screen_1();
+              },
+            ),
+          );
+        },
       ),
     );
   }
