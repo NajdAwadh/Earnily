@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 import 'kidsjoinviaQRcode_screen_1.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddKids_screen_1 extends StatefulWidget {
   const AddKids_screen_1({Key? key}) : super(key: key);
@@ -18,7 +20,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final List<String> items = <String>["ذكر", "أنثى"];
   String? value;
   DateTime? date;
+
   final _nameController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _dateController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -41,6 +46,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog();
     } else {
+      addKidDetails();
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -49,6 +56,14 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         ),
       );
     } // push
+  }
+
+  Future addKidDetails() async {
+    await FirebaseFirestore.instance.collection('kids').add({
+      'name': _nameController.text,
+      'gender': value,
+      'date': date,
+    });
   }
 
   void _showDatePicker() async {
