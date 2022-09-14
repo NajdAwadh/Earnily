@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "987312318171",
+    "project_id": "earnily-444",
+    "storage_bucket": "earnily-444.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987312318171:android:0eafa8f311c77d7b3d0efe",
+        "android_client_info": {
+          "package_name": "com.example.earnily"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987312318171-anjmmlvmfka2qdmnn3dponjp2ak748bc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWAd00HMwVRoX_86lOiPdXkWuSGcexI6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987312318171-anjmmlvmfka2qdmnn3dponjp2ak748bc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
