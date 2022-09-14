@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, file_names, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class _KidsjoinviaQRcode_screen_1State
                 Positioned(
                   left: 0,
                   top: 0,
-                  child: Container(
+                  child: SizedBox(
                     width: 390,
                     height: 298,
                     child: Stack(
