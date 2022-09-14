@@ -19,9 +19,29 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Earnily',
+        theme: ThemeData(
+          fontFamily: 'Quicksand',
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.blueGrey,
+          ).copyWith(secondary: (Color.fromRGBO(217, 241, 241, 1))),
+          textTheme: const TextTheme(
+            headline6: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         home: AddKids_screen_1());
   }
 }

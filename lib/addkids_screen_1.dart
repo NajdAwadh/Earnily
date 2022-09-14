@@ -17,8 +17,39 @@ class AddKids_screen_1 extends StatefulWidget {
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final List<String> items = <String>["ذكر", "أنثى"];
   String? value;
-
   DateTime? date;
+  final _nameController = TextEditingController();
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+            ),
+            content: Text(
+              "ادخل البيانات المطلوبة",
+              textAlign: TextAlign.right,
+            ),
+          );
+        });
+  }
+
+  void _validate() {
+    if (_nameController.text.isEmpty || value == null || date == null) {
+      _showDialog();
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const KidsjoinviaQRcode_screen_1();
+          },
+        ),
+      );
+    } // push
+  }
 
   void _showDatePicker() async {
     showDatePicker(
@@ -204,7 +235,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.w400,
-                          //backgroundColor: FvColors.textview24Background,
                           color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
@@ -234,7 +264,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          //backgroundColor: FvColors.textview24Background,
                           color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
@@ -247,6 +276,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     width: 251,
                     height: 66,
                     child: TextField(
+                      controller: _nameController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
@@ -273,7 +303,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          //backgroundColor: FvColors.textview24Background,
                           color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
@@ -342,7 +371,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          //backgroundColor: FvColors.textview24Background,
                           color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
@@ -402,15 +430,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                               ),
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return const KidsjoinviaQRcode_screen_1();
-                                },
-                              ),
-                            ); // push
-                          },
+                          onPressed: _validate,
                           child: const Text('إضافة ',
                               overflow: TextOverflow.visible,
                               style: TextStyle(
