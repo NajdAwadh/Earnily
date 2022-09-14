@@ -98,7 +98,6 @@ class _HomePageState extends State<HomePage> {
           Icons.add,
           size: 30,
         ),
-<<<<<<< HEAD
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -108,9 +107,6 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-=======
-        onPressed: () {},
->>>>>>> ff48a4eef3dba86d75f92435f917df588e3a6c8a
       ),
     );
   }
