@@ -98,9 +98,7 @@ class _HomePageState extends State<HomePage> {
           Icons.add,
           size: 30,
         ),
-        onPressed: () {
-          AddKids_screen_1();
-        },
+        onPressed: () {},
       ),
     );
   }
