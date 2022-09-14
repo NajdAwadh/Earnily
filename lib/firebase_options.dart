@@ -66,12 +66,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '987312318171',
     projectId: 'earnily-444',
     storageBucket: 'earnily-444.appspot.com',
-<<<<<<< HEAD
-    iosClientId:
-        '987312318171-5uff007dapm90jl6c0gvihqbraqfg5vt.apps.googleusercontent.com',
-=======
     iosClientId: '987312318171-5uff007dapm90jl6c0gvihqbraqfg5vt.apps.googleusercontent.com',
->>>>>>> 5d7c0d8e153175c72367e6a5af10f4f5adebafa0
     iosBundleId: 'com.example.earnily',
   );
 
@@ -81,12 +76,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '987312318171',
     projectId: 'earnily-444',
     storageBucket: 'earnily-444.appspot.com',
-<<<<<<< HEAD
-    iosClientId:
-        '987312318171-5uff007dapm90jl6c0gvihqbraqfg5vt.apps.googleusercontent.com',
-=======
     iosClientId: '987312318171-5uff007dapm90jl6c0gvihqbraqfg5vt.apps.googleusercontent.com',
->>>>>>> 5d7c0d8e153175c72367e6a5af10f4f5adebafa0
     iosBundleId: 'com.example.earnily',
   );
 }
