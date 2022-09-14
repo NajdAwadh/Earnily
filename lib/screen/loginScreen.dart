@@ -1,8 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../reuasblewidgets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -192,10 +190,7 @@ Widget buildJoinBtn(){
                   );
 }
 
-
-
 class _LoginScreenState extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,16 +203,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: double.infinity,
                 width: double.infinity,
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
+                //physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(
                   horizontal: 25,
                   vertical: 120,
+                  
                 ),
                   child: Column(
                     
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    imgWidget("assets/images/earnily.png" , 150 , 50),
+                    
                     Text(
                       'تسجيل الدخول',
                       style: TextStyle(
@@ -235,8 +231,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     buildSignUpBtn(),
                     SizedBox(height: 50),
                     buildJoinBtn(),
-                    
-                    
                   ],
                 ),
               ),
