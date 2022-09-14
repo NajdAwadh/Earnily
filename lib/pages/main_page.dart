@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
 //import 'register_page.dart';
 import 'package:earnily/screen/signin_screen.dart';
-import 'register_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
