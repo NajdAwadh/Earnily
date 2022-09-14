@@ -1,9 +1,13 @@
+import 'package:earnily/screen/login_screen.dart';
+import 'package:earnily/screen/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'login_page.dart';
+//import 'login_page.dart';
 import 'home_page.dart';
+//import 'register_page.dart';
+import 'package:earnily/screen/signin_screen.dart';
 import 'register_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -23,9 +27,7 @@ class _MainPageState extends State<MainPage> {
           if (snapshot.hasData) {
             return HomePage();
           } else {
-            return RegisterPage(
-              showLoginpage: () {},
-            );
+            return SignInScreen();
           }
         },
       ),

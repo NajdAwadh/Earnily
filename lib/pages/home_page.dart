@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import 'package:earnily/addkids_screen_1.dart';
+import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/screen/signin_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,10 +53,10 @@ class _HomePageState extends State<HomePage> {
                     Text('_________________________________',
                         style: TextStyle(color: Colors.white)),
                     Text(user.email! + ' :الايميل',
-                        style: TextStyle(fontSize: 20)),
+                        style: TextStyle(fontSize: 15)),
                     MaterialButton(
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
                       },
                       color: Colors.white,
                       child: Text('تسجيل خروج', style: TextStyle(fontSize: 20)),

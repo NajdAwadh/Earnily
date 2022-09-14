@@ -1,5 +1,5 @@
 import 'package:earnily/pages/main_page.dart';
-import 'package:earnily/pages/register_page.dart';
+//import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
