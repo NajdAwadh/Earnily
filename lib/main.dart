@@ -1,12 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
+// import 'package:earnily/google_signin.dart';
+import 'package:earnily/firebase_options.dart';
+import 'package:earnily/screen/signin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'package:provider/provider.dart';
 
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'Screen/loginScreen.dart';
+
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -22,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Earnily',
-      home: LoginScreen(),
+      home: SignInScreen(),
     );
   }
 }
