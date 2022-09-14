@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'dart:ui' as ui;
 final List<String> list = <String>['سعد', 'ريما', 'خالد'];
 final List<String> category = <String>['النظافة', 'تطوير الشخصيه', 'الدين'];
 
@@ -72,6 +73,8 @@ class _NewTaskState extends State<NewTask> {
           children: <Widget>[
             TextField(
               decoration: InputDecoration(labelText: 'اسم النشاط'),
+              textDirection: ui.TextDirection.rtl,
+              
               controller: _titleController,
               onSubmitted: (_) => _submitData(),
               // onChanged: (val) {
@@ -79,13 +82,16 @@ class _NewTaskState extends State<NewTask> {
               // },
             ),
             Container(
+              
               height: 70,
               child: Row(
                 children: <Widget>[
                   DropdownButton(
+
                     value: dropdownValue,
                     items: list.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
+                        
                         value: value,
                         child: Text(value),
                       );
@@ -129,6 +135,7 @@ class _NewTaskState extends State<NewTask> {
                   //here
                   Expanded(
                     child: Text(
+                      textDirection: ui.TextDirection.rtl,
                       ':فئة النشاط',
                     ),
                   ),
@@ -137,6 +144,7 @@ class _NewTaskState extends State<NewTask> {
             ),
             TextField(
               decoration: InputDecoration(labelText: 'عدد النقاط المستحقة'),
+              textDirection: ui.TextDirection.rtl,
               controller: _amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitData(),
@@ -148,20 +156,25 @@ class _NewTaskState extends State<NewTask> {
                 children: <Widget>[
                   Expanded(
                     child: Text(
+                      textDirection: ui.TextDirection.rtl,
                       _selectedDate == null
                           ? '! لم يتم اختيار تاريخ'
                           : 'Due Date: ${DateFormat.yMd().format(_selectedDate)}',
                     ),
                   ),
                   ElevatedButton(
+
                     // textColor: Theme.of(context).primaryColor,
                     child: Text('اختر تاريخ'),
+                    
                     style: ButtonStyle(
+                      
                         foregroundColor:
                             MaterialStateProperty.all(Colors.black),
                         backgroundColor:
                             MaterialStateProperty.all(Colors.white)),
                     onPressed: _presentDatePicker,
+                    
                   ),
                   //here
                 ],
@@ -169,6 +182,7 @@ class _NewTaskState extends State<NewTask> {
             ),
             ElevatedButton(
               child: Text('إضافة نشاط',
+              
                   style: TextStyle(fontSize: 30, color: Colors.white)),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.black),
