@@ -19,7 +19,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final List<String> items = <String>["ذكر", "أنثى"];
   String? value;
   DateTime? date;
+
   final _nameController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _dateController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -42,6 +45,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog();
     } else {
+      addKidDetails();
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -52,33 +57,14 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     } // push
   }
 
-/*
-    //stored in DB
-  Future signup() async {
-      // add user details
-      addKidDetails(
-        _nameController.text.trim(),
-        value,
-        date,
-      );
-    }
-    
-      @override
-      Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-      }
-  }
-
-  Future addKidDetails(String name, String gender, DateTime date) async {
-    var value;
+  Future addKidDetails() async {
     await FirebaseFirestore.instance.collection('kids').add({
-      'name': name,
+      'name': _nameController.text,
       'gender': value,
       'date': date,
     });
   }
-*/
+
   void _showDatePicker() async {
     showDatePicker(
       context: context,

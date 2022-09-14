@@ -99,7 +99,13 @@ class _HomePageState extends State<HomePage> {
           size: 30,
         ),
         onPressed: () {
-          AddKids_screen_1();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const AddKids_screen_1();
+              },
+            ),
+          );
         },
       ),
     );
