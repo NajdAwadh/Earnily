@@ -1,8 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
-
-
-
-
 import 'package:earnily/screen/home_screen.dart';
 import 'package:earnily/screen/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,8 +29,6 @@ class _SignInScreenState extends State<SignInScreen> {
               children: <Widget>[
                 imgWidget("assets/images/earnily.png" , 200 , 100),
                 //SizedBox(height: 30),
-                Container(
-                ),
                 Text(
                       'تسجيل الدخول',
                       style: TextStyle(
@@ -55,7 +49,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   ),
                 ),
-                
                 reuasbleTextField("example@email.com", Icons.email, false, _emailController),
                 SizedBox(height: 20,),
                 Align(
@@ -123,4 +116,6 @@ Widget signUpOption(){
   );
 }
 }
+
+
 

@@ -37,6 +37,11 @@ TextField reuasbleTextField(String hintTxt, IconData icon, bool isPass, TextEdit
     keyboardType: isPass 
     ? TextInputType.visiblePassword 
     : TextInputType.emailAddress,
+   
+    
+    
+  
+    
   );
 }
 
@@ -90,5 +95,7 @@ Widget forgotPassBtn(){
     ),
   );
 }
+
+
 
 
