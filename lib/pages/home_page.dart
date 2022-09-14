@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:earnily/addkids_screen_1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -89,6 +90,17 @@ class _HomePageState extends State<HomePage> {
             size: 35,
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurple,
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+        onPressed: () {
+          AddKids_screen_1();
+        },
       ),
     );
   }
