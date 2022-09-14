@@ -13,45 +13,38 @@ class QrCreateScreen extends StatefulWidget {
 }
 
 class QrCreateScreenState extends State<QrCreateScreen> {
-String qrData = FirebaseAuth.instance.currentUser!
-      .uid;
+  static String qrData = FirebaseAuth.instance.currentUser!.uid;
   String data = "google";
- get floatingActionButton => null;
- 
+  get floatingActionButton => null;
+
   @override
   Widget build(BuildContext context) {
-  
-
     return Scaffold(
-       body: Column (
-       mainAxisAlignment: MainAxisAlignment.center,
-       crossAxisAlignment: CrossAxisAlignment.center,
-       children: [
-        Text("امسح الباركود",
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 40,
-          fontWeight: FontWeight.bold
-        ),
-        ),
-
-        SizedBox(height: 30,),
-        Center(
-          child: QrImage(
-            data : qrData,
-            backgroundColor :Colors.white,
-            version: QrVersions.auto,
-            size: 300.0,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "امسح الباركود",
+            style: TextStyle(
+                color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),
           ),
-           ),
-           SizedBox(
-           height: 24 ,
-           ),
+          SizedBox(
+            height: 30,
+          ),
+          Center(
+            child: QrImage(
+              data: qrData,
+              backgroundColor: Colors.white,
+              version: QrVersions.auto,
+              size: 300.0,
+            ),
+          ),
+          SizedBox(
+            height: 24,
+          ),
         ],
       ),
     );
   }
 }
-
-
-
