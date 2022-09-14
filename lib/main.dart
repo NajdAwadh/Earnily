@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Quicksand',
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.blueGrey,
-        ).copyWith(secondary: (Color.fromRGBO(217, 241, 241, 1))),
+        ).copyWith(secondary: (Colors.blue[300])),
         textTheme: const TextTheme(
           headline6: TextStyle(
             fontFamily: 'OpenSans',
@@ -57,12 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTask(String txTitle, String TxKid, String TxCategory,double txAmount, DateTime chosenDate) {
+  void _addNewTask(String txTitle, String TxKid, String TxCategory,
+      double txAmount, DateTime chosenDate) {
     final newTx = Task(
-
       title: txTitle,
       kid: TxKid,
-      category:TxCategory ,
+      category: TxCategory,
       amount: txAmount,
       date: chosenDate,
       id: DateTime.now().toString(),
@@ -95,12 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: Text(
-          'الأنشطة الحالية',
-        ),
-        backgroundColor: (Color.fromRGBO(170, 233, 237, 1)),
-        foregroundColor: Colors.black,
+        title: Text('الأنشطة الحالية', style: TextStyle(fontSize: 30)),
+        backgroundColor: (Colors.blue[300]),
+        foregroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),

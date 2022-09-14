@@ -161,11 +161,11 @@ class _NewTaskState extends State<NewTask> {
               ),
             ),
             ElevatedButton(
-              child: Text('إضافة نشاط'),
+              child: Text('إضافة نشاط',
+                  style: TextStyle(fontSize: 30, color: Colors.white)),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.black),
-                  backgroundColor: MaterialStateProperty.all(
-                      Color.fromRGBO(217, 241, 241, 1))),
+                  backgroundColor: MaterialStateProperty.all(Colors.blue[300])),
               onPressed: _submitData,
             ),
           ],
