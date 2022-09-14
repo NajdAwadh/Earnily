@@ -81,6 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTasks.add(newTx);
     });
+    Future addTask() async {
+    await FirebaseFirestore.instance.collection('tasks').add({
+     'title': txTitle,
+      'kid': TxKid,
+      'category': TxCategory,
+      'amount': txAmount,
+      'date': chosenDate,
+      'id': DateTime.now().toString(),
+    });
+  }
   }
 
   void _startAddNewTask(BuildContext ctx) {
