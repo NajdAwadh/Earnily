@@ -22,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
 //intial radio for gender
-  String gender = "male";
+  // String gender = "male";
 
   void dispose() {
     _nameController.dispose();
@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[100],
+      backgroundColor: Colors.blue[300],
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -100,11 +100,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
+                    textAlign: TextAlign.right,
                     controller: _nameController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       hintText: 'الاسم',
                       fillColor: Colors.grey[200],
@@ -118,11 +119,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
+                    textAlign: TextAlign.right,
                     controller: _emailController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       hintText: 'الايميل',
                       fillColor: Colors.grey[200],
@@ -134,40 +136,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 //gender
 
-                Column(
-                  children: [
-                    RadioListTile(
-                      title: Text("ذكر"),
-                      value: "male",
-                      groupValue: gender,
-                      onChanged: (value) {
-                        setState(() {
-                          gender = value.toString();
-                        });
-                      },
-                    ),
-                    RadioListTile(
-                      title: Text("انثى"),
-                      value: "female",
-                      groupValue: gender,
-                      onChanged: (value) {
-                        setState(() {
-                          gender = value.toString();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-
                 //password
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
+                    textAlign: TextAlign.right,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       hintText: 'كلمة المرور',
                       fillColor: Colors.grey[200],
@@ -181,11 +159,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
+                    textAlign: TextAlign.right,
                     controller: _confirmpasswordController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       hintText: 'أعد كلمة المرور',
                       fillColor: Colors.grey[200],
@@ -205,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Colors.black,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       child: Center(
                         child: Text(
@@ -213,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 23,
                           ),
                         ),
                       ),

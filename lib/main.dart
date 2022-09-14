@@ -1,3 +1,4 @@
+import 'package:earnily/pages/main_page.dart';
 import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -22,9 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: HomeScreen(),
-      home: RegisterPage(
-        showLoginpage: () {},
-      ),
+      home: MainPage(),
     );
   }
 }
