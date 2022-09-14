@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final List<String> list = <String>['سعد', 'ريما', 'خالد'];
 final List<String> category = <String>['النظافة', 'تطوير الشخصيه', 'الدين'];
@@ -81,16 +83,15 @@ class _NewTaskState extends State<NewTask> {
                 children: <Widget>[
                   DropdownButton(
                     value: dropdownValue,
-                    onChanged: (String value) {
-                      // This is called when the user selects an item.
-                      setState(() {});
-                    },
                     items: list.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
                       );
                     }).toList(),
+                    onChanged: (String value) {
+                      setState(() {});
+                    },
                   ),
                   //here
                   Expanded(
@@ -107,10 +108,12 @@ class _NewTaskState extends State<NewTask> {
                 children: <Widget>[
                   DropdownButton(
                     value: dropdownValue2,
-                    onChanged: (String value) {
-                      // This is called when the user selects an item.
-                      setState(() {});
-                    },
+                    // onChanged: (String value) {
+                    // This is called when the user selects an item.
+                    //    setState(() {
+
+                    //      });
+                    //    },
                     items:
                         category.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -118,6 +121,9 @@ class _NewTaskState extends State<NewTask> {
                         child: Text(value),
                       );
                     }).toList(),
+                    onChanged: (String value) {
+                      setState(() {});
+                    },
                   ),
                   //here
                   Expanded(
