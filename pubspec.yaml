@@ -46,24 +46,21 @@ dependencies:
   
   
 
->>>>>>> 43d0bb1cf9db933953734d9dbca8d5f09949e874
   #firebase database (lamis)
-  cloud_firestore: ^3.1.5
+  #cloud_firestore: ^3.1.5
   firebase: ^9.0.3
   firebase_core: ^1.22.0
-  firebase_auth: ^3.8.0
+  #firebase_auth: ^3.8.0
   google_sign_in: ^5.4.1
 
   font_awesome_flutter: ^10.2.1
 
   provider: ^6.0.3
   
-  qr_flutter: ^4.0.0
+  #qr_flutter: ^4.0.0
   http: ^0.13.1
   shared_preferences: ^2.0.15
   form_validator: ^1.0.2
-  google_fonts: ^3.0.1
-
 
 dev_dependencies:
   flutter_test:

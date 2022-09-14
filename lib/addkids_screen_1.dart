@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -50,7 +51,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return const KidsjoinviaQRcode_screen_1();
+            return const QrCreateScreen();
           },
         ),
       );
