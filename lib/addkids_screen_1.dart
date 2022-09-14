@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -51,6 +52,33 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     } // push
   }
 
+/*
+    //stored in DB
+  Future signup() async {
+      // add user details
+      addKidDetails(
+        _nameController.text.trim(),
+        value,
+        date,
+      );
+    }
+    
+      @override
+      Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+      }
+  }
+
+  Future addKidDetails(String name, String gender, DateTime date) async {
+    var value;
+    await FirebaseFirestore.instance.collection('kids').add({
+      'name': name,
+      'gender': value,
+      'date': date,
+    });
+  }
+*/
   void _showDatePicker() async {
     showDatePicker(
       context: context,
