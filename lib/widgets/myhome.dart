@@ -7,16 +7,15 @@ import 'package:earnily/models/task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'myhome.dart';
 
-class MainTask extends StatefulWidget {
-  const MainTask({super.key});
-
+class MyHomePage extends StatefulWidget {
+  // String titleInput;
+  // String amountInput;
   @override
-  State<MainTask> createState() => _MainTaskState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MainTaskState extends State<MainTask> {
+class _MyHomePageState extends State<MyHomePage> {
   final List<Task> _userTasks = [];
 
   List<Task> get _recentTask {
@@ -77,6 +76,7 @@ class _MainTaskState extends State<MainTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         elevation: 0,
@@ -104,15 +104,9 @@ class _MainTaskState extends State<MainTask> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurple,
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
+        child: Icon(Icons.add),
         onPressed: () => _startAddNewTask(context),
       ),
-
-      //home: MyHomePage(),
     );
   }
 }

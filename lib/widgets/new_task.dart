@@ -172,7 +172,8 @@ class _NewTaskState extends State<NewTask> {
                   style: TextStyle(fontSize: 30, color: Colors.white)),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.black),
-                  backgroundColor: MaterialStateProperty.all(Colors.blue[300])),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.deepPurple)),
               onPressed: _submitData,
             ),
           ],

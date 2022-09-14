@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/screen/signin_screen.dart';
+import 'package:earnily/widgets/MainTask.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
+import '../reuasblewidgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,6 +51,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    //  imgWidget("assets/images/mylogo.png", 200, 100),
                     Text('E A R N I L Y',
                         style: TextStyle(fontSize: 30, color: Colors.white)),
                     Text('_________________________________',
@@ -80,10 +84,21 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
             size: 35,
           ),
-          Icon(
-            Icons.task,
-            color: Colors.white,
-            size: 35,
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return const MainTask();
+                  },
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.task,
+              color: Colors.white,
+              size: 35,
+            ),
           ),
           Icon(
             Icons.star,
