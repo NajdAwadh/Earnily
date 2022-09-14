@@ -23,11 +23,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade300,
+        backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Text(
           '! أهـلا بـك',
-          style: TextStyle(fontSize: 30),
+          style: TextStyle(fontSize: 40),
         ),
         actions: [
           IconButton(
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: Container(
-          color: Colors.blue.shade300,
+          color: Colors.deepPurple,
           child: ListView(children: [
             DrawerHeader(
               child: Column(
@@ -64,10 +64,10 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: Colors.deepPurple.shade100,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.blue.shade50,
-        color: Colors.blue.shade300,
+        backgroundColor: Colors.deepPurple.shade100,
+        color: Colors.deepPurple,
         animationDuration: Duration(milliseconds: 300),
         onTap: (index) {
           print(index);
