@@ -38,6 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -47,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     20, MediaQuery.of(context).size.height * 0.02, 20, 0),
                 child: Column(
                   children: <Widget>[
-                    imgWidget("assets/images/mylogo.png", 200, 100),
+                    imgWidget("assets/images/mlogo.png", 200, 400),
                     //SizedBox(height: 30),
                     Text(
                       'تسجيل الدخول',

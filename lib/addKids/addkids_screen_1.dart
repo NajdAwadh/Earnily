@@ -112,13 +112,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                 child: Column(
                   children: <Widget>[
                     Container(),
-                    Text(
-                      'إضافة طفل',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold),
-                    ),
                     SizedBox(height: 30),
                     Align(
                       alignment: Alignment.centerRight,
@@ -263,7 +256,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                               child: const Text('إضافة ',
                                   overflow: TextOverflow.visible,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontSize: 36,
                                     fontWeight: FontWeight.w400,
                                   )),

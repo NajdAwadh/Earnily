@@ -23,7 +23,7 @@ TextField reuasbleTextField(
     decoration: InputDecoration(
       prefixIcon: Icon(
         icon,
-        color: Colors.grey,
+        color: Colors.deepPurple,
       ),
       hintText: hintTxt,
       hintStyle: TextStyle(color: Colors.grey),
