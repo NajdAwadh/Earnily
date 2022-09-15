@@ -22,6 +22,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _repassController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              "ادخل البيانات المطلوبة",
+              textAlign: TextAlign.right,
+            ),
+          );
+        });
+  }
+
+  void _showError() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              'كلمة المرور غير متطابقة',
+              textAlign: TextAlign.right,
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,8 +91,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    reuasbleTextField("الاسم الكامل", Icons.person, false,
-                        TextEditingController()),
+                    reuasbleTextField(
+                        "الاسم الكامل", Icons.person, false, _nameController),
                     SizedBox(
                       height: 20,
                     ),
@@ -83,6 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
+
                     reuasbleTextField(
                         "********", Icons.lock, true, _passController),
                     SizedBox(
@@ -105,18 +144,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
 
                     signInBtn(context, "تسجيل", () async {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: _emailController.text.trim(),
-                              password: _passController.text.trim())
-                          .then((value) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
-                      }).onError((error, stackTrace) {
-                        print("Error ${error.toString()}");
-                      });
+                      if (_nameController.text.isEmpty ||
+                          _emailController.text.isEmpty ||
+                          _passController.text.isEmpty ||
+                          _repassController.text.isEmpty) {
+                        _showDialog();
+                      } else if (_passController.text != _repassController.text)
+                        _showError();
+                      else
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passController.text.trim())
+                            .then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        }).onError((error, stackTrace) {
+                          print("Error ${error.toString()}");
+                        });
                     }),
                     // googleSignUp((){
                     //   final provider = Provider.of<GoogleSignInProvider>(context,listen: false);

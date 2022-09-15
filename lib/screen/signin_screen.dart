@@ -16,6 +16,25 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              "ادخل البيانات المطلوبة",
+              textAlign: TextAlign.right,
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,18 +86,22 @@ class _SignInScreenState extends State<SignInScreen> {
                         "********", Icons.lock, true, _passController),
                     forgotPassBtn(),
                     signInBtn(context, "تسجيل دخول", () async {
-                      await FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: _emailController.text.trim(),
-                              password: _passController.text.trim())
-                          .then((value) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
-                      }).onError((error, stackTrace) {
-                        print("error ${error.toString()}");
-                      });
+                      if (_emailController.text.isEmpty ||
+                          _passController.text.isEmpty) {
+                        _showDialog();
+                      } else
+                        await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passController.text.trim())
+                            .then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        }).onError((error, stackTrace) {
+                          print("error ${error.toString()}");
+                        });
                     }),
                     signUpOption(),
                     SizedBox(height: 30),
@@ -87,6 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
+
                     signInBtn(context, "انضم الى عائلتك", () {}),
                   ],
                 ))),
