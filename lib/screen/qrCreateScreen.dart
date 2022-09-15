@@ -34,7 +34,7 @@ class QrCreateScreenState extends State<QrCreateScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'لأضافة بالغ أخر',
+            'لأضافة طفل أخر',
             style: TextStyle(
                 color: Colors.deepPurple,
                 fontSize: 25,

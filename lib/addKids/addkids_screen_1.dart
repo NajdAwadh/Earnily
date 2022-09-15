@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'package:earnily/reuasblewidgets.dart';
+import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -23,8 +24,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   DateTime? date;
 
   final _nameController = TextEditingController();
-  final _genderController = TextEditingController();
-  final _dateController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -52,7 +51,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return const KidsjoinviaQRcode_screen_1();
+            return const QrCreateScreen();
           },
         ),
       );
@@ -98,11 +97,181 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Text(
-          'أضافة طفل',
+          'إضافة طفل',
           style: TextStyle(fontSize: 40),
         ),
         actions: [],
       ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                child: Column(
+                  children: <Widget>[
+                    Container(),
+                    Text(
+                      'إضافة طفل',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 30),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "الاسم",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    reuasbleTextField(
+                        "الاسم ", Icons.person, false, _nameController),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        " الجنس",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Positioned(
+                        right: 107,
+                        top: 300,
+                        width: 254,
+                        height: 66,
+                        child: Container(
+                            alignment: Alignment.topRight,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(30),
+                              border: const Border(
+                                left: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                right: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                top: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                bottom: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            child: DropdownButton<String>(
+                                hint: const Text(
+                                  "الجنس",
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.right,
+                                ),
+                                value: value,
+                                items: items.map((valueItem) {
+                                  return DropdownMenuItem(
+                                    value: valueItem,
+                                    child: Text(valueItem),
+                                  );
+                                }).toList(),
+                                onChanged: (newVal) {
+                                  setState(() {
+                                    value = newVal!;
+                                  });
+                                }))),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        " تاريخ الميلاد",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Positioned(
+                        right: 107,
+                        top: 425,
+                        child: SizedBox(
+                          width: 350,
+                          height: 66,
+                          child: ElevatedButton(
+                              onPressed: _showDatePicker,
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                backgroundColor: Colors.grey[200],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  side: const BorderSide(
+                                    width: 2,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                getText(),
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey,
+                                ),
+                                textDirection: ui.TextDirection.rtl,
+                              )),
+                        )),
+                    SizedBox(
+                      height: 60,
+                    ),
+                    Positioned(
+                        left: 21,
+                        top: 625,
+                        width: 350,
+                        height: 66,
+                        child: SizedBox(
+                            width: 347,
+                            height: 68,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                backgroundColor: Colors.deepPurple,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  side: const BorderSide(
+                                    width: 0,
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                              ),
+                              onPressed: _validate,
+                              child: const Text('إضافة ',
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                            ))),
+                  ],
+                ))),
+      ),
+      /*
       backgroundColor: Colors.white,
       body: SizedBox(
         width: width,
@@ -116,124 +285,28 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
               child: Stack(children: [
                 const SizedBox(height: 844, width: 390),
                 /*
-//-- Component Bottom --//
+//-- Component InviteRectangleContainer_5 --//
                 Positioned(
                   left: 0,
-                  top: 740,
+                  top: 0,
                   child: Container(
                     width: 390,
                     height: 150,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(206, 217, 217, 217),
-                      borderRadius: BorderRadius.circular(0),
+                      color: Colors.blue[100],
+                      borderRadius: BorderRadius.circular(37),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
                     ),
                   ),
                 ),
-//-- End Bottom --//
-
-//-- Component homebutton_ImageView_11 --//
-                const Positioned(
-                  left: 155,
-                  top: 741,
-                  child: SizedBox(
-                    //width: 80,
-                    //height: 80,
-                    child: Icon(
-                      Icons.home_filled,
-                      color: Colors.blue,
-                      size: 60.0,
-                    ),
-                    //Image.asset("assets/homebutton_ImageView_11-80x80.png"),
-                  ),
-                ),
-//-- End homebutton_ImageView_11 --//
-
-//-- Component tasks_ImageView_12 --//
-                const Positioned(
-                  left: 19,
-                  top: 761,
-                  child: SizedBox(
-                    //width: 60,
-                    //height: 60,
-                    child: Icon(
-                      Icons.task_outlined,
-                      color: Colors.black,
-                      size: 40.0,
-                    ),
-                    //Image.asset("assets/tasks_ImageView_12-60x60.png"),
-                  ),
-                ),
-//-- End tasks_ImageView_12 --//
-
-//-- Component award_ImageView_13 --//
-                const Positioned(
-                  left: 311,
-                  top: 761,
-                  child: SizedBox(
-                    //width: 60,
-                    //height: 60,
-                    child: Icon(
-                      Icons.celebration,
-                      color: Colors.black,
-                      size: 40.0,
-                    ),
-                    //Image.asset("assets/award_ImageView_13-60x60.png"),
-                  ),
-                ),
-//-- End award_ImageView_13 --//
-
-//-- Component Tasks_TextView_16 --//
-                const Positioned(
-                    left: 18,
-                    top: 800,
-                    child: Text(
-                      "المهام",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: FvColors.textview24FontColor,
-                          wordSpacing: 1.0),
-                    )),
-//-- End Tasks_TextView_16 --//
-//-- Component Home_TextView_17 --//
-                const Positioned(
-                    left: 155,
-                    top: 800,
-                    child: Text(
-                      "المنزل",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: FvColors.textview24FontColor,
-                          wordSpacing: 1.0),
-                    )),
-//-- End Home_TextView_17 --//
-//-- Component Rewards_TextView_18 --//
-                const Positioned(
-                    left: 315,
-                    top: 800,
-                    child: Text(
-                      "المكافأت",
-                      overflow: TextOverflow.visible,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: FvColors.textview24FontColor,
-                          wordSpacing: 1.0),
-                    )),
-//-- End Rewards_TextView_18 --//
-*/
-//-- Component InviteRectangleContainer_5 --//
 
 //-- End InviteRectangleContainer_5 --//
 //-- Component InviteTextView --//
 
-                /*  const Positioned(
+                const Positioned(
                     left: 86,
                     top: 23,
                     child: SizedBox(
@@ -246,28 +319,38 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                           wordSpacing: 1.0),
-                    ))),*/
-
+                    ))),
 //-- End InviteTextView --//
 
 //-- Component profile_ImageView_17 --//
-                //  Positioned(
-                //     left: 276,
-                //    top: 14,
-                //     child: SizedBox(
-                //       width: 85,
-                //      height: 85,
-                //      child: Image.asset("assets/profile_ImageView_17-85x85.png"),
-                //   ),
-                //  ),
+                Positioned(
+                  left: 276,
+                  top: 14,
+                  child: SizedBox(
+                    width: 85,
+                    height: 85,
+                    child: Image.asset("assets/profile_ImageView_17-85x85.png"),
+                  ),
+                ),
 //-- End profile_ImageView_17 --//
 
 //-- Component NameTextView --//
-
-                reuasbleTextField("الاسم الكامل", Icons.person, false,
-                    TextEditingController()),
-
+                const Positioned(
+                    left: 300,
+                    top: 178,
+                    child: SizedBox(
+                        child: Text(
+                      "الأسم",
+                      overflow: TextOverflow.visible,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          wordSpacing: 1.0),
+                    ))),
 //-- End NameTextView --//
+*/
 
 //-- Component NameTextBox --//
                 Positioned(
@@ -377,39 +460,39 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     ))),
 
 //-- End BirthdayTextView --//
-
+*/
 //-- Component BirthdayTextBox --//
-                Positioned(
-                  right: 107,
-                  top: 425,
-                  width: 254,
-                  height: 66,
-                  child: ElevatedButton(
-                      onPressed: _showDatePicker,
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(56),
-                          side: const BorderSide(
-                            width: 5,
-                            color: Colors.blueAccent,
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        getText(),
-                        overflow: TextOverflow.visible,
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey,
-                        ),
-                        textDirection: ui.TextDirection.rtl,
-                      )),
+/*
+           Positioned(
+            right: 107,
+            top: 425,
+            width: 254,
+            height: 66,
+            child: ElevatedButton(
+                onPressed: _showDatePicker,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(56),
+                    side: const BorderSide(
+                      width: 5,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
                 ),
-
+                child: Text(
+                  getText(),
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                  textDirection: ui.TextDirection.rtl,
+                )),
+          ),
 //-- End BirthdayTextBox --//
 
 //-- Component InviteButton --//
@@ -447,7 +530,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 //-- End ScrollContainer --//
           ],
         ),
-      ),
+      ),*/
     );
   }
 }
