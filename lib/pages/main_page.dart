@@ -1,4 +1,3 @@
-import 'package:earnily/screen/login_screen.dart';
 import 'package:earnily/screen/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';

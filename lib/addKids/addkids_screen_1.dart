@@ -100,14 +100,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           'إضافة طفل',
           style: TextStyle(fontSize: 40),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-// do something
-            },
-            icon: Icon(Icons.share),
-          )
-        ],
+        actions: [],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -342,6 +335,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 //-- End profile_ImageView_17 --//
 
 //-- Component NameTextView --//
+<<<<<<< HEAD
                 const Positioned(
                     left: 300,
                     top: 178,
@@ -356,11 +350,18 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
+=======
+
+                reuasbleTextField("الاسم الكامل", Icons.person, false,
+                    TextEditingController()),
+
+>>>>>>> b37e1eb867b208f762348e4c2b38cb905769bf54
 //-- End NameTextView --//
 */
 
 //-- Component NameTextBox --//
                 Positioned(
+<<<<<<< HEAD
                   right: 107,
                   top: 178,
                   width: 300,
@@ -368,6 +369,26 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                   child: reuasbleTextField(
                       "الاسم الكامل", Icons.person, false, _nameController),
                 ),
+=======
+                    right: 107,
+                    top: 178,
+                    width: 251,
+                    height: 66,
+                    child: TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 5, color: Colors.blueAccent),
+                          borderRadius: BorderRadius.circular(56.0),
+                        ),
+                        hintText: "الأسم",
+                        hintTextDirection: ui.TextDirection.rtl,
+                      ),
+                    )
+                    //),
+                    ),
+>>>>>>> b37e1eb867b208f762348e4c2b38cb905769bf54
 
 //-- End NameTextBox --//
 

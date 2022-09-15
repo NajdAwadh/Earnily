@@ -11,11 +11,11 @@ class Task {
   final DateTime date;
 
   Task({
-    @required this.id,
-    @required this.title,
-    @required this.kid,
-    @required this.category,
-    @required this.amount,
-    @required this.date,
+    required this.id,
+    required this.title,
+    required this.kid,
+    required this.category,
+    required this.amount,
+    required this.date,
   });
 }

@@ -1,51 +1,12 @@
 import 'package:flutter/material.dart';
 
-import './widgets/new_task.dart';
-import './widgets/task_list.dart';
+import 'new_task.dart';
+import 'task_list.dart';
 
-import 'models/task.dart';
+import 'package:earnily/models/task.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'j',
-      theme: ThemeData(
-        fontFamily: 'Quicksand',
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.blueGrey,
-        ).copyWith(secondary: (Colors.blue[300])),
-        textTheme: const TextTheme(
-          headline6: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
+import 'package:earnily/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyHomePage extends StatefulWidget {
   // String titleInput;
@@ -82,15 +43,15 @@ class _MyHomePageState extends State<MyHomePage> {
       _userTasks.add(newTx);
     });
     Future addTask() async {
-    await FirebaseFirestore.instance.collection('tasks').add({
-     'title': txTitle,
-      'kid': TxKid,
-      'category': TxCategory,
-      'amount': txAmount,
-      'date': chosenDate,
-      'id': DateTime.now().toString(),
-    });
-  }
+      await FirebaseFirestore.instance.collection('tasks').add({
+        'title': txTitle,
+        'kid': TxKid,
+        'category': TxCategory,
+        'amount': txAmount,
+        'date': chosenDate,
+        'id': DateTime.now().toString(),
+      });
+    }
   }
 
   void _startAddNewTask(BuildContext ctx) {
@@ -117,14 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: Text('الأنشطة الحالية', style: TextStyle(fontSize: 30)),
-        backgroundColor: (Colors.blue[300]),
-        foregroundColor: Colors.white,
-        actions: <Widget>[
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
+        title: Text(
+          'الانشطة الحالية',
+          style: TextStyle(fontSize: 40),
+        ),
+        actions: [
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTask(context),
-          ),
+            onPressed: () {
+// do something
+            },
+            icon: Icon(Icons.share),
+          )
         ],
       ),
       body: SingleChildScrollView(
