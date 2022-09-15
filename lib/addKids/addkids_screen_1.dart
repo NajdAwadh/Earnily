@@ -70,8 +70,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     showDatePicker(
       context: context,
       initialDate: date ?? DateTime.now(),
-      firstDate: DateTime(2001),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(2007),
+      lastDate: DateTime(2021),
     ).then((value) {
       setState(() {
         date = value!;
