@@ -101,14 +101,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           'أضافة طفل',
           style: TextStyle(fontSize: 40),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-// do something
-            },
-            icon: Icon(Icons.share),
-          )
-        ],
+        actions: [],
       ),
       backgroundColor: Colors.white,
       body: SizedBox(

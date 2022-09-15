@@ -84,14 +84,7 @@ class _MainTaskState extends State<MainTask> {
           'الانشطة الحالية',
           style: TextStyle(fontSize: 40),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-// do something
-            },
-            icon: Icon(Icons.share),
-          )
-        ],
+        actions: [],
       ),
       body: SingleChildScrollView(
         child: Column(

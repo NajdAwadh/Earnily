@@ -20,14 +20,25 @@ class QrCreateScreenState extends State<QrCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
+        title: Text(
+          '! أمسح الباركود',
+          style: TextStyle(fontSize: 40),
+        ),
+        actions: [],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "امسح الباركود",
+            'لأضافة بالغ أخر',
             style: TextStyle(
-                color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),
+                color: Colors.deepPurple,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 30,

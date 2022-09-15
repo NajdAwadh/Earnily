@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
 import 'package:earnily/widgets/MainTask.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +38,14 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-// do something
+// do something  Navigator.of(context).push(
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return const QrCreateScreen();
+                  },
+                ),
+              );
             },
             icon: Icon(Icons.share),
           )
