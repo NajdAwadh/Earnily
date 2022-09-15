@@ -335,7 +335,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 //-- End profile_ImageView_17 --//
 
 //-- Component NameTextView --//
-<<<<<<< HEAD
                 const Positioned(
                     left: 300,
                     top: 178,
@@ -350,26 +349,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           color: Colors.black,
                           wordSpacing: 1.0),
                     ))),
-=======
-
-                reuasbleTextField("الاسم الكامل", Icons.person, false,
-                    TextEditingController()),
-
->>>>>>> b37e1eb867b208f762348e4c2b38cb905769bf54
 //-- End NameTextView --//
 */
 
 //-- Component NameTextBox --//
                 Positioned(
-<<<<<<< HEAD
-                  right: 107,
-                  top: 178,
-                  width: 300,
-                  height: 66,
-                  child: reuasbleTextField(
-                      "الاسم الكامل", Icons.person, false, _nameController),
-                ),
-=======
                     right: 107,
                     top: 178,
                     width: 251,
@@ -388,7 +372,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     )
                     //),
                     ),
->>>>>>> b37e1eb867b208f762348e4c2b38cb905769bf54
 
 //-- End NameTextBox --//
 
