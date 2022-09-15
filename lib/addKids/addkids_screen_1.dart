@@ -51,7 +51,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return const QrCreateScreen();
+            return const QrCreateScreen("اضافة طفل");
           },
         ),
       );
@@ -71,7 +71,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       context: context,
       initialDate: date ?? DateTime.now(),
       firstDate: DateTime(2007),
-      lastDate: DateTime(2021),
+      lastDate: DateTime(2023),
     ).then((value) {
       setState(() {
         date = value!;

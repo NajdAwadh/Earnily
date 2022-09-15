@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).size.height * 0.1, 20, 0),
             child: Column(
               children: <Widget>[
-              signInBtn(context, "invite", (){Navigator.push(context, MaterialPageRoute(builder: (context) => QrCreateScreen()));})
+              signInBtn(context, "invite", (){Navigator.push(context, MaterialPageRoute(builder: (context) => QrCreateScreen('')));})
               
               ],
             )

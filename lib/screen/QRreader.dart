@@ -36,7 +36,7 @@ class _QRreaderState extends State<QRreader> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller!.pauseCamera();
+      controller!.resumeCamera();
     } else if (Platform.isIOS) {
       controller!.resumeCamera();
     }
@@ -74,7 +74,7 @@ class _QRreaderState extends State<QRreader> {
       setState(() {
         result = scanData;
 
-        (QrCreateScreenState.qrData != result)
+        (QrCreateScreenState.qrData == result)
             ? (MaterialPageRoute(builder: (context) => HomePage()))
             : const Text('Sorry an error accured');
       });
