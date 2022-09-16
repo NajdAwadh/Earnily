@@ -52,13 +52,7 @@ void _validate() {
     } else {
       addKidDetails();
 
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return const QrCreateScreen();
-          },
-        ),
-      );
+    
     } // push
   }
 
