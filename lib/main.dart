@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+//import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
-
+import 'package:earnily/reward/addReward.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      home: addReward(),
     );
   }
 }
-
+/*
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -86,3 +86,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+*/
