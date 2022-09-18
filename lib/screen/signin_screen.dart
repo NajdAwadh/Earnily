@@ -46,10 +46,14 @@ class _SignInScreenState extends State<SignInScreen> {
         child: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.02, 20, 0),
+                    20, MediaQuery.of(context).size.height * 0.01, 20, 0),
                 child: Column(
                   children: <Widget>[
-                    imgWidget("assets/images/mlogo.png", 200, 400),
+                    //     imgWidget("assets/images/mlogo.png", 200, 400),
+                    imgWidget(
+                        "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
+                        150,
+                        250),
                     //SizedBox(height: 30),
                     Text(
                       'تسجيل الدخول',
@@ -115,12 +119,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
                     signInBtn(context, "انضم الى عائلتك", () {
                       Navigator.of(context).push(
-                      MaterialPageRoute(
-                      builder: (BuildContext context) {
-                            return const QRreader(title: '',);
-              },
-            ),
-          );
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const QRreader(
+                              title: '',
+                            );
+                          },
+                        ),
+                      );
                     }),
                   ],
                 ))),

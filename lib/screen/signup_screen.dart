@@ -70,10 +70,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                    20, MediaQuery.of(context).size.height * 0.01, 20, 0),
                 child: Column(
                   children: <Widget>[
                     Container(),
+                    imgWidget(
+                        "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
+                        150,
+                        250),
                     Text(
                       'إنشاء عائلة',
                       style: TextStyle(
