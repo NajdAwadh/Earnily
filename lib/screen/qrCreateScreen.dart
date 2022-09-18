@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrCreateScreen extends StatefulWidget {
-  const QrCreateScreen({super.key});
-
+  const QrCreateScreen(String txt, {super.key ,});
+  
   @override
   State<QrCreateScreen> createState() => QrCreateScreenState();
 }
@@ -16,6 +16,8 @@ class QrCreateScreenState extends State<QrCreateScreen> {
   static String qrData = FirebaseAuth.instance.currentUser!.uid;
   String data = "google";
   get floatingActionButton => null;
+  
+  String get txt => txt;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class QrCreateScreenState extends State<QrCreateScreen> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Text(
-          '! أمسح الباركود',
+            txt,
           style: TextStyle(fontSize: 40),
         ),
         actions: [],

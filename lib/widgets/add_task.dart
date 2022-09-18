@@ -1,4 +1,3 @@
-// ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
@@ -7,25 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
-import 'kidsjoinviaQRcode_screen_1.dart';
+//import 'kidsjoinviaQRcode_screen_1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AddKids_screen_1 extends StatefulWidget {
-  const AddKids_screen_1({Key? key}) : super(key: key);
+String? value;
+
+class Add_task extends StatefulWidget {
+  const Add_task({super.key});
 
   @override
-  _AddKids_screen_1 createState() => _AddKids_screen_1();
+  State<Add_task> createState() => _Add_taskState();
 }
 
-class _AddKids_screen_1 extends State<AddKids_screen_1> {
-  final List<String> items = <String>["ذكر", "أنثى"];
-  String? value;
+class _Add_taskState extends State<Add_task> {
+  @override
+final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+final List<String> category = <String>['النظافة', 'تطوير الشخصيه', 'الدين'];
+
+String? value;
   DateTime? date;
 
-  final _nameController = TextEditingController();
 
-  void _showDialog() {
+
+  final _nameController = TextEditingController();
+void _showDialog() {
     showDialog(
         context: context,
         builder: (context) {
@@ -41,24 +46,17 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           );
         });
   }
-
-  void _validate() {
+void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog();
     } else {
       addKidDetails();
 
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return const QrCreateScreen("اضافة طفل");
-          },
-        ),
-      );
+    
     } // push
   }
 
-  Future addKidDetails() async {
+Future addKidDetails() async {
     await FirebaseFirestore.instance.collection('kids').add({
       'name': _nameController.text,
       'gender': value,
@@ -71,7 +69,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       context: context,
       initialDate: date ?? DateTime.now(),
       firstDate: DateTime(2007),
-      lastDate: DateTime(2023),
+      lastDate: DateTime(2021),
     ).then((value) {
       setState(() {
         date = value!;
@@ -87,17 +85,23 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     }
   }
 
-  @override
+
+
+
+
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+
+ double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+
+
+   return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Text(
-          'إضافة طفل',
+          'إضافة نشاط',
           style: TextStyle(fontSize: 40),
         ),
         actions: [],
@@ -116,7 +120,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "الاسم",
+                        ":اسم النشاط ",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -124,14 +128,14 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       ),
                     ),
                     reuasbleTextField(
-                        "الاسم ", Icons.person, false, _nameController),
+                        ":اسمه النشاط  ", Icons.add, false, _nameController),
                     SizedBox(
                       height: 20,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        " الجنس",
+                        " :الطفل",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -174,7 +178,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                   textAlign: TextAlign.right,
                                 ),
                                 value: value,
-                                items: items.map((valueItem) {
+                                items: list.map((valueItem) {
                                   return DropdownMenuItem(
                                     value: valueItem,
                                     child: Text(valueItem),
@@ -185,6 +189,69 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                     value = newVal!;
                                   });
                                 }))),
+                    
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        " :الفئة",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                       Positioned(
+                        right: 107,
+                        top: 300,
+                        width: 254,
+                        height: 66,
+                        child: Container(
+                            alignment: Alignment.topRight,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(30),
+                              border: const Border(
+                                left: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                right: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                top: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                bottom: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            child: DropdownButton<String>(
+                                hint: const Text(
+                                  "الجنس",
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.right,
+                                ),
+                                value: value,
+                                items: list.map((valueItem) {
+                                  return DropdownMenuItem(
+                                    value: valueItem,
+                                    child: Text(valueItem),
+                                  );
+                                }).toList(),
+                                onChanged: (newVal) {
+                                  setState(() {
+                                    value = newVal!;
+                                  });
+                                }))),
+                    
+                  
                     SizedBox(
                       height: 20,
                     ),
@@ -264,6 +331,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                   ],
                 ))),
       ),
+     
     );
   }
 }

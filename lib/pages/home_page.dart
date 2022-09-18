@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return const QrCreateScreen();
+                    return const QrCreateScreen('اضافة بالغ');
                   },
                 ),
               );

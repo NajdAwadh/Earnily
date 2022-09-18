@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
 import 'package:earnily/pages/home_page.dart';
+import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/home_screen.dart';
 import 'package:earnily/screen/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -112,7 +113,15 @@ class _SignInScreenState extends State<SignInScreen> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
 
-                    signInBtn(context, "انضم الى عائلتك", () {}),
+                    signInBtn(context, "انضم الى عائلتك", () {
+                      Navigator.of(context).push(
+                      MaterialPageRoute(
+                      builder: (BuildContext context) {
+                            return const QRreader(title: '',);
+              },
+            ),
+          );
+                    }),
                   ],
                 ))),
       ),
