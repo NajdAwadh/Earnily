@@ -8,8 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+//import 'package:flutter/src/widgets/container.dart';
+//import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import '../reuasblewidgets.dart';
@@ -29,11 +29,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         elevation: 0,
-        title: Text(
-          '! أهـلا بـك',
-          style: TextStyle(fontSize: 40),
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: imgWidget(
+              "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
+              50,
+              250),
         ),
         actions: [
           IconButton(
@@ -53,19 +56,19 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: Container(
-          color: Colors.deepPurple,
+          color: Colors.black,
           child: ListView(children: [
             DrawerHeader(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //  imgWidget("assets/images/mylogo.png", 200, 100),
-                    Text('E A R N I L Y',
+                    Text('صفحتي الشخصية',
                         style: TextStyle(fontSize: 30, color: Colors.white)),
                     Text('_________________________________',
                         style: TextStyle(color: Colors.white)),
                     Text(user.email! + ' :الايميل',
-                        style: TextStyle(fontSize: 15)),
+                        style: TextStyle(fontSize: 15, color: Colors.white)),
                     MaterialButton(
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
@@ -82,14 +85,14 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
-        color: Colors.deepPurple,
+        color: Colors.black,
         animationDuration: Duration(milliseconds: 300),
         onTap: (index) {
           print(index);
         },
         items: [
           Icon(
-            Icons.home,
+            Icons.child_care,
             color: Colors.white,
             size: 35,
           ),
@@ -111,14 +114,14 @@ class _HomePageState extends State<HomePage> {
           ),
           Icon(
             Icons.star,
-            color: Colors.yellow[500],
+            color: Colors.white,
             size: 35,
           ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.blue.shade200,
         child: Icon(
           Icons.add,
           size: 30,
