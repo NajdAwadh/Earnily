@@ -71,7 +71,8 @@ class _HomePageState extends State<HomePage> {
                         await FirebaseAuth.instance.signOut();
                       },
                       color: Colors.white,
-                      child: Text('تسجيل خروج', style: TextStyle(fontSize: 20)),
+                      child:
+                          Text(' تسجيل خروج', style: TextStyle(fontSize: 19)),
                     ),
                   ]),
             ),
