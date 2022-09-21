@@ -9,8 +9,6 @@ import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-String? value;
-
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
 
@@ -21,14 +19,12 @@ class Add_task extends StatefulWidget {
 class _Add_taskState extends State<Add_task> {
   @override
   final List<String> list = <String>['سعد', 'ريما', 'خالد'];
-  final List<String> category = <String>['النظافة', 'تطوير الشخصيه', 'الدين'];
   final _formKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
-
-  String? value;
-  DateTime? date;
-
   final _nameController = TextEditingController();
+  String? childName;
+ 
+
   void _showDialog() {
     showDialog(
         context: context,
@@ -47,7 +43,7 @@ class _Add_taskState extends State<Add_task> {
   }
 
   void _validate() {
-    if (_nameController.text.isEmpty || value == null || date == null) {
+    if (_nameController.text.isEmpty || childName == null || _selectedDate == null) {
       _showDialog();
     } else {
       addKidDetails();
@@ -55,11 +51,12 @@ class _Add_taskState extends State<Add_task> {
   }
 
   Future addKidDetails() async {
+    DateFormat.yMd().format(_selectedDate);
     //to do
     await FirebaseFirestore.instance.collection('kids').add({
       'name': _nameController.text,
-      'gender': value,
-      'date': date,
+      'gender': childName,
+      'date': _selectedDate,
     });
   }
 
@@ -77,29 +74,9 @@ class _Add_taskState extends State<Add_task> {
         _selectedDate = pickedDate;
       });
     });
-    print('...');
   }
 
-  void _showDatePicker() async {
-    showDatePicker(
-      context: context,
-      initialDate: date ?? DateTime.now(),
-      firstDate: DateTime(2007),
-      lastDate: DateTime(2023),
-    ).then((value) {
-      setState(() {
-        date = value!;
-      });
-    });
-  }
 
-  String getText() {
-    if (date == null) {
-      return "اختر تاريخ الميلاد";
-    } else {
-      return DateFormat("dd/MM/yyyy").format(date!);
-    }
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +84,7 @@ class _Add_taskState extends State<Add_task> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Text(
-          ' إضافة نشاط جديد',
+          'إضافة نشاط',
           style: TextStyle(fontSize: 40),
         ),
       ),
@@ -188,7 +165,7 @@ class _Add_taskState extends State<Add_task> {
                               overflow: TextOverflow.visible,
                               textAlign: TextAlign.right,
                             ),
-                            value: value,
+                            value: childName,
                             items: list.map((valueItem) {
                               return DropdownMenuItem(
                                 alignment: Alignment.centerRight,
@@ -198,7 +175,7 @@ class _Add_taskState extends State<Add_task> {
                             }).toList(),
                             onChanged: (newVal) {
                               setState(() {
-                                value = newVal!;
+                                childName = newVal!;
                               });
                             })),
                     SizedBox(
@@ -279,7 +256,7 @@ class _Add_taskState extends State<Add_task> {
                     SizedBox(
                       height: 10,
                     ),
-                     Align(
+                    Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         ":نوع النشاط",
