@@ -23,7 +23,6 @@ class _Add_taskState extends State<Add_task> {
   DateTime _selectedDate = DateTime.now();
   final _nameController = TextEditingController();
   String? childName;
- 
 
   void _showDialog() {
     showDialog(
@@ -43,7 +42,9 @@ class _Add_taskState extends State<Add_task> {
   }
 
   void _validate() {
-    if (_nameController.text.isEmpty || childName == null || _selectedDate == null) {
+    if (_nameController.text.isEmpty ||
+        childName == null ||
+        _selectedDate == null) {
       _showDialog();
     } else {
       addKidDetails();
@@ -64,8 +65,8 @@ class _Add_taskState extends State<Add_task> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2024),
+      firstDate: DateTime(2007),
+      lastDate: DateTime.now(),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -75,8 +76,6 @@ class _Add_taskState extends State<Add_task> {
       });
     });
   }
-
-
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainTask(),
+      home: MainPage(),
+      //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
       // home: HomePageKid(),
