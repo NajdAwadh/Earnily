@@ -3,6 +3,8 @@ import 'package:earnily/pages/main_page.dart';
 import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/MainTask.dart';
+import 'package:earnily/widgets/add_task.dart';
+import 'package:earnily/widgets/task_list.dart';
 //import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
       home: MainPage(),
+      //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
       // home: HomePageKid(),

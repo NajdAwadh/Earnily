@@ -1,4 +1,3 @@
-
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,6 @@ import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-String? value;
-
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
 
@@ -21,16 +18,13 @@ class Add_task extends StatefulWidget {
 
 class _Add_taskState extends State<Add_task> {
   @override
-final List<String> list = <String>['سعد', 'ريما', 'خالد'];
-final List<String> category = <String>['النظافة', 'تطوير الشخصيه', 'الدين'];
-
-String? value;
-  DateTime? date;
-
-
-
+  final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+  final _formKey = GlobalKey<FormState>();
+  DateTime _selectedDate = DateTime.now();
   final _nameController = TextEditingController();
-void _showDialog() {
+  String? childName;
+
+  void _showDialog() {
     showDialog(
         context: context,
         builder: (context) {
@@ -46,57 +40,45 @@ void _showDialog() {
           );
         });
   }
-void _validate() {
-    if (_nameController.text.isEmpty || value == null || date == null) {
+
+  void _validate() {
+    if (_nameController.text.isEmpty ||
+        childName == null ||
+        _selectedDate == null) {
       _showDialog();
     } else {
       addKidDetails();
-
-    
     } // push
   }
 
-Future addKidDetails() async {
+  Future addKidDetails() async {
+    DateFormat.yMd().format(_selectedDate);
+    //to do
     await FirebaseFirestore.instance.collection('kids').add({
       'name': _nameController.text,
-      'gender': value,
-      'date': date,
+      'gender': childName,
+      'date': _selectedDate,
     });
   }
 
-  void _showDatePicker() async {
+  void _presentDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: date ?? DateTime.now(),
+      initialDate: DateTime.now(),
       firstDate: DateTime(2007),
-      lastDate: DateTime(2021),
-    ).then((value) {
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
       setState(() {
-        date = value!;
+        _selectedDate = pickedDate;
       });
     });
   }
 
-  String getText() {
-    if (date == null) {
-      return "اختر تاريخ الميلاد";
-    } else {
-      return DateFormat("dd/MM/yyyy").format(date!);
-    }
-  }
-
-
-
-
-
   Widget build(BuildContext context) {
-
- double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
-
-
-   return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         elevation: 0,
@@ -104,19 +86,14 @@ Future addKidDetails() async {
           'إضافة نشاط',
           style: TextStyle(fontSize: 40),
         ),
-        actions: [],
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
             child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Column(
                   children: <Widget>[
-                    Container(),
-                    SizedBox(height: 30),
+                    SizedBox(height: 25),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -124,180 +101,197 @@ Future addKidDetails() async {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    reuasbleTextField(
-                        ":اسمه النشاط  ", Icons.add, false, _nameController),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " :الطفل",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Positioned(
-                        right: 107,
-                        top: 300,
-                        width: 254,
-                        height: 66,
-                        child: Container(
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(30),
-                              border: const Border(
-                                left: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                right: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                top: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(15)),
+                      child: TextFormField(
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: ' اسم النشاط الجديد',
+                            hintTextDirection: ui.TextDirection.rtl,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 17,
                             ),
-                            child: DropdownButton<String>(
-                                hint: const Text(
-                                  "الجنس",
-                                  overflow: TextOverflow.visible,
-                                  textAlign: TextAlign.right,
-                                ),
-                                value: value,
-                                items: list.map((valueItem) {
-                                  return DropdownMenuItem(
-                                    value: valueItem,
-                                    child: Text(valueItem),
-                                  );
-                                }).toList(),
-                                onChanged: (newVal) {
-                                  setState(() {
-                                    value = newVal!;
-                                  });
-                                }))),
-                    
+                            contentPadding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )),
+                        validator: (val) =>
+                            val!.isEmpty ? 'Please enter a name' : null,
+                        //onChanged: (val) => setState(() => _currentName = val),
+                      ),
+                    ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        " :الفئة",
+                        ":اختر الطفل المخصص للنشاط",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                       Positioned(
-                        right: 107,
-                        top: 300,
-                        width: 254,
-                        height: 66,
-                        child: Container(
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(30),
-                              border: const Border(
-                                left: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                right: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                top: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: DropdownButton<String>(
+                            isExpanded: true,
+                            alignment: Alignment.centerRight,
+                            hint: const Text(
+                              " اسم الطفل",
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.right,
                             ),
-                            child: DropdownButton<String>(
-                                hint: const Text(
-                                  "الجنس",
-                                  overflow: TextOverflow.visible,
-                                  textAlign: TextAlign.right,
-                                ),
-                                value: value,
-                                items: list.map((valueItem) {
-                                  return DropdownMenuItem(
-                                    value: valueItem,
-                                    child: Text(valueItem),
-                                  );
-                                }).toList(),
-                                onChanged: (newVal) {
-                                  setState(() {
-                                    value = newVal!;
-                                  });
-                                }))),
-                    
-                  
+                            value: childName,
+                            items: list.map((valueItem) {
+                              return DropdownMenuItem(
+                                alignment: Alignment.centerRight,
+                                value: valueItem,
+                                child: Text(valueItem),
+                              );
+                            }).toList(),
+                            onChanged: (newVal) {
+                              setState(() {
+                                childName = newVal!;
+                              });
+                            })),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        " تاريخ الميلاد",
+                        ":عدد النقاط المستحقة",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Positioned(
-                        right: 107,
-                        top: 425,
-                        child: SizedBox(
-                          width: 350,
-                          height: 66,
-                          child: ElevatedButton(
-                              onPressed: _showDatePicker,
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.grey[200],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 2,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
-                                getText(),
-                                overflow: TextOverflow.visible,
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey,
-                                ),
-                                textDirection: ui.TextDirection.rtl,
-                              )),
-                        )),
                     SizedBox(
-                      height: 60,
+                      height: 10,
+                    ),
+                    Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 10,
+                        children: [
+                          chipData("100", 0xffff6d6e),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('75', 0xfff29732),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('50', 0xff6557ff),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('25', 0xff2bc8d9),
+                        ]),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        ":تاريخ التنفيذ",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              textDirection: ui.TextDirection.rtl,
+                              _selectedDate == null
+                                  ? '! لم يتم اختيار تاريخ'
+                                  : 'التاريخ المختار: ${DateFormat.yMd().format(_selectedDate)}',
+                            ),
+                          ),
+
+                          IconButton(
+                              onPressed: _presentDatePicker,
+                              style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all(Colors.black),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white)),
+                              icon: Icon(
+                                Icons.calendar_today,
+                                //  size: 30,
+                              ))
+                          //here
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        ":نوع النشاط",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 10,
+                        children: [
+                          chipData("النظافة", 0xffff6d6e),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('الأكل', 0xfff29732),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('الدراسة', 0xff6557ff),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('الدين', 0xff234ebd),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          chipData('تطوير الشخصية', 0xff2bc8d9),
+                        ]),
+                    SizedBox(
+                      height: 30,
                     ),
                     Positioned(
                         left: 21,
@@ -331,7 +325,29 @@ Future addKidDetails() async {
                   ],
                 ))),
       ),
-     
     );
   }
+}
+
+Widget chipData(String label, int color) {
+  return Chip(
+    backgroundColor: Color(color),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(
+        10,
+      ),
+    ),
+    label: Text(
+      label,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    labelPadding: EdgeInsets.symmetric(
+      horizontal: 17,
+      vertical: 3.5,
+    ),
+  );
 }
