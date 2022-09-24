@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
 import 'package:earnily/widgets/MainTask.dart';
@@ -91,10 +92,21 @@ class _HomePageState extends State<HomePage> {
           print(index);
         },
         items: [
-          Icon(
-            Icons.child_care,
-            color: Colors.white,
-            size: 35,
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return const AdultKids();
+                  },
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.child_care,
+              color: Colors.white,
+              size: 35,
+            ),
           ),
           IconButton(
             onPressed: () {
@@ -118,23 +130,6 @@ class _HomePageState extends State<HomePage> {
             size: 35,
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return const AddKids_screen_1();
-              },
-            ),
-          );
-        },
       ),
     );
   }

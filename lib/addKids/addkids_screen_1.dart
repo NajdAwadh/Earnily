@@ -33,6 +33,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             title: Text(
               "خطأ",
               textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
             ),
             content: Text(
               "ادخل البيانات المطلوبة",
@@ -93,7 +94,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Text(
-          'إضافة طفل',
+          "إضافة طفل",
           style: TextStyle(fontSize: 40),
           textAlign: TextAlign.center,
         ),
