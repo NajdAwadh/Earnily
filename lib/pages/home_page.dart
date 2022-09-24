@@ -98,15 +98,15 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
             onPressed: () {
-              /*  Navigator.of(context).push(
+               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
                     return const MainTask();
                   },
                 ),
-              );*/
+              );
 
-              Text('task');
+            
             },
             icon: Icon(
               Icons.task,
