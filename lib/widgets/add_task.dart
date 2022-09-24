@@ -87,7 +87,7 @@ class _Add_taskState extends State<Add_task> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
           'إضافة نشاط',
@@ -311,7 +311,7 @@ class _Add_taskState extends State<Add_task> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   side: const BorderSide(

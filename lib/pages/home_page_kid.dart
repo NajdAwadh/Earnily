@@ -85,6 +85,7 @@ class _HomePageKidState extends State<HomePageKid> {
             Icon(
               Icons.star,
               color: Colors.white,
+              //  semanticLabel: 'hh',
               size: 35,
             ),
             Icon(

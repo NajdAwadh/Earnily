@@ -36,7 +36,10 @@ class _AdultKidsState extends State<AdultKids> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text("الأطفال"),
+          child: Text(
+            "الأطفال",
+            style: TextStyle(fontSize: 40),
+          ),
         ),
       ),
       body: Container(
@@ -100,53 +103,6 @@ class _AdultKidsState extends State<AdultKids> {
                 return Divider(color: Colors.black);
               },
             ),*/
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
-        color: Colors.black,
-        animationDuration: Duration(milliseconds: 300),
-        onTap: (index) {
-          print(index);
-        },
-        items: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return const AdultKids();
-                  },
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.child_care_outlined,
-              color: Colors.white,
-              size: 35,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return const MainTask();
-                  },
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.task,
-              color: Colors.white,
-              size: 35,
-            ),
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.white,
-            size: 35,
-          ),
-        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(

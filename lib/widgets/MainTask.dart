@@ -128,46 +128,10 @@ class _MainTaskState extends State<MainTask> {
       //     ],
       //   ),
       // ),
-      backgroundColor: Colors.white,
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
-        color: Colors.black,
-        animationDuration: Duration(milliseconds: 300),
-        onTap: (index) {
-          print(index);
-        },
-        items: [
-          Icon(
-            Icons.child_care,
-            color: Colors.white,
-            size: 35,
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return const MainTask();
-                  },
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.task,
-              color: Colors.white,
-              size: 35,
-            ),
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.white,
-            size: 35,
-          ),
-        ],
-      ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.blue.shade200,
         child: Icon(
           Icons.add,
           size: 30,

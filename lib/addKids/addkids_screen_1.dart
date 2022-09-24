@@ -91,7 +91,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
           "إضافة طفل",
@@ -243,7 +243,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   side: const BorderSide(
