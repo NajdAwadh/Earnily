@@ -32,6 +32,12 @@ class _SignInScreenState extends State<SignInScreen> {
               "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
           );
         });
   }

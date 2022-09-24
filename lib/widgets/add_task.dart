@@ -32,11 +32,18 @@ class _Add_taskState extends State<Add_task> {
             title: Text(
               "خطأ",
               textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
             ),
             content: Text(
               "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
           );
         });
   }
@@ -65,8 +72,8 @@ class _Add_taskState extends State<Add_task> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2007),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2024),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;

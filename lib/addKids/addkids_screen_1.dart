@@ -38,6 +38,12 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
               "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
           );
         });
   }
