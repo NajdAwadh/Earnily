@@ -23,7 +23,7 @@ TextField reuasbleTextField(
     decoration: InputDecoration(
       prefixIcon: Icon(
         icon,
-        color: Colors.deepPurple,
+        color: Colors.black,
       ),
       hintText: hintTxt,
       hintStyle: TextStyle(color: Colors.grey),
@@ -56,9 +56,9 @@ Widget signInBtn(BuildContext context, String text, Function onTap) {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.pressed)) {
-              return Colors.deepPurple;
+              return Colors.black;
             }
-            return Colors.deepPurple;
+            return Colors.black;
           }),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
