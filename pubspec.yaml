@@ -46,6 +46,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
 
   provider: ^6.0.3
+  flutter_local_notifications: ^11.0.1
   
   
 
