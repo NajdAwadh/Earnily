@@ -29,7 +29,7 @@ class _MainRewardsState extends State<MainRewards> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: Colors.black,
         onPressed: () {
           //do something
         },

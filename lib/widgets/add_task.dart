@@ -57,11 +57,11 @@ class _Add_taskState extends State<Add_task> {
     } else {
       addKidDetails();
     }
-    Notifications.showNotification(
+    /*Notifications.showNotification(
       title: "sarah",
       body: 'hey',
       payload: 'earnily',
-    ); // push
+    );*/ // push
   }
 
   Future addKidDetails() async {

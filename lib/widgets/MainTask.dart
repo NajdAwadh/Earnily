@@ -131,7 +131,7 @@ class _MainTaskState extends State<MainTask> {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: Colors.black,
         child: Icon(
           Icons.add,
           size: 30,
