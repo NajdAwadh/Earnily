@@ -1,3 +1,4 @@
+import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,12 @@ class _Add_taskState extends State<Add_task> {
       _showDialog();
     } else {
       addKidDetails();
-    } // push
+    }
+    Notifications.showNotification(
+      title: "sarah",
+      body: 'hey',
+      payload: 'earnily',
+    ); // push
   }
 
   Future addKidDetails() async {
