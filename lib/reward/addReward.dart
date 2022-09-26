@@ -1,9 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
-<<<<<<< Updated upstream
-=======
-import 'package:earnily/widgets/add_task.dart';
->>>>>>> Stashed changes
+//import 'package:earnily/widgets/add_task.dart';
+
 import 'package:flutter/material.dart';
 
 class addReward extends StatefulWidget {
@@ -23,6 +21,8 @@ String point2 = "25";
 
   Widget build(BuildContext context) {
     var value;
+    String point2 = "25";
+
 
     return Scaffold(
       appBar: AppBar(
@@ -177,12 +177,12 @@ backgroundColor: Colors.white,
                         ),
 
                     ],
-<<<<<<< Updated upstream
-                   )
-=======
+
                    ),
 
-                   Align(
+                 //  ),
+
+                /*   Align(
   alignment: Alignment.centerRight,
   child: Text(
     ":عدد النقاط المستحقة",
@@ -203,6 +203,7 @@ Wrap(
       SizedBox(
         width: 20,
       ),
+      child:FlatButton ,
       chipData('75', 0xfff29732),
       SizedBox(
         width: 20,
@@ -215,8 +216,7 @@ Wrap(
     ]),
 SizedBox(
   height: 10,
-),
->>>>>>> Stashed changes
+),*/
          ],
       ),
     ),
