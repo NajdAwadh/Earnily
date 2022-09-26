@@ -19,7 +19,7 @@ class AddKids_screen_1 extends StatefulWidget {
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
-  final List<String> items = <String>["ذكر", "أنثى"];
+  final List<String> items = <String>["طفل", "طفلة"];
   String? value;
   DateTime? date;
 
@@ -33,11 +33,18 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             title: Text(
               "خطأ",
               textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
             ),
             content: Text(
               "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
           );
         });
   }
@@ -51,7 +58,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return const QrCreateScreen("اضافة طفل");
+            return KidsjoinviaQRcode_screen_1(); //QrCreateScreen("اضافة طفل");
           },
         ),
       );
@@ -66,39 +73,30 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     });
   }
 
-  void _showDatePicker() async {
-    showDatePicker(
-      context: context,
-      initialDate: date ?? DateTime.now(),
-      firstDate: DateTime(2007),
-      lastDate: DateTime(2023),
-    ).then((value) {
-      setState(() {
-        date = value!;
+  void _showDatePicker() async => showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2007),
+        lastDate: DateTime.now(),
+      ).then((value) {
+        if (value == null) {
+          return;
+        }
+        setState(() {
+          date = value;
+        });
       });
-    });
-  }
-
-  String getText() {
-    if (date == null) {
-      return "اختر تاريخ الميلاد";
-    } else {
-      return DateFormat("dd/MM/yyyy").format(date!);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
-          'إضافة طفل',
+          "إضافة طفل",
           style: TextStyle(fontSize: 40),
+          textAlign: TextAlign.center,
         ),
         actions: [],
       ),
@@ -218,7 +216,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 ),
                               ),
                               child: Text(
-                                getText(),
+                                date == null
+                                    ? 'اختر تاريخ الميلاد'
+                                    : '${DateFormat.yMd().format(date!)}',
                                 overflow: TextOverflow.visible,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
@@ -243,7 +243,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   side: const BorderSide(

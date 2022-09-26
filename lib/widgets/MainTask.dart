@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 
@@ -56,7 +57,6 @@ class _MainTaskState extends State<MainTask> {
     }
   }
 
-
   void _deleteTask(String id) {
     setState(() {
       _userTasks.removeWhere((tx) => tx.id == id);
@@ -67,13 +67,12 @@ class _MainTaskState extends State<MainTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
           'الانشطة الحالية',
           style: TextStyle(fontSize: 40),
         ),
-    
       ),
       body: SingleChildScrollView( 
         child: Container( 
@@ -82,7 +81,7 @@ class _MainTaskState extends State<MainTask> {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20), 
           child: Column( 
             children: [ adultTaskCard(
-// title: "Wake up Bro", 
+// title: "Wake up ", 
 // check: true, 
 // iconBColor: Colors.white, 
 // iconcolor: Colors.red, 
@@ -155,9 +154,10 @@ SizedBox ( height: 10, ), ]// sizedBox
       //     ],
       //   ),
       // ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.blue.shade200,
         child: Icon(
           Icons.add,
           size: 30,
@@ -170,7 +170,8 @@ SizedBox ( height: 10, ), ]// sizedBox
               },
             ),
           );
-        }, ),
+        },
+      ),
 
       //home: MyHomePage(),
     );

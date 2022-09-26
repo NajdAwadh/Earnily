@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:earnily/Rewards/MainRewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
 import 'package:earnily/widgets/MainTask.dart';
@@ -24,6 +26,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   var firstColor = Color(0xff5b86e5), secondColor = Color(0xff36d1dc);
+  int _selectedIndex = 0;
+
+  void _navigationBar(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final List<Widget> _pages = [
+    AdultKids(),
+    MainTask(),
+    MainRewards(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -83,34 +98,23 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.white,
+      body: _pages[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
+        index: _selectedIndex,
         backgroundColor: Colors.white,
         color: Colors.black,
         animationDuration: Duration(milliseconds: 300),
-        onTap: (index) {
-          print(index);
-        },
+        onTap: _navigationBar,
         items: [
           Icon(
             Icons.child_care,
             color: Colors.white,
             size: 35,
           ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return const MainTask();
-                  },
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.task,
-              color: Colors.white,
-              size: 35,
-            ),
+          Icon(
+            Icons.task,
+            color: Colors.white,
+            size: 35,
           ),
           Icon(
             Icons.star,
@@ -118,23 +122,6 @@ class _HomePageState extends State<HomePage> {
             size: 35,
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return const AddKids_screen_1();
-              },
-            ),
-          );
-        },
       ),
     );
   }

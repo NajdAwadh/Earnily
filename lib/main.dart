@@ -12,6 +12,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'package:provider/provider.dart';
+import 'notifier/kidsNotifier.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -19,7 +22,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (BuildContext context) {
+        return KidsNotifier();
+      },
+    ),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +39,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainTask(),
+      home: MainPage(),
+      //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
       // home: HomePageKid(),

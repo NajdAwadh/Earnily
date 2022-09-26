@@ -24,14 +24,24 @@ class _SignInScreenState extends State<SignInScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              "خطأ",
+              "حقول الادخال مفقودة",
               textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
             ),
             content: Text(
-              "ادخل البيانات المطلوبة",
+              " تأكد من ادخال جميع البيانات من فضلك",
               textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text(
+                  "حسناً",
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            ],
           );
         });
   }

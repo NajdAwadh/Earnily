@@ -41,18 +41,6 @@ class _HomePageKidState extends State<HomePageKid> {
           //  'E A R N I L Y',
           //  style: TextStyle(fontSize: 35),
           // ),
-
-          actions: [
-            IconButton(
-              onPressed: () {
-// do something
-              },
-              icon: Icon(
-                Icons.share,
-                //  size: 30,
-              ),
-            )
-          ],
         ),
         drawer: Drawer(
           child: Container(
@@ -97,6 +85,7 @@ class _HomePageKidState extends State<HomePageKid> {
             Icon(
               Icons.star,
               color: Colors.white,
+              //  semanticLabel: 'hh',
               size: 35,
             ),
             Icon(

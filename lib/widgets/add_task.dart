@@ -1,3 +1,4 @@
+import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,18 @@ class _Add_taskState extends State<Add_task> {
             title: Text(
               "خطأ",
               textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
             ),
             content: Text(
               "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
           );
         });
   }
@@ -50,7 +58,12 @@ class _Add_taskState extends State<Add_task> {
       _showDialog();
     } else {
       addKidDetails();
-    } // push
+    }
+    Notifications.showNotification(
+      title: "sarah",
+      body: 'hey',
+      payload: 'earnily',
+    ); // push
   }
 
   Future addKidDetails() async {
@@ -82,7 +95,7 @@ class _Add_taskState extends State<Add_task> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
           'إضافة نشاط',
@@ -308,7 +321,7 @@ class _Add_taskState extends State<Add_task> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   side: const BorderSide(
