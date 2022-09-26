@@ -1,8 +1,11 @@
+import 'package:earnily/adult_profile.dart';
+import 'package:earnily/kid_profile.dart';
 import 'package:earnily/reward/add.dart';
 import 'package:flutter/material.dart';
 //import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
 import 'package:earnily/reward/addReward.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,7 +17,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
      // home: addReward(),
-      home: add(),
+     // home: add(),
+    // home: kid_profile(),
+    home: adultProfile(),
     );
   }
 }
