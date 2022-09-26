@@ -1,6 +1,7 @@
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 
+import 'adultTaskCard.dart';
 import 'new_task.dart';
 import 'task_list.dart';
 import 'package:earnily/models/task.dart';
@@ -74,55 +75,76 @@ class _MainTaskState extends State<MainTask> {
         ),
     
       ),
-      body: Container(
+      body: SingleChildScrollView( 
+        child: Container( 
+          height: MediaQuery.of(context).size.height, 
+          width: MediaQuery.of (context) .size.width, 
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20), 
+          child: Column( 
+            children: [ adultTaskCard(
+// title: "Wake up Bro", 
+// check: true, 
+// iconBColor: Colors.white, 
+// iconcolor: Colors.red, 
+// iconData: Icons.alarm, 
+// time: "10 AM",
+ ), // Todocard 
+SizedBox ( height: 10, ), ]// sizedBox
+),),),
+// Column
+// Container
+// singlechildscrollview
+      
+      
+      // Container(
       
         
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-              elevation: 5,
-              margin: EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 5,
-              ),
-              child:
-           new Directionality(
-            textDirection: TextDirection.rtl, 
-               child: new  ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Color(0xffff6d6e),
-                  foregroundColor: Colors.white,
-                  radius: 30,
-                  child: Padding(
-                      padding: EdgeInsets.all(6),
-                      child: Container(
-                        height: 33,
-                        width: 36,
+      //   child: ListView.builder(
+      //     itemBuilder: (ctx, index) {
+      //       return Card(
+      //         elevation: 5,
+      //         margin: EdgeInsets.symmetric(
+      //           vertical: 8,
+      //           horizontal: 5,
+      //         ),
+      //         child:
+      //      new Directionality(
+      //       textDirection: TextDirection.rtl, 
+      //          child: new  ListTile(
+      //           leading: CircleAvatar(
+      //             backgroundColor: Color(0xffff6d6e),
+      //             foregroundColor: Colors.white,
+      //             radius: 30,
+      //             child: Padding(
+      //                 padding: EdgeInsets.all(6),
+      //                 child: Container(
+      //                   height: 33,
+      //                   width: 36,
                     
-                        child: Icon(Icons.wash),
-                      )),
-                ),
-                title: Text(
-                  "اسم النشاط",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                ),
-                subtitle: Text(
-                  ' ريما  -   60',
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  color: Theme.of(context).errorColor,
-                  onPressed: () => {},
-                ),
-              ),)
-            );
-          },
-          itemCount: 1,
-        ),
-      ),
+      //                   child: Icon(Icons.wash),
+      //                 )),
+      //           ),
+      //           title: Text(
+      //             "اسم النشاط",
+      //             style: TextStyle(
+      //               fontWeight: FontWeight.bold,
+      //               fontSize: 22,
+      //             ),
+      //           ),
+      //           subtitle: Text(
+      //             ' ريما  -   60',
+      //           ),
+      //           trailing: IconButton(
+      //             icon: Icon(Icons.delete),
+      //             color: Theme.of(context).errorColor,
+      //             onPressed: () => {},
+      //           ),
+      //         ),)
+      //       );
+      //     },
+      //     itemCount: 1,
+      //   ),
+      // ),
 
       // SingleChildScrollView(
       //   child: Column(
