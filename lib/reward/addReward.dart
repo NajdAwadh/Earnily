@@ -14,6 +14,8 @@ class _addRewardState extends State<addReward> {
   //text controlllers
   final _nameController = TextEditingController();
   final _pointController = TextEditingController();
+String point = "25";
+String point2 = "25";
 
   Widget build(BuildContext context) {
     var value;
@@ -56,6 +58,7 @@ backgroundColor: Colors.white,
                    SizedBox(height: 10),
                     
                     //point field
+                    /*
                 Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                    child: TextField(
@@ -73,7 +76,10 @@ backgroundColor: Colors.white,
                  
                    ),
                    SizedBox(height: 10),
+                   */
                    
+
+
                    //kid name field
                    Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -92,6 +98,82 @@ backgroundColor: Colors.white,
                  
                    ),
                    SizedBox(height: 10),
+
+
+                  /*
+                   Column(
+                    children: [
+                      Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
+
+                      RadioListTile(title: Text("25"), value:"25",groupValue: point, onChanged:(value){
+                        setState(() {
+                          point=value.toString();
+                        });
+                      },
+                     ),
+                      RadioListTile(title: Text("50"), value:"50",groupValue: point, onChanged:(value){
+                         setState(() {
+                           point=value.toString();
+                           });
+                           },
+                           ),
+                    ],
+                   ), */
+
+                   Column (
+                    children: [
+                        Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
+
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Radio(value: 250, groupValue: point2, onChanged:(value) {
+                                   setState(() {
+                                     point2=value.toString();
+                                     });
+                                },
+                                ),
+                                const Expanded(child: Text("250"))
+                              ],
+                            ),
+                            //flex: 1,
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Radio(  value: 500, groupValue: point2, onChanged: (value){
+                                     setState(() {
+                                      point2=value.toString();
+                                      });
+                                  },
+                                   ),
+                                   Expanded(child: Text("500"))
+                                ],
+                              ),
+                              flex:1 ,
+                              ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                         Radio(value: 1000, groupValue: point2, onChanged: (value){
+                                           setState(() {
+                                         point2=value.toString();
+                                         });
+                                         } ,
+                                         ),
+                                         Expanded(child: Text("1000"))
+                                          ],
+                                          ),
+                                          flex:1 ,
+                                          ),
+                        ],
+                        ),
+
+                    ],
+                   )
          ],
       ),
     ),
