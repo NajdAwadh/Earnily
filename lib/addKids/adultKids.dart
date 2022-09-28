@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:ui';
 import '../widgets/MainTask.dart';
 import 'addkids_screen_1.dart';
 
@@ -17,6 +17,8 @@ class AdultKids extends StatefulWidget {
 }
 
 class _AdultKidsState extends State<AdultKids> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,57 +40,68 @@ class _AdultKidsState extends State<AdultKids> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Text(
             "الأطفال",
+            //textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 40),
           ),
         ),
       ),
-      body: Container(
-        // ghada
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 5,
-                ),
-                child: new Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Color(0xffff6d6e),
-                      foregroundColor: Colors.white,
-                      radius: 30,
-                      child: Padding(
-                          padding: EdgeInsets.all(6),
-                          child: Container(
-                            height: 33,
-                            width: 36,
-                            child: Icon(Icons.child_care),
-                          )),
-                    ),
-                    title: Text(
-                      kidsNotifier.kidsList[index].name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                    subtitle: Text(
-                      kidsNotifier.kidsList[index].gender,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () => {},
-                    ),
-                  ),
-                ));
-          },
-          itemCount: kidsNotifier.kidsList.length,
-        ),
+      body: kidsNotifier.kidsList.isEmpty
+          ? Center(
+              child: Text(
+                "لا يوجد لديك أطفال \n قم بالإصافة الآن",
+                style: TextStyle(fontSize: 30, color: Colors.grey),
+              ),
+            )
+          : Container(
+              // ghada
 
-        /*
+              child: GridView.builder(
+                itemBuilder: (ctx, index) {
+                  return Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 5,
+                      ),
+                      child: new Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: new ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Color(0xffff6d6e),
+                            foregroundColor: Colors.white,
+                            radius: 30,
+                            child: Padding(
+                                padding: EdgeInsets.all(6),
+                                child: Container(
+                                  height: 33,
+                                  width: 36,
+                                  child: Icon(Icons.child_care),
+                                )),
+                          ),
+                          title: Text(
+                            kidsNotifier.kidsList[index].name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                          subtitle: Text(
+                            kidsNotifier.kidsList[index].gender,
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Theme.of(context).errorColor,
+                            onPressed: () => {},
+                          ),
+                        ),
+                      ));
+                },
+                itemCount: kidsNotifier.kidsList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+              ),
+
+              /*
             child: 
             ListView.separated(
               itemBuilder: (BuildContext context, int index) {
@@ -103,7 +116,7 @@ class _AdultKidsState extends State<AdultKids> {
                 return Divider(color: Colors.black);
               },
             ),*/
-      ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue.shade200,
