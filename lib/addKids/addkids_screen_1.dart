@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
+import '../notifications/notification_api.dart';
 import 'kidsjoinviaQRcode_screen_1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddKids_screen_1 extends StatefulWidget {
   const AddKids_screen_1({Key? key}) : super(key: key);
@@ -49,11 +51,33 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         });
   }
 
+  void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
+  }
+
   void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog();
     } else {
       addKidDetails();
+
+      showToastMessage("تمت إضافة الطفل بنجاح");
+
+      Notifications.showNotification(
+        title: "sarah",
+        body: 'hey',
+        payload: 'earnily',
+      );
+
+      /*
 
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -61,7 +85,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             return KidsjoinviaQRcode_screen_1(); //QrCreateScreen("اضافة طفل");
           },
         ),
-      );
+      );*/
     } // push
   }
 
@@ -106,11 +130,16 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         child: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                    20, MediaQuery.of(context).size.height * 0.01, 20, 0),
                 child: Column(
                   children: <Widget>[
                     Container(),
                     SizedBox(height: 30),
+                    Icon(
+                      Icons.child_care,
+                      color: Colors.purple.shade100,
+                      size: 100,
+                    ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(

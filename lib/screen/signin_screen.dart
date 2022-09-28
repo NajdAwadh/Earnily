@@ -60,10 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: Column(
                   children: <Widget>[
                     //     imgWidget("assets/images/mlogo.png", 200, 400),
-                    imgWidget(
-                        "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
-                        150,
-                        250),
+                    imgWidget("assets/images/EarnilyLogo.png", 150, 250),
                     //SizedBox(height: 30),
                     Text(
                       'تسجيل الدخول',

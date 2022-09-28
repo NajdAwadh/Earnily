@@ -67,6 +67,7 @@ class _MainTaskState extends State<MainTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
@@ -156,8 +157,9 @@ SizedBox ( height: 10, ), ]// sizedBox
       // ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: Colors.black,
         child: Icon(
           Icons.add,
           size: 30,

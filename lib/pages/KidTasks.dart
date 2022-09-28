@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class MainRewards extends StatefulWidget {
-  const MainRewards({super.key});
+class kidTasks extends StatefulWidget {
+  const kidTasks({super.key});
 
   @override
-  State<MainRewards> createState() => _MainRewardsState();
+  State<kidTasks> createState() => _kidTasksState();
 }
 
-class _MainRewardsState extends State<MainRewards> {
+class _kidTasksState extends State<kidTasks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +20,13 @@ class _MainRewardsState extends State<MainRewards> {
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Text(
-            "المكافأت",
+            "انشطتي",
             style: TextStyle(fontSize: 40),
           ),
         ),
       ),
       body: Center(
-        child: Text('لاتوجد مكافأت مضافة'),
+        child: Text('لاتوجد أنشطة مضافة'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
