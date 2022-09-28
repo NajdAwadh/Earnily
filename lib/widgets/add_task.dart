@@ -54,10 +54,12 @@ class _Add_taskState extends State<Add_task> {
   void _validate() {
     if (_nameController.text.isEmpty ||
         childName == null ||
-        _selectedDate == null) {
+        _selectedDate == null ||
+        points == null ||
+        categoty == null) {
       _showDialog();
     } else {
-      addKidDetails();
+      addTask();
     }
     /*Notifications.showNotification(
       title: "sarah",
@@ -66,13 +68,13 @@ class _Add_taskState extends State<Add_task> {
     );*/ // push
   }
 
-  Future addKidDetails() async {
-    DateFormat.yMd().format(_selectedDate);
-    //to do
-    await FirebaseFirestore.instance.collection('kids').add({
-      'name': _nameController.text,
-      'gender': childName,
-      'date': _selectedDate,
+  Future addTask() async {
+    await FirebaseFirestore.instance.collection('Tasks').add({
+      'taskName': _nameController.text,
+      'points': points,
+      'date': DateFormat.yMd().format(_selectedDate),
+      'category': categoty,
+      'asignedKid': childName,
     });
   }
 
@@ -175,8 +177,6 @@ class _Add_taskState extends State<Add_task> {
                         child: DropdownButton<String>(
                             isExpanded: true,
                             alignment: Alignment.centerRight,
-                           
-                           
                             items: list.map((valueItem) {
                               return DropdownMenuItem(
                                 alignment: Alignment.centerRight,
@@ -187,7 +187,6 @@ class _Add_taskState extends State<Add_task> {
                             onChanged: (newVal) {
                               setState(() {
                                 childName = newVal!;
-                                print(childName);
                               });
                             })),
                     SizedBox(
@@ -326,18 +325,7 @@ class _Add_taskState extends State<Add_task> {
                                   ),
                                 ),
                               ),
-                              onPressed: () async {
-                                await FirebaseFirestore.instance
-                                    .collection('Tasks')
-                                    .add({
-                                  'taskName': _nameController.text,
-                                  'points': points,
-                                  'date':
-                                      DateFormat.yMd().format(_selectedDate),
-                                  'category': categoty,
-                                  'asignedKid': 'reema',
-                                });
-                              },
+                              onPressed: _validate,
                               child: const Text('إضافة ',
                                   overflow: TextOverflow.visible,
                                   style: TextStyle(
