@@ -175,12 +175,8 @@ class _Add_taskState extends State<Add_task> {
                         child: DropdownButton<String>(
                             isExpanded: true,
                             alignment: Alignment.centerRight,
-                            hint: const Text(
-                              " اسم الطفل",
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.right,
-                            ),
-                            value: childName,
+                           
+                           
                             items: list.map((valueItem) {
                               return DropdownMenuItem(
                                 alignment: Alignment.centerRight,
