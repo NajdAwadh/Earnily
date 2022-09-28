@@ -9,6 +9,10 @@ import 'dart:ui' as ui;
 //import 'kidsjoinviaQRcode_screen_1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
+import '../api/kidsApi.dart';
+import '../notifier/kidsNotifier.dart';
 
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
@@ -20,6 +24,7 @@ class Add_task extends StatefulWidget {
 class _Add_taskState extends State<Add_task> {
   @override
   final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+
   final _formKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
   final _nameController = TextEditingController();
@@ -94,7 +99,18 @@ class _Add_taskState extends State<Add_task> {
     });
   }
 
+  void initState() {
+    // TODO: implement initState
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
+    super.initState();
+  }
+
+  //  final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
+
   Widget build(BuildContext context) {
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,

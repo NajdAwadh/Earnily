@@ -41,7 +41,7 @@ class _onbordingState extends State<onbording> {
           ],
         ),
         Container(
-          alignment: Alignment(0, 0.5),
+          alignment: Alignment(0, 0.65),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -60,6 +60,15 @@ class _onbordingState extends State<onbording> {
               SmoothPageIndicator(
                 controller: _controller,
                 count: 3,
+                effect: ExpandingDotsEffect(
+                    // spacing: 8.0,
+                    //  radius: 4.0,
+                    dotWidth: 24.0,
+                    dotHeight: 24.0,
+                    // paintStyle: PaintingStyle.stroke,
+                    // strokeWidth: 1.5,
+                    dotColor: Colors.grey,
+                    activeDotColor: Colors.deepPurple),
               ),
               last
                   ? GestureDetector(
@@ -67,7 +76,7 @@ class _onbordingState extends State<onbording> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return const MainPage();
+                              return const SignInScreen();
                             },
                           ),
                         );
