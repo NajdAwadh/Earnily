@@ -34,6 +34,7 @@ class _AdultKidsState extends State<AdultKids> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Padding(
@@ -119,7 +120,7 @@ class _AdultKidsState extends State<AdultKids> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: Colors.black,
         child: Icon(
           Icons.add,
           size: 30,

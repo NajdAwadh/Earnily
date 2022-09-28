@@ -1,15 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
+import 'package:earnily/api/taskApi.dart';
+import 'package:earnily/notifier/taskNotifier.dart';
+import 'package:provider/provider.dart';
 
-import 'adultTaskCard.dart';
-import 'new_task.dart';
-import 'task_list.dart';
-import 'package:earnily/models/task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'myhome.dart';
 
 class MainTask extends StatefulWidget {
   const MainTask({super.key});
@@ -19,54 +17,21 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
-  final List<Task> _userTasks = [];
-
-  List<Task> get _recentTask {
-    return _userTasks.where((tx) {
-      return tx.date.isAfter(
-        DateTime.now().subtract(
-          Duration(days: 7),
-        ),
-      );
-    }).toList();
-  }
-
-  void _addNewTask(String txTitle, String TxKid, String TxCategory,
-      double txAmount, DateTime chosenDate) {
-    final newTx = Task(
-      title: txTitle,
-      kid: TxKid,
-      category: TxCategory,
-      amount: txAmount,
-      date: chosenDate,
-      id: DateTime.now().toString(),
-    );
-
-    setState(() {
-      _userTasks.add(newTx);
-    });
-    Future addTask() async {
-      await FirebaseFirestore.instance.collection('tasks').add({
-        'title': txTitle,
-        'kid': TxKid,
-        'category': TxCategory,
-        'amount': txAmount,
-        'date': chosenDate,
-        'id': DateTime.now().toString(),
-      });
-    }
-  }
-
-  void _deleteTask(String id) {
-    setState(() {
-      _userTasks.removeWhere((tx) => tx.id == id);
-    });
+  void initState() {
+    // TODO: implement initState
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    getTask(taskNotifier);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
@@ -74,76 +39,72 @@ class _MainTaskState extends State<MainTask> {
           style: TextStyle(fontSize: 40),
         ),
       ),
-      body: SingleChildScrollView( 
-        child: Container( 
-          height: MediaQuery.of(context).size.height, 
-          width: MediaQuery.of (context) .size.width, 
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20), 
-          child: Column( 
-            children: [ adultTaskCard(
-// title: "Wake up ", 
-// check: true, 
-// iconBColor: Colors.white, 
-// iconcolor: Colors.red, 
-// iconData: Icons.alarm, 
+      // body: SingleChildScrollView(
+      //   child: Container(
+      //     height: MediaQuery.of(context).size.height,
+      //     width: MediaQuery.of (context) .size.width,
+      //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      //     child: Column(
+      //       children: [ adultTaskCard(
+// title: "Wake up ",
+// check: true,
+// iconBColor: Colors.white,
+// iconcolor: Colors.red,
+// iconData: Icons.alarm,
 // time: "10 AM",
- ), // Todocard 
-SizedBox ( height: 10, ), ]// sizedBox
-),),),
-// Column
-// Container
-// singlechildscrollview
-      
-      
-      // Container(
-      
-        
-      //   child: ListView.builder(
-      //     itemBuilder: (ctx, index) {
-      //       return Card(
-      //         elevation: 5,
-      //         margin: EdgeInsets.symmetric(
-      //           vertical: 8,
-      //           horizontal: 5,
-      //         ),
-      //         child:
-      //      new Directionality(
-      //       textDirection: TextDirection.rtl, 
-      //          child: new  ListTile(
-      //           leading: CircleAvatar(
-      //             backgroundColor: Color(0xffff6d6e),
-      //             foregroundColor: Colors.white,
-      //             radius: 30,
-      //             child: Padding(
-      //                 padding: EdgeInsets.all(6),
-      //                 child: Container(
-      //                   height: 33,
-      //                   width: 36,
-                    
-      //                   child: Icon(Icons.wash),
-      //                 )),
-      //           ),
-      //           title: Text(
-      //             "اسم النشاط",
-      //             style: TextStyle(
-      //               fontWeight: FontWeight.bold,
-      //               fontSize: 22,
-      //             ),
-      //           ),
-      //           subtitle: Text(
-      //             ' ريما  -   60',
-      //           ),
-      //           trailing: IconButton(
-      //             icon: Icon(Icons.delete),
-      //             color: Theme.of(context).errorColor,
-      //             onPressed: () => {},
-      //           ),
-      //         ),)
-      //       );
-      //     },
-      //     itemCount: 1,
-      //   ),
-      // ),
+//  ), // Todocard
+// SizedBox ( height: 10, ), ]// sizedBox
+// ),),),
+// // Column
+// // Container
+// // singlechildscrollview
+
+      body: Container(
+        child: ListView.builder(
+          itemBuilder: (ctx, index) {
+            return Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 5,
+                ),
+                child: new Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: new ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Color(0xffff6d6e),
+                      foregroundColor: Colors.white,
+                      radius: 30,
+                      child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: Container(
+                            height: 33,
+                            width: 36,
+                            child: Icon(Icons.wash),
+                          )),
+                    ),
+                    title: Text(
+                      taskNotifier.taskList[index].taskName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                    subtitle: Text(
+                      ' اسم الطفل:  ${taskNotifier.taskList[index].asignedKid}                                                                                   النقاط : ${taskNotifier.taskList[index].points}',
+                    ),
+isThreeLine: true,
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => {},
+                    ),
+                  ),
+                ));
+          },
+          itemCount: taskNotifier.taskList.length,
+        ),
+      ),
 
       // SingleChildScrollView(
       //   child: Column(
@@ -156,8 +117,9 @@ SizedBox ( height: 10, ), ]// sizedBox
       // ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: Colors.black,
         child: Icon(
           Icons.add,
           size: 30,

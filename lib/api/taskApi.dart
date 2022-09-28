@@ -1,0 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earnily/models/task.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:earnily/notifier/taskNotifier.dart';
+
+getTask(TaskNotifier taskNotifier) async {
+  QuerySnapshot snapshot =
+      await FirebaseFirestore.instance.collection('Task').get();
+
+  List<Task> _taskList = [];
+
+  snapshot.docs.forEach((document) {
+    Task task = Task.fromMap(document.data() as Map<String, dynamic>);
+    _taskList.add(task);
+  });
+
+  taskNotifier.taskList = _taskList;
+}

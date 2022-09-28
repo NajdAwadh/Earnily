@@ -1,12 +1,14 @@
+// ignore_for_file: camel_case_types, library_private_types_in_public_api
+
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
-//import 'kidsjoinviaQRcode_screen_1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -50,29 +52,49 @@ class _Add_taskState extends State<Add_task> {
           );
         });
   }
+void showToastMessage(String message) {
+  //raghad
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, 
+        
+        //message text color
 
+        fontSize: 16.0 //message font size
+        );
+  }
   void _validate() {
     if (_nameController.text.isEmpty ||
         childName == null ||
-        _selectedDate == null) {
+        _selectedDate == null ||
+        points == null ||
+        categoty == null) {
       _showDialog();
     } else {
-      addKidDetails();
+      
+      addTask();
+
+      showToastMessage("تمت إضافة نشاط بنجاح");
+
     }
-    Notifications.showNotification(
+    /*Notifications.showNotification(
       title: "sarah",
       body: 'hey',
       payload: 'earnily',
-    ); // push
+    );*/ // push
   }
 
-  Future addKidDetails() async {
-    DateFormat.yMd().format(_selectedDate);
-    //to do
-    await FirebaseFirestore.instance.collection('kids').add({
-      'name': _nameController.text,
-      'gender': childName,
-      'date': _selectedDate,
+  Future addTask() async {
+    await FirebaseFirestore.instance.collection('Task').add({
+      'taskName': _nameController.text,
+      'points': points,
+      'date': DateFormat.yMd().format(_selectedDate),
+      'category': categoty,
+      'asignedKid': childName,
     });
   }
 
@@ -175,12 +197,6 @@ class _Add_taskState extends State<Add_task> {
                         child: DropdownButton<String>(
                             isExpanded: true,
                             alignment: Alignment.centerRight,
-                            hint: const Text(
-                              " اسم الطفل",
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.right,
-                            ),
-                            value: childName,
                             items: list.map((valueItem) {
                               return DropdownMenuItem(
                                 alignment: Alignment.centerRight,
@@ -191,7 +207,6 @@ class _Add_taskState extends State<Add_task> {
                             onChanged: (newVal) {
                               setState(() {
                                 childName = newVal!;
-                                print(childName);
                               });
                             })),
                     SizedBox(
@@ -330,18 +345,7 @@ class _Add_taskState extends State<Add_task> {
                                   ),
                                 ),
                               ),
-                              onPressed: () async {
-                                await FirebaseFirestore.instance
-                                    .collection('Tasks')
-                                    .add({
-                                  'taskName': _nameController.text,
-                                  'points': points,
-                                  'date':
-                                      DateFormat.yMd().format(_selectedDate),
-                                  'category': categoty,
-                                  'asignedKid': 'reema',
-                                });
-                              },
+                              onPressed: _validate,
                               child: const Text('إضافة ',
                                   overflow: TextOverflow.visible,
                                   style: TextStyle(

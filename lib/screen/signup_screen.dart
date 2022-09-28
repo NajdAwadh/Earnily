@@ -84,10 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: <Widget>[
                     Container(),
-                    imgWidget(
-                        "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
-                        150,
-                        250),
+                    imgWidget("assets/images/EarnilyLogo.png", 150, 250),
                     Text(
                       'إنشاء عائلة',
                       style: TextStyle(
