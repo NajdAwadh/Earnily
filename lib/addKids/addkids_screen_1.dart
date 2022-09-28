@@ -130,11 +130,16 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         child: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.1, 20, 0),
+                    20, MediaQuery.of(context).size.height * 0.01, 20, 0),
                 child: Column(
                   children: <Widget>[
                     Container(),
                     SizedBox(height: 30),
+                    Icon(
+                      Icons.child_care,
+                      color: Colors.purple.shade100,
+                      size: 100,
+                    ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(

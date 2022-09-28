@@ -53,10 +53,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: imgWidget(
-              "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
-              50,
-              250),
+          child: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
         ),
         /* actions: [
           IconButton(
@@ -84,11 +81,13 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     //  imgWidget("assets/images/mylogo.png", 200, 100),
 
-                    imgWidget(
-                        "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
-                        100,
-                        250),
-
+                    imgWidget("assets/images/EarnilyLogo.png", 100, 250),
+                    Text(
+                      '________________________________',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     ListTile(
                       title: Text(
                         textAlign: TextAlign.right,
@@ -132,7 +131,12 @@ class _HomePageState extends State<HomePage> {
                         //do
                       },
                     ),
-
+                    Text(
+                      '________________________________',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     ListTile(
                       title: Text(
                         textAlign: TextAlign.right,
@@ -152,8 +156,21 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
 
-                    /*  MaterialButton(
-                      onPressed: () async {
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'تسجيل الخروج',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_circle_left_outlined,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () async {
                         await FirebaseAuth.instance.signOut();
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -162,11 +179,25 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                         );
+                        //do
                       },
-                      color: Colors.white,
-                      child:
-                          Text(' تسجيل خروج', style: TextStyle(fontSize: 19)),
-                    ),*/
+                    ),
+
+                    /* child: MaterialButton(
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const SignInScreen();
+                              },
+                            ),
+                          );
+                        },
+                        color: Colors.white,
+                        child:
+                            Text(' تسجيل خروج', style: TextStyle(fontSize: 19)),
+                      ),*/
                   ]),
             ),
           ]),
