@@ -1,3 +1,4 @@
+import 'package:earnily/onbording.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/main_page.dart';
 import 'package:earnily/screen/QRreader.dart';
@@ -39,11 +40,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainPage(),
+      //  home: MainPage(),
+      home: onbording(),
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
-      // home: HomePageKid(),
+      //home: HomePageKid(),
     );
   }
 }
