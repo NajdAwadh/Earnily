@@ -44,6 +44,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(
+          Icons.qr_code_scanner_sharp,
+          size: 30,
+        ),
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Padding(
@@ -53,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               50,
               250),
         ),
-        actions: [
+        /* actions: [
           IconButton(
             onPressed: () {
 // do something  Navigator.of(context).push(
@@ -65,11 +70,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            icon: Icon(Icons.share),
-          )
-        ],
+            icon: Icon(Icons.menu),
+          ),
+        ],*/
       ),
-      drawer: Drawer(
+      endDrawer: Drawer(
         child: Container(
           color: Colors.black,
           child: ListView(children: [
@@ -78,20 +83,90 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //  imgWidget("assets/images/mylogo.png", 200, 100),
-                    Text('صفحتي الشخصية',
-                        style: TextStyle(fontSize: 30, color: Colors.white)),
-                    Text('_________________________________',
-                        style: TextStyle(color: Colors.white)),
-                    Text(user.email! + ' :الايميل',
-                        style: TextStyle(fontSize: 15, color: Colors.white)),
-                    MaterialButton(
+
+                    imgWidget(
+                        "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
+                        100,
+                        250),
+
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'الصفحة الرئيسية',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.home_filled,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const HomePage();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'ملفي الشخصي',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.account_circle,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        //do
+                      },
+                    ),
+
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'الاعدادات والخصوصية',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.settings_suggest_sharp,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        //do
+                      },
+                    ),
+
+                    /*  MaterialButton(
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const SignInScreen();
+                            },
+                          ),
+                        );
                       },
                       color: Colors.white,
                       child:
                           Text(' تسجيل خروج', style: TextStyle(fontSize: 19)),
-                    ),
+                    ),*/
                   ]),
             ),
           ]),

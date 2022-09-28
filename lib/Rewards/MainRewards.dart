@@ -14,6 +14,7 @@ class _MainRewardsState extends State<MainRewards> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Padding(
