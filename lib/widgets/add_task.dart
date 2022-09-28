@@ -23,7 +23,9 @@ class _Add_taskState extends State<Add_task> {
   final _formKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
   final _nameController = TextEditingController();
-  String? childName;
+  String categoty = "";
+  String childName = "";
+  String points = '';
 
   void _showDialog() {
     showDialog(
@@ -128,6 +130,7 @@ class _Add_taskState extends State<Add_task> {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(15)),
                       child: TextFormField(
+                        controller: _nameController,
                         textAlign: TextAlign.right,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -188,6 +191,7 @@ class _Add_taskState extends State<Add_task> {
                             onChanged: (newVal) {
                               setState(() {
                                 childName = newVal!;
+                                print(childName);
                               });
                             })),
                     SizedBox(
@@ -210,19 +214,19 @@ class _Add_taskState extends State<Add_task> {
                         alignment: WrapAlignment.center,
                         runSpacing: 10,
                         children: [
-                          chipData("100", 0xffff6d6e),
+                          pointsSelect("100", 0xffff6d6e),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('75', 0xfff29732),
+                          pointsSelect('75', 0xfff29732),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('50', 0xff6557ff),
+                          pointsSelect('50', 0xff6557ff),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('25', 0xff2bc8d9),
+                          pointsSelect('25', 0xff2bc8d9),
                         ]),
                     SizedBox(
                       height: 10,
@@ -285,23 +289,23 @@ class _Add_taskState extends State<Add_task> {
                         alignment: WrapAlignment.center,
                         runSpacing: 10,
                         children: [
-                          chipData("النظافة", 0xffff6d6e),
+                          categorySelect("النظافة", 0xffff6d6e),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('الأكل', 0xfff29732),
+                          categorySelect('الأكل', 0xfff29732),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('الدراسة', 0xff6557ff),
+                          categorySelect('الدراسة', 0xff6557ff),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('الدين', 0xff234ebd),
+                          categorySelect('الدين', 0xff234ebd),
                           SizedBox(
                             width: 20,
                           ),
-                          chipData('تطوير الشخصية', 0xff2bc8d9),
+                          categorySelect('تطوير الشخصية', 0xff2bc8d9),
                         ]),
                     SizedBox(
                       height: 30,
@@ -326,7 +330,18 @@ class _Add_taskState extends State<Add_task> {
                                   ),
                                 ),
                               ),
-                              onPressed: _validate,
+                              onPressed: () async {
+                                await FirebaseFirestore.instance
+                                    .collection('Tasks')
+                                    .add({
+                                  'taskName': _nameController.text,
+                                  'points': points,
+                                  'date':
+                                      DateFormat.yMd().format(_selectedDate),
+                                  'category': categoty,
+                                  'asignedKid': 'reema',
+                                });
+                              },
                               child: const Text('إضافة ',
                                   overflow: TextOverflow.visible,
                                   style: TextStyle(
@@ -340,27 +355,64 @@ class _Add_taskState extends State<Add_task> {
       ),
     );
   }
-}
 
-Widget chipData(String label, int color) {
-  return Chip(
-    backgroundColor: Color(color),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(
-        10,
+  Widget categorySelect(String label, int color) {
+    return InkWell(
+      onTap: (() {
+        setState(() {
+          categoty = label;
+        });
+      }),
+      child: Chip(
+        backgroundColor: categoty == label ? Colors.white : Color(color),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: categoty == label ? Colors.black : Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        labelPadding: EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 3.5,
+        ),
       ),
-    ),
-    label: Text(
-      label,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 15,
-        fontWeight: FontWeight.w600,
+    );
+  }
+
+  Widget pointsSelect(String label, int color) {
+    return InkWell(
+      onTap: (() {
+        setState(() {
+          points = label;
+        });
+      }),
+      child: Chip(
+        backgroundColor: points == label ? Colors.white : Color(color),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: points == label ? Colors.black : Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        labelPadding: EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 3.5,
+        ),
       ),
-    ),
-    labelPadding: EdgeInsets.symmetric(
-      horizontal: 17,
-      vertical: 3.5,
-    ),
-  );
+    );
+  }
 }
