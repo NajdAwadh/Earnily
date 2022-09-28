@@ -72,6 +72,7 @@ class _KidsjoinviaQRcode_screen_1State
                     width: 85,
                     height: 85,
                     //child: Image.asset("assets/profile_ImageView_17-85x85.png"),
+                    child: Image.asset("assets/images/EarnilyLogo.png"),
                   ),
                 ),
 //-- End profile_ImageView_17 --//

@@ -1,13 +1,18 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'package:earnily/models/kids.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
+import '../api/kidsApi.dart';
 import '../notifications/notification_api.dart';
+import '../notifier/kidsNotifier.dart';
 import 'kidsjoinviaQRcode_screen_1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,13 +26,26 @@ class AddKids_screen_1 extends StatefulWidget {
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
+  final kidsDb = FirebaseFirestore.instance.collection('kids');
+  final user = FirebaseAuth.instance.currentUser!;
+  //List<Kids>? names;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
+    super.initState();
+  }
+
   final List<String> items = <String>["طفل", "طفلة"];
   String? value;
   DateTime? date;
 
   final _nameController = TextEditingController();
 
-  void _showDialog() {
+  void _showDialog(String text) {
     showDialog(
         context: context,
         builder: (context) {
@@ -38,7 +56,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
               style: TextStyle(color: Colors.red),
             ),
             content: Text(
-              "ادخل البيانات المطلوبة",
+              text,
               textAlign: TextAlign.right,
             ),
             actions: <Widget>[
@@ -65,10 +83,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
-      _showDialog();
+      _showDialog("ادخل البيانات المطلوبة");
+      //myLoop(names);
     } else {
       addKidDetails();
-
       showToastMessage("تمت إضافة الطفل بنجاح");
 
       Notifications.showNotification(
@@ -78,7 +96,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       );
 
       /*
-
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -86,11 +103,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           },
         ),
       );*/
-    } // push
+    } // push,
   }
 
   Future addKidDetails() async {
-    await FirebaseFirestore.instance.collection('kids').add({
+    await kidsDb.add({
       'name': _nameController.text,
       'gender': value,
       'date': date,
@@ -111,16 +128,37 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         });
       });
 
+  void myLoop(List<Kids> list) {
+    for (var i = 0; i < list.length; i++) {
+      print(list[i].name);
+      print(_nameController.toString());
+      if (_nameController.toString() == list[i].name) {
+        _showDialog("ممنوع إدخال معلومات مكررة");
+      }
+      //showToastMessage(list[i].name);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
+    List<Kids> names = kidsNotifier.kidsList;
+    myLoop(names);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Text(
-          "إضافة طفل",
-          style: TextStyle(fontSize: 40),
-          textAlign: TextAlign.center,
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: new Directionality(
+            textDirection: ui.TextDirection.rtl,
+            child: Text(
+              "إضافة طفل",
+              //textDirection: TextDirection.rtl,
+              style: TextStyle(fontSize: 40),
+            ),
+          ),
         ),
         actions: [],
       ),
@@ -152,6 +190,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     ),
                     reuasbleTextField(
                         "الاسم ", Icons.person, false, _nameController),
+                    //myLoop(names),
                     SizedBox(
                       height: 20,
                     ),
