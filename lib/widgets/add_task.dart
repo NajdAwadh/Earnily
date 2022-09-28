@@ -1,12 +1,14 @@
+// ignore_for_file: camel_case_types, library_private_types_in_public_api
+
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
-//import 'kidsjoinviaQRcode_screen_1.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -50,7 +52,21 @@ class _Add_taskState extends State<Add_task> {
           );
         });
   }
+void showToastMessage(String message) {
+  //raghad
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, 
+        
+        //message text color
 
+        fontSize: 16.0 //message font size
+        );
+  }
   void _validate() {
     if (_nameController.text.isEmpty ||
         childName == null ||
@@ -59,7 +75,11 @@ class _Add_taskState extends State<Add_task> {
         categoty == null) {
       _showDialog();
     } else {
+      
       addTask();
+
+      showToastMessage("تمت إضافة نشاط بنجاح");
+
     }
     /*Notifications.showNotification(
       title: "sarah",
@@ -69,7 +89,7 @@ class _Add_taskState extends State<Add_task> {
   }
 
   Future addTask() async {
-    await FirebaseFirestore.instance.collection('Tasks').add({
+    await FirebaseFirestore.instance.collection('Task').add({
       'taskName': _nameController.text,
       'points': points,
       'date': DateFormat.yMd().format(_selectedDate),

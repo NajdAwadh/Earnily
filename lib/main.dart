@@ -1,3 +1,4 @@
+import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/onbording.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/main_page.dart';
@@ -5,7 +6,7 @@ import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/MainTask.dart';
 import 'package:earnily/widgets/add_task.dart';
-import 'package:earnily/widgets/task_list.dart';
+
 //import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -15,6 +16,7 @@ import 'firebase_options.dart';
 
 import 'package:provider/provider.dart';
 import 'notifier/kidsNotifier.dart';
+import 'notifier/taskNotifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +28,15 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (BuildContext context) {
-        return KidsNotifier();
+        return TaskNotifier();
       },
     ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) {
+         return KidsNotifier();
+      },
+    )
+
   ], child: MyApp()));
 }
 
@@ -41,7 +49,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
       //  home: MainPage(),
-      home: onbording(),
+      home: MainTask(),
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
