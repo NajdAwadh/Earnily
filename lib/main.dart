@@ -47,12 +47,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainPage(),
+      //home: MainPage(),
       // home: MainTask(),
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
       // home: HomePageKid(),
+      home: MainTask(),
     );
   }
 }
