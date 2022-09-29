@@ -60,7 +60,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     20, MediaQuery.of(context).size.height * 0.01, 20, 0),
                 child: Column(
                   children: <Widget>[
-<<<<<<< Updated upstream
                     //     imgWidget("assets/images/mlogo.png", 200, 400),
                     imgWidget("assets/images/EarnilyLogo.png", 150, 250),
                     //SizedBox(height: 30),
@@ -71,12 +70,6 @@ class _SignInScreenState extends State<SignInScreen> {
                           fontSize: 40,
                           fontWeight: FontWeight.bold),
                     ),
-=======
-                    imgWidget("assets/images/EarnilyLogo.png", 150, 250),
-
-                    NewText(text: 'إنشاء عائلة' , size: 40, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-
->>>>>>> Stashed changes
                     SizedBox(height: 30),
                     
                     NewText(text: 'البريد الإلكتروني' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),

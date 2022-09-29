@@ -99,7 +99,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     20, MediaQuery.of(context).size.height * 0.01, 20, 0),
                 child: Column(
                   children: <Widget>[
-<<<<<<< Updated upstream
                     Container(),
                     imgWidget("assets/images/EarnilyLogo.png", 150, 250),
                     Text(
@@ -109,13 +108,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontSize: 40,
                           fontWeight: FontWeight.bold),
                     ),
-=======
-
-
-                    imgWidget("assets/images/EarnilyLogo.png", 150, 250),
-                    NewText(text: 'إنشاء عائلة' , size: 40, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-
->>>>>>> Stashed changes
                     SizedBox(height: 30),
 
                     NewText(text: 'الاسم الكامل' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),

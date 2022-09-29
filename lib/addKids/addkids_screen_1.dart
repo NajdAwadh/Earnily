@@ -168,14 +168,14 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         child: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.01, 20, 0),
+                    20, MediaQuery.of(context).size.height * 0.02, 20, 0),
                 child: Column(
                   children: <Widget>[
                     Container(),
                     SizedBox(height: 30),
                     Icon(
-                      Icons.child_care,
-                      color: Colors.purple.shade100,
+                      Icons.family_restroom,
+                      color: Colors.black,
                       size: 100,
                     ),
                     Align(
@@ -204,12 +204,78 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
+
                     Positioned(
                         right: 107,
                         top: 300,
                         width: 254,
                         height: 66,
                         child: Container(
+                          alignment: Alignment.topRight,
+                              child: new Directionality(
+                                  textDirection: ui.TextDirection.rtl,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
+                                      ),
+                                      Row(
+                                        //female
+                                        children: [
+                                          Radio(
+                                              value: items[1],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[1],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Icon(Icons.child_care,
+                                              color: Colors.pink),
+                                        ],
+                                      ),
+                                      Row(
+                                        //male
+                                        children: [
+                                          Radio(
+                                              value: items[0],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[0],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Icon(Icons.child_care,
+                                              color: Colors.blue),
+                                        ],
+                                      )
+                                    ],
+                                  ))
+                        )
+                        
+                        
+                        
+                        /*Container(
                             alignment: Alignment.topRight,
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
@@ -250,7 +316,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                   setState(() {
                                     value = newVal!;
                                   });
-                                }))),
+                                }
+                                ),
+                                ),*/
+                                ),
                     SizedBox(
                       height: 20,
                     ),
@@ -267,7 +336,42 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     Positioned(
                         right: 107,
                         top: 425,
-                        child: SizedBox(
+                        child: new Directionality(
+                          textDirection: ui.TextDirection.rtl,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  onPressed: _showDatePicker,
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.black),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.white)),
+                                  icon: Icon(
+                                    Icons.calendar_today,
+                                    size: 30,
+                                  )),
+                              Text(
+                                date == null
+                                    ? 'اختر تاريخ الميلاد'
+                                    : '${DateFormat.yMd().format(date!)}',
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey,
+                                ),
+                                textDirection: ui.TextDirection.rtl,
+                              ),
+                            ],
+                          ),
+                        ),
+                        
+                        
+                        /*SizedBox(
                           width: 350,
                           height: 66,
                           child: ElevatedButton(
@@ -296,7 +400,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 ),
                                 textDirection: ui.TextDirection.rtl,
                               )),
-                        )),
+                        )*/
+                        ),
                     SizedBox(
                       height: 60,
                     ),
