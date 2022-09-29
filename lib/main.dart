@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
-      //home: HomePageKid(),
+      // home: HomePageKid(),
     );
   }
 }

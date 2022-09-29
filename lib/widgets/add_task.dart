@@ -10,12 +10,15 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+<<<<<<< Updated upstream
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../api/kidsApi.dart';
 import '../notifier/kidsNotifier.dart';
 
+=======
+>>>>>>> Stashed changes
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
 
