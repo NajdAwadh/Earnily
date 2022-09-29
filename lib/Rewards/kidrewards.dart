@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class kidWish extends StatefulWidget {
-  const kidWish({super.key});
+class kidreward extends StatefulWidget {
+  const kidreward({super.key});
 
   @override
-  State<kidWish> createState() => _kidWishState();
+  State<kidreward> createState() => _kidrewardState();
 }
 
-class _kidWishState extends State<kidWish> {
+class _kidrewardState extends State<kidreward> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +20,13 @@ class _kidWishState extends State<kidWish> {
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Text(
-            "قائمة الامنيات",
+            "المكافأت",
             style: TextStyle(fontSize: 40),
           ),
         ),
       ),
       body: Center(
-        child: Text('لاتوجد امنيات مضافة'),
+        child: Text('لاتوجد مكافأت مضافة'),
       ),
     );
   }
