@@ -72,118 +72,122 @@ class _HomePageState extends State<HomePage> {
         ],*/
       ),
       endDrawer: Drawer(
-        child: Container(
-          color: Colors.black,
-          child: ListView(children: [
-            DrawerHeader(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //  imgWidget("assets/images/mylogo.png", 200, 100),
+        backgroundColor: Colors.black,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                20, MediaQuery.of(context).size.height * 0.05, 20, 0),
+            child: Column(
 
-                    imgWidget("assets/images/EarnilyLogo.png", 100, 250),
-                    Text(
-                      '________________________________',
+                //   DrawerHeader(
+
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //  imgWidget("assets/images/mylogo.png", 200, 100),
+
+                  imgWidget("assets/images/EarnilyLogo.png", 100, 250),
+                  Text(
+                    '________________________________',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      textAlign: TextAlign.right,
+                      'الصفحة الرئيسية',
                       style: TextStyle(
                         color: Colors.white,
+                        fontSize: 23,
                       ),
                     ),
-                    ListTile(
-                      title: Text(
-                        textAlign: TextAlign.right,
-                        'الصفحة الرئيسية',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
+                    trailing: Icon(
+                      Icons.home_filled,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const HomePage();
+                          },
                         ),
-                      ),
-                      trailing: Icon(
-                        Icons.home_filled,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const HomePage();
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                      );
+                    },
+                  ),
 
-                    ListTile(
-                      title: Text(
-                        textAlign: TextAlign.right,
-                        'ملفي الشخصي',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.account_circle,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      onTap: () {
-                        //do
-                      },
-                    ),
-                    Text(
-                      '________________________________',
+                  ListTile(
+                    title: Text(
+                      textAlign: TextAlign.right,
+                      'ملفي الشخصي',
                       style: TextStyle(
                         color: Colors.white,
+                        fontSize: 23,
                       ),
                     ),
-                    ListTile(
-                      title: Text(
-                        textAlign: TextAlign.right,
-                        'الاعدادات والخصوصية',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.settings_suggest_sharp,
+                    trailing: Icon(
+                      Icons.account_circle,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      //do
+                    },
+                  ),
+                  Text(
+                    '________________________________',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      textAlign: TextAlign.right,
+                      'الاعدادات والخصوصية',
+                      style: TextStyle(
                         color: Colors.white,
-                        size: 30,
+                        fontSize: 23,
                       ),
-                      onTap: () {
-                        //do
-                      },
                     ),
+                    trailing: Icon(
+                      Icons.settings_suggest_sharp,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      //do
+                    },
+                  ),
 
-                    ListTile(
-                      title: Text(
-                        textAlign: TextAlign.right,
-                        'تسجيل الخروج',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_circle_left_outlined,
+                  ListTile(
+                    title: Text(
+                      textAlign: TextAlign.right,
+                      'تسجيل الخروج',
+                      style: TextStyle(
                         color: Colors.white,
-                        size: 30,
+                        fontSize: 23,
                       ),
-                      onTap: () async {
-                        await FirebaseAuth.instance.signOut();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const SignInScreen();
-                            },
-                          ),
-                        );
-                        //do
-                      },
                     ),
+                    trailing: Icon(
+                      Icons.arrow_circle_left_outlined,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const SignInScreen();
+                          },
+                        ),
+                      );
+                      //do
+                    },
+                  ),
 
-                    /* child: MaterialButton(
+                  /* child: MaterialButton(
                         onPressed: () async {
                           await FirebaseAuth.instance.signOut();
                           Navigator.of(context).push(
@@ -198,9 +202,8 @@ class _HomePageState extends State<HomePage> {
                         child:
                             Text(' تسجيل خروج', style: TextStyle(fontSize: 19)),
                       ),*/
-                  ]),
-            ),
-          ]),
+                ]),
+          ),
         ),
       ),
       backgroundColor: Colors.white,

@@ -28,17 +28,6 @@ class _kidTasksState extends State<kidTasks> {
       body: Center(
         child: Text('لاتوجد أنشطة مضافة'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          //do something
-        },
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
-      ),
     );
   }
 }
