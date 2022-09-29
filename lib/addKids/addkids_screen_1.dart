@@ -87,20 +87,20 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
-    }
-    if (myLoop(names)) {
-      _showDialog("ممنوع إدخال معلومات مكررة");
     } else {
-      addKidDetails();
-      showToastMessage("تمت إضافة الطفل بنجاح");
+      if (myLoop(names)) {
+        _showDialog("ممنوع إدخال معلومات مكررة");
+      } else {
+        addKidDetails();
+        showToastMessage("تمت إضافة الطفل بنجاح");
 
-      Notifications.showNotification(
-        title: "sarah",
-        body: 'hey',
-        payload: 'earnily',
-      );
+        Notifications.showNotification(
+          title: "sarah",
+          body: 'hey',
+          payload: 'earnily',
+        );
 
-      /*
+        /*
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -108,7 +108,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           },
         ),
       );*/
-    } // push,
+      } // push,
+    }
   }
 
   Future addKidDetails() async {
@@ -135,10 +136,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   bool myLoop(List<String> list) {
     for (var i = 0; i < list.length; i++) {
-      showToastMessage(list[i]);
-      showToastMessage(_nameController.text);
-      print(list[i]);
-      print(_nameController.toString());
       if (_nameController.text == list[i]) {
         return true;
       }
@@ -150,18 +147,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
-    //myLoop(names);
-/*
-    var seen = Set<String>();
-    List<Kids> uniquelist =
-        names.where((names) => seen.add(names.name.toString())).toList();
-    print(uniquelist);
-    showToastMessage(uniquelist.toString());
 
-    final kidsNames = kidsDb.where("name");
-    print(kidsNames.toString());
-    myLoop(kidsNames);
-*/
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -190,11 +176,15 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                   children: <Widget>[
                     Container(),
                     SizedBox(height: 30),
+                    //Image.asset("assets/images/ChildrenFreepik.png"),
+                    imgWidget("assets/images/ChildrenFreepik.png", 100, 100),
+                    /*
                     Icon(
                       Icons.family_restroom,
                       color: Colors.black,
                       size: 100,
                     ),
+                    */
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -207,7 +197,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     ),
                     reuasbleTextField(
                         "الاسم ", Icons.person, false, _nameController),
-                    //myLoop(names),
                     SizedBox(
                       height: 20,
                     ),
@@ -234,7 +223,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 child: Row(
                                   children: [
                                     SizedBox(
-                                      width: 100,
+                                      width: 50,
                                     ),
                                     Row(
                                       //female
@@ -257,6 +246,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         SizedBox(
                                           width: 5,
                                         ),
+                                        //Image.asset("assets/images/girl.png"),
+                                        //imgWidget("assets/images/girl.png", 5, 5),
+
                                         Icon(Icons.child_care,
                                             color: Colors.pink),
                                       ],

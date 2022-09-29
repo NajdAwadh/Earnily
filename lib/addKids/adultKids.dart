@@ -12,9 +12,6 @@ import '../models/kids.dart';
 import '../widgets/MainTask.dart';
 import 'addkids_screen_1.dart';
 
-
-
-
 class AdultKids extends StatefulWidget {
   const AdultKids({super.key});
 
@@ -62,7 +59,7 @@ class _AdultKidsState extends State<AdultKids> {
       body: kidsNotifier.kidsList.isEmpty
           ? Center(
               child: Text(
-                "لا يوجد لديك أطفال \n قم بالإصافة الآن",
+                "لا يوجد لديك أطفال \n قم بالإضافة الآن",
                 style: TextStyle(fontSize: 30, color: Colors.grey),
               ),
             )
@@ -144,73 +141,73 @@ class _AdultKidsState extends State<AdultKids> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8),
               ),
-          ),
-          // Container(
-          //     // ghada
+            ),
+      // Container(
+      //     // ghada
 
-          //     child: GridView.builder(
-          //       itemBuilder: (ctx, index) {
-          //         return Card(
-          //             elevation: 5,
-          //             margin: EdgeInsets.symmetric(
-          //               vertical: 8,
-          //               horizontal: 5,
-          //             ),
-          //             child: new Directionality(
-          //               textDirection: TextDirection.rtl,
-          //               child: new ListTile(
-          //                 leading: CircleAvatar(
-          //                   backgroundColor: Color(0xffff6d6e),
-          //                   foregroundColor: Colors.white,
-          //                   radius: 30,
-          //                   child: Padding(
-          //                       padding: EdgeInsets.all(6),
-          //                       child: Container(
-          //                         height: 33,
-          //                         width: 36,
-          //                         child: Icon(Icons.child_care),
-          //                       )),
-          //                 ),
-          //                 title: Text(
-          //                   kidsNotifier.kidsList[index].name,
-          //                   style: TextStyle(
-          //                     fontWeight: FontWeight.bold,
-          //                     fontSize: 22,
-          //                   ),
-          //                 ),
-          //                 subtitle: Text(
-          //                   kidsNotifier.kidsList[index].gender,
-          //                 ),
-          //                 trailing: IconButton(
-          //                   icon: Icon(Icons.delete),
-          //                   color: Theme.of(context).errorColor,
-          //                   onPressed: () => {},
-          //                 ),
-          //               ),
-          //             ));
-          //       },
-          //       itemCount: kidsNotifier.kidsList.length,
-          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //           crossAxisCount: 2),
-          //     ),
+      //     child: GridView.builder(
+      //       itemBuilder: (ctx, index) {
+      //         return Card(
+      //             elevation: 5,
+      //             margin: EdgeInsets.symmetric(
+      //               vertical: 8,
+      //               horizontal: 5,
+      //             ),
+      //             child: new Directionality(
+      //               textDirection: TextDirection.rtl,
+      //               child: new ListTile(
+      //                 leading: CircleAvatar(
+      //                   backgroundColor: Color(0xffff6d6e),
+      //                   foregroundColor: Colors.white,
+      //                   radius: 30,
+      //                   child: Padding(
+      //                       padding: EdgeInsets.all(6),
+      //                       child: Container(
+      //                         height: 33,
+      //                         width: 36,
+      //                         child: Icon(Icons.child_care),
+      //                       )),
+      //                 ),
+      //                 title: Text(
+      //                   kidsNotifier.kidsList[index].name,
+      //                   style: TextStyle(
+      //                     fontWeight: FontWeight.bold,
+      //                     fontSize: 22,
+      //                   ),
+      //                 ),
+      //                 subtitle: Text(
+      //                   kidsNotifier.kidsList[index].gender,
+      //                 ),
+      //                 trailing: IconButton(
+      //                   icon: Icon(Icons.delete),
+      //                   color: Theme.of(context).errorColor,
+      //                   onPressed: () => {},
+      //                 ),
+      //               ),
+      //             ));
+      //       },
+      //       itemCount: kidsNotifier.kidsList.length,
+      //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //           crossAxisCount: 2),
+      //     ),
 
-          //     /*
-          //   child: 
-          //   ListView.separated(
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return ListTile(
-          //         leading: Text("test"),
-          //         title: Text("test"),
-          //         //subtitle: Text(kidsNotifier.kidsList[index].gender),
-          //       );
-          //     },
-          //     itemCount: 1, //kidsNotifier.kidsList.length,
-          //     separatorBuilder: (BuildContext context, int index) {
-          //       return Divider(color: Colors.black);
-          //     },
-          //   ),*/
-          //   ), 
-          
+      //     /*
+      //   child:
+      //   ListView.separated(
+      //     itemBuilder: (BuildContext context, int index) {
+      //       return ListTile(
+      //         leading: Text("test"),
+      //         title: Text("test"),
+      //         //subtitle: Text(kidsNotifier.kidsList[index].gender),
+      //       );
+      //     },
+      //     itemCount: 1, //kidsNotifier.kidsList.length,
+      //     separatorBuilder: (BuildContext context, int index) {
+      //       return Divider(color: Colors.black);
+      //     },
+      //   ),*/
+      //   ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
