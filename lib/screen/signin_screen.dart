@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/screen/QRreader.dart';
-import 'package:earnily/screen/home_screen.dart';
 import 'package:earnily/screen/signup_screen.dart';
+import 'package:earnily/widgets/new_button.dart';
+import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../reuasblewidgets.dart';
@@ -70,35 +71,17 @@ class _SignInScreenState extends State<SignInScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 30),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "البريد الإلكتروني",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    reuasbleTextField("example@email.com", Icons.email, false,
-                        _emailController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " كلمة المرور",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    reuasbleTextField(
-                        "********", Icons.lock, true, _passController),
-                    forgotPassBtn(),
-                    signInBtn(context, "تسجيل دخول", () async {
+                    
+                    NewText(text: 'البريد الإلكتروني' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
+                    reuasbleTextField("example@email.com", Icons.email, false, _emailController),
+                    SizedBox(height: 20),
+
+                    NewText(text: ' كلمة المرور' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
+                    reuasbleTextField('أدخل كلمة المرور', Icons.lock, true, _passController),
+                    SizedBox(height: 10,),
+                    NewText(text: 'هل نسيت كلمة المرور؟',color: Colors.blue, size: 18, fontWeight: FontWeight.w500, onClick: (){} ),
+
+                    NewButton(text: 'تسجيل', width: MediaQuery.of(context).size.width, height: 110, onClick: () async {
                       if (_emailController.text.isEmpty ||
                           _passController.text.isEmpty) {
                         _showDialog();
@@ -116,15 +99,31 @@ class _SignInScreenState extends State<SignInScreen> {
                           print("error ${error.toString()}");
                         });
                     }),
-                    signUpOption(),
-                    SizedBox(height: 30),
-                    Text(
-                      "أو",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
 
-                    signInBtn(context, "انضم الى عائلتك", () {
+                    Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              // optional flex property if flex is 1 because the default flex is 1
+                              flex: 0,
+                              child: 
+                              NewText(text: 'سجل الان', size: 18, fontWeight: FontWeight.w800, color: Colors.blue,
+                                onClick: () { Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen())); },
+                              ),
+                            ),
+                            Expanded(
+                              // optional flex property if flex is 1 because the default flex is 1
+                              flex: 0,
+                              child: 
+                              NewText(text: ' ليس لديك عائلة؟', size: 18, fontWeight: FontWeight.w500, color: Colors.black),
+                            ),
+                          ],
+                        ),
+
+                    SizedBox(height: 20),
+                    NewText(text: 'أو' , color: Colors.grey, size: 18,),
+                    SizedBox(height: 20),
+                    NewButton(text: 'انضم الى عائلتك ', width: MediaQuery.of(context).size.width, height: 110, onClick: (){
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
@@ -135,34 +134,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       );
                     }),
+                    
                   ],
                 ))),
-      ),
-    );
-  }
-
-  Widget signUpOption() {
-    return GestureDetector(
-      onTap: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpScreen())),
-      },
-      child: RichText(
-        text: TextSpan(children: [
-          TextSpan(
-              text: 'ليس لديك عائلة؟ ',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
-          TextSpan(
-              text: 'سجل الان',
-              style: TextStyle(
-                color: Colors.blue,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ))
-        ]),
       ),
     );
   }

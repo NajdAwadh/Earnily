@@ -1,15 +1,18 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, avoid_print, sized_box_for_whitespace
 
 // import 'package:earnily/google_signin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/screen/signin_screen.dart';
+import 'package:earnily/widgets/new_button.dart';
+import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:provider/provider.dart';
 
 import '../reuasblewidgets.dart';
-import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -23,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _repassController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _familyController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -70,6 +74,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
   }
 
+  Future addUserDetails(String name, String family, String email) async{
+    final firebaseUser = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).set({
+      'firstName': name,
+      'family': family,
+      'email': email,
+      'image':'',
+      'uid': firebaseUser.uid,
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,69 +109,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 30),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "الاسم",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    reuasbleTextField(
-                        "الاسم الكامل", Icons.person, false, _nameController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "البريد الإلكتروني",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    reuasbleTextField("example@email.com", Icons.email, false,
-                        _emailController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "كلمة المرور",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
 
-                    reuasbleTextField(
-                        "********", Icons.lock, true, _passController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "إعادة كلمة المرور",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    reuasbleTextField(
-                        "********", Icons.lock, true, _repassController),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    NewText(text: 'الاسم الكامل' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
 
-                    signInBtn(context, "تسجيل", () async {
+                   Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              // optional flex property if flex is 1 because the default flex is 1
+                              flex: 1,
+                              child: reuasbleTextField('العائلة', Icons.family_restroom, false,  _nameController)
+                            ),
+                            SizedBox(width: 10.0),
+                            Expanded(
+                              // optional flex property if flex is 1 because the default flex is 1
+                              flex: 1,
+                              child: reuasbleTextField('الاسم الاول', Icons.person, false, _familyController)
+                            ),
+                          ],
+                        ),
+
+                    SizedBox(height: 20),
+
+                    NewText(text: 'البريد الإلكتروني' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
+
+                    reuasbleTextField("example@email.com", Icons.email, false,_emailController),
+
+                    SizedBox(height: 20),
+
+                    NewText(text: 'كلمة المرور' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
+
+                    reuasbleTextField('ادخل كلمة المرور', Icons.lock, true, _passController),
+
+                    SizedBox(height: 20),
+
+                    NewText(text: 'تأكيد كلمة المرور' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
+
+                    reuasbleTextField('أعد إدخال كلمة المرور', Icons.lock, true, _repassController),
+
+                    SizedBox(height: 20),
+
+                    NewButton(text: 'تسجيل', width: MediaQuery.of(context).size.width, height: 110,  onClick: () async {
                       if (_nameController.text.isEmpty ||
                           _emailController.text.isEmpty ||
                           _passController.text.isEmpty ||
@@ -176,76 +170,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }).onError((error, stackTrace) {
                           print("Error ${error.toString()}");
                         });
+                        addUserDetails(_nameController.text.trim(), _familyController.text.trim() , _emailController.text.trim());
                     }),
-                    // googleSignUp((){
-                    //   final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
-                    //   provider.googleLogin();
-                    // }),
-                    signInOption(),
+                    
+                    Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              // optional flex property if flex is 1 because the default flex is 1
+                              flex: 0,
+                              child: 
+                              NewText(text: 'سجل دخول', size: 18, fontWeight: FontWeight.w800, color: Colors.blue,
+                                onClick: () { Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen())); },
+                              ),
+                            ),
+                            Expanded(
+                              // optional flex property if flex is 1 because the default flex is 1
+                              flex: 0,
+                              child: 
+                              NewText(text: ' لديك عائلة بالفعل؟', size: 18, fontWeight: FontWeight.w500, color: Colors.black),
+                            ),
+                          ],
+                        ),
                   ],
                 ))),
-      ),
-    );
-  }
-
-//   Widget googleSignUp(Function onTap){
-//   return Container(
-//     width: MediaQuery.of(context).size.width,
-//     height: 100,
-//     padding: EdgeInsets.symmetric(vertical: 25),
-//     decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-//     child: ElevatedButton.icon(
-//       onPressed: (){
-//         onTap();
-//       },
-//       icon: FaIcon(FontAwesomeIcons.google , color: Colors.red, ),
-//       label: Text(
-//       "المتابعة مع Google",
-//       style: TextStyle(
-//         color: Colors.white,
-//         fontWeight: FontWeight.bold,
-//         fontSize: 20
-//       ),
-//     ),
-//     style: ButtonStyle(
-//       backgroundColor: MaterialStateProperty.resolveWith((states) {
-//         if(states.contains(MaterialState.pressed)){
-//           return Colors.black;
-//         }
-//         return Colors.black87;
-//       }),
-//       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-//       RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))
-//     ),
-//     )
-//     ),
-//   );
-// }
-
-  Widget signInOption() {
-    return GestureDetector(
-      onTap: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignInScreen())),
-      },
-      child: RichText(
-        text: TextSpan(
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              TextSpan(
-                  text: 'لديك عائلة بالفعل؟',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-              TextSpan(
-                  text: 'سجل دخول',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ))
-            ]),
       ),
     );
   }
