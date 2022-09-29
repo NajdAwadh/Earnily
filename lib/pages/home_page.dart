@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:earnily/Rewards/MainRewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
+import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
 import 'package:earnily/widgets/MainTask.dart';
+import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,7 +55,14 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+<<<<<<< Updated upstream
           child: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
+=======
+          child: imgWidget(
+              "assets/images/EarnilyLogo.png",
+              50,
+              250),
+>>>>>>> Stashed changes
         ),
         /* actions: [
           IconButton(
@@ -71,6 +80,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],*/
       ),
+<<<<<<< Updated upstream
       endDrawer: Drawer(
         backgroundColor: Colors.black,
         child: SingleChildScrollView(
@@ -89,6 +99,33 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     '________________________________',
                     style: TextStyle(
+=======
+      drawer: Drawer(
+        child: Container(
+          color: Colors.black,
+          child: ListView(children: [
+            DrawerHeader(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //  imgWidget("assets/images/mylogo.png", 200, 100),
+                    Text('صفحتي الشخصية',
+                        style: TextStyle(fontSize: 30, color: Colors.white)),
+                    Text('_________________________________',
+                        style: TextStyle(color: Colors.white)),
+                    Text(user.email! + ' :الايميل',
+                        style: TextStyle(fontSize: 15, color: Colors.white)),
+                    NewText(text: 'الحساب' ,size: 20, color: Colors.white, onClick: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileScreen()));
+                    }),
+                    MaterialButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                      },
+>>>>>>> Stashed changes
                       color: Colors.white,
                     ),
                   ),
