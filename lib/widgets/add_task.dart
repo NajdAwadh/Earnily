@@ -25,7 +25,7 @@ class Add_task extends StatefulWidget {
 
 class _Add_taskState extends State<Add_task> {
   @override
-  final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+  //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -119,6 +119,7 @@ class _Add_taskState extends State<Add_task> {
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
+    getKidsNames(kidsNotifier);
     super.initState();
   }
 
@@ -126,6 +127,8 @@ class _Add_taskState extends State<Add_task> {
 
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
+    List<String> list = kidsNotifier.kidsNamesList;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,

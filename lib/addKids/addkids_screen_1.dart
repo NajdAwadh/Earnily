@@ -28,6 +28,7 @@ class AddKids_screen_1 extends StatefulWidget {
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
+
   //List<Kids>? names;
 
   @override
@@ -36,6 +37,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
+    getKidsNames(kidsNotifier);
     super.initState();
   }
 
@@ -44,6 +46,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   DateTime? date;
 
   final _nameController = TextEditingController();
+  List<String> names = [];
 
   void _showDialog(String text) {
     showDialog(
@@ -84,7 +87,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
-      //myLoop(names);
+    }
+    if (myLoop(names)) {
+      _showDialog("ممنوع إدخال معلومات مكررة");
     } else {
       addKidDetails();
       showToastMessage("تمت إضافة الطفل بنجاح");
@@ -128,23 +133,35 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         });
       });
 
-  void myLoop(List<Kids> list) {
+  bool myLoop(List<String> list) {
     for (var i = 0; i < list.length; i++) {
-      print(list[i].name);
+      showToastMessage(list[i]);
+      showToastMessage(_nameController.text);
+      print(list[i]);
       print(_nameController.toString());
-      if (_nameController.toString() == list[i].name) {
-        _showDialog("ممنوع إدخال معلومات مكررة");
+      if (_nameController.text == list[i]) {
+        return true;
       }
-      //showToastMessage(list[i].name);
     }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    List<Kids> names = kidsNotifier.kidsList;
-    myLoop(names);
+    names = kidsNotifier.kidsNamesList;
+    //myLoop(names);
+/*
+    var seen = Set<String>();
+    List<Kids> uniquelist =
+        names.where((names) => seen.add(names.name.toString())).toList();
+    print(uniquelist);
+    showToastMessage(uniquelist.toString());
 
+    final kidsNames = kidsDb.where("name");
+    print(kidsNames.toString());
+    myLoop(kidsNames);
+*/
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -211,70 +228,67 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         width: 254,
                         height: 66,
                         child: Container(
-                          alignment: Alignment.topRight,
-                              child: new Directionality(
-                                  textDirection: ui.TextDirection.rtl,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                      ),
-                                      Row(
-                                        //female
-                                        children: [
-                                          Radio(
-                                              value: items[1],
-                                              groupValue: value,
-                                              onChanged: (newValue) {
-                                                setState(() {
-                                                  value = newValue!;
-                                                });
-                                              }),
-                                          Text(
-                                            items[1],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Icon(Icons.child_care,
-                                              color: Colors.pink),
-                                        ],
-                                      ),
-                                      Row(
-                                        //male
-                                        children: [
-                                          Radio(
-                                              value: items[0],
-                                              groupValue: value,
-                                              onChanged: (newValue) {
-                                                setState(() {
-                                                  value = newValue!;
-                                                });
-                                              }),
-                                          Text(
-                                            items[0],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Icon(Icons.child_care,
-                                              color: Colors.blue),
-                                        ],
-                                      )
-                                    ],
-                                  ))
-                        )
-                        
-                        
-                        
+                            alignment: Alignment.topRight,
+                            child: new Directionality(
+                                textDirection: ui.TextDirection.rtl,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 100,
+                                    ),
+                                    Row(
+                                      //female
+                                      children: [
+                                        Radio(
+                                            value: items[1],
+                                            groupValue: value,
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                value = newValue!;
+                                              });
+                                            }),
+                                        Text(
+                                          items[1],
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(Icons.child_care,
+                                            color: Colors.pink),
+                                      ],
+                                    ),
+                                    Row(
+                                      //male
+                                      children: [
+                                        Radio(
+                                            value: items[0],
+                                            groupValue: value,
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                value = newValue!;
+                                              });
+                                            }),
+                                        Text(
+                                          items[0],
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(Icons.child_care,
+                                            color: Colors.blue),
+                                      ],
+                                    )
+                                  ],
+                                )))
+
                         /*Container(
                             alignment: Alignment.topRight,
                             decoration: BoxDecoration(
@@ -319,7 +333,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 }
                                 ),
                                 ),*/
-                                ),
+                        ),
                     SizedBox(
                       height: 20,
                     ),
@@ -334,44 +348,41 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       ),
                     ),
                     Positioned(
-                        right: 107,
-                        top: 425,
-                        child: new Directionality(
-                          textDirection: ui.TextDirection.rtl,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: _showDatePicker,
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.black),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white)),
-                                  icon: Icon(
-                                    Icons.calendar_today,
-                                    size: 30,
-                                  )),
-                              Text(
-                                date == null
-                                    ? 'اختر تاريخ الميلاد'
-                                    : '${DateFormat.yMd().format(date!)}',
-                                overflow: TextOverflow.visible,
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey,
-                                ),
-                                textDirection: ui.TextDirection.rtl,
+                      right: 107,
+                      top: 425,
+                      child: new Directionality(
+                        textDirection: ui.TextDirection.rtl,
+                        child: Row(
+                          children: [
+                            IconButton(
+                                onPressed: _showDatePicker,
+                                style: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all(Colors.black),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.white)),
+                                icon: Icon(
+                                  Icons.calendar_today,
+                                  size: 30,
+                                )),
+                            Text(
+                              date == null
+                                  ? 'اختر تاريخ الميلاد'
+                                  : '${DateFormat.yMd().format(date!)}',
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey,
                               ),
-                            ],
-                          ),
+                              textDirection: ui.TextDirection.rtl,
+                            ),
+                          ],
                         ),
-                        
-                        
-                        /*SizedBox(
+                      ),
+
+                      /*SizedBox(
                           width: 350,
                           height: 66,
                           child: ElevatedButton(
@@ -401,7 +412,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 textDirection: ui.TextDirection.rtl,
                               )),
                         )*/
-                        ),
+                    ),
                     SizedBox(
                       height: 60,
                     ),

@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/models/kids.dart';
+import 'package:earnily/screen/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
 
@@ -17,4 +18,18 @@ getKids(KidsNotifier kidsNotifier) async {
   });
 
   kidsNotifier.kidsList = _kidsList;
+}
+
+getKidsNames(KidsNotifier kidsNotifier) async {
+  QuerySnapshot snapshot =
+      await FirebaseFirestore.instance.collection('kids').where(name).get();
+
+  List<String> _kidsNamesList = [];
+
+  snapshot.docs.forEach((document) {
+    String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
+    _kidsNamesList.add(name);
+  });
+
+  kidsNotifier.kidsNamesList = _kidsNamesList;
 }
