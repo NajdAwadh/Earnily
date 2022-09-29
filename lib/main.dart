@@ -33,10 +33,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (BuildContext context) {
-         return KidsNotifier();
+        return KidsNotifier();
       },
     )
-
   ], child: MyApp()));
 }
 
@@ -48,12 +47,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      //  home: MainPage(),
-      home: MainTask(),
+      //home: MainPage(),
+      // home: MainTask(),
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
-      //home: HomePageKid(),
+      // home: HomePageKid(),
+      home: MainTask(),
     );
   }
 }

@@ -41,6 +41,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   final List<String> items = <String>["طفل", "طفلة"];
   String? value;
+  //int? _value;
   DateTime? date;
 
   final _nameController = TextEditingController();
@@ -149,91 +150,131 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: new Directionality(
+        title: //Padding(
+            //padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            new Directionality(
+          textDirection: ui.TextDirection.rtl,
+          child: Text(
+            "إضافة طفل",
+            //textDirection: TextDirection.rtl,
+            style: TextStyle(fontSize: 40),
             textDirection: ui.TextDirection.rtl,
-            child: Text(
-              "إضافة طفل",
-              //textDirection: TextDirection.rtl,
-              style: TextStyle(fontSize: 40),
-            ),
+            textAlign: TextAlign.center,
           ),
         ),
+        //),
         actions: [],
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.01, 20, 0),
-                child: Column(
-                  children: <Widget>[
-                    Container(),
-                    SizedBox(height: 30),
-                    Icon(
-                      Icons.child_care,
-                      color: Colors.purple.shade100,
-                      size: 100,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "الاسم",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      20, MediaQuery.of(context).size.height * 0.01, 20, 0),
+                  child: Column(
+                    children: <Widget>[
+                      Container(),
+                      SizedBox(height: 30),
+                      Image.asset("assets\images\ChildrenFreepik.png"),
+                      Icon(
+                        Icons.child_care,
+                        color: Colors.purple.shade100,
+                        size: 100,
                       ),
-                    ),
-                    reuasbleTextField(
-                        "الاسم ", Icons.person, false, _nameController),
-                    //myLoop(names),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " الجنس",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "الاسم",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
-                    ),
-                    Positioned(
-                        right: 107,
-                        top: 300,
-                        width: 254,
-                        height: 66,
-                        child: Container(
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(30),
-                              border: const Border(
-                                left: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                right: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                top: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            child: DropdownButton<String>(
+                      reuasbleTextField(
+                          "الاسم ", Icons.person, false, _nameController),
+                      //myLoop(names),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          " الجنس",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Positioned(
+                          right: 107,
+                          top: 300,
+                          width: 254,
+                          height: 66,
+                          child: Container(
+                              alignment: Alignment.topRight,
+                              child: new Directionality(
+                                  textDirection: ui.TextDirection.rtl,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
+                                      ),
+                                      Row(
+                                        //female
+                                        children: [
+                                          Radio(
+                                              value: items[1],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[1],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Icon(Icons.child_care,
+                                              color: Colors.pink),
+                                        ],
+                                      ),
+                                      Row(
+                                        //male
+                                        children: [
+                                          Radio(
+                                              value: items[0],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[0],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Icon(Icons.child_care,
+                                              color: Colors.blue),
+                                        ],
+                                      )
+                                    ],
+                                  ))
+                              /*DropdownButton<String>(
                                 hint: const Text(
                                   "الجنس",
                                   overflow: TextOverflow.visible,
@@ -250,23 +291,27 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                   setState(() {
                                     value = newVal!;
                                   });
-                                }))),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " تاريخ الميلاد",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                                })*/
+                              )),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    Positioned(
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          " تاريخ الميلاد",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Positioned(
                         right: 107,
-                        top: 425,
+                        top: 300,
+                        width: 254,
+                        height: 66,
+                        /*
                         child: SizedBox(
                           width: 350,
                           height: 66,
@@ -282,8 +327,25 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                     color: Colors.grey,
                                   ),
                                 ),
-                              ),
-                              child: Text(
+                              ),*/
+                        child: new Directionality(
+                          textDirection: ui.TextDirection.rtl,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  onPressed: _showDatePicker,
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.black),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.white)),
+                                  icon: Icon(
+                                    Icons.calendar_today,
+                                    size: 30,
+                                  )),
+                              Text(
                                 date == null
                                     ? 'اختر تاريخ الميلاد'
                                     : '${DateFormat.yMd().format(date!)}',
@@ -295,43 +357,46 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                   color: Colors.grey,
                                 ),
                                 textDirection: ui.TextDirection.rtl,
-                              )),
-                        )),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Positioned(
-                        left: 21,
-                        top: 625,
-                        width: 350,
-                        height: 66,
-                        child: SizedBox(
-                            width: 347,
-                            height: 68,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 0,
-                                    color: Colors.transparent,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Positioned(
+                          left: 21,
+                          top: 625,
+                          width: 350,
+                          height: 66,
+                          child: SizedBox(
+                              width: 347,
+                              height: 68,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  backgroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: const BorderSide(
+                                      width: 0,
+                                      color: Colors.transparent,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              onPressed: _validate,
-                              child: const Text('إضافة ',
-                                  overflow: TextOverflow.visible,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                            ))),
-                  ],
-                ))),
-      ),
+                                onPressed: _validate,
+                                child: const Text('إضافة ',
+                                    overflow: TextOverflow.visible,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ))),
+                    ],
+                  )))),
     );
   }
 }
