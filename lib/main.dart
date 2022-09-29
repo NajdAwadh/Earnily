@@ -1,5 +1,6 @@
 import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/onbording.dart';
+import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/main_page.dart';
 import 'package:earnily/screen/QRreader.dart';
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
-      // home: HomePageKid(),
+      //home: HomePageKid(),
     );
   }
 }

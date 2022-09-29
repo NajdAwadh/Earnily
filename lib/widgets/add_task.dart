@@ -168,7 +168,9 @@ class _Add_taskState extends State<Add_task> {
                           controller: _nameController,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
-                              border: InputBorder.none,
+                              border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
                               hintText: ' اسم النشاط الجديد',
                               hintTextDirection: ui.TextDirection.rtl,
                               hintStyle: TextStyle(
@@ -206,6 +208,7 @@ class _Add_taskState extends State<Add_task> {
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
+                              
                               borderRadius: BorderRadius.circular(15)),
                           child: DropdownButtonFormField<String>(
                               isExpanded: true,
