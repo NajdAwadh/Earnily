@@ -82,8 +82,3 @@ Widget forgotPassBtn() {
         )),
   );
 }
-
-
-
-
-

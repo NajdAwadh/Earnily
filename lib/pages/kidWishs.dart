@@ -28,6 +28,17 @@ class _kidWishState extends State<kidWish> {
       body: Center(
         child: Text('لاتوجد امنيات مضافة'),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          //do something
+        },
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+      ),
     );
   }
 }

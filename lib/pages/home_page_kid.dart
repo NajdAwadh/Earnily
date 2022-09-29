@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:earnily/Rewards/kidrewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/kidWishs.dart';
@@ -37,14 +36,14 @@ class _HomePageKidState extends State<HomePageKid> {
   final List<Widget> _pages = [
     kidTasks(),
     kidWish(),
-    kidreward(),
+    MainRewards(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // toolbarHeight: 80,
-        automaticallyImplyLeading: false,
+
         backgroundColor: Colors.black,
         elevation: 0,
         title: Padding(
@@ -60,118 +59,118 @@ class _HomePageKidState extends State<HomePageKid> {
         // ),
       ),
       endDrawer: Drawer(
-        backgroundColor: Colors.black,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.05, 20, 0),
-            child: Column(
+        child: Container(
+          color: Colors.black,
+          child: ListView(children: [
+            DrawerHeader(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //  imgWidget("assets/images/mylogo.png", 200, 100),
 
-                //   DrawerHeader(
-
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  imgWidget("assets/images/EarnilyLogo.png", 100, 250),
-                  Text(
-                    '________________________________',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'الصفحة الرئيسية',
+                    imgWidget("assets/images/EarnilyLogo.png", 100, 250),
+                    Text(
+                      '________________________________',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 23,
                       ),
                     ),
-                    trailing: Icon(
-                      Icons.home_filled,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const HomePageKid();
-                          },
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'الصفحة الرئيسية',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
                         ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'ملفي الشخصي',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
                       ),
-                    ),
-                    trailing: Icon(
-                      Icons.account_circle,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {
-                      //do
-                    },
-                  ),
-                  Text(
-                    '________________________________',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'الاعدادات والخصوصية',
-                      style: TextStyle(
+                      trailing: Icon(
+                        Icons.home_filled,
                         color: Colors.white,
-                        fontSize: 23,
+                        size: 30,
                       ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const HomePageKid();
+                            },
+                          ),
+                        );
+                      },
                     ),
-                    trailing: Icon(
-                      Icons.settings_suggest_sharp,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {
-                      //do
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'تسجيل الخروج',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_circle_left_outlined,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const SignInScreen();
-                          },
-                        ),
-                      );
-                      //do
-                    },
-                  ),
 
-                  /* child: MaterialButton(
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'ملفي الشخصي',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.account_circle,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        //do
+                      },
+                    ),
+                    Text(
+                      '________________________________',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'الاعدادات والخصوصية',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.settings_suggest_sharp,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        //do
+                      },
+                    ),
+
+                    ListTile(
+                      title: Text(
+                        textAlign: TextAlign.right,
+                        'تسجيل الخروج',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_circle_left_outlined,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const SignInScreen();
+                            },
+                          ),
+                        );
+                        //do
+                      },
+                    ),
+
+                    /* child: MaterialButton(
                         onPressed: () async {
                           await FirebaseAuth.instance.signOut();
                           Navigator.of(context).push(
@@ -186,8 +185,9 @@ class _HomePageKidState extends State<HomePageKid> {
                         child:
                             Text(' تسجيل خروج', style: TextStyle(fontSize: 19)),
                       ),*/
-                ]),
-          ),
+                  ]),
+            ),
+          ]),
         ),
       ),
       backgroundColor: Colors.white,
