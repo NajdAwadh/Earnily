@@ -48,8 +48,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      //  home: MainPage(),
-      home: MainTask(),
+        home: MainPage(),
+     // home: MainTask(),
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
