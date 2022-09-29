@@ -1,5 +1,6 @@
 import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/onbording.dart';
+import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/main_page.dart';
 import 'package:earnily/screen/QRreader.dart';
@@ -33,10 +34,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (BuildContext context) {
-         return KidsNotifier();
+        return KidsNotifier();
       },
     )
-
   ], child: MyApp()));
 }
 
@@ -46,15 +46,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // home: HomeScreen(),
-      //  home: MainPage(),
-      home: MainTask(),
-      //home: MainTask(),
-      // home: MainTask(),
-      // home: QrCreateScreen(),
-      //home: HomePageKid(),
-    );
+        debugShowCheckedModeBanner: false,
+        // home: HomeScreen(),
+        //  home: MainPage(),
+        //home: MainTask(),
+        //home: MainTask(),
+        // home: MainTask(),
+        // home: QrCreateScreen(),
+        //home: HomePageKid(),
+        home: kidTasks());
   }
 }
 
