@@ -27,7 +27,6 @@ class AddKids_screen_1 extends StatefulWidget {
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final kidsDb = FirebaseFirestore.instance.collection('kids');
-  final user = FirebaseAuth.instance.currentUser!;
 
   //List<Kids>? names;
 
@@ -112,10 +111,12 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   }
 
   Future addKidDetails() async {
-    await kidsDb.add({
+    final user = await FirebaseAuth.instance.currentUser!;
+    await kidsDb.doc(user.uid).set({
       'name': _nameController.text,
       'gender': value,
       'date': date,
+      'uid': user.uid,
     });
   }
 

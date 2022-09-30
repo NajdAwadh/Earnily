@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Kids {
   late String name;
   late String gender;
-  late String date;
+  late Timestamp date;
 
   Kids.fromMap(Map<String, dynamic> data) {
     name = data['name'];
