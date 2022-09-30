@@ -87,20 +87,20 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
+    }
+    if (myLoop(names)) {
+      _showDialog("ممنوع إدخال معلومات مكررة");
     } else {
-      if (myLoop(names)) {
-        _showDialog("ممنوع إدخال معلومات مكررة");
-      } else {
-        addKidDetails();
-        showToastMessage("تمت إضافة الطفل بنجاح");
+      addKidDetails();
+      showToastMessage("تمت إضافة الطفل بنجاح");
 
-        Notifications.showNotification(
-          title: "sarah",
-          body: 'hey',
-          payload: 'earnily',
-        );
+      Notifications.showNotification(
+        title: "sarah",
+        body: 'hey',
+        payload: 'earnily',
+      );
 
-        /*
+      /*
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -108,8 +108,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           },
         ),
       );*/
-      } // push,
-    }
+    } // push,
   }
 
   Future addKidDetails() async {
@@ -154,11 +153,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: new Directionality(
+          child: Directionality(
             textDirection: ui.TextDirection.rtl,
             child: Text(
               "إضافة طفل",
-              //textDirection: TextDirection.rtl,
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -247,10 +245,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                           width: 5,
                                         ),
                                         //Image.asset("assets/images/girl.png"),
-                                        //imgWidget("assets/images/girl.png", 5, 5),
+                                        imgWidget("assets/images/girlIcon.png",
+                                            32, 32),
 
-                                        Icon(Icons.child_care,
-                                            color: Colors.pink),
+                                        /*Icon(Icons.child_care,
+                                            color: Colors.pink),*/
                                       ],
                                     ),
                                     Row(
@@ -274,8 +273,12 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         SizedBox(
                                           width: 5,
                                         ),
+                                        //Image.asset("assets/images/boy24.png"),
+                                        imgWidget(
+                                            "assets/images/boy24.png", 32, 32),
+                                        /*
                                         Icon(Icons.child_care,
-                                            color: Colors.blue),
+                                            color: Colors.blue),*/
                                       ],
                                     )
                                   ],

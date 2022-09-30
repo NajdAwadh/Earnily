@@ -8,7 +8,7 @@ import 'package:earnily/notifier/kidsNotifier.dart';
 
 getKids(KidsNotifier kidsNotifier) async {
   QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('kids').get();
+      await FirebaseFirestore.instance.collection('kids').orderBy("date").get();
 
   List<Kids> _kidsList = [];
 
