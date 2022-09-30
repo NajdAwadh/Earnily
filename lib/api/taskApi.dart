@@ -5,7 +5,7 @@ import 'package:earnily/notifier/taskNotifier.dart';
 
 getTask(TaskNotifier taskNotifier) async {
   QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('Task').get();
+      await FirebaseFirestore.instance.collection('Task').orderBy('date').get();
 
   List<Task> _taskList = [];
 
