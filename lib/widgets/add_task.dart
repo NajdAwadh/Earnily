@@ -95,6 +95,7 @@ class _Add_taskState extends State<Add_task> {
       'date': DateFormat.yMd().format(_selectedDate),
       'category': categoty,
       'asignedKid': childName,
+      'state': 0,
     });
   }
 
