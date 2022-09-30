@@ -29,14 +29,14 @@ class _kidTasksState extends State<kidTasks> {
   String state = "";
   bool click = true;
 
-  Future updateTask(String task) async {
+  Future updateTask(String taskID) async {
     await FirebaseFirestore.instance
         .collection('Task')
-        .doc('currentTask')
+        .doc(taskID)
         .update({'sate': 'pending'});
   }
 
-  void _showDialog(String task) {
+  void _showDialog(String taskID) {
     showDialog(
         context: context,
         builder: (context) {
@@ -58,7 +58,7 @@ class _kidTasksState extends State<kidTasks> {
                   setState(() {
                     click = false;
                   });
-                  updateTask(task);
+                  updateTask(taskID);
                   _updateState(context);
                 },
                 child: const Text(
@@ -86,6 +86,7 @@ class _kidTasksState extends State<kidTasks> {
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+    click = true;
 
     return Scaffold(
       appBar: AppBar(
@@ -140,7 +141,7 @@ class _kidTasksState extends State<kidTasks> {
                           (click == true) ? Icons.check_box : Icons.lock_clock),
                       //color: Theme.of(context).errorColor,
                       onPressed: () => {
-                        _showDialog('${taskNotifier.taskList[index]}')
+                        _showDialog('${taskNotifier.taskList[index].tid}')
                         // showDialog(
                         //     context: context,
                         //     builder: (context) => AlertDialog(

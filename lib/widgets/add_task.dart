@@ -100,7 +100,7 @@ class _Add_taskState extends State<Add_task> {
       'category': categoty,
       'asignedKid': childName,
       'state': 'Not complete',
-      'id': tid,
+      'tid': tid,
     });
   }
 
