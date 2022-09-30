@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/add_task.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
@@ -26,12 +27,60 @@ class _kidTasksState extends State<kidTasks> {
   }
 
   String state = "";
+  bool click = true;
 
-  Future updateTask() async {
+  Future updateTask(String task) async {
     await FirebaseFirestore.instance
         .collection('Task')
         .doc('currentTask')
         .update({'sate': 'pending'});
+  }
+
+  void _showDialog(String task) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              " !تم إرسال الطلب لوالدك",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              "عند الموافقة ستضاقف النقاط إلى حسابك",
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  //Navigator.of(context).pop();
+                  setState(() {
+                    click = false;
+                  });
+                  updateTask(task);
+                  _updateState(context);
+                },
+                child: const Text(
+                  "حسناً",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text(
+                  "لم أكمل مهمتي بعد",
+                  style: TextStyle(fontSize: 20, color: Colors.red),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  void _updateState(BuildContext context) {
+    Navigator.of(context).pop();
+    //updateTask();
   }
 
   @override
@@ -87,25 +136,27 @@ class _kidTasksState extends State<kidTasks> {
                     ),
                     isThreeLine: true,
                     trailing: IconButton(
-                      icon: Icon(Icons.check_box),
+                      icon: Icon(
+                          (click == true) ? Icons.check_box : Icons.lock_clock),
                       //color: Theme.of(context).errorColor,
                       onPressed: () => {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: Text('!تم إرسال الطلب لوالدك'),
-                                  content: Text(
-                                      'عندالموافقة ستضاقف النقاط إالى حسابك'),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text('لم أكمل مهمتي بعد')),
-                                    TextButton(
-                                        onPressed: () =>
-                                        updateTask(),
-                                        child: Text('حسنا'))
-                                  ],
-                                ))
+                        _showDialog('${taskNotifier.taskList[index]}')
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (context) => AlertDialog(
+                        //           title: Text('!تم إرسال الطلب لوالدك'),
+                        //           content: Text(
+                        //               'عندالموافقة ستضاقف النقاط إالى حسابك'),
+                        //           actions: [
+                        //             TextButton(
+                        //                 onPressed: () => Navigator.pop(context),
+                        //                 child: Text('لم أكمل مهمتي بعد')),
+                        //             TextButton(
+                        //                 onPressed: () =>
+                        //                 updateTask(),
+                        //                 child: Text('حسنا'))
+                        //           ],
+                        //         ))
                       },
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
@@ -90,6 +91,8 @@ class _Add_taskState extends State<Add_task> {
   }
 
   Future addTask() async {
+    const tuid = Uuid();
+    String tid = tuid.v4();
     await FirebaseFirestore.instance.collection('Task').add({
       'taskName': _nameController.text,
       'points': points,
@@ -97,6 +100,7 @@ class _Add_taskState extends State<Add_task> {
       'category': categoty,
       'asignedKid': childName,
       'state': 'Not complete',
+      'id': tid,
     });
   }
 
