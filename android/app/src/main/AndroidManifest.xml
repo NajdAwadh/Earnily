@@ -2,9 +2,9 @@
     package="com.example.earnily">
 
      <!--notification-->
-    <user-permission android:name="android.permission.VIBRATE">
+    <!-- <user-permission android:name="android.permission.VIBRATE">
     <user-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED">
-
+ -->
 
    <application
         android:label="earnily"

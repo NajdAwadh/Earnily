@@ -17,9 +17,15 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
-  final Stream<QuerySnapshot> _stream =
-      FirebaseFirestore.instance.collection("task").snapshots();
+Future getPointsFirestore() async {
+    var firestore = FirebaseFirestore.instance;
+    QuerySnapshot qn = await firestore.collection("points").get();
+    return qn.docs;
+  }
+
+  //snapShot.data[index]
   void initState() {
+
     // TODO: implement initState
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
@@ -30,6 +36,7 @@ class _MainTaskState extends State<MainTask> {
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -41,25 +48,7 @@ class _MainTaskState extends State<MainTask> {
           style: TextStyle(fontSize: 40),
         ),
       ),
-      // body: SingleChildScrollView(
-      //   child: Container(
-      //     height: MediaQuery.of(context).size.height,
-      //     width: MediaQuery.of (context) .size.width,
-      //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      //     child: Column(
-      //       children: [ adultTaskCard(
-// title: "Wake up ",
-// check: true,
-// iconBColor: Colors.white,
-// iconcolor: Colors.red,
-// iconData: Icons.alarm,
-// time: "10 AM",
-//  ), // Todocard
-// SizedBox ( height: 10, ), ]// sizedBox
-// ),),),
-// // Column
-// // Container
-// // singlechildscrollview
+  
 
       body: taskNotifier.taskList.isEmpty
           ? Center(
@@ -131,7 +120,7 @@ class _MainTaskState extends State<MainTask> {
                             ),
                           ),
                           subtitle: Text(
-                            ' اسم الطفل:  ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points}',
+                            '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points}',
                           ),
                           isThreeLine: true,
                           trailing: IconButton(
