@@ -43,3 +43,22 @@ getKidsNames(KidsNotifier kidsNotifier) async {
 
   kidsNotifier.kidsNamesList = _kidsNamesList;
 }
+
+getAKidName(KidsNotifier kidsNotifier) async {
+  final user = FirebaseAuth.instance.currentUser!;
+  QuerySnapshot snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('kids')
+      .where(name)
+      .get();
+
+  String _kidName = '';
+
+  snapshot.docs.forEach((document) {
+    String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
+    _kidName = name;
+  });
+
+  kidsNotifier.kidName = _kidName;
+}
