@@ -92,7 +92,8 @@ class _Add_taskState extends State<Add_task> {
   }
 
   Future addTask() async {
-<<<<<<< HEAD
+    const tuid = Uuid();
+    String tid = tuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
@@ -113,11 +114,6 @@ class _Add_taskState extends State<Add_task> {
         .doc('sarakid2')
         .collection('Task')
         .add({
-=======
-    const tuid = Uuid();
-    String tid = tuid.v4();
-    await FirebaseFirestore.instance.collection('Task').add({
->>>>>>> 0dea9f6b9195b76549c580dddee681df1d1ecc97
       'taskName': _nameController.text,
       'points': points,
       'date': DateFormat.yMd().format(_selectedDate),
@@ -162,6 +158,19 @@ class _Add_taskState extends State<Add_task> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(

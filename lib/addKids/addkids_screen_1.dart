@@ -185,6 +185,19 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
         backgroundColor: Colors.black,
         elevation: 0,
         title: Padding(
@@ -197,7 +210,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             ),
           ),
         ),
-        actions: [],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
