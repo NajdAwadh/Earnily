@@ -121,7 +121,6 @@ class _Add_taskState extends State<Add_task> {
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
-      
     });
   }
 
