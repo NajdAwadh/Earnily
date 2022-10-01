@@ -61,6 +61,7 @@ dependencies:
 
   lottie: ^1.2.1
   
+  flutter_launcher_icons: ^0.10.0
   
 
 
@@ -95,6 +96,13 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/mylogo.png" 
+  adaptive_icon_background: "assets/images/logoAndriod.png" 
+  adaptive_icon_foreground: "assets/images/logoios.png"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -136,3 +144,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

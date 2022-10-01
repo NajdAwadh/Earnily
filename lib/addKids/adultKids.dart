@@ -1,7 +1,9 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
+import 'package:earnily/reuasblewidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,12 +33,25 @@ class _AdultKidsState extends State<AdultKids> {
     super.initState();
   }
 
-  Color set(String gender) {
+  String set(String gender) {
     if (gender == "طفلة")
-      return Color(0xffff6d6e);
+      return "assets/images/girlIcon.png";
     else
-      return Colors.blue;
+      return "assets/images/boy24.png";
   }
+
+  List<Color> myColors = [
+    Color(0xff6DC8F3),
+    Color(0xff73A1F9),
+    Color(0xffFFB157),
+    Color(0xffFFA057),
+    Color(0xffFF5B95),
+    Color(0xffF8556D),
+    Color(0xffD76EF5),
+    Color(0xff8F7AFE),
+    Color(0xff42E695),
+    Color(0xff3BB2B8),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +66,7 @@ class _AdultKidsState extends State<AdultKids> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Text(
             "الأطفال",
+            textAlign: TextAlign.center,
             //textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 40),
           ),
@@ -69,47 +85,40 @@ class _AdultKidsState extends State<AdultKids> {
                   return Card(
                       elevation: 5,
                       margin: EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 5,
+                        vertical: 10,
+                        horizontal: 10,
                       ),
                       child: Container(
-                        height: 10,
-                        color: Colors
-                            .primaries[Random().nextInt(Colors.accents.length)],
-                        /*
+                        height: 150,
+                        //color: Colors.primaries[ Random().nextInt(myColors.length)],
                         decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(colors: [
-                        kidsNotifier.kidsList[index].startColor,
-                        items[index].endColor
-                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                      boxShadow: [
-                        BoxShadow(
-                          color: items[index].endColor,
-                          blurRadius: 12,
-                          offset: Offset(0, 6),
+                          borderRadius: BorderRadius.circular(24),
+                          gradient: LinearGradient(
+                              colors: [
+                                Colors.primaries[
+                                    Random().nextInt(Colors.accents.length)],
+                                Colors.primaries[
+                                    Random().nextInt(Colors.accents.length)],
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.primaries[
+                                  Random().nextInt(Colors.accents.length)],
+                              blurRadius: 12,
+                              offset: Offset(0, 6),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),*/
                         child: new Directionality(
                           textDirection: TextDirection.rtl,
                           child: new GridTile(
-                            header: CircleAvatar(
-                              backgroundColor:
-                                  set(list[index].gender), //Color(0xffff6d6e),
-                              foregroundColor: Colors.white,
-                              radius: 30,
-                              child: Padding(
-                                  padding: EdgeInsets.all(6),
-                                  child: Container(
-                                    height: 33,
-                                    width: 36,
-                                    child: Icon(Icons.child_care),
-                                  )),
-                            ),
                             child: Column(
                               children: [
-                                SizedBox(height: 70),
+                                SizedBox(height: 20),
+                                imgWidget(set(list[index].gender), 64, 64),
+                                SizedBox(height: 25),
                                 Text(
                                   list[index].name,
                                   style: TextStyle(
@@ -117,13 +126,15 @@ class _AdultKidsState extends State<AdultKids> {
                                     fontSize: 30,
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                //SizedBox(height: 15),
+                                /*
                                 Text(
-                                  list[index].gender,
+                                  list[index].date.toString(),
                                   style: TextStyle(
                                     fontSize: 30,
                                   ),
                                 ),
+                                */
                                 /*
                           trailing: IconButton(
                             icon: Icon(Icons.delete),
@@ -228,3 +239,55 @@ class _AdultKidsState extends State<AdultKids> {
     );
   }
 }
+
+/*
+class PlaceInfo {
+  final String name;
+  final String category;
+  final String location;
+  final double rating;
+  final Color startColor;
+  final Color endColor;
+
+  PlaceInfo(this.name, this.startColor, this.endColor, this.rating,
+      this.location, this.category);
+}
+
+class CustomCardShapePainter extends CustomPainter {
+  final double radius;
+  final Color startColor;
+  final Color endColor;
+
+  CustomCardShapePainter(this.radius, this.startColor, this.endColor);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var radius = 24.0;
+
+    var paint = Paint();
+    paint.shader = ui.Gradient.linear(
+        Offset(0, 0), Offset(size.width, size.height), [
+      HSLColor.fromColor(startColor).withLightness(0.8).toColor(),
+      endColor
+    ]);
+
+    var path = Path()
+      ..moveTo(0, size.height)
+      ..lineTo(size.width - radius, size.height)
+      ..quadraticBezierTo(
+          size.width, size.height, size.width, size.height - radius)
+      ..lineTo(size.width, radius)
+      ..quadraticBezierTo(size.width, 0, size.width - radius, 0)
+      ..lineTo(size.width - 1.5 * radius, 0)
+      ..quadraticBezierTo(-radius, 2 * radius, 0, size.height)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+*/

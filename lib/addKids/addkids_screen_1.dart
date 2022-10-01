@@ -86,20 +86,20 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   void _validate() {
     if (_nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
-    }
-    if (myLoop(names)) {
-      _showDialog("ممنوع إدخال معلومات مكررة");
     } else {
-      addKidDetails();
-      showToastMessage("تمت إضافة الطفل بنجاح");
+      if (myLoop(names)) {
+        _showDialog("ممنوع إدخال معلومات مكررة");
+      } else {
+        addKidDetails();
+        showToastMessage("تمت إضافة الطفل بنجاح");
 
-      Notifications.showNotification(
-        title: "sarah",
-        body: 'hey',
-        payload: 'earnily',
-      );
+        Notifications.showNotification(
+          title: "sarah",
+          body: 'hey',
+          payload: 'earnily',
+        );
 
-      /*
+        /*
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
@@ -107,7 +107,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           },
         ),
       );*/
-    } // push,
+      } // push,
+    }
   }
 
   Future addKidDetails() async {
