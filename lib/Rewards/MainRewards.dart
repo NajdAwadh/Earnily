@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
+import '../widgets/MainTask.dart';
+
 class MainRewards extends StatefulWidget {
   const MainRewards({super.key});
 
@@ -20,7 +22,7 @@ class _MainRewardsState extends State<MainRewards> {
    service.intialize();
    listenToNotification();
    super.initState();
- }
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
