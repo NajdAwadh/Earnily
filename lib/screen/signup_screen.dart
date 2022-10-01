@@ -74,17 +74,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
         });
   }
 
-  Future addUserDetails(String name, String family, String email) async{
+  Future addUserDetails(String name, String family, String email) async {
     final firebaseUser = await FirebaseAuth.instance.currentUser!;
-    await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).set({
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .set({
       'firstName': name,
       'family': family,
       'email': email,
-      'image':'',
+      'image': '',
       'uid': firebaseUser.uid,
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,89 +111,117 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 30),
-
-                    NewText(text: 'الاسم الكامل' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-
-                   Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 1,
-                              child: reuasbleTextField('العائلة', Icons.family_restroom, false,  _nameController)
-                            ),
-                            SizedBox(width: 10.0),
-                            Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 1,
-                              child: reuasbleTextField('الاسم الاول', Icons.person, false, _familyController)
-                            ),
-                          ],
-                        ),
-
-                    SizedBox(height: 20),
-
-                    NewText(text: 'البريد الإلكتروني' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-
-                    reuasbleTextField("example@email.com", Icons.email, false,_emailController),
-
-                    SizedBox(height: 20),
-
-                    NewText(text: 'كلمة المرور' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-
-                    reuasbleTextField('ادخل كلمة المرور', Icons.lock, true, _passController),
-
-                    SizedBox(height: 20),
-
-                    NewText(text: 'تأكيد كلمة المرور' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-
-                    reuasbleTextField('أعد إدخال كلمة المرور', Icons.lock, true, _repassController),
-
-                    SizedBox(height: 20),
-
-                    NewButton(text: 'تسجيل', width: MediaQuery.of(context).size.width, height: 110,  onClick: () async {
-                      if (_nameController.text.isEmpty ||
-                          _emailController.text.isEmpty ||
-                          _passController.text.isEmpty ||
-                          _repassController.text.isEmpty) {
-                        _showDialog();
-                      } else if (_passController.text != _repassController.text)
-                        _showError();
-                      else
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: _emailController.text.trim(),
-                                password: _passController.text.trim())
-                            .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        }).onError((error, stackTrace) {
-                          print("Error ${error.toString()}");
-                        });
-                        addUserDetails(_nameController.text.trim(), _familyController.text.trim() , _emailController.text.trim());
-                    }),
-                    
+                    NewText(
+                        text: 'الاسم الكامل',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
                     Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 0,
-                              child: 
-                              NewText(text: 'سجل دخول', size: 18, fontWeight: FontWeight.w800, color: Colors.blue,
-                                onClick: () { Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen())); },
-                              ),
-                            ),
-                            Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 0,
-                              child: 
-                              NewText(text: ' لديك عائلة بالفعل؟', size: 18, fontWeight: FontWeight.w500, color: Colors.black),
-                            ),
-                          ],
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                            // optional flex property if flex is 1 because the default flex is 1
+                            flex: 1,
+                            child: reuasbleTextField('العائلة',
+                                Icons.family_restroom, false, _nameController)),
+                        SizedBox(width: 10.0),
+                        Expanded(
+                            // optional flex property if flex is 1 because the default flex is 1
+                            flex: 1,
+                            child: reuasbleTextField('الاسم الاول',
+                                Icons.person, false, _familyController)),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    NewText(
+                        text: 'البريد الإلكتروني',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
+                    reuasbleTextField("example@email.com", Icons.email, false,
+                        _emailController),
+                    SizedBox(height: 20),
+                    NewText(
+                        text: 'كلمة المرور',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
+                    reuasbleTextField(
+                        'ادخل كلمة المرور', Icons.lock, true, _passController),
+                    SizedBox(height: 20),
+                    NewText(
+                        text: 'تأكيد كلمة المرور',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
+                    reuasbleTextField('أعد إدخال كلمة المرور', Icons.lock, true,
+                        _repassController),
+                    SizedBox(height: 20),
+                    NewButton(
+                        text: 'تسجيل',
+                        width: MediaQuery.of(context).size.width,
+                        height: 110,
+                        onClick: () async {
+                          if (_nameController.text.isEmpty ||
+                              _emailController.text.isEmpty ||
+                              _passController.text.isEmpty ||
+                              _repassController.text.isEmpty) {
+                            _showDialog();
+                          } else if (_passController.text !=
+                              _repassController.text)
+                            _showError();
+                          else
+                            await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: _emailController.text.trim(),
+                                    password: _passController.text.trim())
+                                .then((value) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()));
+                            }).onError((error, stackTrace) {
+                              print("Error ${error.toString()}");
+                            });
+                          addUserDetails(
+                              _nameController.text.trim(),
+                              _familyController.text.trim(),
+                              _emailController.text.trim());
+                        }),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          // optional flex property if flex is 1 because the default flex is 1
+                          flex: 0,
+                          child: NewText(
+                            text: 'سجل دخول',
+                            size: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.blue,
+                            onClick: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignInScreen()));
+                            },
+                          ),
                         ),
+                        Expanded(
+                          // optional flex property if flex is 1 because the default flex is 1
+                          flex: 0,
+                          child: NewText(
+                              text: ' لديك عائلة بالفعل؟',
+                              size: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ],
                 ))),
       ),

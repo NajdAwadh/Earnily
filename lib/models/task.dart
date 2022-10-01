@@ -17,7 +17,7 @@ class Task {
     category = data['category'];
     points = data['points'];
     date = data['date'];
-    state = data['state'];
-    tid = data['tid'];
+    //state = data['state'];
+    //tid = data['tid'];
   }
 }

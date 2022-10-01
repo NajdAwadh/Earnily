@@ -26,9 +26,14 @@ class AddKids_screen_1 extends StatefulWidget {
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
+  static TextEditingController nameController = TextEditingController();
   final kidsDb = FirebaseFirestore.instance.collection('kids');
-
+  final user = FirebaseAuth.instance.currentUser!;
   //List<Kids>? names;
+
+  void kk() {
+    print(nameController);
+  }
 
   @override
   void initState() {
@@ -44,7 +49,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   String? value;
   DateTime? date;
 
-  final _nameController = TextEditingController();
+  //final _nameController = TextEditingController();
   List<String> names = [];
 
   void _showDialog(String text) {
@@ -84,7 +89,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   }
 
   void _validate() {
-    if (_nameController.text.isEmpty || value == null || date == null) {
+    if (nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
     } else {
       if (myLoop(names)) {
@@ -111,10 +116,39 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     }
   }
 
+  //final kidsDb = FirebaseFirestore.instance.collection('kids');
+  //final user = FirebaseAuth.instance.currentUser!;
+
+  /* Future addUserDetails(String name, String family, String email) async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .set({
+      'firstName': name,
+      'family': family,
+      'email': email,
+      'image': '',
+      'uid': firebaseUser.uid,
+    });
+  }
+  
+  final messageRef = FirebaseFirestore.instance
+      .collection("rooms")
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection("messages")
+      .doc("message1");
+  
+  */
+
   Future addKidDetails() async {
-    final user = await FirebaseAuth.instance.currentUser!;
-    await kidsDb.doc(user.uid).set({
-      'name': _nameController.text,
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('kids')
+        .doc(nameController.text)
+        .set({
+      'name': nameController.text,
       'gender': value,
       'date': date,
       'uid': user.uid,
@@ -137,7 +171,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   bool myLoop(List<String> list) {
     for (var i = 0; i < list.length; i++) {
-      if (_nameController.text == list[i]) {
+      if (nameController.text == list[i]) {
         return true;
       }
     }
@@ -151,6 +185,19 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
         backgroundColor: Colors.black,
         elevation: 0,
         title: Padding(
@@ -163,7 +210,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             ),
           ),
         ),
-        actions: [],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -196,7 +242,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       ),
                     ),
                     reuasbleTextField(
-                        "الاسم ", Icons.person, false, _nameController),
+                        "الاسم ", Icons.person, false, nameController),
                     SizedBox(
                       height: 20,
                     ),

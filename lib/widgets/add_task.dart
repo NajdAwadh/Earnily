@@ -28,6 +28,7 @@ class Add_task extends StatefulWidget {
 class _Add_taskState extends State<Add_task> {
   @override
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+  final user = FirebaseAuth.instance.currentUser!;
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -93,7 +94,26 @@ class _Add_taskState extends State<Add_task> {
   Future addTask() async {
     const tuid = Uuid();
     String tid = tuid.v4();
-    await FirebaseFirestore.instance.collection('Task').add({
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('Task')
+        .add({
+      'taskName': _nameController.text,
+      'points': points,
+      'date': DateFormat.yMd().format(_selectedDate),
+      'category': categoty,
+      'asignedKid': childName,
+      'state': 0,
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('kids')
+        .doc('sarakid2')
+        .collection('Task')
+        .add({
       'taskName': _nameController.text,
       'points': points,
       'date': DateFormat.yMd().format(_selectedDate),
@@ -101,6 +121,7 @@ class _Add_taskState extends State<Add_task> {
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
+      
     });
   }
 
@@ -126,10 +147,11 @@ class _Add_taskState extends State<Add_task> {
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     getKidsNames(kidsNotifier);
+
     super.initState();
   }
 
-  //  final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
+  // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
 
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
@@ -137,6 +159,19 @@ class _Add_taskState extends State<Add_task> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
