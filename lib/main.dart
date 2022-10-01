@@ -53,19 +53,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      // home: MainPage(),
+       home: MainPage(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
 
-      // home: MainTask(),
+       //home: MainTask(),
       //home: MainTask(),
 
       // home: MainTask(),
       // home: QrCreateScreen(),
       // home: kidTasks(),
       //home: kidWish()
-      home: HomePageKid(),
+     // home: HomePageKid(),
     );
   }
 }

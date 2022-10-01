@@ -18,6 +18,10 @@ import 'package:provider/provider.dart';
 import '../api/kidsApi.dart';
 import '../notifier/kidsNotifier.dart';
 
+//notification
+import 'package:earnily/notifications/local_notification_service.dart';
+import 'package:earnily/notifications/second_screen.dart';
+
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
 
@@ -27,6 +31,16 @@ class Add_task extends StatefulWidget {
 
 class _Add_taskState extends State<Add_task> {
   @override
+  //notification
+  late final LocalNotificationService service;
+ void initState() {
+   service = LocalNotificationService();
+   service.intialize();
+   listenToNotification();
+   super.initState();
+ }
+
+
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -121,8 +135,19 @@ class _Add_taskState extends State<Add_task> {
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
-      
     });
+    //notification
+    await service.showNotificationWithPayload(
+    id: 1,
+    title: 'تمت اضافة نشاط جديد',
+    body: 'اسم النشاط:'+_nameController.text,
+    payload:
+      'اسم النشاط:'+ _nameController.text +
+          '\n  النقاط:'+ points+
+          '\n  تاريخ التنفيذ:'+ DateFormat.yMd().format(_selectedDate)+
+          '\n  نوع النشاط:'+ categoty,
+         // 'asignedKid'+ childName,
+          );
   }
 
   void _presentDatePicker() {
@@ -141,6 +166,7 @@ class _Add_taskState extends State<Add_task> {
     });
   }
 
+/*
   void initState() {
     // TODO: implement initState
     KidsNotifier kidsNotifier =
@@ -149,7 +175,7 @@ class _Add_taskState extends State<Add_task> {
     getKidsNames(kidsNotifier);
 
     super.initState();
-  }
+  }*/
 
   // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
 
@@ -481,4 +507,19 @@ class _Add_taskState extends State<Add_task> {
       ),
     );
   }
+
+  //notification
+ void listenToNotification() =>
+     service.onNotificationClick.stream.listen(onNoticationListener);
+ void onNoticationListener(String? payload) {
+   if (payload != null && payload.isNotEmpty) {
+     print('payload $payload');
+     Navigator.push(
+         context,
+         MaterialPageRoute(
+             builder: ((context) => SecondScreen(payload: payload))));
+   }
+ }
 }
+
+
