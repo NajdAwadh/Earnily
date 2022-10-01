@@ -1,7 +1,9 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
 import 'package:earnily/reuasblewidgets.dart';
+import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,11 @@ class AddKids_screen_1 extends StatefulWidget {
 
   @override
   _AddKids_screen_1 createState() => _AddKids_screen_1();
+
+  getKname() {
+    String Kname = _AddKids_screen_1().getName();
+    return Kname;
+  }
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
@@ -153,6 +160,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'date': date,
       'uid': user.uid,
     });
+  }
+
+  getName() {
+    String kidName = nameController.text;
+    return kidName;
   }
 
   void _showDatePicker() async => showDatePicker(
@@ -322,8 +334,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                           width: 5,
                                         ),
                                         //Image.asset("assets/images/boy24.png"),
-                                        imgWidget(
-                                            "assets/images/boy24.png", 32, 32),
+                                        imgWidget("assets/images/boyIcon.png",
+                                            32, 32),
                                         /*
                                         Icon(Icons.child_care,
                                             color: Colors.blue),*/

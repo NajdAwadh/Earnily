@@ -124,13 +124,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             // optional flex property if flex is 1 because the default flex is 1
                             flex: 1,
                             child: reuasbleTextField('العائلة',
-                                Icons.family_restroom, false, _nameController)),
+                                Icons.family_restroom, false, _familyController)),
                         SizedBox(width: 10.0),
                         Expanded(
                             // optional flex property if flex is 1 because the default flex is 1
                             flex: 1,
                             child: reuasbleTextField('الاسم الاول',
-                                Icons.person, false, _familyController)),
+                                Icons.person, false, _nameController)),
                       ],
                     ),
                     SizedBox(height: 20),

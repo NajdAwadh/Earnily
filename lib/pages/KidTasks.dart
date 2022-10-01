@@ -142,7 +142,7 @@ class _kidTasksState extends State<kidTasks> {
                           (click == true) ? Icons.check_box : Icons.lock_clock),
                       //color: Theme.of(context).errorColor,
                       onPressed: () => {
-                        _showDialog('${taskNotifier.taskList[index].tid}')
+                        _showDialog('${taskNotifier.taskList[index].taskName}')
                         // showDialog(
                         //     context: context,
                         //     builder: (context) => AlertDialog(

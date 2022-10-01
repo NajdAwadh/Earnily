@@ -7,12 +7,13 @@ import 'package:earnily/addKids/addkids_screen_1.dart';
 
 getTask(TaskNotifier taskNotifier) async {
   final user = FirebaseAuth.instance.currentUser!;
+  String kidName = AddKids_screen_1().getKname();
 
   QuerySnapshot snapshot = await FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)
       .collection('kids')
-      .doc('sarakid2')
+      .doc(kidName)
       .collection('Task')
       .orderBy('date')
       .get();
@@ -25,4 +26,10 @@ getTask(TaskNotifier taskNotifier) async {
   });
 
   taskNotifier.taskList = _taskList;
+}
+
+getKidName(String name) {
+  String nameController = name;
+
+  return nameController;
 }

@@ -1,11 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.earnily">
 
+<<<<<<< HEAD
      <!--notification
     <user-permission android:name="android.permission.VIBRATE">
     <user-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED">
     -->
 
+=======
+     <!--notification-->
+    <!-- <user-permission android:name="android.permission.VIBRATE">
+    <user-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED">
+ -->
+>>>>>>> 1c65723cbc90559a5ec5946000aeaee4facc2f25
 
    <application
         android:label="earnily"
