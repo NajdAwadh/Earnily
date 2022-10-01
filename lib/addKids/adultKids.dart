@@ -37,10 +37,17 @@ class _AdultKidsState extends State<AdultKids> {
     if (gender == "طفلة")
       return "assets/images/girlIcon.png";
     else
-      return "assets/images/boyIcon.png";
+      return "assets/images/boy24.png";
   }
 
   List<Color> myColors = [
+    //ghada
+    Color(0xffff6d6e),
+    Color(0xfff29732),
+    Color(0xff6557ff),
+    Color(0xff2bc8d9),
+    Color(0xff234ebd),
+
     Color(0xff6DC8F3),
     Color(0xff73A1F9),
     Color(0xffFFB157),
@@ -53,44 +60,50 @@ class _AdultKidsState extends State<AdultKids> {
     Color(0xff3BB2B8),
   ];
 
+  Color chooseColor(int index) {
+    return myColors[index];
+  }
+
   @override
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<Kids> list = kidsNotifier.kidsList;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
-        elevation: 0,
-        title: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text(
-            "الأطفال",
-            textAlign: TextAlign.center,
-            //textDirection: TextDirection.rtl,
-            style: TextStyle(fontSize: 40),
+    return Directionality(
+      textDirection: ui.TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.black,
+          elevation: 0,
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text(
+              "الأطفال",
+              style: TextStyle(fontSize: 40),
+            ),
           ),
         ),
-      ),
-      body: kidsNotifier.kidsList.isEmpty
-          ? Center(
-              child: Text(
-                "لا يوجد لديك أطفال \n قم بالإضافة الآن",
-                style: TextStyle(fontSize: 30, color: Colors.grey),
-              ),
-            )
-          : Container(
-              child: GridView.builder(
-                itemBuilder: (ctx, index) {
-                  return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 10,
-                      ),
-                      child: Container(
-                        height: 150,
-                        //color: Colors.primaries[ Random().nextInt(myColors.length)],
+        body: list.isEmpty
+            ? Center(
+                child: Text(
+                  "لا يوجد لديك أطفال \n قم بالإضافة الآن",
+                  style: TextStyle(fontSize: 30, color: Colors.grey),
+                ),
+              )
+            : Container(
+                child: GridView.builder(
+                  itemBuilder: (ctx, index) {
+                    return Card(
+                        elevation: 5,
+                        margin: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 10,
+                        ),
+                        child: Container(
+                          height: 150,
+                          color: chooseColor(
+                              index), //Colors.primaries[Random().nextInt(myColors.length)],
+                          /*
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
                           gradient: LinearGradient(
@@ -111,23 +124,24 @@ class _AdultKidsState extends State<AdultKids> {
                             ),
                           ],
                         ),
-                        child: new Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: new GridTile(
-                            child: Column(
-                              children: [
-                                SizedBox(height: 20),
-                                imgWidget(set(list[index].gender), 64, 64),
-                                SizedBox(height: 25),
-                                Text(
-                                  list[index].name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
+                        */
+                          child: new Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: new GridTile(
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 20),
+                                  imgWidget(set(list[index].gender), 64, 64),
+                                  SizedBox(height: 25),
+                                  Text(
+                                    list[index].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30,
+                                    ),
                                   ),
-                                ),
-                                //SizedBox(height: 15),
-                                /*
+                                  //SizedBox(height: 15),
+                                  /*
                                 Text(
                                   list[index].date.toString(),
                                   style: TextStyle(
@@ -135,106 +149,43 @@ class _AdultKidsState extends State<AdultKids> {
                                   ),
                                 ),
                                 */
-                                /*
+                                  /*
                           trailing: IconButton(
                             icon: Icon(Icons.delete),
                             color: Theme.of(context).errorColor,
                             onPressed: () => {},
                           ),
                           */
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ));
-                },
-                itemCount: kidsNotifier.kidsList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                        ));
+                  },
+                  itemCount: kidsNotifier.kidsList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8),
+                ),
               ),
-            ),
-      // Container(
-      //     // ghada
-
-      //     child: GridView.builder(
-      //       itemBuilder: (ctx, index) {
-      //         return Card(
-      //             elevation: 5,
-      //             margin: EdgeInsets.symmetric(
-      //               vertical: 8,
-      //               horizontal: 5,
-      //             ),
-      //             child: new Directionality(
-      //               textDirection: TextDirection.rtl,
-      //               child: new ListTile(
-      //                 leading: CircleAvatar(
-      //                   backgroundColor: Color(0xffff6d6e),
-      //                   foregroundColor: Colors.white,
-      //                   radius: 30,
-      //                   child: Padding(
-      //                       padding: EdgeInsets.all(6),
-      //                       child: Container(
-      //                         height: 33,
-      //                         width: 36,
-      //                         child: Icon(Icons.child_care),
-      //                       )),
-      //                 ),
-      //                 title: Text(
-      //                   kidsNotifier.kidsList[index].name,
-      //                   style: TextStyle(
-      //                     fontWeight: FontWeight.bold,
-      //                     fontSize: 22,
-      //                   ),
-      //                 ),
-      //                 subtitle: Text(
-      //                   kidsNotifier.kidsList[index].gender,
-      //                 ),
-      //                 trailing: IconButton(
-      //                   icon: Icon(Icons.delete),
-      //                   color: Theme.of(context).errorColor,
-      //                   onPressed: () => {},
-      //                 ),
-      //               ),
-      //             ));
-      //       },
-      //       itemCount: kidsNotifier.kidsList.length,
-      //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //           crossAxisCount: 2),
-      //     ),
-
-      //     /*
-      //   child:
-      //   ListView.separated(
-      //     itemBuilder: (BuildContext context, int index) {
-      //       return ListTile(
-      //         leading: Text("test"),
-      //         title: Text("test"),
-      //         //subtitle: Text(kidsNotifier.kidsList[index].gender),
-      //       );
-      //     },
-      //     itemCount: 1, //kidsNotifier.kidsList.length,
-      //     separatorBuilder: (BuildContext context, int index) {
-      //       return Divider(color: Colors.black);
-      //     },
-      //   ),*/
-      //   ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        child: Icon(
-          Icons.add,
-          size: 30,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return const AddKids_screen_1();
+                },
+              ),
+            );
+          },
         ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return const AddKids_screen_1();
-              },
-            ),
-          );
-        },
       ),
     );
   }
