@@ -71,70 +71,106 @@ class _SignInScreenState extends State<SignInScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 30),
-                    
-                    NewText(text: 'البريد الإلكتروني' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-                    reuasbleTextField("example@email.com", Icons.email, false, _emailController),
+
+                    NewText(
+                        text: 'البريد الإلكتروني',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
+                    reuasbleTextField("example@email.com", Icons.email, false,
+                        _emailController),
                     SizedBox(height: 20),
 
-                    NewText(text: ' كلمة المرور' , size: 18, color: Colors.black, fontWeight: FontWeight.bold, textAlign: TextAlign.center),
-                    reuasbleTextField('أدخل كلمة المرور', Icons.lock, true, _passController),
-                    SizedBox(height: 10,),
-                    NewText(text: 'هل نسيت كلمة المرور؟',color: Colors.blue, size: 18, fontWeight: FontWeight.w500, onClick: (){} ),
+                    NewText(
+                        text: ' كلمة المرور',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
+                    reuasbleTextField(
+                        'أدخل كلمة المرور', Icons.lock, true, _passController),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    NewText(
+                        text: 'هل نسيت كلمة المرور؟',
+                        color: Colors.blue,
+                        size: 18,
+                        fontWeight: FontWeight.w500,
+                        onClick: () {}),
 
-                    NewButton(text: 'تسجيل', width: MediaQuery.of(context).size.width, height: 110, onClick: () async {
-                      if (_emailController.text.isEmpty ||
-                          _passController.text.isEmpty) {
-                        _showDialog();
-                      } else
-                        await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: _emailController.text.trim(),
-                                password: _passController.text.trim())
-                            .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        }).onError((error, stackTrace) {
-                          print("error ${error.toString()}");
-                        });
-                    }),
+                    NewButton(
+                        text: 'تسجيل',
+                        width: MediaQuery.of(context).size.width,
+                        height: 110,
+                        onClick: () async {
+                          if (_emailController.text.isEmpty ||
+                              _passController.text.isEmpty) {
+                            _showDialog();
+                          } else
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailController.text.trim(),
+                                    password: _passController.text.trim())
+                                .then((value) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()));
+                            }).onError((error, stackTrace) {
+                              print("error ${error.toString()}");
+                            });
+                        }),
 
                     Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 0,
-                              child: 
-                              NewText(text: 'سجل الان', size: 18, fontWeight: FontWeight.w800, color: Colors.blue,
-                                onClick: () { Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen())); },
-                              ),
-                            ),
-                            Expanded(
-                              // optional flex property if flex is 1 because the default flex is 1
-                              flex: 0,
-                              child: 
-                              NewText(text: ' ليس لديك عائلة؟', size: 18, fontWeight: FontWeight.w500, color: Colors.black),
-                            ),
-                          ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          // optional flex property if flex is 1 because the default flex is 1
+                          flex: 0,
+                          child: NewText(
+                            text: 'سجل الان',
+                            size: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.blue,
+                            onClick: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUpScreen()));
+                            },
+                          ),
                         ),
+                        Expanded(
+                          // optional flex property if flex is 1 because the default flex is 1
+                          flex: 0,
+                          child: NewText(
+                              text: ' ليس لديك عائلة؟',
+                              size: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ],
+                    ),
 
                     SizedBox(height: 20),
-                    NewText(text: 'أو' , color: Colors.grey, size: 18,),
-                    SizedBox(height: 20),
-                    NewButton(text: 'انضم الى عائلتك ', width: MediaQuery.of(context).size.width, height: 110, onClick: (){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const QRreader(
-                              title: '',
-                            );
-                          },
-                        ),
-                      );
-                    }),
-                    
+                    NewButton(
+                        text: 'انضم الى عائلتك ',
+                        width: MediaQuery.of(context).size.width,
+                        height: 110,
+                        onClick: () {
+                          /*
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const QRreader(
+                                  title: '',
+                                );
+                              },
+                            ),
+                          );*/
+                        }),
                   ],
                 ))),
       ),

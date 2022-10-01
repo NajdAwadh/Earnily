@@ -94,7 +94,8 @@ class _kidTasksState extends State<kidTasks> {
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
-import 'package:earnily/api/taskApi.dart';
+//import 'package:earnily/api/taskApi.dart';
+import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
 import 'package:provider/provider.dart';
 

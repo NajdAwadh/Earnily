@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      //home: MainPage(),
+      home: MainPage(),
       // home: MainTask(),
       //home: MainTask(),
       // home: MainTask(),
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       // home: HomePageKid(),
       //home: kidTasks(),
       //home: kidWish()
-      home: HomePageKid(),
+      // home: HomePageKid(),
     );
   }
 }

@@ -10,6 +10,6 @@ class Kids {
   Kids.fromMap(Map<String, dynamic> data) {
     name = data['name'];
     gender = data['gender'];
-    date = data['date'];
+    //date = data['date'];
   }
 }

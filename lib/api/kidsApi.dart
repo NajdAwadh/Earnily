@@ -7,8 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
 
 getKids(KidsNotifier kidsNotifier) async {
-  QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('kids').get();
+  final user = FirebaseAuth.instance.currentUser!;
+  QuerySnapshot snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('kids')
+      .get();
 
   List<Kids> _kidsList = [];
 
@@ -21,8 +25,13 @@ getKids(KidsNotifier kidsNotifier) async {
 }
 
 getKidsNames(KidsNotifier kidsNotifier) async {
-  QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('kids').where(name).get();
+  final user = FirebaseAuth.instance.currentUser!;
+  QuerySnapshot snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('kids')
+      .where(name)
+      .get();
 
   List<String> _kidsNamesList = [];
 
