@@ -1,3 +1,4 @@
+import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/onbording.dart';
 import 'package:earnily/pages/KidTasks.dart';
@@ -15,6 +16,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
+import 'dart:ui' as ui;
 
 import 'package:provider/provider.dart';
 import 'notifier/kidsNotifier.dart';
@@ -54,7 +57,6 @@ class MyApp extends StatelessWidget {
       //home: MainTask(),
       // home: MainTask(),
       // home: QrCreateScreen(),
-      // home: HomePageKid(),
       //home: kidTasks(),
       //home: kidWish()
       // home: HomePageKid(),

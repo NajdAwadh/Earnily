@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "987312318171-tmsbqt7js4mshamncpl4ehc0qer21akv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.earnily",
+            "certificate_hash": "f2581f46d111c929e011f266e31ef181bbf64469"
+          }
+        },
+        {
           "client_id": "987312318171-anjmmlvmfka2qdmnn3dponjp2ak748bc.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "987312318171-anjmmlvmfka2qdmnn3dponjp2ak748bc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "987312318171-5uff007dapm90jl6c0gvihqbraqfg5vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.earnily"
+              }
             }
           ]
         }

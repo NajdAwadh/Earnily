@@ -49,10 +49,7 @@ class _HomePageKidState extends State<HomePageKid> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: imgWidget(
-              "/Users/najdalm/Desktop/Earnily/assets/images/EarnilyLogo.png",
-              50,
-              250),
+          child: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
         ),
         // title: Text(
         //  'E A R N I L Y',

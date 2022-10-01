@@ -59,52 +59,59 @@ class _MainTaskState extends State<MainTask> {
 // // Container
 // // singlechildscrollview
 
-      body: Container(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 5,
-                ),
-                child: new Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Color(0xffff6d6e),
-                      foregroundColor: Colors.white,
-                      radius: 30,
-                      child: Padding(
-                          padding: EdgeInsets.all(6),
-                          child: Container(
-                            height: 33,
-                            width: 36,
-                            child: Icon(Icons.wash),
-                          )),
-                    ),
-                    title: Text(
-                      taskNotifier.taskList[index].taskName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
+      body: taskNotifier.taskList.isEmpty
+          ? Center(
+              child: Text(
+                "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                style: TextStyle(fontSize: 30, color: Colors.grey),
+              ),
+            )
+          : Container(
+              child: ListView.builder(
+                itemBuilder: (ctx, index) {
+                  return Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 5,
                       ),
-                    ),
-                    subtitle: Text(
-                      ' اسم الطفل:  ${taskNotifier.taskList[index].asignedKid}                                                                                   النقاط : ${taskNotifier.taskList[index].points}',
-                    ),
-isThreeLine: true,
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () => {},
-                    ),
-                  ),
-                ));
-          },
-          itemCount: taskNotifier.taskList.length,
-        ),
-      ),
+                      child: new Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: new ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Color(0xffff6d6e),
+                            foregroundColor: Colors.white,
+                            radius: 30,
+                            child: Padding(
+                                padding: EdgeInsets.all(6),
+                                child: Container(
+                                  height: 33,
+                                  width: 36,
+                                  child: Icon(Icons.wash),
+                                )),
+                          ),
+                          title: Text(
+                            taskNotifier.taskList[index].taskName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                          subtitle: Text(
+                            ' اسم الطفل:  ${taskNotifier.taskList[index].asignedKid}                                                                                   النقاط : ${taskNotifier.taskList[index].points}',
+                          ),
+                          isThreeLine: true,
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Theme.of(context).errorColor,
+                            onPressed: () => {},
+                          ),
+                        ),
+                      ));
+                },
+                itemCount: taskNotifier.taskList.length,
+              ),
+            ),
 
       // SingleChildScrollView(
       //   child: Column(

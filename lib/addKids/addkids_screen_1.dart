@@ -29,7 +29,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   static TextEditingController nameController = TextEditingController();
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
-
   //List<Kids>? names;
 
   void kk() {
@@ -152,6 +151,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'name': nameController.text,
       'gender': value,
       'date': date,
+      'uid': user.uid,
     });
   }
 
@@ -189,11 +189,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: new Directionality(
+          child: Directionality(
             textDirection: ui.TextDirection.rtl,
             child: Text(
               "إضافة طفل",
-              //textDirection: TextDirection.rtl,
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -282,10 +281,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                           width: 5,
                                         ),
                                         //Image.asset("assets/images/girl.png"),
-                                        //imgWidget("assets/images/girl.png", 5, 5),
+                                        imgWidget("assets/images/girlIcon.png",
+                                            32, 32),
 
-                                        Icon(Icons.child_care,
-                                            color: Colors.pink),
+                                        /*Icon(Icons.child_care,
+                                            color: Colors.pink),*/
                                       ],
                                     ),
                                     Row(
@@ -309,8 +309,12 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         SizedBox(
                                           width: 5,
                                         ),
+                                        //Image.asset("assets/images/boy24.png"),
+                                        imgWidget(
+                                            "assets/images/boy24.png", 32, 32),
+                                        /*
                                         Icon(Icons.child_care,
-                                            color: Colors.blue),
+                                            color: Colors.blue),*/
                                       ],
                                     )
                                   ],
