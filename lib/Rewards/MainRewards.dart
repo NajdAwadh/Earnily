@@ -17,12 +17,13 @@ class MainRewards extends StatefulWidget {
 class _MainRewardsState extends State<MainRewards> {
   late final LocalNotificationService service;
 
-   void initState() {
-   service = LocalNotificationService();
-   service.intialize();
-   listenToNotification();
-   super.initState();
-    }
+  void initState() {
+    service = LocalNotificationService();
+    service.intialize();
+    listenToNotification();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +42,15 @@ class _MainRewardsState extends State<MainRewards> {
       body: Center(
         child: Text('لاتوجد مكافأت مضافة'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
-           await service.showNotificationWithPayload(
-             id: 1,
-             title: 'Notification Title',
-             body: 'Some body',
-             payload: 'payload navigation');
+          await service.showNotificationWithPayload(
+              id: 1,
+              title: 'Notification Title',
+              body: 'Some body',
+              payload: 'payload navigation');
           //do something
         },
         child: Icon(
@@ -59,15 +60,16 @@ class _MainRewardsState extends State<MainRewards> {
       ),
     );
   }
+
   void listenToNotification() =>
-    service.onNotificationClick.stream.listen(onNoticationListener);
-void onNoticationListener(String? payload) {
-  if (payload != null && payload.isNotEmpty) {
-    print('payload $payload');
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: ((context) => SecondScreen(payload: payload))));
-}
-}
+      service.onNotificationClick.stream.listen(onNoticationListener);
+  void onNoticationListener(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      print('payload $payload');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: ((context) => SecondScreen(payload: payload))));
+    }
+  }
 }
