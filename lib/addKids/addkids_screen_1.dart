@@ -323,7 +323,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         ),
                                         //Image.asset("assets/images/boy24.png"),
                                         imgWidget(
-                                            "assets/images/boy24.png", 32, 32),
+                                            "assets/images/boyIcon.png", 32, 32),
                                         /*
                                         Icon(Icons.child_care,
                                             color: Colors.blue),*/

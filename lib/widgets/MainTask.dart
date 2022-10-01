@@ -17,6 +17,8 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
+  final Stream<QuerySnapshot> _stream =
+      FirebaseFirestore.instance.collection("task").snapshots();
   void initState() {
     // TODO: implement initState
     TaskNotifier taskNotifier =
@@ -69,6 +71,37 @@ class _MainTaskState extends State<MainTask> {
           : Container(
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
+                  IconData iconData;
+                  Color iconColor;
+                  switch (taskNotifier.taskList[index].category) {
+                    case "النظافة":
+                      iconData = Icons.wash;
+
+                      iconColor = Color(0xffff6d6e);
+                      break;
+                    case "الأكل":
+                      iconData = Icons.flatware_rounded;
+                      iconColor = Color(0xfff29732);
+                      break;
+
+                    case "الدراسة":
+                      iconData = Icons.auto_stories_outlined;
+                      iconColor = Color(0xff6557ff);
+                      break;
+
+                    case "تطوير الشخصية":
+                      iconData = Icons.border_color_outlined;
+                      iconColor = Color(0xff2bc8d9);
+                      break;
+
+                    case "الدين":
+                      iconData = Icons.brightness_4_rounded;
+                      iconColor = Color(0xff234ebd);
+                      break;
+                    default:
+                      iconData = Icons.brightness_4_rounded;
+                      iconColor = Color(0xff6557ff);
+                  }
                   return Card(
                       elevation: 5,
                       margin: EdgeInsets.symmetric(
@@ -79,7 +112,7 @@ class _MainTaskState extends State<MainTask> {
                         textDirection: TextDirection.rtl,
                         child: new ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: Color(0xffff6d6e),
+                            backgroundColor: iconColor,
                             foregroundColor: Colors.white,
                             radius: 30,
                             child: Padding(
@@ -87,7 +120,7 @@ class _MainTaskState extends State<MainTask> {
                                 child: Container(
                                   height: 33,
                                   width: 36,
-                                  child: Icon(Icons.wash),
+                                  child: Icon(iconData),
                                 )),
                           ),
                           title: Text(
@@ -98,7 +131,7 @@ class _MainTaskState extends State<MainTask> {
                             ),
                           ),
                           subtitle: Text(
-                            ' اسم الطفل:  ${taskNotifier.taskList[index].asignedKid}                                                                                   النقاط : ${taskNotifier.taskList[index].points}',
+                            ' اسم الطفل:  ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points}',
                           ),
                           isThreeLine: true,
                           trailing: IconButton(
