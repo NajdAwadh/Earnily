@@ -4,16 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
-
-import 'kidsApi.dart';
 
 getTask(TaskNotifier taskNotifier) async {
   final user = FirebaseAuth.instance.currentUser!;
 
   String kidName = AddKids_screen_1().getKname();
-  print(kidName);
 
   QuerySnapshot snapshot = await FirebaseFirestore.instance
       .collection('users')
