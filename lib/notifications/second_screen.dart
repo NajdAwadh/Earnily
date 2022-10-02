@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/MainTask.dart';
+
 class SecondScreen extends StatelessWidget {
   const SecondScreen({
     Key? key,
@@ -13,10 +15,22 @@ class SecondScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
   automaticallyImplyLeading: false,
+  actions: <Widget>[
+    IconButton(
+      icon: Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+        size: 40,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    )
+  ],
   backgroundColor: Colors.black,
   elevation: 0,
   title: Text(
-    'الانشطة الحالية',
+    ' النشاط المضاف',
     style: TextStyle(fontSize: 40),
   ),
 ),
