@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import '../reuasblewidgets.dart';
+import 'home_page_kid.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,30 +50,14 @@ class _HomePageState extends State<HomePage> {
         leading: Icon(
           Icons.qr_code_scanner_sharp,
           size: 30,
+          
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
-        ),
-        /* actions: [
-          IconButton(
-            onPressed: () {
-// do something  Navigator.of(context).push(
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return const QrCreateScreen('اضافة بالغ');
-                  },
-                ),
-              );
-            },
-            icon: Icon(Icons.menu),
-          ),
-        ],*/
-      ),
+        title: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
+        toolbarHeight: 100,
+     ),
       endDrawer: Drawer(
         backgroundColor: Colors.black,
         child: SingleChildScrollView(

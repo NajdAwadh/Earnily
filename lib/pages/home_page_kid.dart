@@ -13,8 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../Rewards/MainRewards.dart';
+import '../screen/profile_screen.dart';
+import '../services/upload_file.dart';
+import '../widgets/show_picker.dart';
+
+import 'dart:io';
+
 
 class HomePageKid extends StatefulWidget {
   const HomePageKid({super.key});
@@ -24,6 +31,8 @@ class HomePageKid extends StatefulWidget {
 }
 
 class _HomePageKidState extends State<HomePageKid> {
+  bool isLoading = false;
+  String image = '';
   // final kid = FirebaseAuth.instance.currentUser!;
   var firstColor = Color(0xff5b86e5), secondColor = Color(0xff36d1dc);
   int _selectedIndex = 0;
@@ -69,6 +78,70 @@ class _HomePageKidState extends State<HomePageKid> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   imgWidget("assets/images/EarnilyLogo.png", 100, 250),
+                  Center(
+                    child: Stack(
+                      children: [
+                        file == null
+                            ? CircleAvatar(
+                                radius: 60,
+                              )
+                            : CircleAvatar(
+                                radius: 60,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(70),
+                                  child: Image.network(
+                                    image,
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                        Positioned.fill(
+                            child: InkWell(
+                          onTap: () {
+                            showPicker(
+                              context,
+                              onGalleryTap: () {
+                                getImage(ImageSource.gallery);
+                                Navigator.of(context).pop();
+                              },
+                              onCameraTap: () {
+                                getImage(ImageSource.camera);
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.photo_library_outlined,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
+                      ],
+                    ),
+                  ),
+
+                  Text(
+                    'Reema' ,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                  ),
                   Text(
                     '________________________________',
                     style: TextStyle(
@@ -231,5 +304,37 @@ class _HomePageKidState extends State<HomePageKid> {
         },
       ),*/
     );
+  }
+
+
+    ImagePicker picker = ImagePicker();
+
+  File? file;
+  String imageUrl = "";
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source, imageQuality: 30);
+    if (pickedFile != null && pickedFile.path != null) {
+      loadingTrue();
+
+      file = File(pickedFile.path);
+      setState(() {});
+      // ignore: use_build_context_synchronously
+      imageUrl = await UploadFileServices().getUrl(context, file: file!);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
+    }
+  }
+
+  loadingTrue() {
+    isLoading = true;
+    setState(() {});
+  }
+
+  loadingFalse() {
+    isLoading = false;
+    setState(() {});
   }
 }

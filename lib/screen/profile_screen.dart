@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Directionality(
             textDirection: ui.TextDirection.rtl,
             child: Text(
-              'ملفي الشخصي',
+              'الملف الشخصي',
               style: TextStyle(fontSize: 40),
             ),
           ),
