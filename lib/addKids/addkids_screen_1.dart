@@ -1,5 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'dart:io';
+
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -28,7 +30,7 @@ class AddKids_screen_1 extends StatefulWidget {
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
-  static TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -96,8 +98,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         showToastMessage("تمت إضافة الطفل بنجاح");
 
         Notifications.showNotification(
-          title: "sarah",
-          body: 'hey',
+          title: "EARNILY",
+          body: ' لديك نشاط جديد بأنتظارك',
           payload: 'earnily',
         );
 
@@ -155,11 +157,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         email: user.email!, password: nameController.text.trim());
   }
 
-  getName() {
-    String kidName = nameController.text;
-    return kidName;
-  }
-
   void _showDatePicker() async => showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -188,156 +185,160 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
-              size: 40,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
-        backgroundColor: Colors.black,
-        elevation: 0,
-        title: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Directionality(
-            textDirection: ui.TextDirection.rtl,
-            child: Text(
-              "إضافة طفل",
-              style: TextStyle(fontSize: 40),
+    return Directionality(
+      textDirection: ui.TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+                size: 40,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+          backgroundColor: Colors.black,
+          elevation: 0,
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Directionality(
+              textDirection: ui.TextDirection.rtl,
+              child: Text(
+                "إضافة طفل",
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
         ),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.02, 20, 0),
-                child: Column(
-                  children: <Widget>[
-                    Container(),
-                    SizedBox(height: 30),
-                    //Image.asset("assets/images/ChildrenFreepik.png"),
-                    imgWidget("assets/images/ChildrenFreepik.png", 100, 100),
-                    /*
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      20, MediaQuery.of(context).size.height * 0.02, 20, 0),
+                  child: Column(
+                    children: <Widget>[
+                      Container(),
+                      SizedBox(height: 30),
+                      //Image.asset("assets/images/ChildrenFreepik.png"),
+                      imgWidget("assets/images/ChildrenFreepik.png", 100, 100),
+                      /*
                     Icon(
                       Icons.family_restroom,
                       color: Colors.black,
                       size: 100,
                     ),
                     */
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "الاسم",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "الاسم",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
-                    ),
-                    reuasbleTextField(
-                        "الاسم ", Icons.person, false, nameController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " الجنس",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                      reuasbleTextField(
+                          "الاسم ", Icons.person, false, nameController),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          " الجنس",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
 
-                    Positioned(
-                        right: 107,
-                        top: 300,
-                        width: 254,
-                        height: 66,
-                        child: Container(
-                            alignment: Alignment.topRight,
-                            child: new Directionality(
-                                textDirection: ui.TextDirection.rtl,
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 50,
-                                    ),
-                                    Row(
-                                      //female
-                                      children: [
-                                        Radio(
-                                            value: items[1],
-                                            groupValue: value,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                value = newValue!;
-                                              });
-                                            }),
-                                        Text(
-                                          items[1],
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        //Image.asset("assets/images/girl.png"),
-                                        imgWidget("assets/images/girlIcon.png",
-                                            32, 32),
+                      Positioned(
+                          right: 107,
+                          top: 300,
+                          width: 254,
+                          height: 66,
+                          child: Container(
+                              alignment: Alignment.topRight,
+                              child: new Directionality(
+                                  textDirection: ui.TextDirection.rtl,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                      ),
+                                      Row(
+                                        //female
+                                        children: [
+                                          Radio(
+                                              value: items[1],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[1],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          //Image.asset("assets/images/girl.png"),
+                                          imgWidget(
+                                              "assets/images/girlIcon.png",
+                                              32,
+                                              32),
 
-                                        /*Icon(Icons.child_care,
+                                          /*Icon(Icons.child_care,
                                             color: Colors.pink),*/
-                                      ],
-                                    ),
-                                    Row(
-                                      //male
-                                      children: [
-                                        Radio(
-                                            value: items[0],
-                                            groupValue: value,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                value = newValue!;
-                                              });
-                                            }),
-                                        Text(
-                                          items[0],
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        //Image.asset("assets/images/boy24.png"),
-                                        imgWidget("assets/images/boyIcon.png",
-                                            32, 32),
-                                        /*
+                                        ],
+                                      ),
+                                      Row(
+                                        //male
+                                        children: [
+                                          Radio(
+                                              value: items[0],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[0],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          //Image.asset("assets/images/boy24.png"),
+                                          imgWidget("assets/images/boyIcon.png",
+                                              32, 32),
+                                          /*
                                         Icon(Icons.child_care,
                                             color: Colors.blue),*/
-                                      ],
-                                    )
-                                  ],
-                                )))
+                                        ],
+                                      )
+                                    ],
+                                  )))
 
-                        /*Container(
+                          /*Container(
                             alignment: Alignment.topRight,
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
@@ -381,56 +382,58 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 }
                                 ),
                                 ),*/
-                        ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " تاريخ الميلاد",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                          ),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    Positioned(
-                      right: 107,
-                      top: 425,
-                      child: new Directionality(
-                        textDirection: ui.TextDirection.rtl,
-                        child: Row(
-                          children: [
-                            IconButton(
-                                onPressed: _showDatePicker,
-                                style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all(Colors.black),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.white)),
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  size: 30,
-                                )),
-                            Text(
-                              date == null
-                                  ? 'اختر تاريخ الميلاد'
-                                  : '${DateFormat.yMd().format(date!)}',
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey,
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          " تاريخ الميلاد",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Positioned(
+                        right: 107,
+                        top: 425,
+                        child: new Directionality(
+                          textDirection: ui.TextDirection.rtl,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  onPressed: _showDatePicker,
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.black),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.white)),
+                                  icon: Icon(
+                                    Icons.calendar_today,
+                                    size: 30,
+                                  )),
+                              Text(
+                                date == null
+                                    ? 'اختر تاريخ الميلاد'
+                                    : '${DateFormat.yMd().format(date!)}',
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey,
+                                ),
+                                textDirection: ui.TextDirection.rtl,
                               ),
-                              textDirection: ui.TextDirection.rtl,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
 
-                      /*SizedBox(
+                        /*SizedBox(
                           width: 350,
                           height: 66,
                           child: ElevatedButton(
@@ -460,41 +463,42 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                 textDirection: ui.TextDirection.rtl,
                               )),
                         )*/
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Positioned(
-                        left: 21,
-                        top: 625,
-                        width: 350,
-                        height: 66,
-                        child: SizedBox(
-                            width: 347,
-                            height: 68,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 0,
-                                    color: Colors.transparent,
+                      ),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Positioned(
+                          left: 21,
+                          top: 625,
+                          width: 350,
+                          height: 66,
+                          child: SizedBox(
+                              width: 347,
+                              height: 68,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  backgroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: const BorderSide(
+                                      width: 0,
+                                      color: Colors.transparent,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              onPressed: _validate,
-                              child: const Text('إضافة ',
-                                  overflow: TextOverflow.visible,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                            ))),
-                  ],
-                ))),
+                                onPressed: _validate,
+                                child: const Text('إضافة ',
+                                    overflow: TextOverflow.visible,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ))),
+                    ],
+                  ))),
+        ),
       ),
     );
   }
