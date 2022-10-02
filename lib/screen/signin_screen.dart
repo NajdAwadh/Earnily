@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/screen/QRreader.dart';
+import 'package:earnily/screen/kidlogin.dart';
 import 'package:earnily/screen/signup_screen.dart';
 import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/new_text.dart';
@@ -160,13 +161,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () {
-                          /*
-                          Navigator.of(context).push(
+                          /*    Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const QRreader(
-                                  title: '',
-                                );
+                                return const kidlogin();
                               },
                             ),
                           );*/
