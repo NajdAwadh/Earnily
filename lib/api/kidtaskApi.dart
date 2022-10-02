@@ -12,7 +12,7 @@ getTask(TaskNotifier taskNotifier) async {
       .collection('users')
       .doc(user.uid)
       .collection('kids')
-      .doc('sarakid2')
+      .doc('reema')
       .collection('Task')
       .orderBy('date')
       .get();
@@ -25,4 +25,11 @@ getTask(TaskNotifier taskNotifier) async {
   });
 
   taskNotifier.taskList = _taskList;
+}
+
+getKidName(String name) {
+  final user = FirebaseAuth.instance.currentUser!;
+  String nameController = name;
+
+  return nameController;
 }

@@ -26,7 +26,10 @@ class _kidWishState extends State<kidWish> {
         ),
       ),
       body: Center(
-        child: Text('لاتوجد امنيات مضافة'),
+        child: Text(
+          'لاتوجد امنيات مضافة',
+          style: TextStyle(fontSize: 30, color: Colors.grey),
+        ),
       ),
     );
   }

@@ -63,9 +63,9 @@ class MyApp extends StatelessWidget {
 
       // home: MainTask(),
       // home: QrCreateScreen(),
-     // home: kidTasks(),
+      // home: kidTasks(),
       //home: kidWish()
-      // home: HomePageKid(),
+      //home: HomePageKid(),
     );
   }
 }

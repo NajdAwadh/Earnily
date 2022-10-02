@@ -17,7 +17,7 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
-Future getPointsFirestore() async {
+  Future getPointsFirestore() async {
     var firestore = FirebaseFirestore.instance;
     QuerySnapshot qn = await firestore.collection("points").get();
     return qn.docs;
@@ -25,7 +25,6 @@ Future getPointsFirestore() async {
 
   //snapShot.data[index]
   void initState() {
-
     // TODO: implement initState
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
@@ -36,7 +35,6 @@ Future getPointsFirestore() async {
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +46,6 @@ Future getPointsFirestore() async {
           style: TextStyle(fontSize: 40),
         ),
       ),
-  
 
       body: taskNotifier.taskList.isEmpty
           ? Center(
@@ -121,6 +118,7 @@ Future getPointsFirestore() async {
                           ),
                           subtitle: Text(
                             '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points}',
+                            style: TextStyle(fontSize: 20),
                           ),
                           isThreeLine: true,
                           trailing: IconButton(
@@ -145,7 +143,7 @@ Future getPointsFirestore() async {
       //   ),
       // ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,

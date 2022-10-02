@@ -62,6 +62,9 @@ dependencies:
   lottie: ^1.2.1
   
   flutter_launcher_icons: ^0.10.0
+
+  firebase_messaging: ^11.2.11
+  overlay_support: ^1.2.1
   
 
 
