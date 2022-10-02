@@ -1,25 +1,28 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
 import 'package:earnily/pages/home_page.dart';
+import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/screen/QRreader.dart';
-import 'package:earnily/screen/kidlogin.dart';
-import 'package:earnily/screen/signinKid.dart';
 import 'package:earnily/screen/signup_screen.dart';
 import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../api/kidsApi.dart';
+import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignInKid extends StatefulWidget {
+  const SignInKid({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInKid> createState() => _SignInKidState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInKidState extends State<SignInKid> {
+  final user = FirebaseAuth.instance.currentUser!;
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -51,8 +54,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 254, 167, 167),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -66,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     imgWidget("assets/images/EarnilyLogo.png", 150, 250),
                     //SizedBox(height: 30),
                     Text(
-                      'تسجيل الدخول',
+                      'تسجيل الدخول طفل',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 40,
@@ -85,22 +90,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     SizedBox(height: 20),
 
                     NewText(
-                        text: ' كلمة المرور',
+                        text: 'الأسم',
                         size: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center),
                     reuasbleTextField(
-                        'أدخل كلمة المرور', Icons.lock, true, _passController),
+                        "أدخل الأسم", Icons.lock, false, _nameController),
                     SizedBox(
                       height: 10,
                     ),
-                    NewText(
-                        text: 'هل نسيت كلمة المرور؟',
-                        color: Colors.blue,
-                        size: 18,
-                        fontWeight: FontWeight.w500,
-                        onClick: () {}),
 
                     NewButton(
                         text: 'تسجيل',
@@ -108,86 +107,39 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 110,
                         onClick: () async {
                           if (_emailController.text.isEmpty ||
-                              _passController.text.isEmpty) {
+                              _nameController.text.isEmpty) {
                             _showDialog();
                           } else
                             await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                                     email: _emailController.text.trim(),
-                                    password: _passController.text.trim())
+                                    password: _nameController.text.trim())
                                 .then((value) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                                      builder: (context) => HomePageKid()));
                             }).onError((error, stackTrace) {
                               print("error ${error.toString()}");
                             });
                         }),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          // optional flex property if flex is 1 because the default flex is 1
-                          flex: 0,
-                          child: NewText(
-                            text: 'سجل الان',
-                            size: 18,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blue,
-                            onClick: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpScreen()));
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          // optional flex property if flex is 1 because the default flex is 1
-                          flex: 0,
-                          child: NewText(
-                              text: ' ليس لديك عائلة؟',
-                              size: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-
                     SizedBox(height: 20),
                     NewButton(
                         text: 'انضم الى عائلتك ',
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () {
-                          /*    Navigator.of(context).push(
+                          /*
+                          Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const kidlogin();
+                                return const QRreader(
+                                  title: '',
+                                );
                               },
                             ),
                           );*/
                         }),
-
-                    /*
-
-                    SizedBox(height: 20),
-                    NewButton(
-                        text: 'انضم الى عائلتك kid',
-                        width: MediaQuery.of(context).size.width,
-                        height: 110,
-                        onClick: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const SignInKid();
-                              },
-                            ),
-                          );
-                        }),
-                        */
                   ],
                 ))),
       ),

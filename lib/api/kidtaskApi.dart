@@ -12,9 +12,6 @@ import 'kidsApi.dart';
 getTask(TaskNotifier taskNotifier) async {
   final user = FirebaseAuth.instance.currentUser!;
 
-  String kidName = AddKids_screen_1().getKname();
-  print(kidName);
-
   QuerySnapshot snapshot = await FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)
@@ -35,6 +32,7 @@ getTask(TaskNotifier taskNotifier) async {
 }
 
 getKidName(String name) {
+  final user = FirebaseAuth.instance.currentUser!;
   String nameController = name;
 
   return nameController;

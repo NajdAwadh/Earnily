@@ -26,7 +26,10 @@ class _kidrewardState extends State<kidreward> {
         ),
       ),
       body: Center(
-        child: Text('لاتوجد مكافأت مضافة'),
+        child: Text(
+          'لاتوجد مكافأت مضافة',
+          style: TextStyle(fontSize: 30, color: Colors.grey),
+        ),
       ),
     );
   }

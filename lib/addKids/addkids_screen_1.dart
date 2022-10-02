@@ -25,22 +25,12 @@ class AddKids_screen_1 extends StatefulWidget {
 
   @override
   _AddKids_screen_1 createState() => _AddKids_screen_1();
-
-  getKname() {
-    String Kname = _AddKids_screen_1().getName();
-    return Kname;
-  }
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final TextEditingController nameController = TextEditingController();
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
-  //List<Kids>? names;
-
-  void kk() {
-    print(nameController);
-  }
 
   @override
   void initState() {
@@ -161,6 +151,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'date': date,
       'uid': user.uid,
     });
+
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: user.email!, password: nameController.text.trim());
   }
 
   String getName() {
@@ -195,10 +188,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
-    //name = kidsNotifier.kidName;
-    String name = getName();
-    showToastMessage(name);
-    print(name);
 
     return Directionality(
       textDirection: ui.TextDirection.rtl,
