@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
+import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -79,7 +80,13 @@ class _AdultKidsState extends State<AdultKids> {
                 style: TextStyle(fontSize: 30, color: Colors.grey),
               ),
             )
-          : Container(
+          : GestureDetector(
+            onTap: () {
+              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePageKid()));
+            },
               child: GridView.builder(
                 itemBuilder: (ctx, index) {
                   return Card(
@@ -90,27 +97,29 @@ class _AdultKidsState extends State<AdultKids> {
                       ),
                       child: Container(
                         height: 150,
+                        color: Color(0xffff6d6e), //Colors.primaries[Random().nextInt(myColors.length)]
+
                         //color: Colors.primaries[ Random().nextInt(myColors.length)],
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          gradient: LinearGradient(
-                              colors: [
-                                Colors.primaries[
-                                    Random().nextInt(Colors.accents.length)],
-                                Colors.primaries[
-                                    Random().nextInt(Colors.accents.length)],
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.primaries[
-                                  Random().nextInt(Colors.accents.length)],
-                              blurRadius: 12,
-                              offset: Offset(0, 6),
-                            ),
-                          ],
-                        ),
+                        // decoration: BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(24),
+                        //   gradient: LinearGradient(
+                        //       colors: [
+                        //         Colors.primaries[
+                        //             Random().nextInt(Colors.accents.length)],
+                        //         Colors.primaries[
+                        //             Random().nextInt(Colors.accents.length)],
+                        //       ],
+                        //       begin: Alignment.topLeft,
+                        //       end: Alignment.bottomRight),
+                        //   boxShadow: [
+                        //     BoxShadow(
+                        //       color: Colors.primaries[
+                        //           Random().nextInt(Colors.accents.length)],
+                        //       blurRadius: 12,
+                        //       offset: Offset(0, 6),
+                        //     ),
+                        //   ],
+                        // ),
                         child: new Directionality(
                           textDirection: TextDirection.rtl,
                           child: new GridTile(

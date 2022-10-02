@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:earnily/Rewards/kidrewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/pages/KidTasks.dart';
+import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/signin_screen.dart';
@@ -166,7 +167,7 @@ class _HomePageKidState extends State<HomePageKid> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return const HomePageKid();
+                            return const HomePage();
                           },
                         ),
                       );
