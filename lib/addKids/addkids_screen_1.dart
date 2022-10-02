@@ -34,7 +34,6 @@ class AddKids_screen_1 extends StatefulWidget {
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   static TextEditingController nameController = TextEditingController();
-
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
   //List<Kids>? names;
@@ -107,8 +106,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         showToastMessage("تمت إضافة الطفل بنجاح");
 
         Notifications.showNotification(
-          title: "EARNILY",
-          body: ' لديك نشاط جديد بأنتظارك',
+          title: "sarah",
+          body: 'hey',
           payload: 'earnily',
         );
 
@@ -335,7 +334,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                           width: 5,
                                         ),
                                         //Image.asset("assets/images/boy24.png"),
-                                        imgWidget("assets/images/girlIcon.png",
+                                        imgWidget("assets/images/boyIcon.png",
                                             32, 32),
                                         /*
                                         Icon(Icons.child_care,

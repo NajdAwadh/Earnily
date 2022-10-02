@@ -86,11 +86,6 @@ class _Add_taskState extends State<Add_task> {
       addTask();
 
       showToastMessage("تمت إضافة نشاط بنجاح");
-      Notifications.showNotification(
-        title: "EARNILY",
-        body: ' لديك نشاط جديد بأنتظارك',
-        payload: 'earnily',
-      );
     } else {
       _showDialog();
     }
@@ -116,7 +111,7 @@ class _Add_taskState extends State<Add_task> {
         .collection('users')
         .doc(user.uid)
         .collection('kids')
-        .doc('reema')
+        .doc('sarakid2')
         .collection('Task')
         .add({
       'taskName': _nameController.text,
@@ -126,6 +121,7 @@ class _Add_taskState extends State<Add_task> {
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
+      
     });
   }
 

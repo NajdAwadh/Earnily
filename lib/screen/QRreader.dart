@@ -100,7 +100,7 @@ class _QRreaderState extends State<QRreader> {
                   'تسجيل الدخول',
                 ),
                 reuasbleTextField(
-                    "child id", Icons.child_care, false, _nameController),
+                    "child name", Icons.child_care, false, _nameController),
 
                 NewButton(
                     text: 'تسجيل',
