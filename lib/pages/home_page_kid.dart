@@ -44,7 +44,6 @@ class _HomePageKidState extends State<HomePageKid> {
     return Scaffold(
       appBar: AppBar(
         // toolbarHeight: 80,
-
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,

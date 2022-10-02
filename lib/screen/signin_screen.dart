@@ -162,10 +162,13 @@ class _SignInScreenState extends State<SignInScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () {
-                          /*    Navigator.of(context).push(
+                          /*
+                          Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const kidlogin();
+                                return const QRreader(
+                                  title: '',
+                                );
                               },
                             ),
                           );*/

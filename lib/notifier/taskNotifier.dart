@@ -14,7 +14,7 @@ class TaskNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  set currentTask(Task currentTask) {
+  set currentKid(Task currentTask) {
     _currentTask = currentTask;
     notifyListeners();
   }

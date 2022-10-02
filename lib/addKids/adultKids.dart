@@ -169,7 +169,11 @@ class _AdultKidsState extends State<AdultKids> {
                       crossAxisSpacing: 8),
                 ),
               ),
+<<<<<<< HEAD
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+=======
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+>>>>>>> 47549be9c2dc73228b2b0b32071850f6ef5a0478
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           child: Icon(

@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleVersion</key>
-<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Earnily</string>
 	<key>CFBundleExecutable</key>
