@@ -14,7 +14,16 @@ class _kidViewState extends State<kidView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.amber,
+        color: Colors.white,
+        child: AppBar(
+          backgroundColor: Colors.deepPurple,
+          elevation: 0,
+          title: Text(
+            ' صفحتي الشخصية',
+            style: TextStyle(fontSize: 40),
+          ),
+          actions: [],
+        ),
       ),
     );
   }
