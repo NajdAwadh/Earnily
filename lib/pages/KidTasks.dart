@@ -105,7 +105,7 @@ class _kidTasksState extends State<kidTasks> {
       body: taskNotifier.taskList.isEmpty
           ? Center(
               child: Text(
-                "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                "لا يوجد لديك مهام",
                 style: TextStyle(fontSize: 30, color: Colors.grey),
               ),
             )
@@ -113,65 +113,71 @@ class _kidTasksState extends State<kidTasks> {
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 5,
-                      ),
-                      child: new Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: new ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Color(0xffff6d6e),
-                            foregroundColor: Colors.white,
-                            radius: 30,
-                            child: Padding(
-                                padding: EdgeInsets.all(6),
-                                child: Container(
-                                  height: 33,
-                                  width: 36,
-                                  child: Icon(Icons.wash),
-                                )),
-                          ),
-                          title: Text(
-                            taskNotifier.taskList[index].taskName,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
-                          ),
-                          subtitle: Text(
-                            ' ${taskNotifier.taskList[index].date}                                                                                   النقاط : ${taskNotifier.taskList[index].points}',
-                          ),
-                          isThreeLine: true,
-                          trailing: IconButton(
-                            icon: Icon((click == true)
-                                ? Icons.check_box
-                                : Icons.lock_clock),
-                            //color: Theme.of(context).errorColor,
-                            onPressed: () => {
-                              _showDialog(
-                                  '${taskNotifier.taskList[index].taskName}')
-                              // showDialog(
-                              //     context: context,
-                              //     builder: (context) => AlertDialog(
-                              //           title: Text('!تم إرسال الطلب لوالدك'),
-                              //           content: Text(
-                              //               'عندالموافقة ستضاقف النقاط إالى حسابك'),
-                              //           actions: [
-                              //             TextButton(
-                              //                 onPressed: () => Navigator.pop(context),
-                              //                 child: Text('لم أكمل مهمتي بعد')),
-                              //             TextButton(
-                              //                 onPressed: () =>
-                              //                 updateTask(),
-                              //                 child: Text('حسنا'))
-                              //           ],
-                              //         ))
-                            },
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 5,
+                    ),
+                    child: new Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: new ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Color(0xffff6d6e),
+                          foregroundColor: Colors.white,
+                          radius: 30,
+                          child: Padding(
+                              padding: EdgeInsets.all(6),
+                              child: Container(
+                                height: 33,
+                                width: 36,
+                                child: Icon(Icons.wash),
+                              )),
+                        ),
+                        title: Text(
+                          taskNotifier.taskList[index].taskName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
                           ),
                         ),
-                      ));
+                        subtitle: Text(
+                          ' ${taskNotifier.taskList[index].date}                                                                                   النقاط : ${taskNotifier.taskList[index].points}',
+                        ),
+                        isThreeLine: true,
+                        trailing: IconButton(
+                          icon: Icon(
+                            //(click == true)
+                            //?
+                            Icons.check_box,
+                          ),
+                          //: Icons.lock_clock),
+                          //color: Theme.of(context).errorColor,
+                          onPressed: () => {
+                            Icon(Icons.lock_clock),
+                            _showDialog(
+                                '${taskNotifier.taskList[index].taskName}'),
+                            // showDialog(
+                            //     context: context,
+                            //     builder: (context) => AlertDialog(
+                            //           title: Text('!تم إرسال الطلب لوالدك'),
+                            //           content: Text(
+                            //               'عندالموافقة ستضاقف النقاط إالى حسابك'),
+                            //           actions: [
+                            //             TextButton(
+                            //                 onPressed: () => Navigator.pop(context),
+                            //                 child: Text('لم أكمل مهمتي بعد')),
+                            //             TextButton(
+                            //                 onPressed: () =>
+                            //                 updateTask(),
+                            //                 child: Text('حسنا'))
+                            //           ],
+                            //         ))
+                          },
+                          //),
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 itemCount: taskNotifier.taskList.length,
               ),

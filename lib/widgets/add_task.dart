@@ -99,11 +99,14 @@ class _Add_taskState extends State<Add_task> {
       addTask();
 
       showToastMessage("تمت إضافة نشاط بنجاح");
+
       Notifications.showNotification(
         title: "EARNILY",
         body: ' لديك نشاط جديد بأنتظارك',
         payload: 'earnily',
       );
+
+      Navigator.of(context).pop();
     } else {
       _showDialog();
     }

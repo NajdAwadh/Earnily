@@ -103,6 +103,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           payload: 'earnily',
         );
 
+        Navigator.of(context).pop();
+
         /*
       Navigator.of(context).push(
         MaterialPageRoute(
