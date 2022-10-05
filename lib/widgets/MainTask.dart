@@ -1,13 +1,19 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:earnily/models/kids.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
+import 'package:earnily/widgets/view_task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../api/kidsApi.dart';
+import '../notifications/notification_api.dart';
+import '../notifier/kidsNotifier.dart';
 
 class MainTask extends StatefulWidget {
   const MainTask({super.key});
@@ -17,11 +23,12 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
-  Future getPointsFirestore() async {
-    var firestore = FirebaseFirestore.instance;
-    QuerySnapshot qn = await firestore.collection("points").get();
-    return qn.docs;
-  }
+  // Future getPointsFirestore() async {
+  //   var firestore = FirebaseFirestore.instance;
+  //   // int points=0;
+  //   QuerySnapshot qn = await firestore.collection("points").get();
+  //   return qn.docs;
+  // }
 
   //snapShot.data[index]
   void initState() {
@@ -29,21 +36,317 @@ class _MainTaskState extends State<MainTask> {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
+
     super.initState();
+  }
+
+  void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
+  }
+
+  Future updateTask(
+      String id, String adult, String kid, int point, int p) async {
+    showToastMessage('تم قبول النشاط');
+    Navigator.of(context).pop();
+    print(p);
+    print(point);
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection("Task")
+        .doc(id)
+        .update({'state': 'complete'});
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .collection("Task")
+        .doc(id)
+        .update({'state': 'complete'});
+  }
+
+  Future _updatePoints(String adult, String kid, int point, int p) async {
+    // var pe = int.parse(point);
+    // var pee = pe + 20;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': point + p});
+
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': point + p});
+  }
+
+  Future delete(String id, String adult, String kid, String msg) async {
+    showToastMessage(msg);
+    Navigator.of(context).pop();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection("Task")
+        .doc(id)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .collection("Task")
+        .doc(id)
+        .delete();
+  }
+
+  Future delete2(String id, String adult, String kid, String msg) async {
+    showToastMessage(msg);
+    Navigator.of(context).pop();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection("Task")
+        .doc(id)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .collection("Task")
+        .doc(id)
+        .delete();
+  }
+
+  void _showDialog(String id, String adult, String kid, int points, int p) {
+    // var point = int.parse(points);
+    // var kidPoints = int.parse(p);
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "رفض",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: () {
+              // Navigator.of(context).pop;
+              delete(id, adult, kid, 'تم رفض النشاط');
+            },
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "قبول",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop;
+              updateTask(id, adult, kid, points, p);
+            },
+          );
+
+          Widget backButton = TextButton(
+            child: Text(
+              "تراجع",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          return AlertDialog(
+            title: Text(
+              'قبول اتمام المهمة',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بقبول مهمة طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              backButton,
+              cancelButton,
+              continueButton,
+            ],
+          );
+        });
+  }
+
+  void _showDialog5(String id, String adult, String kid, int points, int p) {
+    // var point = int.parse(points);
+    // var kidPoints = int.parse(p);
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "رفض",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: () {
+              // Navigator.of(context).pop;
+              delete(id, adult, kid, 'تم رفض النشاط');
+            },
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "قبول",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop;
+              updateTask(id, adult, kid, points, p);
+            },
+          );
+
+          Widget backButton = TextButton(
+            child: Text(
+              "تراجع",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          return AlertDialog(
+            title: Text(
+              'قبول اتمام المهمة',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بقبول مهمة طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              backButton,
+              cancelButton,
+              continueButton,
+            ],
+          );
+        });
+  }
+
+  void _showDialog2() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "حسنا",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+
+          return AlertDialog(
+            title: Text(
+              'طفلك لم يكمل المهمة بعد',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+            ],
+          );
+        });
+  }
+
+  void _showDialog3(String id, String adult, String kid) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "لا",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "نعم",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              delete2(id, adult, kid, 'تم حذف النشاط');
+            },
+          );
+
+          return AlertDialog(
+            title: Text(
+              'حذف المهمة من طفلك',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بحذف مهمة طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+              continueButton,
+            ],
+          );
+        });
+  }
+
+  int dd = 0;
+  String _colors(String i, String kid) {
+    if (i == "Not complete") {
+      return 'غير مكتمل🔴';
+    } else if (i == "pending") {
+      if (dd == 0)
+        Notifications.showNotification(
+          title: "EARNILY",
+          body: ' طفلك  ' + kid + ' اكمل المهمة ',
+          payload: 'earnily',
+        );
+      dd++;
+      return 'انتظار موافقتك🟠';
+    } else
+      return 'مكتمل🟢';
   }
 
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
+    Kids currentKid = kidsNotifier.currentKid;
+    // var pe = int.parse(taskNotifier.currentTask.points);
+    // num p = currentKid.points + pe;
+    // Future<void> _refreshList() async {
+    //   getTask(taskNotifier);
+    // }
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Text(
-          'الانشطة الحالية',
-          style: TextStyle(fontSize: 40),
+        title: Center(
+          child: Text(
+            'الانشطة الحالية',
+            style: TextStyle(fontSize: 40),
+          ),
         ),
       ),
 
@@ -97,36 +400,54 @@ class _MainTaskState extends State<MainTask> {
                       child: new Directionality(
                         textDirection: TextDirection.rtl,
                         child: new ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: iconColor,
-                            foregroundColor: Colors.white,
-                            radius: 30,
-                            child: Padding(
-                                padding: EdgeInsets.all(6),
-                                child: Container(
-                                  height: 33,
-                                  width: 36,
-                                  child: Icon(iconData),
-                                )),
-                          ),
-                          title: Text(
-                            taskNotifier.taskList[index].taskName,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                            leading: CircleAvatar(
+                              backgroundColor: iconColor,
+                              foregroundColor: Colors.white,
+                              radius: 30,
+                              child: Padding(
+                                  padding: EdgeInsets.all(6),
+                                  child: Container(
+                                    height: 33,
+                                    width: 36,
+                                    child: Icon(iconData),
+                                  )),
                             ),
-                          ),
-                          subtitle: Text(
-                            '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points}',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          isThreeLine: true,
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Theme.of(context).errorColor,
-                            onPressed: () => {},
-                          ),
-                        ),
+                            title: Text(
+                              taskNotifier.taskList[index].taskName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '${taskNotifier.taskList[index].asignedKid}\n${taskNotifier.taskList[index].points.toString()}🌟 | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                            isThreeLine: true,
+                            onTap: () {
+                              taskNotifier.currentTask =
+                                  taskNotifier.taskList[index];
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return View_task();
+                              }));
+                            },
+                            trailing: Wrap(spacing: 0, children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                color: Theme.of(context).errorColor,
+                                onPressed: () => {
+                                  //delete
+                                },
+                              ),
+                              if (taskNotifier.taskList[index].state ==
+                                  'pending')
+                                IconButton(
+                                  icon: Icon(Icons.check),
+                                  color: Colors.black,
+                                  onPressed: () => {},
+                                ),
+                            ])),
                       ));
                 },
                 itemCount: taskNotifier.taskList.length,
@@ -143,7 +464,8 @@ class _MainTaskState extends State<MainTask> {
       //   ),
       // ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
