@@ -41,9 +41,11 @@ class _MainTaskState extends State<MainTask> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Text(
-          'الانشطة الحالية',
-          style: TextStyle(fontSize: 40),
+        title: Center(
+          child: Text(
+            'الانشطة الحالية',
+            style: TextStyle(fontSize: 40),
+          ),
         ),
       ),
 

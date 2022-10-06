@@ -208,9 +208,11 @@ class _Add_taskState extends State<Add_task> {
         ],
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Text(
-          'إضافة نشاط',
-          style: TextStyle(fontSize: 40),
+        title: Center(
+          child: Text(
+            'إضافة نشاط',
+            style: TextStyle(fontSize: 40),
+          ),
         ),
       ),
       body: Form(

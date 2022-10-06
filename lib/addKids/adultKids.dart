@@ -68,22 +68,27 @@ class _AdultKidsState extends State<AdultKids> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<Kids> list = kidsNotifier.kidsList;
-    return Directionality(
-      textDirection: ui.TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
-          elevation: 0,
-          title: Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+    //return Directionality(
+    //textDirection: ui.TextDirection.rtl,
+    //child:
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: Center(
             child: Text(
               "الأطفال",
               style: TextStyle(fontSize: 40),
             ),
           ),
         ),
-        body: list.isEmpty
+      ),
+      body: new Directionality(
+        textDirection: ui.TextDirection.rtl,
+        child: list.isEmpty
             ? Center(
                 child: Text(
                   "لا يوجد لديك أطفال \n قم بالإضافة الآن",
@@ -169,76 +174,25 @@ class _AdultKidsState extends State<AdultKids> {
                       crossAxisSpacing: 8),
                 ),
               ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          child: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return const AddKids_screen_1();
-                },
-              ),
-            );
-          },
-        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const AddKids_screen_1();
+              },
+            ),
+          );
+        },
+      ),
+      //),
     );
   }
 }
-
-/*
-class PlaceInfo {
-  final String name;
-  final String category;
-  final String location;
-  final double rating;
-  final Color startColor;
-  final Color endColor;
-
-  PlaceInfo(this.name, this.startColor, this.endColor, this.rating,
-      this.location, this.category);
-}
-
-class CustomCardShapePainter extends CustomPainter {
-  final double radius;
-  final Color startColor;
-  final Color endColor;
-
-  CustomCardShapePainter(this.radius, this.startColor, this.endColor);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    var radius = 24.0;
-
-    var paint = Paint();
-    paint.shader = ui.Gradient.linear(
-        Offset(0, 0), Offset(size.width, size.height), [
-      HSLColor.fromColor(startColor).withLightness(0.8).toColor(),
-      endColor
-    ]);
-
-    var path = Path()
-      ..moveTo(0, size.height)
-      ..lineTo(size.width - radius, size.height)
-      ..quadraticBezierTo(
-          size.width, size.height, size.width, size.height - radius)
-      ..lineTo(size.width, radius)
-      ..quadraticBezierTo(size.width, 0, size.width - radius, 0)
-      ..lineTo(size.width - 1.5 * radius, 0)
-      ..quadraticBezierTo(-radius, 2 * radius, 0, size.height)
-      ..close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
-*/

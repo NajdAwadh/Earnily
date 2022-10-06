@@ -19,9 +19,11 @@ class _kidrewardState extends State<kidreward> {
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text(
-            "المكافأت",
-            style: TextStyle(fontSize: 40),
+          child: Center(
+            child: Text(
+              "المكافأت",
+              style: TextStyle(fontSize: 40),
+            ),
           ),
         ),
       ),
