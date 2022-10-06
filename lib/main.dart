@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-     // home: addReward(),
+      home: addReward(),
      // home: add(),
     // home: kid_profile(),
-    home: adultProfile(),
+    //home: adultProfile(),
     );
   }
 }

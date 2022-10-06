@@ -74,16 +74,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-<<<<<<< Updated upstream
-=======
-  lottie:
-    dependency: "direct main"
-    description:
-      name: lottie
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.4.3"
->>>>>>> Stashed changes
   matcher:
     dependency: transitive
     description:

@@ -26,13 +26,16 @@ String point2 = "25";
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.black,
         elevation: 0,
-        title: Text(
-          'إضافة مكافأة',
-          style: TextStyle(fontSize: 40),
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: Text(
+            "إضافة مكافأة",
+            style: TextStyle(fontSize: 40),
+          ),
         ),
-        actions: [],
       ),
 
 backgroundColor: Colors.white,
@@ -46,6 +49,7 @@ backgroundColor: Colors.white,
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                    child: TextField(
+                    textAlign: TextAlign.right,
                     // controller: _emailController,
                      decoration: InputDecoration(
                        enabledBorder: OutlineInputBorder(
@@ -55,6 +59,7 @@ backgroundColor: Colors.white,
                        hintText: 'عنوان المكافأة',
                        fillColor: Colors.grey[200],
                        filled: true,
+                       
                      ),
                    ),
                  
@@ -87,6 +92,7 @@ backgroundColor: Colors.white,
                   Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: TextField(
+                    textAlign: TextAlign.right,
                     // controller: _emailController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
