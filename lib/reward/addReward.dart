@@ -81,27 +81,25 @@ backgroundColor: Colors.white,
                    ),
                    SizedBox(height: 10),
                    */
-                   
 
 
                    //kid name field
-                   Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                   child: TextField(
+                  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
                     // controller: _emailController,
-                     decoration: InputDecoration(
-                       enabledBorder: OutlineInputBorder(
-                         borderSide: BorderSide(color: Colors.white),
-                         borderRadius: BorderRadius.circular(12),
-                       ),
-                       hintText: 'اسم الطفل ',
-                       fillColor: Colors.grey[200],
-                       filled: true,
-                     ),
-                   ),
-                 
-                   ),
-                   SizedBox(height: 10),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: 'اسم الطفل ',
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                    ),
+                  ),
+                ),
+                  SizedBox(height: 10),
 
 
                   /*
@@ -124,7 +122,7 @@ backgroundColor: Colors.white,
                     ],
                    ), */
 
-                   Column (
+                  Column (
                     children: [
                         Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
 
@@ -135,9 +133,9 @@ backgroundColor: Colors.white,
                             child: Row(
                               children: [
                                 Radio(value: 250, groupValue: point2, onChanged:(value) {
-                                   setState(() {
-                                     point2=value.toString();
-                                     });
+                                  setState(() {
+                                    point2=value.toString();
+                                    });
                                 },
                                 ),
                                 const Expanded(child: Text("250"))
@@ -149,12 +147,12 @@ backgroundColor: Colors.white,
                               child: Row(
                                 children: [
                                   Radio(  value: 500, groupValue: point2, onChanged: (value){
-                                     setState(() {
+                                    setState(() {
                                       point2=value.toString();
                                       });
                                   },
-                                   ),
-                                   Expanded(child: Text("500"))
+                                  ),
+                                  Expanded(child: Text("500"))
                                 ],
                               ),
                               flex:1 ,
@@ -162,13 +160,13 @@ backgroundColor: Colors.white,
                                   Expanded(
                                     child: Row(
                                       children: [
-                                         Radio(value: 1000, groupValue: point2, onChanged: (value){
-                                           setState(() {
-                                         point2=value.toString();
-                                         });
-                                         } ,
-                                         ),
-                                         Expanded(child: Text("1000"))
+                                        Radio(value: 1000, groupValue: point2, onChanged: (value){
+                                          setState(() {
+                                            point2=value.toString();
+                                          });
+                                    } ,
+                                                      ),
+                              Expanded(child: Text("1000"))
                                           ],
                                           ),
                                           flex:1 ,
@@ -177,52 +175,13 @@ backgroundColor: Colors.white,
                         ),
 
                     ],
+                      ),
 
-                   ),
-
-                 //  ),
-
-                /*   Align(
-  alignment: Alignment.centerRight,
-  child: Text(
-    ":عدد النقاط المستحقة",
-    style: TextStyle(
-        color: Colors.black,
-        fontSize: 18,
-        fontWeight: FontWeight.bold),
-  ),
-),
-SizedBox(
-  height: 10,
-),
-Wrap(
-    alignment: WrapAlignment.center,
-    runSpacing: 10,
-    children: [
-      chipData("100", 0xffff6d6e),
-      SizedBox(
-        width: 20,
-      ),
-      child:FlatButton ,
-      chipData('75', 0xfff29732),
-      SizedBox(
-        width: 20,
-      ),
-      chipData('50', 0xff6557ff),
-      SizedBox(
-        width: 20,
-      ),
-      chipData('25', 0xff2bc8d9),
-    ]),
-SizedBox(
-  height: 10,
-),*/
-         ],
+      ],
       ),
     ),
   ),
   ),
-  //SizedBox(height: 10),
 
                 );
   }
