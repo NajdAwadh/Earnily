@@ -309,6 +309,63 @@ class _MainTaskState extends State<MainTask> {
         });
   }
 
+  void _showDialog8(String id, String adult, String kid, int points, int p) {
+    // var point = int.parse(points);
+    // var kidPoints = int.parse(p);
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "رفض",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: () {
+              // Navigator.of(context).pop;
+              delete(id, adult, kid, 'تم رفض النشاط');
+            },
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "قبول",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop;
+              updateTask(id, adult, kid, points, p);
+            },
+          );
+
+          Widget backButton = TextButton(
+            child: Text(
+              "تراجع",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          return AlertDialog(
+            title: Text(
+              'قبول اتمام المهمة',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بقبول مهمة طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              backButton,
+              cancelButton,
+              continueButton,
+            ],
+          );
+        });
+  }
+
   int dd = 0;
   String _colors(String i, String kid) {
     if (i == "Not complete") {
