@@ -14,7 +14,7 @@ class _kidViewState extends State<kidView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.black,
+        color: Colors.amber,
       ),
     );
   }
