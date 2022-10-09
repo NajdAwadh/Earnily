@@ -16,28 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< Updated upstream
       home: addReward(),
      // home: add(),
     // home: kid_profile(),
     //home: adultProfile(),
-=======
-      debugShowCheckedModeBanner: false,
-      // home: HomeScreen(),
-      // home: MainPage(),
-
-      //home: HomePage(),
-      //home: AddKids_screen_1(),
-
-       //home: MainTask(),
-      //home: MainTask(),
-
-      // home: MainTask(),
-      // home: QrCreateScreen(),
-      // home: kidTasks(),
-      //home: kidWish()
-      home: HomePageKid(),
->>>>>>> Stashed changes
     );
   }
 }
