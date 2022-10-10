@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
 import 'package:earnily/reuasblewidgets.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +15,8 @@ import '../models/kids.dart';
 import '../widgets/MainTask.dart';
 import 'addkids_screen_1.dart';
 
+import 'package:age_calculator/age_calculator.dart';
+
 class AdultKids extends StatefulWidget {
   const AdultKids({super.key});
 
@@ -23,6 +26,7 @@ class AdultKids extends StatefulWidget {
 
 class _AdultKidsState extends State<AdultKids> {
   final user = FirebaseAuth.instance.currentUser!;
+  final kidsDb = FirebaseFirestore.instance.collection('kids');
 
   @override
   void initState() {
@@ -31,6 +35,37 @@ class _AdultKidsState extends State<AdultKids> {
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     super.initState();
+  }
+
+/*
+  void profile() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              text,
+              textAlign: TextAlign.right,
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
+          );
+        });
+  }
+*/
+
+  int getBirthday(Timestamp date) {
+    int birth = AgeCalculator.age(date.toDate()).years;
+    return birth;
   }
 
   String set(String gender) {
@@ -108,36 +143,15 @@ class _AdultKidsState extends State<AdultKids> {
                           height: 150,
                           color: chooseColor(
                               index), //Colors.primaries[Random().nextInt(myColors.length)],
-                          /*
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          gradient: LinearGradient(
-                              colors: [
-                                Colors.primaries[
-                                    Random().nextInt(Colors.accents.length)],
-                                Colors.primaries[
-                                    Random().nextInt(Colors.accents.length)],
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.primaries[
-                                  Random().nextInt(Colors.accents.length)],
-                              blurRadius: 12,
-                              offset: Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        */
+
                           child: new Directionality(
                             textDirection: TextDirection.rtl,
                             child: new GridTile(
                               child: Column(
                                 children: [
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 15),
                                   imgWidget(set(list[index].gender), 64, 64),
-                                  SizedBox(height: 25),
+                                  SizedBox(height: 20),
                                   Text(
                                     list[index].name,
                                     style: TextStyle(
@@ -154,13 +168,54 @@ class _AdultKidsState extends State<AdultKids> {
                                   ),
                                 ),
                                 */
-                                  /*
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Theme.of(context).errorColor,
-                            onPressed: () => {},
-                          ),
-                          */
+/*
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    color: Theme.of(context).errorColor,
+                                    onPressed: () => {list[index]},
+                                  ),
+*/
+                                  IconButton(
+                                    icon: Icon(Icons.person),
+                                    color: Theme.of(context).errorColor,
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              icon: imgWidget(
+                                                  set(list[index].gender),
+                                                  64,
+                                                  64),
+                                              title: Text(
+                                                list[index].name,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                              content: Text(
+                                                getBirthday(list[index].date)
+                                                    .toString(),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                              actions: <Widget>[
+                                                IconButton(
+                                                  icon: Icon(Icons.delete),
+                                                  color: Theme.of(context)
+                                                      .errorColor,
+                                                  onPressed: () => {
+                                                    kidsDb
+                                                        .doc(kidsNotifier
+                                                            .currentKid
+                                                            .toString())
+                                                        .delete()
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -192,7 +247,6 @@ class _AdultKidsState extends State<AdultKids> {
           );
         },
       ),
-      //),
     );
   }
 }

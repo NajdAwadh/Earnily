@@ -6,12 +6,21 @@ class Kids {
   late String name;
   late String gender;
   late Timestamp date;
-  //late String uid;
+  late String uid;
 
   Kids.fromMap(Map<String, dynamic> data) {
     name = data['name'];
     gender = data['gender'];
     date = data['date'];
-    //uid = data["uid"];
+    uid = data["uid"];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'gender': gender,
+      'date': date,
+      'uid': uid,
+    };
   }
 }
