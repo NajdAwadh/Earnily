@@ -36,6 +36,60 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+<<<<<<< Updated upstream
+=======
+  qr_flutter: ^4.0.0
+  google_fonts: ^3.0.1
+  firebase_auth: ^3.3.14
+  #cloud_firestore: ^3.1.13
+  cloud_firestore: ^3.4.7
+  curved_navigation_bar: ^1.0.3
+  font_awesome_flutter: ^10.2.1
+  image_picker: ^0.8.4+8
+# add it to image
+  get: ^4.6.5
+  firebase_core: ^1.24.0
+  cached_network_image: ^3.2.0
+  firebase_storage: ^10.3.10
+  qr_code_scanner: ^1.0.1
+  loading_overlay: ^0.3.0
+  shimmer: ^2.0.0
+  flutter_local_notifications: ^9.6.0
+  timezone: ^0.8.0
+  rxdart: ^0.27.4
+
+  provider: ^6.0.3
+  fluttertoast: ^8.0.9
+
+  smooth_page_indicator: ^1.0.0+2
+
+  lottie: ^1.2.1
+  
+  flutter_launcher_icons: ^0.10.0
+
+  firebase_messaging: ^13.0.4
+  overlay_support: ^1.2.1
+  
+  custom_radio_grouped_button: any
+
+  #firebase database (lamis)
+  #cloud_firestore: ^3.1.5
+ # firebase: ^9.0.3
+  #firebase_core: ^1.22.0
+  #firebase_auth: ^3.8.0
+ # google_sign_in: ^5.4.1
+
+  #font_awesome_flutter: ^10.2.1
+
+ # provider: ^6.0.3
+  
+  #qr_flutter: ^4.0.0
+ # http: ^0.13.1
+  #shared_preferences: ^2.0.15
+  #form_validator: ^1.0.2
+  #google_fonts: ^3.0.1
+
+>>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:

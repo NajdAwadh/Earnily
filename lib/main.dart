@@ -1,10 +1,47 @@
+<<<<<<< Updated upstream
 import 'package:earnily/adult_profile.dart';
 import 'package:earnily/kid_profile.dart';
 import 'package:earnily/reward/add.dart';
+=======
+import 'package:earnily/Rewards/addReward.dart';
+import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/addKids/adultKids.dart';
+import 'package:earnily/onbording.dart';
+import 'package:earnily/pages/KidTasks.dart';
+import 'package:earnily/pages/home_page.dart';
+import 'package:earnily/pages/home_page_kid.dart';
+import 'package:earnily/pages/kidWishs.dart';
+import 'package:earnily/pages/main_page.dart';
+import 'package:earnily/screen/QRreader.dart';
+import 'package:earnily/screen/qrCreateScreen.dart';
+import 'package:earnily/widgets/MainTask.dart';
+import 'package:earnily/widgets/add_task.dart';
+import 'package:earnily/reward/addReward.dart';
+//import 'package:earnily/pages/register_page.dart';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 //import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
+<<<<<<< Updated upstream
 import 'package:earnily/reward/addReward.dart';
+=======
+import 'package:firebase_core/firebase_core.dart';
+import 'Rewards/MainRewards.dart';
+import 'firebase_options.dart';
+
+import 'dart:ui' as ui;
+
+import 'package:provider/provider.dart';
+import 'notifier/kidsNotifier.dart';
+import 'notifier/taskNotifier.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+>>>>>>> Stashed changes
 
 void main() {
   runApp(const MyApp());
@@ -16,10 +53,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< Updated upstream
       home: addReward(),
      // home: add(),
     // home: kid_profile(),
     //home: adultProfile(),
+=======
+      debugShowCheckedModeBanner: false,
+      // home: HomeScreen(),
+     // home: MainPage(),
+
+    // ho:me:MainRewards(),
+     home: add_Reward(),
+
+      //home: HomePage(),
+      //home: AddKids_screen_1(),
+
+      // home: MainTask(),
+      //home: MainTask(),
+
+      // home: MainTask(),
+      // home: QrCreateScreen(),
+      // home: kidTasks(),
+      //home: kidWish()
+      //home: HomePageKid(),
+>>>>>>> Stashed changes
     );
   }
 }
