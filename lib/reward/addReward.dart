@@ -65,7 +65,6 @@ final ImagePicker _picker = ImagePicker();
               ],
         backgroundColor: Colors.black,
         elevation: 0,
-<<<<<<< Updated upstream
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Text(
@@ -74,144 +73,14 @@ final ImagePicker _picker = ImagePicker();
           ),
         ),
       ),
-=======
-        title: Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-              child: Text(
-                "إضافة مكافأة",
-                style: TextStyle(fontSize: 40),
-              ),
-            ),
-          ),
-        ),
-      
->>>>>>> Stashed changes
 
 backgroundColor: Colors.white,
       body: SafeArea(
         child:Center(
-<<<<<<< Updated upstream
            child: SingleChildScrollView(
              child: Column(
                mainAxisAlignment: MainAxisAlignment.center,
                children: [
-=======
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                    Center(
-                      child: Stack(
-                        children: [
-                          file == null
-                              ? CircleAvatar(
-                                  radius: 60,
-                                )
-                              : CircleAvatar(
-                                  radius: 60,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(70),
-                                    child: Image.network(
-                                      image,
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                          Positioned.fill(
-                              child: InkWell(
-                            onTap: () {
-                              showPicker(
-                                context,
-                                onGalleryTap: () {
-                                  getImage(ImageSource.gallery);
-                                  Navigator.of(context).pop();
-                                },
-                                onCameraTap: () {
-                                  getImage(ImageSource.camera);
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            },
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.photo_library_outlined,
-                                      size: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                      SizedBox(
-                        height: 60,
-                      ),
-                /* Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 4,color: Colors.white ),
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            color: Colors.black.withOpacity(0.1),
-                          )
-                        ],
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image:NetworkImage(
-                            'https://static.vecteezy.com/system/resources/previ'
-                          )
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 40,
-                        width: 40, 
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle, 
-                          border: Border.all(
-                            width: 4,
-                            color: Colors.white
-                          ),
-                          color: Colors.blue
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                        ),
-                      )
-                      )
-                  ],
-                  ),
-                ), */
-
->>>>>>> Stashed changes
                   //name field
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
