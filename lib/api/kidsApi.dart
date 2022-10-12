@@ -31,7 +31,7 @@ getKidsNames(KidsNotifier kidsNotifier) async {
       .collection('users')
       .doc(user.uid)
       .collection('kids')
-      .where(name)
+      .where('name')
       .get();
 
   List<String> _kidsNamesList = [];

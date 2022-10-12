@@ -4,7 +4,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:earnily/services/upload_file.dart';
 import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/processing_widget.dart';
@@ -56,17 +56,19 @@ bool isEnabled = false;
                 )
               ],
 
-        /*
-        automaticallyImplyLeading: false,
+        
+        //automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Text(
-            "إضافة مكافأة",
-            style: TextStyle(fontSize: 40),
+        title: Center(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text(
+              "إضافة مكافأة",
+              style: TextStyle(fontSize: 40),
+            ),
           ),
-        ),*/
+        ),
       ),
 
 backgroundColor: Colors.white,
@@ -163,6 +165,70 @@ backgroundColor: Colors.white,
                   ),
                   SizedBox(height: 20),
                     //point field
+
+                    Column(
+                      children: [
+                        Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
+                          CustomRadioButton(
+                              elevation: 0,
+                              absoluteZeroSpacing: true,
+                              unSelectedColor: Theme.of(context).canvasColor,
+                              buttonLables: [
+                                '1000',
+                                '750',
+                                '500',
+                                '250',
+                              ],
+                              buttonValues: [
+                                '1000',
+                                '750',
+                                '500',
+                                '250',
+                              ],
+                              buttonTextStyle: ButtonTextStyle(
+                                  selectedColor: Colors.white,
+                                  unSelectedColor: Colors.black,
+                                  textStyle: TextStyle(fontSize: 16)),
+                              radioButtonValue: (value) {
+                                print(value);
+                              }, selectedColor: Colors.black ,
+                            ),
+                            ],
+                          ),
+                          SizedBox(height: 40),
+
+
+                            Positioned(
+                              left: 21,
+                              top: 625,
+                              width: 350,
+                              height: 66,
+                              child: SizedBox(
+                                  width: 347,
+                                  height: 68,
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      backgroundColor: Colors.black,
+                                      shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                side: const BorderSide(
+                                  width: 0,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ),
+                            onPressed: (() {
+                              //do something
+                            }),
+                            child: const Text('إضافة ',
+                                overflow: TextOverflow.visible,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                          ))),
                     /*
                 Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -219,7 +285,7 @@ Future getImage(ImageSource source) async {
     file = File(pickedFile.path);
     setState(() {});
     // ignore: use_build_context_synchronously
-    imageUrl = await UploadFileServices().getUrl(context, file: file!);
+   // imageUrl = await UploadFileServices().getUrl(context, file: file!);
    /* await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -235,5 +301,63 @@ loadingFalse() {
   isLoading = false;
   setState(() {});
 }
+}
+class MyRadioListTile<T> extends StatelessWidget {
+  final T value;
+  final T groupValue;
+  final String leading;
+  final Widget? title;
+  final ValueChanged<T?> onChanged;
+
+  const MyRadioListTile({
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+    required this.leading,
+    this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final title = this.title;
+    return InkWell(
+      onTap: () => onChanged(value),
+      child: Container(
+        height: 56,
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            _customRadioButton,
+            SizedBox(width: 12),
+            if (title != null) title,
+          ],
+        ),
+     ),
+     );
+    
+  }
+
+ Widget get _customRadioButton {
+    final isSelected = value == groupValue;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.blue : null,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: isSelected ? Colors.blue : Colors.grey[300]!,
+          width: 2,
+        ),
+      ),
+      child: Text(
+        leading,
+        style: TextStyle(
+          color: isSelected ? Colors.white : Colors.grey[600]!,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
 }
 
