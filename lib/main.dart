@@ -6,6 +6,7 @@ import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/pages/main_page.dart';
+import 'package:earnily/reward/addReward.dart';
 import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/MainTask.dart';
@@ -53,7 +54,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainPage(),
+      //home: MainPage(),
+      home: add_Reward(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
