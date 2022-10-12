@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:earnily/Rewards/MainRewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
+import 'package:earnily/screen/calendar_screen.dart';
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
@@ -17,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import '../reuasblewidgets.dart';
+
+import '../screen/calendar_page.dart';
 import 'home_page_kid.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     AdultKids(),
     MainTask(),
+    CalendarPage(),
     MainRewards(),
   ];
 
@@ -209,6 +213,11 @@ class _HomePageState extends State<HomePage> {
           ),
           Icon(
             Icons.task,
+            color: Colors.white,
+            size: 35,
+          ),
+          Icon(
+            Icons.calendar_month,
             color: Colors.white,
             size: 35,
           ),

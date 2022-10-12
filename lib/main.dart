@@ -10,6 +10,7 @@ import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/MainTask.dart';
 import 'package:earnily/widgets/add_task.dart';
+ import 'package:calendar_view/calendar_view.dart';
 
 //import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -50,22 +51,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // home: HomeScreen(),
-      home: MainPage(),
-
-      //home: HomePage(),
-      //home: AddKids_screen_1(),
-
-      // home: MainTask(),
-      //home: MainTask(),
-
-      // home: MainTask(),
-      // home: QrCreateScreen(),
-     // home: kidTasks(),
-      //home: kidWish()
-      // home: HomePageKid(),
+    return CalendarControllerProvider(
+      controller: EventController(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // home: HomeScreen(),
+        home: MainPage(),
+    
+        //home: HomePage(),
+        //home: AddKids_screen_1(),
+    
+        // home: MainTask(),
+        //home: MainTask(),
+    
+        // home: MainTask(),
+        // home: QrCreateScreen(),
+       // home: kidTasks(),
+        //home: kidWish()
+        // home: HomePageKid(),
+      ),
     );
   }
 }
