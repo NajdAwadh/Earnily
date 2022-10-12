@@ -38,7 +38,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   void initState() {
     // TODO: implement initState
     KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
+        Provider.of<KidsNotifier>(context);
     getKids(kidsNotifier);
     getKidsNames(kidsNotifier);
     super.initState();

@@ -32,7 +32,7 @@ class _AdultKidsState extends State<AdultKids> {
   void initState() {
     // TODO: implement initState
     KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
+        Provider.of<KidsNotifier>(context);
     getKids(kidsNotifier);
     super.initState();
   }

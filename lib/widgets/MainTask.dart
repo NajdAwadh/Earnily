@@ -27,7 +27,7 @@ class _MainTaskState extends State<MainTask> {
   void initState() {
     // TODO: implement initState
     TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
+        Provider.of<TaskNotifier>(context);
     getTask(taskNotifier);
     super.initState();
   }
