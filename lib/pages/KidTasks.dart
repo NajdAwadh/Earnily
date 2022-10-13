@@ -21,8 +21,7 @@ class kidTasks extends StatefulWidget {
 class _kidTasksState extends State<kidTasks> {
   void initState() {
     // TODO: implement initState
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context);
+    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
     getTask(taskNotifier);
     super.initState();
   }
@@ -43,7 +42,7 @@ class _kidTasksState extends State<kidTasks> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              " !تم إرسال الطلب لوالدك",
+              " !!تم إرسال الطلب لوالدك",
               textAlign: TextAlign.right,
               style: TextStyle(color: Colors.deepPurple, fontSize: 20),
             ),
