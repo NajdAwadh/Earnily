@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 //import 'package:earnily/widgets/add_task.dart';
-
+/*
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -256,4 +256,4 @@ backgroundColor: Colors.white,
 
                 );
   }
-}
+}*/
