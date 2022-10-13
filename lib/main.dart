@@ -6,6 +6,7 @@ import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/pages/main_page.dart';
+import 'package:earnily/reward/add2.dart';
 import 'package:earnily/reward/addReward.dart';
 import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Rewards/MainRewards.dart';
 import 'firebase_options.dart';
 
 import 'dart:ui' as ui;
@@ -55,12 +57,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
       //home: MainPage(),
-      home: add_Reward(),
+     // home: add_Reward(),
+     //home: add2(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
 
-      // home: MainTask(),
+       home: MainRewards(),
       //home: MainTask(),
 
       // home: MainTask(),

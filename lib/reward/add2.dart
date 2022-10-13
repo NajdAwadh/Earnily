@@ -37,10 +37,8 @@ class _add2State extends State<add2> {
   //final _pointController = TextEditingController();
   bool isEnabled = false;
   String points = '';
-
-
  //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
-  final user = FirebaseAuth.instance.currentUser!;
+ // final user = FirebaseAuth.instance.currentUser!;
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
@@ -105,12 +103,13 @@ class _add2State extends State<add2> {
     //const tuid = Uuid();
     //String tid = tuid.v4();
     await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
+        //.collection('users')
+        //.doc(user.uid)
         .collection('reward')
         .add({
       'rewardName': _nameController.text,
       'points': points,
+      'image':imageUrl,
     // 'date': DateFormat.yMd().format(_selectedDate),
      //'category': categoty,
      //'asignedKid': childName,
@@ -166,7 +165,7 @@ class _add2State extends State<add2> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
                     //photo uplode
-                /* Center(
+                Center(
                 child: Stack(
                   children: [
                     file == null
@@ -224,7 +223,7 @@ class _add2State extends State<add2> {
                   )),
                 ],
               ),
-          ),*/
+          ),
                       SizedBox(
                         height: 20,
                       ),
@@ -307,58 +306,23 @@ class _add2State extends State<add2> {
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            pointsSelect("100", 0xffff6d6e),
+                            pointsSelect("1000", 0xffff6d6e),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('75', 0xfff29732),
+                            pointsSelect('750', 0xfff29732),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('50', 0xff6557ff),
+                            pointsSelect('500', 0xff6557ff),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('25', 0xff2bc8d9),
+                            pointsSelect('250', 0xff2bc8d9),
                           ]),
                       SizedBox(
                         height: 10,
-                      ),
-                        //point field
-                        /*Column(
-                          children: [
-                            //Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
-                            Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              ":نقاط النشاط",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Wrap(
-                              alignment: WrapAlignment.center,
-                              runSpacing: 10,
-                              children: [
-                                pointsSelect("1000", 0xffff6d6e),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                pointsSelect('750', 0xfff29732),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                pointsSelect('500', 0xff6557ff),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                pointsSelect('250', 0xff2bc8d9),
-                              ]),*/
+                    ),
 
 
                             /*  CustomRadioButton(
@@ -416,21 +380,18 @@ class _add2State extends State<add2> {
                               ))),
                                 ],
                               ),
-                  //]
                   ),
             )
             )
           )
         );
-      //),
-   // );
   }
   ImagePicker picker = ImagePicker();
   File? file;
   String imageUrl = "";
 
 Future getImage(ImageSource source) async {
-  final pickedFile = await picker.getImage(source: source, imageQuality: 30);
+  final pickedFile = await picker.pickImage(source: source, imageQuality: 30);
   if (pickedFile != null && pickedFile.path != null) {
     loadingTrue();
     file = File(pickedFile.path);
@@ -438,8 +399,8 @@ Future getImage(ImageSource source) async {
     // ignore: use_build_context_synchronously
     imageUrl = await UploadFileServices().getUrl(context, file: file!);
     await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user.uid)
+        //.collection("users")
+        //.doc(user.uid)
         .collection('reward')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
@@ -486,65 +447,3 @@ Widget pointsSelect(String label, int color) {
   );
 }
 }
-
-/*
-class MyRadioListTile<T> extends StatelessWidget {
-  final T value;
-  final T groupValue;
-  final String leading;
-  final Widget? title;
-  final ValueChanged<T?> onChanged;
-
-  const MyRadioListTile({
-    required this.value,
-    required this.groupValue,
-    required this.onChanged,
-    required this.leading,
-    this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final title = this.title;
-    return InkWell(
-      onTap: () => onChanged(value),
-      child: Container(
-        height: 56,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            _customRadioButton,
-            SizedBox(width: 12),
-            if (title != null) title,
-          ],
-        ),
-     ),
-     );
-    
-  }
-}*/
-/*
- Widget get _customRadioButton {
-    final isSelected = value == groupValue;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: isSelected ? Colors.blue : null,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(
-          color: isSelected ? Colors.blue : Colors.grey[300]!,
-          width: 2,
-        ),
-      ),
-      child: Text(
-        leading,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.grey[600]!,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
-      ),
-    );
-  }
-}
-*/

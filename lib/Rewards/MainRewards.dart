@@ -1,3 +1,4 @@
+import 'package:earnily/Rewards/addReward.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
+import '../reuasblewidgets.dart';
 import '../reward/addReward.dart';
 import '../widgets/MainTask.dart';
 
@@ -29,7 +31,9 @@ class _MainRewardsState extends State<MainRewards> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Padding(
+        title: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
+        toolbarHeight: 100,
+       /* title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
@@ -37,7 +41,8 @@ class _MainRewardsState extends State<MainRewards> {
               style: TextStyle(fontSize: 40),
             ),
           ),
-        ),
+        ),*/
+        
       ),
       body: Center(
         child: Text(
