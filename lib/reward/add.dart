@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'dart:io';
-
+/*
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -22,6 +22,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+*/
+
+import 'package:earnily/models/task.dart';
+import 'package:earnily/notifications/notification_api.dart';
+import 'package:earnily/reuasblewidgets.dart';
+import 'package:earnily/screen/qrCreateScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
+import 'dart:ui' as ui;
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
+import '../api/kidsApi.dart';
+import '../notifier/kidsNotifier.dart';
+
 class add extends StatefulWidget {
   const add({super.key});
 
@@ -31,24 +51,17 @@ class add extends StatefulWidget {
 
 class _addState extends State<add> {
   @override
-  final TextEditingController nameController = TextEditingController();
-  final kidsDb = FirebaseFirestore.instance.collection('reward');
+
+ //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
   final user = FirebaseAuth.instance.currentUser!;
-  @override
-  void initState() {
-    // TODO: implement initState
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
-    getKidsNames(kidsNotifier);
-    super.initState();
-  }
-  final List<String> items = <String>["طفل", "طفلة"];
-  String? point;
-  DateTime? date;
-  //final _nameController = TextEditingController();
-  List<String> names = [];
-  void _showDialog(String text) {
+  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  DateTime _selectedDate = DateTime.now();
+  final _nameController = TextEditingController();
+  String categoty = "";
+  String childName = "";
+  String points = '';
+  void _showDialog() {
     showDialog(
         context: context,
         builder: (context) {
@@ -59,7 +72,7 @@ class _addState extends State<add> {
               style: TextStyle(color: Colors.red),
             ),
             content: Text(
-              text,
+              "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
             ),
             actions: <Widget>[
@@ -72,110 +85,94 @@ class _addState extends State<add> {
         });
   }
   void showToastMessage(String message) {
+    //raghad
     Fluttertoast.showToast(
         msg: message, //message to show toast
         toastLength: Toast.LENGTH_LONG, //duration for message to show
         gravity: ToastGravity.CENTER, //where you want to show, top, bottom
         timeInSecForIosWeb: 1, //for iOS only
         //backgroundColor: Colors.red, //background Color for message
-        textColor: Colors.white, //message text color
+        textColor: Colors.white,
+        //message text color
         fontSize: 16.0 //message font size
         );
   }
   void _validate() {
-    if (nameController.text.isEmpty || point == null ) {
-      _showDialog("ادخل البيانات المطلوبة");
+    if (formKey.currentState!.validate() &&
+        categoty != "" &&
+        points != "" &&
+        _selectedDate != "") {
+      addTask();
+      showToastMessage("تمت إضافة نشاط بنجاح");
+      Notifications.showNotification(
+        title: "EARNILY",
+        body: ' لديك نشاط جديد بأنتظارك',
+        payload: 'earnily',
+      );
+      Navigator.of(context).pop();
     } else {
-      if (myLoop(names)) {
-        _showDialog("ممنوع إدخال معلومات مكررة");
-      } else {
-        addKidDetails();
-        showToastMessage("تمت إضافة المكافأة بنجاح");
-        Notifications.showNotification(
-          title: "EARNILY",
-          body: ' لديك نشاط جديد بأنتظارك',
-          payload: 'earnily',
-        );
-        Navigator.of(context).pop();
-        /*
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return KidsjoinviaQRcode_screen_1(); //QrCreateScreen("اضافة طفل");
-          },
-        ),
-      );*/
-      } // push,
+      _showDialog();
     }
   }
-  void validateReturn(bool flag) {
-    if (flag) {
-      _showDialog("هل انت متأكد من الخروج ؟");
-    }
-  }
-  //final kidsDb = FirebaseFirestore.instance.collection('kids');
-  //final user = FirebaseAuth.instance.currentUser!;
-  /* Future addUserDetails(String name, String family, String email) async {
-    final firebaseUser = await FirebaseAuth.instance.currentUser!;
+  Future addTask() async {
+    const tuid = Uuid();
+    String tid = tuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(firebaseUser.uid)
-        .set({
-      'firstName': name,
-      'family': family,
-      'email': email,
-      'image': '',
-      'uid': firebaseUser.uid,
+        .doc(user.uid)
+        .collection('Task')
+        .add({
+      'taskName': _nameController.text,
+      'points': points,
+      'date': DateFormat.yMd().format(_selectedDate),
+      'category': categoty,
+      'asignedKid': childName,
+      'state': 0,
     });
-  }
-  
-  final messageRef = FirebaseFirestore.instance
-      .collection("rooms")
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection("messages")
-      .doc("message1");
-  
-  */
-  Future addKidDetails() async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('kids')
-        .doc(nameController.text)
-        .set({
-      'name': nameController.text,
-      'point': point,
-      //'date': date,
-      //'uid': user.uid,
+        .doc('reema')
+        .collection('Task')
+        .add({
+      'taskName': _nameController.text,
+      'points': points,
+      'date': DateFormat.yMd().format(_selectedDate),
+      'category': categoty,
+      'asignedKid': childName,
+      'state': 'Not complete',
+      'tid': tid,
     });
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(//what this do ?
-        email: user.email!, password: nameController.text.trim());
   }
-  void _showDatePicker() async => showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2007),
-        lastDate: DateTime.now(),
-      ).then((value) {
-        if (value == null) {
-          return;
-        }
-        setState(() {
-          date = value;
-        });
-      });
-  bool myLoop(List<String> list) {
-    for (var i = 0; i < list.length; i++) {
-      if (nameController.text == list[i]) {
-        return true;
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2024),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
       }
-    }
-    return false;
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
-  @override
+ 
+  void initState() {
+    // TODO: implement initState
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
+    getKidsNames(kidsNotifier);
+    super.initState();
+  }
+  // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    names = kidsNotifier.kidsNamesList;
+    List<String> list = kidsNotifier.kidsNamesList;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -187,167 +184,171 @@ class _addState extends State<add> {
               size: 40,
             ),
             onPressed: () {
-              //validateReturn(true);
               Navigator.of(context).pop();
             },
           )
         ],
         backgroundColor: Colors.black,
         elevation: 0,
-        title: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Directionality(
-            textDirection: ui.TextDirection.rtl,
-            child: Center(
-              child: Text(
-                "إضافة طفل",
-                style: TextStyle(fontSize: 40),
-              ),
-            ),
+        title: Center(
+          child: Text(
+            'إضافة نشاط',
+            style: TextStyle(fontSize: 40),
           ),
         ),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height * 0.02, 20, 0),
-                child: Column(
-                  children: <Widget>[
-                    Container(),
-                    SizedBox(height: 30),
-                    //Image.asset("assets/images/ChildrenFreepik.png"),
-                    imgWidget("assets/images/ChildrenFreepik.png", 100, 100),
-                    /*
-                    Icon(
-                      Icons.family_restroom,
-                      color: Colors.black,
-                      size: 100,
-                    ),
-                    */
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "الاسم",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+      body: Form(
+        key: formKey,
+        child: Container(
+          child: SingleChildScrollView(
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 25),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ":اسم النشاط ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    reuasbleTextField(
-                        "الاسم ", Icons.person, false, nameController),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " الجنس",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    Positioned(
-                        right: 107,
-                        top: 300,
-                        width: 254,
-                        height: 66,
-                        child: Container(
-                            alignment: Alignment.topRight,
-                            child: new Directionality(
-                                textDirection: ui.TextDirection.rtl,
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 50,
-                                    ),
-                                    Row(
-                                      //female
-                                      children: [
-                                        Radio(
-                                            value: items[1],
-                                            groupValue: point,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                point = newValue!;
-                                              });
-                                            }),
-                                        Text(
-                                          items[1],
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        //Image.asset("assets/images/girl.png"),
-                                        imgWidget("assets/images/girlIcon.png",
-                                            32, 32),
-                                        /*Icon(Icons.child_care,
-                                            color: Colors.pink),*/
-                                      ],
-                                    ),
-                                    Row(
-                                      //male
-                                      children: [
-                                        Radio(
-                                            value: items[0],
-                                            groupValue: point,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                point = newValue!;
-                                              });
-                                            }),
-                                        Text(
-                                          items[0],
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        //Image.asset("assets/images/boy24.png"),
-                                        imgWidget("assets/images/boyIcon.png",
-                                            32, 32),
-                                        /*
-                                        Icon(Icons.child_care,
-                                            color: Colors.blue),*/
-                                      ],
-                                    )
-                                  ],
-                                )))),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " تاريخ الميلاد",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                      Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: _nameController,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: ' اسم النشاط الجديد',
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                          validator: (val) =>
+                              val!.isEmpty ? 'اختر اسم النشاط' : null,
+                          //onChanged: (val) => setState(() => _currentName = val),
+                        ),
                       ),
-                    ),
-                    //ghada
-                    Positioned(
-                      right: 107,
-                      top: 425,
-                      child: new Directionality(
-                        textDirection: ui.TextDirection.rtl,
-                        child: Row(
+                      SizedBox(
+                        height: 10,
+                      ),
+                      /*Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ":اختر الطفل المخصص للنشاط",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          alignment: Alignment.topRight,
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(15)),
+                          child: DropdownButtonFormField<String>(
+                              isExpanded: true,
+                              alignment: Alignment.centerRight,
+                              validator: (val) {
+                                if (val == null) return "اختر الطفل";
+                                return null;
+                              },
+                              items: list.map((valueItem) {
+                                return DropdownMenuItem(
+                                  alignment: Alignment.centerRight,
+                                  value: valueItem,
+                                  child: Text(valueItem),
+                                );
+                              }).toList(),
+                              onChanged: (newVal) {
+                                setState(() {
+                                  childName = newVal!;
+                                });
+                              })),*/
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ":عدد النقاط المستحقة",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Wrap(
+                          alignment: WrapAlignment.center,
+                          runSpacing: 10,
                           children: [
+                            pointsSelect("100", 0xffff6d6e),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('75', 0xfff29732),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('50', 0xff6557ff),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('25', 0xff2bc8d9),
+                          ]),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      /*Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ":تاريخ التنفيذ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        height: 50,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                textDirection: ui.TextDirection.rtl,
+                                _selectedDate == null
+                                    ? '! لم يتم اختيار تاريخ'
+                                    : 'التاريخ المختار: ${DateFormat.yMd().format(_selectedDate)}',
+                              ),
+                            ),
                             IconButton(
-                                onPressed: _showDatePicker,
+                                onPressed: _presentDatePicker,
                                 style: ButtonStyle(
                                     foregroundColor:
                                         MaterialStateProperty.all(Colors.black),
@@ -355,90 +356,144 @@ class _addState extends State<add> {
                                         Colors.white)),
                                 icon: Icon(
                                   Icons.calendar_today,
-                                  size: 30,
-                                )),
-                            Text(
-                              date == null
-                                  ? 'اختر تاريخ الميلاد'
-                                  : '${DateFormat.yMd().format(date!)}',
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey,
-                              ),
-                              textDirection: ui.TextDirection.rtl,
-                            ),
+                                  //  size: 30,
+                                ))
+                            //here
                           ],
                         ),
+                      ),*/
+                      SizedBox(
+                        height: 10,
                       ),
-                      /*SizedBox(
+                      /*Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ":نوع النشاط",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Wrap(
+                          alignment: WrapAlignment.center,
+                          runSpacing: 10,
+                          children: [
+                            categorySelect("النظافة", 0xffff6d6e),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            categorySelect('الأكل', 0xfff29732),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            categorySelect('الدراسة', 0xff6557ff),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            categorySelect('الدين', 0xff234ebd),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            categorySelect('تطوير الشخصية', 0xff2bc8d9),
+                          ]),*/
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Positioned(
+                          left: 21,
+                          top: 625,
                           width: 350,
                           height: 66,
-                          child: ElevatedButton(
-                              onPressed: _showDatePicker,
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.grey[200],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 2,
-                                    color: Colors.grey,
+                          child: SizedBox(
+                              width: 347,
+                              height: 68,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  backgroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: const BorderSide(
+                                      width: 0,
+                                      color: Colors.transparent,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              child: Text(
-                                date == null
-                                    ? 'اختر تاريخ الميلاد'
-                                    : '${DateFormat.yMd().format(date!)}',
-                                overflow: TextOverflow.visible,
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey,
-                                ),
-                                textDirection: ui.TextDirection.rtl,
-                              )),
-                        )*/
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Positioned(
-                        left: 21,
-                        top: 625,
-                        width: 350,
-                        height: 66,
-                        child: SizedBox(
-                            width: 347,
-                            height: 68,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 0,
-                                    color: Colors.transparent,
-                                  ),
-                                ),
-                              ),
-                              onPressed: _validate,
-                              child: const Text('إضافة ',
-                                  overflow: TextOverflow.visible,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                            ))),
-                  ],
-                ))),
+                                onPressed: _validate,
+                                child: const Text('إضافة ',
+                                    overflow: TextOverflow.visible,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ))),
+                    ],
+                  ))),
+        ),
       ),
     );
   }
- }
+  Widget categorySelect(String label, int color) {
+    return InkWell(
+      onTap: (() {
+        setState(() {
+          categoty = label;
+        });
+      }),
+      child: Chip(
+        backgroundColor: categoty == label ? Colors.white : Color(color),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: categoty == label ? Colors.black : Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        labelPadding: EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 3.5,
+        ),
+      ),
+    );
+  }
+  Widget pointsSelect(String label, int color) {
+    return InkWell(
+      onTap: (() {
+        setState(() {
+          points = label;
+        });
+      }),
+      child: Chip(
+        backgroundColor: points == label ? Colors.white : Color(color),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: points == label ? Colors.black : Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        labelPadding: EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 3.5,
+        ),
+      ),
+    );
+  }
+}
