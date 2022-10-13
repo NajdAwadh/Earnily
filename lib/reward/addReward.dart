@@ -30,9 +30,132 @@ class _addRewardState extends State<add_Reward> {
   //text controlllers
   final _nameController = TextEditingController();
   final _pointController = TextEditingController();
-String point = "25";
-String point2 = "25";
 bool isEnabled = false;
+String points = '';
+
+
+/*
+ late final LocalNotificationService service;
+ void initState() {
+   service = LocalNotificationService();
+   service.intialize();
+   listenToNotification();
+   super.initState();
+ }
+ //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+ final user = FirebaseAuth.instance.currentUser!;
+ final _formKey = GlobalKey<FormState>();
+ GlobalKey<FormState> formKey = GlobalKey<FormState>();
+ DateTime _selectedDate = DateTime.now();
+ final _nameController = TextEditingController();
+ String categoty = "";
+ String childName = "";
+ String points = '';
+ void _showDialog() {
+   showDialog(
+       context: context,
+       builder: (context) {
+         return AlertDialog(
+           title: Text(
+             "خطأ",
+             textAlign: TextAlign.right,
+             style: TextStyle(color: Colors.red),
+           ),
+           content: Text(
+             "ادخل البيانات المطلوبة",
+             textAlign: TextAlign.right,
+           ),
+           actions: <Widget>[
+             TextButton(
+               onPressed: Navigator.of(context).pop,
+               child: const Text("حسناً"),
+             )
+           ],
+         );
+       });
+ }
+ void showToastMessage(String message) {
+   //raghad
+   Fluttertoast.showToast(
+       msg: message, //message to show toast
+       toastLength: Toast.LENGTH_LONG, //duration for message to show
+       gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+       timeInSecForIosWeb: 1, //for iOS only
+       //backgroundColor: Colors.red, //background Color for message
+       textColor: Colors.white,
+       //message text color
+       fontSize: 16.0 //message font size
+       );
+ }
+
+
+
+ void _validate() {
+   if (formKey.currentState!.validate() &&
+       categoty != "" &&
+       points != "" &&
+       _selectedDate != "") {
+     addTask();
+     showToastMessage("تمت إضافة نشاط بنجاح");
+     Notifications.showNotification(
+       title: "EARNILY",
+       body: ' لديك نشاط جديد بأنتظارك',
+       payload: 'earnily',
+     );
+     Navigator.of(context).pop();
+   } else {
+     _showDialog();
+   }
+ }
+
+ Future addTask() async {
+   const tuid = Uuid();
+   String tid = tuid.v4();
+   await FirebaseFirestore.instance
+       .collection('users')
+       .doc(user.uid)
+       .collection('Task')
+       .add({
+     'taskName': _nameController.text,
+     'points': points,
+     'date': DateFormat.yMd().format(_selectedDate),
+     'category': categoty,
+     'asignedKid': childName,
+     'state': 0,
+   });
+   await FirebaseFirestore.instance
+       .collection('users')
+       .doc(user.uid)
+       .collection('kids')
+       .doc('reema')
+       .collection('Task')
+       .add({
+     'taskName': _nameController.text,
+     'points': points,
+     'date': DateFormat.yMd().format(_selectedDate),
+     'category': categoty,
+     'asignedKid': childName,
+     'state': 'Not complete',
+     'tid': tid,
+   });
+   //notification
+   await service.showNotificationWithPayload(
+     id: 1,
+     title: 'تمت اضافة نشاط جديد',
+     body: 'اسم النشاط:' + _nameController.text,
+     payload: 'اسم النشاط:' +
+         _nameController.text +
+         '\n  النقاط:' +
+         points +
+         '\n  تاريخ التنفيذ:' +
+         DateFormat.yMd().format(_selectedDate) +
+         '\n  نوع النشاط:' +
+         categoty,
+     // 'asignedKid'+ childName,
+   );
+ }*/
+
+
 
   Widget build(BuildContext context) {
     var value;
@@ -168,8 +291,41 @@ backgroundColor: Colors.white,
 
                     Column(
                       children: [
-                        Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
-                          CustomRadioButton(
+                        //Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
+                        Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ":نقاط النشاط",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Wrap(
+                          alignment: WrapAlignment.center,
+                          runSpacing: 10,
+                          children: [
+                            pointsSelect("1000", 0xffff6d6e),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('750', 0xfff29732),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('500', 0xff6557ff),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('250', 0xff2bc8d9),
+                          ]),
+
+
+                        /*  CustomRadioButton(
                               elevation: 0,
                               absoluteZeroSpacing: true,
                               unSelectedColor: Theme.of(context).canvasColor,
@@ -192,7 +348,7 @@ backgroundColor: Colors.white,
                               radioButtonValue: (value) {
                                 print(value);
                               }, selectedColor: Colors.black ,
-                            ),
+                            ),*/
                             ],
                           ),
                           SizedBox(height: 40),
@@ -229,44 +385,7 @@ backgroundColor: Colors.white,
                                   fontWeight: FontWeight.w400,
                                 )),
                           ))),
-                    /*
-                Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: TextField(
-                    // controller: _emailController,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      hintText: 'النقاط',
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                    ),
-                  ),
-                  ),
-                  SizedBox(height: 10),
-                   */
-
-      /*
-                  Column(
-                    children: [
-                      Text(":نقاط النشاط" , style: TextStyle(fontSize:20 ),),
-
-                      RadioListTile(title: Text("25"), value:"25",groupValue: point, onChanged:(value){
-                        setState(() {
-                          point=value.toString();
-                        });
-                      },
-                    ),
-                      RadioListTile(title: Text("50"), value:"50",groupValue: point, onChanged:(value){
-                        setState(() {
-                          point=value.toString();
-                          });
-                          },
-                          ),
-                    ],
-                   ), */
+                        SizedBox(height: 20),
               ]
               )
           )
@@ -301,7 +420,41 @@ loadingFalse() {
   isLoading = false;
   setState(() {});
 }
+
+//point
+Widget pointsSelect(String label, int color) {
+  return InkWell(
+    onTap: (() {
+      setState(() {
+        points = label;
+      });
+    }),
+    child: Chip(
+      backgroundColor: points == label ? Colors.white : Color(color),
+     // onPressed: () => setState(() => pressAttention = !pressAttention),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: points == label ? Colors.black : Colors.white,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      labelPadding: EdgeInsets.symmetric(
+        horizontal: 17,
+        vertical: 3.5,
+      ),
+    ),
+  );
 }
+}
+
+/*
 class MyRadioListTile<T> extends StatelessWidget {
   final T value;
   final T groupValue;
@@ -336,7 +489,8 @@ class MyRadioListTile<T> extends StatelessWidget {
      );
     
   }
-
+}*/
+/*
  Widget get _customRadioButton {
     final isSelected = value == groupValue;
     return Container(
@@ -360,4 +514,4 @@ class MyRadioListTile<T> extends StatelessWidget {
     );
   }
 }
-
+*/
