@@ -26,10 +26,37 @@ class _MainTaskState extends State<MainTask> {
   //snapShot.data[index]
   void initState() {
     // TODO: implement initState
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context);
+    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
     getTask(taskNotifier);
     super.initState();
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'قبول اتمام المهمة',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بقبول مهمة طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text(
+                  "قبول",
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -126,7 +153,9 @@ class _MainTaskState extends State<MainTask> {
                           trailing: IconButton(
                             icon: Icon(Icons.delete),
                             color: Theme.of(context).errorColor,
-                            onPressed: () => {},
+                            onPressed: () => {
+                              _showDialog(),
+                            },
                           ),
                         ),
                       ));
