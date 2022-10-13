@@ -92,7 +92,7 @@ class _add2State extends State<add2> {
         //_selectedDate != ""
         ) {
       addTask();
-      showToastMessage("تمت إضافة مكافأة بنجاح");
+      showToastMessage("تمت إضافة المكافأة بنجاح");
       Navigator.of(context).pop();
     } else {
       _showDialog();

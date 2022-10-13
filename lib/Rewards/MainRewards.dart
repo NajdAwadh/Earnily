@@ -31,9 +31,7 @@ class _MainRewardsState extends State<MainRewards> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
-        title: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
-        toolbarHeight: 100,
-       /* title: Padding(
+        title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
@@ -41,7 +39,7 @@ class _MainRewardsState extends State<MainRewards> {
               style: TextStyle(fontSize: 40),
             ),
           ),
-        ),*/
+        ),
         
       ),
       body: Center(
