@@ -26,12 +26,8 @@ class _MainTaskState extends State<MainTask> {
   //snapShot.data[index]
   void initState() {
     // TODO: implement initState
-<<<<<<< HEAD
-    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-=======
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
->>>>>>> parent of 8af98d9 (trying to make changes appear)
     getTask(taskNotifier);
     super.initState();
   }
