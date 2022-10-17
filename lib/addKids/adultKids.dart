@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:earnily/addKids/adultsKidProfile.dart';
 import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -115,7 +116,7 @@ class _AdultKidsState extends State<AdultKids> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
-              "الأطفال",
+              "أطفالي",
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -179,6 +180,14 @@ class _AdultKidsState extends State<AdultKids> {
                                     icon: Icon(Icons.person),
                                     color: Theme.of(context).errorColor,
                                     onPressed: () {
+                                      kidsNotifier.currentKid =
+                                          kidsNotifier.kidsList[index];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdultsKidProfile()));
+                                      /*
                                       showDialog(
                                           context: context,
                                           builder: (context) {
@@ -213,9 +222,22 @@ class _AdultKidsState extends State<AdultKids> {
                                                 ),
                                               ],
                                             );
-                                          });
+                                          });*/
                                     },
                                   ),
+                                  /*
+                                  InkWell(
+                                    onTap: () {
+                                      kidsNotifier.currentKid =
+                                          kidsNotifier.kidsList[index];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdultsKidProfile()));
+                                    },
+                                    */
+                                  //),
                                 ],
                               ),
                             ),

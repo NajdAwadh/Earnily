@@ -358,6 +358,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       ),
                     ),
                     //ghada
+                    /*
                     Positioned(
                       right: 107,
                       top: 425,
@@ -392,38 +393,52 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           ],
                         ),
                       ),
+                      */
 
-                      /*SizedBox(
-                          width: 350,
-                          height: 66,
-                          child: ElevatedButton(
-                              onPressed: _showDatePicker,
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.grey[200],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 2,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _showDatePicker,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          backgroundColor: Colors.grey[200],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: const BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        child: new Directionality(
+                          textDirection: ui.TextDirection.rtl,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
                                 date == null
                                     ? 'اختر تاريخ الميلاد'
                                     : '${DateFormat.yMd().format(date!)}',
                                 overflow: TextOverflow.visible,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey,
                                 ),
-                                textDirection: ui.TextDirection.rtl,
-                              )),
-                        )*/
+                              ),
+                              Icon(
+                                Icons.calendar_today,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
+
                     SizedBox(
                       height: 60,
                     ),

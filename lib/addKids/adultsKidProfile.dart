@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earnily/models/kids.dart';
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/services/upload_file.dart';
 import 'package:earnily/widgets/new_button.dart';
@@ -14,40 +15,59 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:provider/provider.dart';
 
+import '../api/kidsApi.dart';
+import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/new_text.dart';
+import 'package:intl/intl.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class AdultsKidProfile extends StatefulWidget {
+  const AdultsKidProfile({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<AdultsKidProfile> createState() => _AdultsKidProfile();
 }
 
+final user = FirebaseAuth.instance.currentUser!;
 bool isLoading = false;
-String name = '';
 String image = '';
-String email = '';
-String family = '';
+DateTime? date;
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _AdultsKidProfile extends State<AdultsKidProfile> {
   TextEditingController nameController = TextEditingController();
   TextEditingController _familyController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
   bool isEnabled = false;
   @override
   void initState() {
     // TODO: implement initState
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
     super.initState();
-    print(name);
-    print(email);
-    _getUserDetail();
   }
+
+  void _showDatePicker() async => showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2007),
+        lastDate: DateTime.now(),
+      ).then((value) {
+        if (value == null) {
+          return;
+        }
+        setState(() {
+          date = value;
+        });
+      });
 
   @override
   Widget build(BuildContext context) {
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
+    Kids currentKid = kidsNotifier.currentKid;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -69,9 +89,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Directionality(
             textDirection: ui.TextDirection.rtl,
-            child: Text(
-              'الملف الشخصي',
-              style: TextStyle(fontSize: 40),
+            child: Center(
+              child: Text(
+                'ملف الطفل',
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
         ),
@@ -149,33 +171,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-
                   Text(
-                    name + ' ' + family,
+                    currentKid.name,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    email,
-                    style:
-                        TextStyle(fontSize: 13.0, fontWeight: FontWeight.w300),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  // GestureDetector(
-                  //   onTap: (){
-                  //     isEnabled =! isEnabled;
-                  //   setState(() {});
-                  //     },
-                  //   child: Align(
-                  //       alignment: Alignment.centerRight,
-                  //       child: Text('تعديل',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,color: Colors.black),)),
-
-                  // ),
-
                   SizedBox(
                     height: 20,
                   ),
@@ -186,11 +188,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   CustomTextField(
                       controller: nameController,
-                      hint: name,
+                      hint: currentKid.name,
                       isEnabled: isEnabled),
                   SizedBox(
                     height: 10,
                   ),
+                  NewText(
+                    text: ':تاريخ الميلاد',
+                    fontWeight: FontWeight.bold,
+                    size: 18,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    height: 50,
+                    /*
+                    child: ElevatedButton(
+                      onPressed: _showDatePicker,
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        backgroundColor: Colors.grey[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          side: const BorderSide(
+                            width: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      */
+                    child: new Directionality(
+                      textDirection: ui.TextDirection.rtl,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${DateFormat.yMd().format(currentKid.date.toDate())}',
+                            overflow: TextOverflow.visible,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Icon(
+                            Icons.calendar_today,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                    ),
+                    //),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    height: 5,
+                  ),
+                  /*
                   NewText(
                     text: ':العائلة',
                     fontWeight: FontWeight.bold,
@@ -203,15 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  NewText(
-                    text: ':البريد الإلكتروني',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  CustomTextField(
-                      controller: _emailController,
-                      hint: email,
-                      isEnabled: isEnabled),
+                      */
                   if (isEnabled == false)
                     NewButton(
                         text: 'تعديل',
@@ -239,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProfileScreen()));
+                                  builder: (context) => AdultsKidProfile()));
                         })
                 ],
               ),
@@ -267,20 +314,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
     }
-  }
-
-  _getUserDetail() {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .snapshots()
-        .listen((DocumentSnapshot snapshot) {
-      name = snapshot.get("firstName");
-      image = snapshot.get('image');
-      family = snapshot.get("family");
-      email = snapshot.get("email");
-      setState(() {});
-    });
   }
 /*
   updateProfile() {
