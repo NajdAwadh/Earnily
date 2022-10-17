@@ -1,3 +1,4 @@
+import 'package:earnily/Rewards/MainRewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/onbording.dart';
@@ -56,14 +57,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainPage(),
-     // home: add_Reward(),
-    // home: add2(),
+      //home: MainPage(),
+      home: MainRewards(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
 
-       //home: MainRewards(),
+      // home: MainTask(),
       //home: MainTask(),
 
       // home: MainTask(),

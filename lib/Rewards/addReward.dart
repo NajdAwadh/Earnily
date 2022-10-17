@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+//import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:earnily/services/upload_file.dart';
 import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/processing_widget.dart';
@@ -165,18 +165,20 @@ backgroundColor: Colors.white,
                   children: [
                     file == null
                   ? CircleAvatar(
-                      radius: 60,
+                      radius: 80,
+                      backgroundImage: AssetImage("assets/images/gold-star"),
                     )
                   : CircleAvatar(
-                      radius: 60,
+                      radius: 80,
+                      //backgroundImage: AssetImage("assets/images/gold-star"),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(70),
-                    child: Image.network(
+                  /*  child: Image.network(
                       image,
                       height: 100,
                       width: 100,
                       fit: BoxFit.fill,
-                    ),
+                    ),*/
                   ),
                 ),
                     Positioned.fill(
