@@ -21,7 +21,12 @@ class kidTasks extends StatefulWidget {
 class _kidTasksState extends State<kidTasks> {
   void initState() {
     // TODO: implement initState
+<<<<<<< HEAD
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+=======
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+>>>>>>> parent of 8af98d9 (trying to make changes appear)
     getTask(taskNotifier);
     super.initState();
   }
