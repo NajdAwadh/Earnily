@@ -1,5 +1,3 @@
-// ignore_for_file: camel_case_types, library_private_types_in_public_api
-
 import 'package:earnily/models/task.dart';
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
@@ -23,36 +21,46 @@ import '../notifier/kidsNotifier.dart';
 import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
-class Add_task extends StatefulWidget {
-  const Add_task({super.key});
+class View_task extends StatefulWidget {
+  const View_task({super.key});
 
   @override
-  State<Add_task> createState() => _Add_taskState();
+  State<View_task> createState() => _View_taskState();
 }
 
-class _Add_taskState extends State<Add_task> {
-
+class _View_taskState extends State<View_task> {
+  late Task _currentTask;
   @override
   //notification
   late final LocalNotificationService service;
-  void initState() {
- 
-    service = LocalNotificationService();
-    service.intialize();
-    listenToNotification();
-    super.initState();
-  }
 
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
   final user = FirebaseAuth.instance.currentUser!;
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  DateTime _selectedDate = DateTime.now();
-  final _nameController = TextEditingController();
-  String categoty = "";
-  String childName = "";
-  String points = '';
+  late String _selectedDate;
+  late final _nameController;
+  late String categoty;
+  late String childName;
+  late String points;
+
+  void initState() {
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+
+    _nameController =
+        TextEditingController(text: taskNotifier.currentTask.taskName);
+    categoty = taskNotifier.currentTask.category;
+    childName = taskNotifier.currentTask.asignedKid;
+    points = taskNotifier.currentTask.points;
+    _selectedDate = taskNotifier.currentTask.date;
+
+    service = LocalNotificationService();
+    service.intialize();
+    listenToNotification();
+    super.initState();
+  }
 
   void _showDialog() {
     showDialog(
@@ -125,7 +133,7 @@ class _Add_taskState extends State<Add_task> {
         .add({
       'taskName': _nameController.text,
       'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
+      'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
       'state': 0,
@@ -140,7 +148,7 @@ class _Add_taskState extends State<Add_task> {
         .add({
       'taskName': _nameController.text,
       'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
+      'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
       'state': 'Not complete',
@@ -156,7 +164,7 @@ class _Add_taskState extends State<Add_task> {
           '\n  النقاط:' +
           points +
           '\n  تاريخ التنفيذ:' +
-          DateFormat.yMd().format(_selectedDate) +
+          _selectedDate +
           '\n  نوع النشاط:' +
           categoty,
       // 'asignedKid'+ childName,
@@ -174,7 +182,7 @@ class _Add_taskState extends State<Add_task> {
         return;
       }
       setState(() {
-        _selectedDate = pickedDate;
+        _selectedDate = DateFormat.yMd().format(pickedDate);
       });
     });
   }
@@ -193,7 +201,8 @@ class _Add_taskState extends State<Add_task> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<String> list = kidsNotifier.kidsNamesList;
-
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -213,7 +222,7 @@ class _Add_taskState extends State<Add_task> {
         elevation: 0,
         title: Center(
           child: Text(
-            'إضافة نشاط',
+            taskNotifier.currentTask.taskName,
             style: TextStyle(fontSize: 40),
           ),
         ),
@@ -365,7 +374,7 @@ class _Add_taskState extends State<Add_task> {
                                 textDirection: ui.TextDirection.rtl,
                                 _selectedDate == null
                                     ? '! لم يتم اختيار تاريخ'
-                                    : 'التاريخ المختار: ${DateFormat.yMd().format(_selectedDate)}',
+                                    : 'التاريخ المختار: ${_selectedDate}',
                               ),
                             ),
 

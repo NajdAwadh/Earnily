@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
 import 'package:provider/provider.dart';
-
+import 'package:earnily/widgets/view_task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -158,6 +158,14 @@ class _MainTaskState extends State<MainTask> {
                               _showDialog(),
                             },
                           ),
+                          onTap: () {
+                            taskNotifier.currentTask =
+                                taskNotifier.taskList[index];
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return View_task();
+                            }));
+                          },
                         ),
                       ));
                 },
