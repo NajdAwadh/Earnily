@@ -31,12 +31,10 @@ class Add_task extends StatefulWidget {
 }
 
 class _Add_taskState extends State<Add_task> {
-
   @override
   //notification
   late final LocalNotificationService service;
   void initState() {
- 
     service = LocalNotificationService();
     service.intialize();
     listenToNotification();
@@ -48,7 +46,7 @@ class _Add_taskState extends State<Add_task> {
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  DateTime _selectedDate = DateTime.now();
+  String _selectedDate = "";
   final _nameController = TextEditingController();
   String categoty = "";
   String childName = "";
@@ -125,7 +123,7 @@ class _Add_taskState extends State<Add_task> {
         .add({
       'taskName': _nameController.text,
       'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
+      'date':_selectedDate,
       'category': categoty,
       'asignedKid': childName,
       'state': 0,
@@ -140,7 +138,7 @@ class _Add_taskState extends State<Add_task> {
         .add({
       'taskName': _nameController.text,
       'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
+      'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
       'state': 'Not complete',
@@ -156,7 +154,7 @@ class _Add_taskState extends State<Add_task> {
           '\n  النقاط:' +
           points +
           '\n  تاريخ التنفيذ:' +
-          DateFormat.yMd().format(_selectedDate) +
+         _selectedDate +
           '\n  نوع النشاط:' +
           categoty,
       // 'asignedKid'+ childName,
@@ -169,12 +167,12 @@ class _Add_taskState extends State<Add_task> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2024),
-    ).then((pickedDate) {
+    ).then((pickedDate) {  
       if (pickedDate == null) {
         return;
       }
       setState(() {
-        _selectedDate = pickedDate;
+        _selectedDate = DateFormat.yMd().format(pickedDate);
       });
     });
   }
@@ -291,6 +289,9 @@ class _Add_taskState extends State<Add_task> {
                               color: Colors.grey[100],
                               borderRadius: BorderRadius.circular(15)),
                           child: DropdownButtonFormField<String>(
+                              hint: childName.isEmpty
+                                  ? Text("اختر الطفل")
+                                  : Text(childName),
                               isExpanded: true,
                               alignment: Alignment.centerRight,
                               validator: (val) {
@@ -363,9 +364,9 @@ class _Add_taskState extends State<Add_task> {
                             Expanded(
                               child: Text(
                                 textDirection: ui.TextDirection.rtl,
-                                _selectedDate == null
-                                    ? '! لم يتم اختيار تاريخ'
-                                    : 'التاريخ المختار: ${DateFormat.yMd().format(_selectedDate)}',
+                                _selectedDate == ""
+                                    ? 'لم يتم اختيار تاريخ'
+                                    : 'التاريخ المختار: ${_selectedDate}',
                               ),
                             ),
 

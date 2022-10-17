@@ -11,6 +11,7 @@ getTask(TaskNotifier taskNotifier) async {
       .collection('Task')
       .orderBy('date')
       .get();
+      
 
   List<Task> _taskList = [];
 
