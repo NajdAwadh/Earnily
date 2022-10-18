@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:earnily/Rewards/MainRewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
+import 'package:earnily/calender/calenderPage.dart';
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
@@ -40,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     AdultKids(),
     MainTask(),
+    CalenderPage(),
     MainRewards(),
   ];
 
@@ -50,14 +52,13 @@ class _HomePageState extends State<HomePage> {
         leading: Icon(
           Icons.qr_code_scanner_sharp,
           size: 30,
-          
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
         toolbarHeight: 100,
-     ),
+      ),
       endDrawer: Drawer(
         backgroundColor: Colors.black,
         child: SingleChildScrollView(
@@ -119,7 +120,10 @@ class _HomePageState extends State<HomePage> {
                       size: 30,
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen())); 
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()));
                     },
                   ),
                   Text(
@@ -209,6 +213,11 @@ class _HomePageState extends State<HomePage> {
           ),
           Icon(
             Icons.task,
+            color: Colors.white,
+            size: 35,
+          ),
+          Icon(
+            Icons.calendar_month,
             color: Colors.white,
             size: 35,
           ),
