@@ -32,13 +32,12 @@ void main() async {
   );
 
   runApp(MultiProvider(providers: [
-   
     ChangeNotifierProvider(
       create: (BuildContext context) {
         return KidsNotifier();
       },
     ),
-     Provider(
+    ChangeNotifierProvider(
       create: (BuildContext context) {
         return TaskNotifier();
       },

@@ -140,8 +140,8 @@ class _AdultKidsState extends State<AdultKids> {
                     return Card(
                         elevation: 5,
                         margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
+                          vertical: 6,
+                          horizontal: 8,
                         ),
                         child: Container(
                           height: 150,
@@ -153,9 +153,9 @@ class _AdultKidsState extends State<AdultKids> {
                             child: new GridTile(
                               child: Column(
                                 children: [
-                                  SizedBox(height: 15),
+                                  SizedBox(height: 10),
                                   imgWidget(set(list[index].gender), 64, 64),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 15),
                                   Text(
                                     list[index].name,
                                     style: TextStyle(
@@ -179,6 +179,7 @@ class _AdultKidsState extends State<AdultKids> {
                                     onPressed: () => {list[index]},
                                   ),
 */
+
                                   IconButton(
                                     icon: Icon(Icons.person),
                                     color: Theme.of(context).errorColor,
