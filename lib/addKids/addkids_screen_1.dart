@@ -37,11 +37,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     getKidsNames(kidsNotifier);
-    super.initState();
   }
 
   final List<String> items = <String>["طفل", "طفلة"];
@@ -104,7 +104,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         );
 
         Navigator.of(context).pop();
-
+        super.setState(
+            getKids(Provider.of<KidsNotifier>(context, listen: false)));
         /*
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -192,6 +193,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
+
+    Future<void> _refreshList() async {
+      getKids(kidsNotifier);
+    }
 
     return Scaffold(
       appBar: AppBar(

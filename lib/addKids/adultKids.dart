@@ -32,10 +32,10 @@ class _AdultKidsState extends State<AdultKids> {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
-    super.initState();
   }
 
 /*
@@ -104,9 +104,11 @@ class _AdultKidsState extends State<AdultKids> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<Kids> list = kidsNotifier.kidsList;
-    //return Directionality(
-    //textDirection: ui.TextDirection.rtl,
-    //child:
+
+    Future<void> _refreshList() async {
+      getKids(kidsNotifier);
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -134,6 +136,7 @@ class _AdultKidsState extends State<AdultKids> {
             : Container(
                 child: GridView.builder(
                   itemBuilder: (ctx, index) {
+                    list = kidsNotifier.kidsList;
                     return Card(
                         elevation: 5,
                         margin: EdgeInsets.symmetric(

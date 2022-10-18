@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/task.dart';
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
@@ -23,6 +24,8 @@ import '../notifier/kidsNotifier.dart';
 import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
+import '../notifier/taskNotifier.dart';
+
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
 
@@ -35,10 +38,13 @@ class _Add_taskState extends State<Add_task> {
   //notification
   late final LocalNotificationService service;
   void initState() {
+    super.initState();
     service = LocalNotificationService();
     service.intialize();
     listenToNotification();
-    super.initState();
+
+    getTask(Provider.of<TaskNotifier>(context, listen: false));
+    getKidsNames(Provider.of<KidsNotifier>(context, listen: false));
   }
 
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
@@ -108,6 +114,8 @@ class _Add_taskState extends State<Add_task> {
       );
 
       Navigator.of(context).pop();
+      super
+          .setState(getTask(Provider.of<TaskNotifier>(context, listen: false)));
     } else {
       _showDialog();
     }
