@@ -53,7 +53,7 @@ class add extends StatefulWidget {
   @override
   State<add> createState() => _addState();
 }
-//bool isLoading = false;
+bool isLoading = false;
 class _addState extends State<add> {
   @override
  // bool isEnabled = false;
@@ -95,6 +95,7 @@ class _addState extends State<add> {
           ),
         ),
       ),
+
       body: Form(
         key: formKey,
         child: Container(
@@ -104,19 +105,65 @@ class _addState extends State<add> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  UserImagePicker(),
+                  //UserImagePicker(),
                   SizedBox(height: 40,),
               //photo uplode
-              /*  Center(
+                Center(
                 child: Stack(
                   children: [
-                    file == null
-                  ? CircleAvatar(
+                   // file == null
+                    file != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //child:CircleAvatar(
+                     // radius: 80,
+                     // backgroundColor: Colors.grey,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child:Image.network(
+                      imageUrl,
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ),
+                      /* Image.file(
+                        //to show image, you type like this.
+                        File(file!.path),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        height: 300,
+                      ),*/
+                    ),
+                    )
+                    //)
+                    ://CircleAvatar(
+                     // radius: 80,
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ClipRRect(
+                      child: Image.network(
+                      "assets/images/gold-star.png",
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ),)
+                      )
+                    //  Text("No Image",style: TextStyle(fontSize: 20),)
+                     // backgroundImage: AssetImage("assets/images/EarnilyLogo.png"),
+                    //  backgroundColor: Colors.grey,
+                     // )
+                   // Text(
+                   // "No Image",
+                  //  style: TextStyle(fontSize: 20),
+                  //)
+                  /*? CircleAvatar(
                       radius: 80,
                       backgroundImage: AssetImage("assets/images/EarnilyLogo.png"),
                     )
                   : CircleAvatar(
                       radius: 80,
+                      //backgroundImage: file!= null?  File(file!.path) : null,
+                      backgroundColor: Colors.grey,
                      // backgroundImage: AssetImage("assets/images/gold-star.jpg"),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(70),
@@ -127,8 +174,8 @@ class _addState extends State<add> {
                       fit: BoxFit.fill,
                     ),
                   ),
-                ),
-                    Positioned.fill(
+                ),*/
+                    ,Positioned.fill(
                       child: InkWell(
                     onTap: () {
                       showPicker(
@@ -167,9 +214,8 @@ class _addState extends State<add> {
                   )),
                 ],
               ),
-          
-        ),*/
-                ]
+              ),
+            ]
       )
             )
           ),
@@ -180,14 +226,14 @@ class _addState extends State<add> {
     }
 
 
-    /*
+
   ImagePicker picker = ImagePicker();
 
   File? file;
   String imageUrl = "";
 
   Future getImage(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source, imageQuality: 30);
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 30);
     if (pickedFile != null && pickedFile.path != null) {
       loadingTrue();
 
@@ -195,10 +241,10 @@ class _addState extends State<add> {
       setState(() {});
       // ignore: use_build_context_synchronously
       imageUrl = await UploadFileServices().getUrl(context, file: file!);
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
+     // await FirebaseFirestore.instance
+       //   .collection("users")
+         // .doc(FirebaseAuth.instance.currentUser!.uid)
+          //.set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
     }
       }
       loadingTrue() {
@@ -210,5 +256,4 @@ class _addState extends State<add> {
     isLoading = false;
     setState(() {});
   }
-}*/
 }

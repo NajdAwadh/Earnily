@@ -122,7 +122,7 @@ Future getImage(ImageSource media) async {
           child: CircleAvatar(
                 radius: 80.0,
                 backgroundImage: image!= null? FileImage(_pickedImage) : null,
-                 backgroundColor: Colors.grey,
+                backgroundColor: Colors.grey,
           ),
         ),
         //FlatButton.icon(onPressed:null,icon:null,label:null),
@@ -133,13 +133,19 @@ Future getImage(ImageSource media) async {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.file(
+                      child:Image.network(
+                      "assets/images/gold-star.png",
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ), 
+                     /* Image.file(
                         //to show image, you type like this.
                         File(image!.path),
                         fit: BoxFit.cover,
                         width: MediaQuery.of(context).size.width,
                         height: 300,
-                      ),
+                      ),*/
                     ),
                     )
                     :Text(
