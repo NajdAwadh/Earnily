@@ -119,22 +119,8 @@ class _Add_taskState extends State<Add_task> {
         .collection('users')
         .doc(user.uid)
         .collection('Task')
-        .add({
-      'taskName': _nameController.text,
-      'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
-      'category': categoty,
-      'asignedKid': childName,
-      'state': 0,
-    });
-
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('kids')
-        .doc('reema')
-        .collection('Task')
-        .add({
+        .doc(tid)
+        .set({
       'taskName': _nameController.text,
       'points': points,
       'date': DateFormat.yMd().format(_selectedDate),
@@ -142,6 +128,23 @@ class _Add_taskState extends State<Add_task> {
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
+      'adult': user.uid,
+    });
+
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(childName + '@gmail.com')
+        .collection('Task')
+        .doc(tid)
+        .set({
+      'taskName': _nameController.text,
+      'points': points,
+      'date': DateFormat.yMd().format(_selectedDate),
+      'category': categoty,
+      'asignedKid': childName,
+      'state': 'Not complete',
+      'tid': tid,
+      'adult': user.uid,
     });
     //notification
     await service.showNotificationWithPayload(

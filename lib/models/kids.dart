@@ -7,12 +7,14 @@ class Kids {
   late String gender;
   late Timestamp date;
   late String uid;
+  late String pass;
 
   Kids.fromMap(Map<String, dynamic> data) {
     name = data['name'];
     gender = data['gender'];
     date = data['date'];
     uid = data["uid"];
+    pass = data["pass"];
   }
 
   Map<String, dynamic> toMap() {
@@ -21,6 +23,7 @@ class Kids {
       'gender': gender,
       'date': date,
       'uid': uid,
+      'pass': pass,
     };
   }
 }

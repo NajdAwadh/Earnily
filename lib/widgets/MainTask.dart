@@ -32,10 +32,61 @@ class _MainTaskState extends State<MainTask> {
     super.initState();
   }
 
-  void _showDialog() {
+  Future updateTask(String id, String adult, kid) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection("Task")
+        .doc(id)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .collection("Task")
+        .doc(id)
+        .update({'state': 'complete'});
+  }
+
+  Future delete(String id, String adult, kid) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection("Task")
+        .doc(id)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .collection("Task")
+        .doc(id)
+        .delete();
+  }
+
+  void _showDialog(String id, String adult, String kid) {
     showDialog(
         context: context,
         builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "رفض",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: () {
+              // Navigator.of(context).pop;
+              delete(id, adult, kid);
+            },
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "قبول",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              // Navigator.of(context).pop;
+              updateTask(id, adult, kid);
+            },
+          );
           return AlertDialog(
             title: Text(
               'قبول اتمام المهمة',
@@ -47,17 +98,49 @@ class _MainTaskState extends State<MainTask> {
               textAlign: TextAlign.right,
               style: TextStyle(fontSize: 20),
             ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text(
-                  "قبول",
-                  style: TextStyle(fontSize: 20),
-                ),
-              )
+            actions: [
+              cancelButton,
+              continueButton,
             ],
           );
         });
+  }
+
+  void _showDialog2() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "حسنا",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+
+          return AlertDialog(
+            title: Text(
+              'طفلك لم يكمل المهمة بعد',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+            ],
+          );
+        });
+  }
+
+  String _colors(String i) {
+    if (i == "Not complete") {
+      return 'غير مكتمل';
+    } else if (i == "pending")
+      return 'انتظار موافقتك';
+    else
+      return 'مكتمل';
   }
 
   @override
@@ -127,38 +210,53 @@ class _MainTaskState extends State<MainTask> {
                       child: new Directionality(
                         textDirection: TextDirection.rtl,
                         child: new ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: iconColor,
-                            foregroundColor: Colors.white,
-                            radius: 30,
-                            child: Padding(
-                                padding: EdgeInsets.all(6),
-                                child: Container(
-                                  height: 33,
-                                  width: 36,
-                                  child: Icon(iconData),
-                                )),
-                          ),
-                          title: Text(
-                            taskNotifier.taskList[index].taskName,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                            leading: CircleAvatar(
+                              backgroundColor: iconColor,
+                              foregroundColor: Colors.white,
+                              radius: 30,
+                              child: Padding(
+                                  padding: EdgeInsets.all(6),
+                                  child: Container(
+                                    height: 33,
+                                    width: 36,
+                                    child: Icon(iconData),
+                                  )),
                             ),
-                          ),
-                          subtitle: Text(
-                            '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points}',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          isThreeLine: true,
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Theme.of(context).errorColor,
-                            onPressed: () => {
-                              _showDialog(),
-                            },
-                          ),
-                        ),
+                            title: Text(
+                              taskNotifier.taskList[index].taskName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points} | ${_colors(taskNotifier.taskList[index].state)}',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                            isThreeLine: true,
+                            trailing: Wrap(spacing: 0, children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                color: Theme.of(context).errorColor,
+                                onPressed: () => {
+                                  //delete
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.pending_actions),
+                                color: Colors.black,
+                                onPressed: () => {
+                                  if (taskNotifier.taskList[index].state ==
+                                      'pending')
+                                    _showDialog(
+                                        taskNotifier.taskList[index].tid,
+                                        taskNotifier.taskList[index].adult,
+                                        taskNotifier.taskList[index].asignedKid)
+                                  else
+                                    _showDialog2()
+                                },
+                              ),
+                            ])),
                       ));
                 },
                 itemCount: taskNotifier.taskList.length,
