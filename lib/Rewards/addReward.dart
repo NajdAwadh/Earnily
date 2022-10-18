@@ -12,6 +12,7 @@ import 'package:earnily/widgets/show_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import '../reuasblewidgets.dart';
 import '../widgets/show_picker.dart';
 import 'dart:ui' as ui;
 
@@ -29,13 +30,14 @@ String family = '';
 
 class _addRewardState extends State<add_Reward> {
   @override
+ List<dynamic>_savedPoint=['250','500','750','1000'];
  //text controlllers
  final _nameController = TextEditingController();
  //final _pointController = TextEditingController();
  bool isEnabled = false;
  String points = '';
 //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
-// final user = FirebaseAuth.instance.currentUser!;
+ final user = FirebaseAuth.instance.currentUser!;
  final _formKey = GlobalKey<FormState>();
  GlobalKey<FormState> formKey = GlobalKey<FormState>();
  DateTime _selectedDate = DateTime.now();
@@ -43,6 +45,32 @@ class _addRewardState extends State<add_Reward> {
  String categoty = "";
  String childName = "";
 //String points = '';
+
+
+Future retrieve() async {
+
+    //final uid = AuthService().currentUser?.uid;
+    final value = await FirebaseFirestore.instance
+    .collection("points")
+    //.doc("points")
+    .add({
+      "points1":_savedPoint
+      });
+
+//_savedPoint = value.data()!["points"];
+                /* var data= await FirebaseFirestore.instance
+                      .collection('point')
+                      .doc('points')
+                      .collection("points")
+                      .where('name')
+                      .get();
+                     // .orderBy('timestamp', descending: true)
+                      
+      setState(() {
+        _savedPoint = List.from(data.docs);
+      });*/
+  }
+
  void _showDialog() {
    showDialog(
        context: context,
@@ -86,7 +114,7 @@ class _addRewardState extends State<add_Reward> {
        //_selectedDate != ""
        ) {
      addTask();
-     showToastMessage("تمت إضافة مكافأة بنجاح");
+     showToastMessage("تمت إضافة مكافاة بنجاح");
      Navigator.of(context).pop();
    } else {
      _showDialog();
@@ -96,8 +124,8 @@ class _addRewardState extends State<add_Reward> {
    //const tuid = Uuid();
    //String tid = tuid.v4();
    await FirebaseFirestore.instance
-       //.collection('users')
-       //.doc(user.uid)
+       .collection('users')
+       .doc(user.uid)
        .collection('reward')
        .add({
      'rewardName': _nameController.text,
@@ -140,7 +168,7 @@ class _addRewardState extends State<add_Reward> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: Text(
-              "إضافة مكافأة",
+              "إضافة مكافاة",
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -159,6 +187,8 @@ backgroundColor: Colors.white,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
                   SizedBox(height: 40,),
+                  imgWidget("assets/images/gold-star.png", 100, 100),
+                   SizedBox(height: 40,),
                     //photo uplode
                 Center(
                 child: Stack(
@@ -166,19 +196,19 @@ backgroundColor: Colors.white,
                     file == null
                   ? CircleAvatar(
                       radius: 80,
-                      backgroundImage: AssetImage("assets/images/gold-star"),
+                      backgroundImage: AssetImage("assets/images/EarnilyLogo.png"),
                     )
                   : CircleAvatar(
                       radius: 80,
-                      //backgroundImage: AssetImage("assets/images/gold-star"),
+                     // backgroundImage: AssetImage("assets/images/gold-star.jpg"),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(70),
-                  /*  child: Image.network(
-                      image,
+                    child: Image.network(
+                      imageUrl,
                       height: 100,
                       width: 100,
                       fit: BoxFit.fill,
-                    ),*/
+                    ),
                   ),
                 ),
                     Positioned.fill(
@@ -249,7 +279,7 @@ backgroundColor: Colors.white,
                             textAlign: TextAlign.right,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: ' اسم المكافأة ',
+                                hintText: ' اسم المكافاة ',
                                 hintTextDirection: ui.TextDirection.rtl,
                                 hintStyle: TextStyle(
                                   color: Colors.grey,
@@ -260,7 +290,7 @@ backgroundColor: Colors.white,
                                   right: 20,
                                 )),
                             validator: (val) =>
-                                val!.isEmpty ? 'اختر اسم المكافأة ' : null,
+                                val!.isEmpty ? 'اختر اسم المكافاة ' : null,
                             //onChanged: (val) => setState(() => _currentName = val),
                           ),
                         ),
@@ -303,19 +333,19 @@ backgroundColor: Colors.white,
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            pointsSelect("1000", 0xffff6d6e),
+                            pointsSelect(_savedPoint[3], 0xffff6d6e),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('750', 0xfff29732),
+                            pointsSelect(_savedPoint[2], 0xfff29732),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('500', 0xff6557ff),
+                            pointsSelect(_savedPoint[1], 0xff6557ff),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('250', 0xff2bc8d9),
+                            pointsSelect(_savedPoint[0 ], 0xff2bc8d9),
                           ]),
                       SizedBox(
                         height: 10,
@@ -386,10 +416,10 @@ backgroundColor: Colors.white,
   }
   ImagePicker picker = ImagePicker();
   File? file;
-  String imageUrl = "";
+  String imageUrl = "assets/images/gold-star.png";
 
 Future getImage(ImageSource source) async {
-  final pickedFile = await picker.pickImage(source: source, imageQuality: 30);
+  final pickedFile = await picker.pickImage(source: source );
   if (pickedFile != null && pickedFile.path != null) {
     loadingTrue();
     file = File(pickedFile.path);

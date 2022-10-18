@@ -1,5 +1,5 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
-
+/*
 import 'dart:io';
 /*
 import 'package:earnily/api/kidtaskApi.dart';
@@ -30,6 +30,7 @@ import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -51,7 +52,7 @@ class add extends StatefulWidget {
 
 class _addState extends State<add> {
   @override
-
+List<String> _savedPoint=[];
  //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
   final user = FirebaseAuth.instance.currentUser!;
   final _formKey = GlobalKey<FormState>();
@@ -61,114 +62,7 @@ class _addState extends State<add> {
   String categoty = "";
   String childName = "";
   String points = '';
-  void _showDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              "خطأ",
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.red),
-            ),
-            content: Text(
-              "ادخل البيانات المطلوبة",
-              textAlign: TextAlign.right,
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text("حسناً"),
-              )
-            ],
-          );
-        });
-  }
-  void showToastMessage(String message) {
-    //raghad
-    Fluttertoast.showToast(
-        msg: message, //message to show toast
-        toastLength: Toast.LENGTH_LONG, //duration for message to show
-        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
-        timeInSecForIosWeb: 1, //for iOS only
-        //backgroundColor: Colors.red, //background Color for message
-        textColor: Colors.white,
-        //message text color
-        fontSize: 16.0 //message font size
-        );
-  }
-  void _validate() {
-    if (formKey.currentState!.validate() &&
-        categoty != "" &&
-        points != "" &&
-        _selectedDate != "") {
-      addTask();
-      showToastMessage("تمت إضافة نشاط بنجاح");
-      Notifications.showNotification(
-        title: "EARNILY",
-        body: ' لديك نشاط جديد بأنتظارك',
-        payload: 'earnily',
-      );
-      Navigator.of(context).pop();
-    } else {
-      _showDialog();
-    }
-  }
-  Future addTask() async {
-    const tuid = Uuid();
-    String tid = tuid.v4();
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('Task')
-        .add({
-      'taskName': _nameController.text,
-      'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
-      'category': categoty,
-      'asignedKid': childName,
-      'state': 0,
-    });
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('kids')
-        .doc('reema')
-        .collection('Task')
-        .add({
-      'taskName': _nameController.text,
-      'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
-      'category': categoty,
-      'asignedKid': childName,
-      'state': 'Not complete',
-      'tid': tid,
-    });
-  }
-  void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2024),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
-  }
- 
-  void initState() {
-    // TODO: implement initState
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
-    getKidsNames(kidsNotifier);
-    super.initState();
-  }
+
   // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
@@ -200,300 +94,116 @@ class _addState extends State<add> {
       body: Form(
         key: formKey,
         child: Container(
+          
           child: SingleChildScrollView(
-              child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 25),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          ":اسم النشاط ",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  SizedBox(height: 40,),
+                  imgWidget("assets/images/gold-star.png", 100, 100),
+                   SizedBox(height: 40,),
+                    //photo uplode
+                Center(
+                child: Stack(
+                  children: [
+                    file == null
+                  ? CircleAvatar(
+                      radius: 80,
+                      backgroundImage: AssetImage("assets/images/EarnilyLogo.png"),
+                    )
+                  : CircleAvatar(
+                      radius: 80,
+                     // backgroundImage: AssetImage("assets/images/gold-star.jpg"),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(70),
+                    child: Image.network(
+                      imageUrl,
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                    Positioned.fill(
+                      child: InkWell(
+                    onTap: () {
+                      showPicker(
+                        context,
+                        onGalleryTap: () {
+                          getImage(ImageSource.gallery);
+                          Navigator.of(context).pop();
+                        },
+                        onCameraTap: () {
+                          getImage(ImageSource.camera);
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        height: 40,
+                        width: 40,
                         decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                          controller: _nameController,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: ' اسم النشاط الجديد',
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
-                              ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                          validator: (val) =>
-                              val!.isEmpty ? 'اختر اسم النشاط' : null,
-                          //onChanged: (val) => setState(() => _currentName = val),
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Center(
+                            child: Icon(
+                              Icons.photo_library_outlined,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      /*Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          ":اختر الطفل المخصص للنشاط",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                          alignment: Alignment.topRight,
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius: BorderRadius.circular(15)),
-                          child: DropdownButtonFormField<String>(
-                              isExpanded: true,
-                              alignment: Alignment.centerRight,
-                              validator: (val) {
-                                if (val == null) return "اختر الطفل";
-                                return null;
-                              },
-                              items: list.map((valueItem) {
-                                return DropdownMenuItem(
-                                  alignment: Alignment.centerRight,
-                                  value: valueItem,
-                                  child: Text(valueItem),
-                                );
-                              }).toList(),
-                              onChanged: (newVal) {
-                                setState(() {
-                                  childName = newVal!;
-                                });
-                              })),*/
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          ":عدد النقاط المستحقة",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Wrap(
-                          alignment: WrapAlignment.center,
-                          runSpacing: 10,
-                          children: [
-                            pointsSelect("100", 0xffff6d6e),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            pointsSelect('75', 0xfff29732),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            pointsSelect('50', 0xff6557ff),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            pointsSelect('25', 0xff2bc8d9),
-                          ]),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      /*Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          ":تاريخ التنفيذ",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                textDirection: ui.TextDirection.rtl,
-                                _selectedDate == null
-                                    ? '! لم يتم اختيار تاريخ'
-                                    : 'التاريخ المختار: ${DateFormat.yMd().format(_selectedDate)}',
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: _presentDatePicker,
-                                style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all(Colors.black),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.white)),
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  //  size: 30,
-                                ))
-                            //here
-                          ],
-                        ),
-                      ),*/
-                      SizedBox(
-                        height: 10,
-                      ),
-                      /*Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          ":نوع النشاط",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Wrap(
-                          alignment: WrapAlignment.center,
-                          runSpacing: 10,
-                          children: [
-                            categorySelect("النظافة", 0xffff6d6e),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            categorySelect('الأكل', 0xfff29732),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            categorySelect('الدراسة', 0xff6557ff),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            categorySelect('الدين', 0xff234ebd),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            categorySelect('تطوير الشخصية', 0xff2bc8d9),
-                          ]),*/
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Positioned(
-                          left: 21,
-                          top: 625,
-                          width: 350,
-                          height: 66,
-                          child: SizedBox(
-                              width: 347,
-                              height: 68,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  backgroundColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    side: const BorderSide(
-                                      width: 0,
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: _validate,
-                                child: const Text('إضافة ',
-                                    overflow: TextOverflow.visible,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                              ))),
-                    ],
-                  ))),
+                    ),
+                  )),
+                ],
+              ),
+          
+        ),
+                ]
+      )
+            )
+          ),
         ),
       ),
     );
+
+    }
+    
+  ImagePicker picker = ImagePicker();
+
+  File? file;
+  String imageUrl = "";
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source, imageQuality: 30);
+    if (pickedFile != null && pickedFile.path != null) {
+      loadingTrue();
+
+      file = File(pickedFile.path);
+      setState(() {});
+      // ignore: use_build_context_synchronously
+      imageUrl = await UploadFileServices().getUrl(context, file: file!);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
+    }
+      }
+      loadingTrue() {
+    isLoading = true;
+    setState(() {});
   }
-  Widget categorySelect(String label, int color) {
-    return InkWell(
-      onTap: (() {
-        setState(() {
-          categoty = label;
-        });
-      }),
-      child: Chip(
-        backgroundColor: categoty == label ? Colors.white : Color(color),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
-        ),
-        label: Text(
-          label,
-          style: TextStyle(
-            color: categoty == label ? Colors.black : Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        labelPadding: EdgeInsets.symmetric(
-          horizontal: 17,
-          vertical: 3.5,
-        ),
-      ),
-    );
+
+  loadingFalse() {
+    isLoading = false;
+    setState(() {});
   }
-  Widget pointsSelect(String label, int color) {
-    return InkWell(
-      onTap: (() {
-        setState(() {
-          points = label;
-        });
-      }),
-      child: Chip(
-        backgroundColor: points == label ? Colors.white : Color(color),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
-        ),
-        label: Text(
-          label,
-          style: TextStyle(
-            color: points == label ? Colors.black : Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        labelPadding: EdgeInsets.symmetric(
-          horizontal: 17,
-          vertical: 3.5,
-        ),
-      ),
-    );
-  }
-}
+}*/

@@ -3,6 +3,7 @@
 //import 'package:earnily/widgets/add_task.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earnily/reward/user_image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,6 +17,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import '../widgets/show_picker.dart';
 import 'dart:ui' as ui;
+//import 'package:file_picker/file_picker.dart';
+//import 'package:earnily/reward/NetworkHandler.dart';
 
 class add2 extends StatefulWidget {
   const add2({super.key});
@@ -32,6 +35,10 @@ String family = '';
 
 class _add2State extends State<add2> {
   @override
+  //final ImagePicker _picker = ImagePicker();
+  //final networkHandler = NetworkHandler();
+  //late PickedFile _imageFile;
+
   //text controlllers
   final _nameController = TextEditingController();
   //final _pointController = TextEditingController();
@@ -164,24 +171,22 @@ class _add2State extends State<add2> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
+                  //imageProfile(),
                     //photo uplode
-                Center(
+                 Center(
                 child: Stack(
                   children: [
                     file == null
                   ? CircleAvatar(
-                      radius: 60,
+                      radius: 70,
+                      backgroundImage: AssetImage("assets/images/gold-star.jpg"),
                     )
                   : CircleAvatar(
                       radius: 60,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(70),
-                    child: Image.network(
-                      image,
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.fill,
-                    ),
+                   // child: Image.network( image, height: 100, width: 100,fit: BoxFit.fill,),
+                  child:Image.file(file),
                   ),
                 ),
                     Positioned.fill(
@@ -386,18 +391,20 @@ class _add2State extends State<add2> {
           )
         );
   }
+
   ImagePicker picker = ImagePicker();
-  File? file;
-  String imageUrl = "";
+  File file=File('assets/images/gold-star.jpg');
+//var file;
+  String imageUrl = "assest/images/gold-star.jpg";
 
 Future getImage(ImageSource source) async {
   final pickedFile = await picker.pickImage(source: source, imageQuality: 30);
-  if (pickedFile != null && pickedFile.path != null) {
+  if (pickedFile != null) {
     loadingTrue();
     file = File(pickedFile.path);
     setState(() {});
     // ignore: use_build_context_synchronously
-    imageUrl = await UploadFileServices().getUrl(context, file: file!);
+    imageUrl = await UploadFileServices().getUrl(context, file: file);
     await FirebaseFirestore.instance
         //.collection("users")
         //.doc(user.uid)
@@ -405,6 +412,7 @@ Future getImage(ImageSource source) async {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
   }
+  else {  }
 }
 loadingTrue() {
   isLoading = true;
@@ -414,6 +422,7 @@ loadingFalse() {
   isLoading = false;
   setState(() {});
 }
+
 
 //point
 Widget pointsSelect(String label, int color) {
