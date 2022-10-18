@@ -159,8 +159,6 @@ Future retrieve() async {
                   },
                 )
               ],
-
-        
         //automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
@@ -188,7 +186,7 @@ backgroundColor: Colors.white,
                 children: <Widget> [
                   SizedBox(height: 40,),
                   imgWidget("assets/images/gold-star.png", 100, 100),
-                   SizedBox(height: 40,),
+                  SizedBox(height: 40,),
                     //photo uplode
                 Center(
                 child: Stack(

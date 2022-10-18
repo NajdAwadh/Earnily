@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
-/*
+
 import 'dart:io';
+
 /*
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
@@ -27,6 +28,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:earnily/models/task.dart';
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/reuasblewidgets.dart';
+import 'package:earnily/reward/user_image_picker.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -42,31 +44,33 @@ import 'package:provider/provider.dart';
 
 import '../api/kidsApi.dart';
 import '../notifier/kidsNotifier.dart';
-
+import '../reuasblewidgets.dart';
+import '../widgets/show_picker.dart';
+import 'package:earnily/services/upload_file.dart';
 class add extends StatefulWidget {
   const add({super.key});
 
   @override
   State<add> createState() => _addState();
 }
-
+//bool isLoading = false;
 class _addState extends State<add> {
   @override
-List<String> _savedPoint=[];
+ // bool isEnabled = false;
+//List<String> _savedPoint=[];
  //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
-  final user = FirebaseAuth.instance.currentUser!;
+  //final user = FirebaseAuth.instance.currentUser!;
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  DateTime _selectedDate = DateTime.now();
-  final _nameController = TextEditingController();
-  String categoty = "";
-  String childName = "";
-  String points = '';
+  //final _nameController = TextEditingController();
+  //String categoty = "";
+ // String childName = "";
+  //String points = '';
 
   // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    List<String> list = kidsNotifier.kidsNamesList;
+    //KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
+    //List<String> list = kidsNotifier.kidsNamesList;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -94,18 +98,16 @@ List<String> _savedPoint=[];
       body: Form(
         key: formKey,
         child: Container(
-          
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget> [
+                children: <Widget>[
+                  UserImagePicker(),
                   SizedBox(height: 40,),
-                  imgWidget("assets/images/gold-star.png", 100, 100),
-                   SizedBox(height: 40,),
-                    //photo uplode
-                Center(
+              //photo uplode
+              /*  Center(
                 child: Stack(
                   children: [
                     file == null
@@ -166,7 +168,7 @@ List<String> _savedPoint=[];
                 ],
               ),
           
-        ),
+        ),*/
                 ]
       )
             )
@@ -176,7 +178,9 @@ List<String> _savedPoint=[];
     );
 
     }
-    
+
+
+    /*
   ImagePicker picker = ImagePicker();
 
   File? file;
@@ -207,3 +211,4 @@ List<String> _savedPoint=[];
     setState(() {});
   }
 }*/
+}

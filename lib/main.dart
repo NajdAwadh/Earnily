@@ -60,9 +60,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainPage(),
+      //home: MainPage(),
       //home: MainRewards(),
-      //home:add_Reward(),
+      home:add(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
