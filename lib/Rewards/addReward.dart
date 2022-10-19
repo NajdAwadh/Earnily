@@ -300,6 +300,44 @@ loadingFalse() {
 }
 */
 //point
+ Widget pointsSelect(String label, int color) {
+    return InkWell(
+      onTap: (() {
+        setState(() {
+          points = label;
+        });
+      }),
+      child: Chip(
+        backgroundColor: points.isEmpty
+            ? Color(color)
+            : points == label
+                ? Color(color)
+                : Colors.grey,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: points.isEmpty
+                ? Colors.white
+                : points == label
+                    ? Colors.white
+                    : Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        labelPadding: EdgeInsets.symmetric(
+          horizontal: 17,
+          vertical: 3.5,
+        ),
+      ),
+    );
+  }
+/*
   Widget pointsSelect(String label, int color) {
     return InkWell(
       onTap: (() {
@@ -324,10 +362,12 @@ loadingFalse() {
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-          horizontal: points == label ? 30 : 17,
+          horizontal: points == label ? 17 : 17,
           vertical: points == label ? 10 : 3.5,
         ),
       ),
     );
   }
+}
+*/
 }
