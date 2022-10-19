@@ -25,6 +25,7 @@ import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
 import 'notifier/kidsNotifier.dart';
 import 'notifier/taskNotifier.dart';
+import 'notifier/RewardNotifier.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -49,6 +50,11 @@ void main() async {
     ChangeNotifierProvider(
       create: (BuildContext context) {
         return TaskNotifier();
+      },
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) {
+        return RewardNotifier();
       },
     )
   ], child: MyApp()));

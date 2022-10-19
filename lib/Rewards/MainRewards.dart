@@ -59,63 +59,62 @@ class _MainRewardsState extends State<MainRewards> {
           ),
         ),
       ),
-      body:
-          // rewardNotifier.rewardList.isEmpty
-          //     ? Center(
-          //         child: Text(
-          //           'لاتوجد مكافأت مضافة',
-          //           style: TextStyle(fontSize: 30, color: Colors.grey),
-          //         ),
-          //       )
-          Container(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            IconData iconData;
-            Color iconColor;
-            return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 5,
-                ),
-                child: new Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new ListTile(
-                    //   leading: CircleAvatar(
-                    //     backgroundColor: Colors.white,
-                    //     foregroundColor: Colors.white,
-                    //     radius: 30,
-                    //     child: Padding(
-                    //         padding: EdgeInsets.all(6),
-                    //         child: Container(
-                    //           height: 33,
-                    //           width: 36,
-                    //           child: IconButton,
-                    //         )),
-
-                    title: Text(
-                      rewardNotifier.rewardList[index].rewardName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
+      body: rewardNotifier.rewardList.isEmpty
+          ? Center(
+              child: Text(
+                'لاتوجد مكافأت مضافة',
+                style: TextStyle(fontSize: 30, color: Colors.grey),
+              ),
+            )
+          : Container(
+              child: ListView.builder(
+                itemBuilder: (ctx, index) {
+                  IconData iconData;
+                  Color iconColor;
+                  return Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 5,
                       ),
-                    ),
-                    subtitle: Text(
-                      ' 🌟 ${rewardNotifier.rewardList[index].points}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    isThreeLine: true,
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () => {},
-                    ),
-                  ),
-                ));
-          },
-          itemCount: rewardNotifier.rewardList.length,
-        ),
-      ),
+                      child: new Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: new ListTile(
+                          //   leading: CircleAvatar(
+                          //     backgroundColor: Colors.white,
+                          //     foregroundColor: Colors.white,
+                          //     radius: 30,
+                          //     child: Padding(
+                          //         padding: EdgeInsets.all(6),
+                          //         child: Container(
+                          //           height: 33,
+                          //           width: 36,
+                          //           child: IconButton,
+                          //         )),
+
+                          title: Text(
+                            rewardNotifier.rewardList[index].rewardName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                          subtitle: Text(
+                            ' 🌟 ${rewardNotifier.rewardList[index].points}',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          isThreeLine: true,
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Theme.of(context).errorColor,
+                            onPressed: () => {},
+                          ),
+                        ),
+                      ));
+                },
+                itemCount: rewardNotifier.rewardList.length,
+              ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
