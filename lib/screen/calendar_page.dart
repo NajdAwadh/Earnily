@@ -12,14 +12,20 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CalendarAppBar(
+      appBar: 
+      
+      CalendarAppBar(
         onDateChanged: (value) => print(value),
+        
+        firstDate: DateTime.now().subtract(Duration(days: 365)),
+        lastDate: DateTime.now().add(Duration(days: 365 )),
         selectedDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(Duration(days: 140)),
-        lastDate: DateTime.now().add(Duration(days: 10)),
         locale: 'ar',
-        backButton: false,
+        backButton: true,
+        fullCalendar: true,
         accent: Colors.black,
+        events: List.generate(
+            10, (index) => DateTime.now().subtract(Duration(days: index * 2))),
       ),
     );
   }

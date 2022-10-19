@@ -1,9 +1,4 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
-
-import 'package:earnily/models/task.dart';
-import 'package:earnily/notifications/notification_api.dart';
-import 'package:earnily/reuasblewidgets.dart';
-import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

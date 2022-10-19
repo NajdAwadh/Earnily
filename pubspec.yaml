@@ -73,6 +73,9 @@ dependencies:
   table_calendar: ^3.0.7
   calendar_appbar: ^0.0.6
   calendar_view: ^1.0.0
+  google_sign_in: ^5.4.2
+  screen: ^0.0.5
+  
   
 
 

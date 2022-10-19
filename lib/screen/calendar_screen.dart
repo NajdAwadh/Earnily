@@ -11,18 +11,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return CalendarTimeline(
-      initialDate: DateTime(2020, 4, 20),
-      firstDate: DateTime(2019, 1, 15),
-      lastDate: DateTime(2020, 11, 20),
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 360)),
+      lastDate: DateTime.now().add(Duration(days: 360)),
       onDateSelected: (date) => print(date),
       leftMargin: 20,
-      monthColor: Colors.blueGrey,
+      monthColor: Colors.black,
       dayColor: Colors.teal[200],
       activeDayColor: Colors.white,
-      activeBackgroundDayColor: Colors.redAccent[100],
+      activeBackgroundDayColor: Colors.black,
       dotsColor: Color(0xFF333A47),
       selectableDayPredicate: (date) => date.day != 23,
-      locale: 'en_ISO',
+      locale: 'ar',
+      
     );
   }
 }

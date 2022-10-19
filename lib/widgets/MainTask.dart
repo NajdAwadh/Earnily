@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:earnily/screen/calendar_page.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
@@ -40,6 +41,19 @@ Future getPointsFirestore() async {
 
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.calendar_month,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => CalendarPage()));
+            },
+          )
+        ],
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
@@ -47,6 +61,7 @@ Future getPointsFirestore() async {
           'الانشطة الحالية',
           style: TextStyle(fontSize: 40),
         ),
+        
       ),
   
 
@@ -126,7 +141,9 @@ Future getPointsFirestore() async {
                           trailing: IconButton(
                             icon: Icon(Icons.delete),
                             color: Theme.of(context).errorColor,
-                            onPressed: () => {},
+                            onPressed: () => {
+
+                            },
                           ),
                         ),
                       ));
@@ -135,15 +152,7 @@ Future getPointsFirestore() async {
               ),
             ),
 
-      // SingleChildScrollView(
-      //   child: Column(
-      //     // mainAxisAlignment: MainAxisAlignment.start,
-      //     crossAxisAlignment: CrossAxisAlignment.stretch,
-      //     children: <Widget>[
-      //       TaskList(_userTasks, _deleteTask),
-      //     ],
-      //   ),
-      // ),
+
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
