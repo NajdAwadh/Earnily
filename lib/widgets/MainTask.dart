@@ -9,6 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../notifications/notification_api.dart';
+
 class MainTask extends StatefulWidget {
   const MainTask({super.key});
 
@@ -83,7 +85,7 @@ class _MainTaskState extends State<MainTask> {
               style: TextStyle(fontSize: 20, color: Colors.green),
             ),
             onPressed: () {
-              // Navigator.of(context).pop;
+              Navigator.of(context).pop;
               updateTask(id, adult, kid);
             },
           );
@@ -137,9 +139,9 @@ class _MainTaskState extends State<MainTask> {
   String _colors(String i) {
     if (i == "Not complete") {
       return 'غير مكتمل';
-    } else if (i == "pending")
+    } else if (i == "pending") {
       return 'انتظار موافقتك';
-    else
+    } else
       return 'مكتمل';
   }
 

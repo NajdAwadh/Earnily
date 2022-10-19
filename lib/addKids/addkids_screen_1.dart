@@ -104,8 +104,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         );
 
         Navigator.of(context).pop();
-        super.setState(
-            getKids(Provider.of<KidsNotifier>(context, listen: false)));
+
         /*
       Navigator.of(context).push(
         MaterialPageRoute(

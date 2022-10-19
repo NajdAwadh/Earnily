@@ -112,68 +112,30 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 children: [
-                  Center(
-                    child: Stack(
-                      children: [
-                        file == null
-                            ? CircleAvatar(
-                                radius: 60,
-                              )
-                            : CircleAvatar(
-                                radius: 60,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(70),
-                                  child: Image.network(
-                                    image,
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                        Positioned.fill(
-                            child: InkWell(
-                          onTap: () {
-                            showPicker(
-                              context,
-                              onGalleryTap: () {
-                                getImage(ImageSource.gallery);
-                                Navigator.of(context).pop();
-                              },
-                              onCameraTap: () {
-                                getImage(ImageSource.camera);
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.photo_library_outlined,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
-                      ],
-                    ),
+                  Text(
+                    'رمز التعريف لطفلي',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.deepPurple),
+                  ),
+                  Text(
+                    currentKid.pass,
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    'الاسم لتسجيل',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.deepPurple),
                   ),
                   Text(
                     currentKid.name,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   SizedBox(
                     height: 20,

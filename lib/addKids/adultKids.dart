@@ -181,8 +181,9 @@ class _AdultKidsState extends State<AdultKids> {
 */
 
                                   IconButton(
-                                    icon: Icon(Icons.person),
-                                    color: Theme.of(context).errorColor,
+                                    icon: Icon(Icons.account_circle_sharp),
+                                    color: Colors.black,
+                                    iconSize: 40,
                                     onPressed: () {
                                       kidsNotifier.currentKid =
                                           kidsNotifier.kidsList[index];

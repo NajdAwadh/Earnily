@@ -107,15 +107,13 @@ class _Add_taskState extends State<Add_task> {
 
       showToastMessage("تمت إضافة نشاط بنجاح");
 
-      Notifications.showNotification(
+      /* Notifications.showNotification(
         title: "EARNILY",
         body: ' لديك نشاط جديد بأنتظارك',
         payload: 'earnily',
-      );
+      );*/
 
       Navigator.of(context).pop();
-      super
-          .setState(getTask(Provider.of<TaskNotifier>(context, listen: false)));
     } else {
       _showDialog();
     }
@@ -156,7 +154,7 @@ class _Add_taskState extends State<Add_task> {
       'adult': user.uid,
     });
     //notification
-    await service.showNotificationWithPayload(
+    /*await service.showNotificationWithPayload(
       id: 1,
       title: 'تمت اضافة نشاط جديد',
       body: 'اسم النشاط:' + _nameController.text,
@@ -169,7 +167,7 @@ class _Add_taskState extends State<Add_task> {
           '\n  نوع النشاط:' +
           categoty,
       // 'asignedKid'+ childName,
-    );
+    );*/
   }
 
   void _presentDatePicker() {

@@ -51,11 +51,6 @@ class _MainRewardsState extends State<MainRewards> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
-          await service.showNotificationWithPayload(
-              id: 1,
-              title: 'Notification Title',
-              body: 'Some body',
-              payload: 'payload navigation');
           //do something
         },
         child: Icon(

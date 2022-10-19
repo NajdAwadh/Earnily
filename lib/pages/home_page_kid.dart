@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:earnily/Rewards/kidrewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/addKids/adultsKidProfile.dart';
 import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -21,7 +22,6 @@ import '../services/upload_file.dart';
 import '../widgets/show_picker.dart';
 
 import 'dart:io';
-
 
 class HomePageKid extends StatefulWidget {
   const HomePageKid({super.key});
@@ -78,69 +78,12 @@ class _HomePageKidState extends State<HomePageKid> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   imgWidget("assets/images/EarnilyLogo.png", 100, 250),
-                  Center(
-                    child: Stack(
-                      children: [
-                        file == null
-                            ? CircleAvatar(
-                                radius: 60,
-                              )
-                            : CircleAvatar(
-                                radius: 60,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(70),
-                                  child: Image.network(
-                                    image,
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                        Positioned.fill(
-                            child: InkWell(
-                          onTap: () {
-                            showPicker(
-                              context,
-                              onGalleryTap: () {
-                                getImage(ImageSource.gallery);
-                                Navigator.of(context).pop();
-                              },
-                              onCameraTap: () {
-                                getImage(ImageSource.camera);
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.photo_library_outlined,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
-                      ],
-                    ),
-                  ),
-
                   Text(
-                    'Reema' ,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                    user.email!.substring(0, user.email!.indexOf('@')),
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
                   ),
                   Text(
                     '________________________________',
@@ -170,24 +113,6 @@ class _HomePageKidState extends State<HomePageKid> {
                           },
                         ),
                       );
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'ملفي الشخصي',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.account_circle,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {
-                      //do
                     },
                   ),
                   Text(
@@ -306,8 +231,7 @@ class _HomePageKidState extends State<HomePageKid> {
     );
   }
 
-
-    ImagePicker picker = ImagePicker();
+  ImagePicker picker = ImagePicker();
 
   File? file;
   String imageUrl = "";

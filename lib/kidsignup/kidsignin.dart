@@ -52,7 +52,28 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var ui;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -96,12 +117,6 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    NewText(
-                        text: 'هل نسيت كلمة المرور؟',
-                        color: Colors.blue,
-                        size: 18,
-                        fontWeight: FontWeight.w500,
-                        onClick: () {}),
 
                     NewButton(
                         text: 'تسجيل',
@@ -126,54 +141,7 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
                             });
                         }),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          // optional flex property if flex is 1 because the default flex is 1
-                          flex: 0,
-                          child: NewText(
-                            text: 'سجل الان',
-                            size: 18,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blue,
-                            onClick: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => kidSignUpScreen()));
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          // optional flex property if flex is 1 because the default flex is 1
-                          flex: 0,
-                          child: NewText(
-                              text: ' ليس لديك عائلة؟',
-                              size: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-
                     SizedBox(height: 20),
-                    NewButton(
-                        text: 'انضم الى عائلتك ',
-                        width: MediaQuery.of(context).size.width,
-                        height: 110,
-                        onClick: () {
-                          /*
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const QRreader(
-                                  title: '',
-                                );
-                              },
-                            ),
-                          );*/
-                        }),
 
                     /*
 

@@ -20,6 +20,7 @@ import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/kids.dart';
+import '../notifications/notification_api.dart';
 import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 import 'package:http/http.dart' as http;
@@ -443,19 +444,6 @@ class _kidTasksState extends State<kidTasks> {
                       crossAxisSpacing: 8),
                 ),
               ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
-        onPressed: () {
-          sendPushMessage();
-
-          //DocumentSnapshot snap= await FirebaseFirestore.instance.collection('kids').doc()
-        },
       ),
     );
   }
