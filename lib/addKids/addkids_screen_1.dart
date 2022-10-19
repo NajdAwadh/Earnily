@@ -8,7 +8,7 @@ import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
@@ -150,20 +150,36 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   */
 
   Future addKidDetails() async {
+    var uuid = Uuid();
+    String u = uuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('kids')
-        .doc(nameController.text)
+        .doc(nameController.text + '@gmail.com')
         .set({
       'name': nameController.text,
       'gender': value,
       'date': date,
       'uid': user.uid,
+      'pass': u.substring(0, 8),
     });
 
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(nameController.text + '@gmail.com')
+        .set({
+      'name': nameController.text,
+      'gender': value,
+      'date': date,
+      'uid': user.uid,
+      'pass': u.substring(0, 8),
+    });
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: user.email!, password: nameController.text.trim());
+        email: nameController.text + '@gmail.com', password: u.substring(0, 8));
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: user.email!, password: '123456');
+    // await FirebaseAuth.instance.signOut();
   }
 
   void _showDatePicker() async => showDatePicker(

@@ -2,6 +2,7 @@ import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/onbording.dart';
 import 'package:earnily/pages/KidTasks.dart';
+
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/kidWishs.dart';
@@ -10,6 +11,7 @@ import 'package:earnily/screen/QRreader.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/MainTask.dart';
 import 'package:earnily/widgets/add_task.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 //import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +26,20 @@ import 'package:provider/provider.dart';
 import 'notifier/kidsNotifier.dart';
 import 'notifier/taskNotifier.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (BuildContext context) {
@@ -53,7 +62,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      home: MainPage(),
+      // home: MainPage(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
@@ -65,7 +74,9 @@ class MyApp extends StatelessWidget {
       // home: QrCreateScreen(),
       // home: kidTasks(),
       //home: kidWish()
-      //home: HomePageKid(),
+      //  home: HomePageKid(),
+      home: onbording(),
+      // home: MainScreen(),
     );
   }
 }

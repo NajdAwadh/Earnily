@@ -9,10 +9,8 @@ getTask(TaskNotifier taskNotifier) async {
   final user = FirebaseAuth.instance.currentUser!;
 
   QuerySnapshot snapshot = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)
       .collection('kids')
-      .doc('reema')
+      .doc(user.email)
       .collection('Task')
       .orderBy('date')
       .get();

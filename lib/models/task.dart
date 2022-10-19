@@ -10,6 +10,7 @@ class Task {
   late String date;
   late String state;
   late String tid;
+  late String adult;
 
   Task.fromMap(Map<String, dynamic> data) {
     taskName = data['taskName'];
@@ -17,8 +18,9 @@ class Task {
     category = data['category'];
     points = data['points'];
     date = data['date'];
-    //state = data['state'];
-    //tid = data['tid'];
+    state = data['state'];
+    tid = data['tid'];
+    adult = data['adult'];
   }
 
   Map<String, dynamic> toMap() {

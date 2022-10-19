@@ -201,7 +201,9 @@ class _AdultKidsState extends State<AdultKids> {
                                                   64,
                                                   64),
                                               title: Text(
-                                                list[index].name,
+                                                list[index].name +
+                                                    '\n' +
+                                                    list[index].pass,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     color: Colors.black),

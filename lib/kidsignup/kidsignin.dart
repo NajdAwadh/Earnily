@@ -1,28 +1,26 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
+import 'package:earnily/kidsignup/kidsignup.dart';
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/screen/QRreader.dart';
+
 import 'package:earnily/screen/signup_screen.dart';
 import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../api/kidsApi.dart';
-import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 
-class SignInKid extends StatefulWidget {
-  const SignInKid({super.key});
+class kidSignInScreen extends StatefulWidget {
+  const kidSignInScreen({super.key});
 
   @override
-  State<SignInKid> createState() => _SignInKidState();
+  State<kidSignInScreen> createState() => _kidSignInScreenState();
 }
 
-class _SignInKidState extends State<SignInKid> {
-  final user = FirebaseAuth.instance.currentUser!;
+class _kidSignInScreenState extends State<kidSignInScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -54,10 +52,8 @@ class _SignInKidState extends State<SignInKid> {
 
   @override
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 254, 167, 167),
+      backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -71,7 +67,7 @@ class _SignInKidState extends State<SignInKid> {
                     imgWidget("assets/images/EarnilyLogo.png", 150, 250),
                     //SizedBox(height: 30),
                     Text(
-                      'تسجيل الدخول طفل',
+                      ' كطفل تسجيل الدخول',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 40,
@@ -80,26 +76,32 @@ class _SignInKidState extends State<SignInKid> {
                     SizedBox(height: 30),
 
                     NewText(
-                        text: 'البريد الإلكتروني',
-                        size: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.center),
-                    reuasbleTextField("example@email.com", Icons.email, false,
-                        _emailController),
-                    SizedBox(height: 20),
-
-                    NewText(
-                        text: 'الأسم',
+                        text: 'اسمك',
                         size: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center),
                     reuasbleTextField(
-                        "أدخل الأسم", Icons.lock, false, _nameController),
+                        "الاسم", Icons.email, false, _emailController),
+                    SizedBox(height: 20),
+
+                    NewText(
+                        text: 'رمز التعريف',
+                        size: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center),
+                    reuasbleTextField(
+                        'ادخل رمز التعريف', Icons.lock, true, _passController),
                     SizedBox(
                       height: 10,
                     ),
+                    NewText(
+                        text: 'هل نسيت كلمة المرور؟',
+                        color: Colors.blue,
+                        size: 18,
+                        fontWeight: FontWeight.w500,
+                        onClick: () {}),
 
                     NewButton(
                         text: 'تسجيل',
@@ -107,13 +109,13 @@ class _SignInKidState extends State<SignInKid> {
                         height: 110,
                         onClick: () async {
                           if (_emailController.text.isEmpty ||
-                              _nameController.text.isEmpty) {
+                              _passController.text.isEmpty) {
                             _showDialog();
                           } else
                             await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
-                                    email: _emailController.text.trim(),
-                                    password: _nameController.text.trim())
+                                    email: _emailController.text + '@gmail.com',
+                                    password: _passController.text.trim())
                                 .then((value) {
                               Navigator.push(
                                   context,
@@ -123,6 +125,38 @@ class _SignInKidState extends State<SignInKid> {
                               print("error ${error.toString()}");
                             });
                         }),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          // optional flex property if flex is 1 because the default flex is 1
+                          flex: 0,
+                          child: NewText(
+                            text: 'سجل الان',
+                            size: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.blue,
+                            onClick: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => kidSignUpScreen()));
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          // optional flex property if flex is 1 because the default flex is 1
+                          flex: 0,
+                          child: NewText(
+                              text: ' ليس لديك عائلة؟',
+                              size: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ],
+                    ),
+
                     SizedBox(height: 20),
                     NewButton(
                         text: 'انضم الى عائلتك ',
@@ -140,6 +174,24 @@ class _SignInKidState extends State<SignInKid> {
                             ),
                           );*/
                         }),
+
+                    /*
+
+                    SizedBox(height: 20),
+                    NewButton(
+                        text: 'انضم الى عائلتك kid',
+                        width: MediaQuery.of(context).size.width,
+                        height: 110,
+                        onClick: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const SignInKid();
+                              },
+                            ),
+                          );
+                        }),
+                        */
                   ],
                 ))),
       ),
