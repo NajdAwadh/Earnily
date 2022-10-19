@@ -247,6 +247,7 @@ class _Add_taskState extends State<Add_task> {
                       SizedBox(
                         height: 10,
                       ),
+                      
                       Container(
                         alignment: Alignment.topRight,
                         height: 50,
@@ -256,6 +257,7 @@ class _Add_taskState extends State<Add_task> {
                             borderRadius: BorderRadius.circular(15)),
                         child: TextFormField(
                           controller: _nameController,
+                          
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -403,14 +405,12 @@ class _Add_taskState extends State<Add_task> {
                         child: ElevatedButton(
                           onPressed: _presentDatePicker,
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: Colors.grey[200],
+                         
+                            padding: EdgeInsets.all(18),
+                            backgroundColor: Colors.grey[100],
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              side: const BorderSide(
-                                width: 1,
-                                color: Colors.grey,
-                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            
                             ),
                           ),
                           child: new Directionality(
