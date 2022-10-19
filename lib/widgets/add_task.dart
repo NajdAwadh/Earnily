@@ -479,7 +479,7 @@ class _Add_taskState extends State<Add_task> {
         });
       }),
       child: Chip(
-        backgroundColor: categoty == label ? Colors.white : Color(color),
+        backgroundColor: categoty == label ? Colors.black : Color(color),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -488,14 +488,14 @@ class _Add_taskState extends State<Add_task> {
         label: Text(
           label,
           style: TextStyle(
-            color: categoty == label ? Colors.black : Colors.white,
+            color: Colors.white,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-          horizontal: 17,
-          vertical: 3.5,
+         horizontal: points == label ? 30 :17,
+          vertical:  points == label ?10: 3.5,
         ),
       ),
     );
@@ -509,7 +509,7 @@ class _Add_taskState extends State<Add_task> {
         });
       }),
       child: Chip(
-        backgroundColor: points == label ? Colors.white : Color(color),
+        backgroundColor: points == label ? Colors.black : Color(color),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -518,14 +518,14 @@ class _Add_taskState extends State<Add_task> {
         label: Text(
           label,
           style: TextStyle(
-            color: points == label ? Colors.black : Colors.white,
+            color:  Colors.white,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-          horizontal: 17,
-          vertical: 3.5,
+          horizontal: points == label ? 30 :17,
+          vertical:  points == label ?10: 3.5,
         ),
       ),
     );
