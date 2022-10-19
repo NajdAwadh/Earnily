@@ -471,7 +471,7 @@ class _Add_taskState extends State<Add_task> {
     );
   }
 
-  Widget categorySelect(String label, int color) {
+    Widget categorySelect(String label, int color) {
     return InkWell(
       onTap: (() {
         setState(() {
@@ -479,7 +479,12 @@ class _Add_taskState extends State<Add_task> {
         });
       }),
       child: Chip(
-        backgroundColor: categoty == label ? Colors.black : Color(color),
+        // backgroundColor: categoty == label ? Color(color) : Colors.grey,
+        backgroundColor: categoty.isEmpty
+            ? Color(color)
+            : categoty == label
+                ? Color(color)
+                : Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -488,14 +493,18 @@ class _Add_taskState extends State<Add_task> {
         label: Text(
           label,
           style: TextStyle(
-            color: Colors.white,
+            color: categoty.isEmpty
+                ? Colors.white
+                : categoty == label
+                    ? Colors.white
+                    : Colors.black,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-         horizontal: points == label ? 30 :17,
-          vertical:  points == label ?10: 3.5,
+          horizontal: 17,
+          vertical: 3.5,
         ),
       ),
     );
@@ -509,7 +518,11 @@ class _Add_taskState extends State<Add_task> {
         });
       }),
       child: Chip(
-        backgroundColor: points == label ? Colors.black : Color(color),
+        backgroundColor: points.isEmpty
+            ? Color(color)
+            : points == label
+                ? Color(color)
+                : Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -518,14 +531,18 @@ class _Add_taskState extends State<Add_task> {
         label: Text(
           label,
           style: TextStyle(
-            color:  Colors.white,
+            color: points.isEmpty
+                ? Colors.white
+                : points == label
+                    ? Colors.white
+                    : Colors.black,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-          horizontal: points == label ? 30 :17,
-          vertical:  points == label ?10: 3.5,
+          horizontal: 17,
+          vertical: 3.5,
         ),
       ),
     );
