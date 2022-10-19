@@ -115,186 +115,287 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
               //  iconTheme: IconThemeData(color: Colors.black),
             ),
             backgroundColor: Colors.white,
-            body: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                children: [
-                  Text(
-                    'الرمز التعريفي لطفلي',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.deepPurple),
-                  ),
-                  Text(
-                    currentKid.pass,
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'الاسم للتسجيل',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.deepPurple),
-                  ),
-                  Text(
-                    currentKid.name,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
+            body: SingleChildScrollView(
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),              child: Column(
+                  children: [
+                    Text(
+                      'الرمز التعريفي لطفلي',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  NewText(
-                    text: ':الاسم',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  //edit
-                  /*
-                  CustomTextField(
-                      controller: nameController,
-                      hint: currentKid.name,
-                      isEnabled: isEnabled),
-                      */
-                  NewText(
-                    text: currentKid.name,
-                    size: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey,
-                  ),
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 2,
-                    height: 5,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  NewText(
-                    text: ':الجنس ',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: new Directionality(
-                      textDirection: ui.TextDirection.rtl,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            currentKid.gender,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          imgWidget(set(currentKid.gender), 32, 32),
-                        ],
+                    Text(
+                      currentKid.pass,
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      'الاسم للتسجيل',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.deepPurple),
+                    ),
+                    Text(
+                      currentKid.name,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 2,
-                    height: 5,
-                  ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                Align
+                (
+                           alignment: Alignment.centerRight,
+                  child: Text(
+                            "اسم الطفل:",
+                            style: TextStyle(
+                              
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold
+                                
+                                ),
+                                textDirection:  ui.TextDirection.rtl,
+                                   textAlign:TextAlign.right
+                          ),
+                ),
+                  
                   SizedBox(
-                    height: 10,
-                  ),
-                  NewText(
-                    text: ':تاريخ الميلاد',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
+                        height: 10,
+                      ),
+              Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                           enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: currentKid.name,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                           ),
+                      ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                     Align(
+                               alignment: Alignment.centerRight,
+                       child: Text(
+                     
+                           'الجنس:',
+                            style: TextStyle(
+                     
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                                   textDirection:  ui.TextDirection.rtl,
+                                      textAlign:TextAlign.right
+                          ),
+                     ),
+                  
                   SizedBox(
-                    width: 300,
-                    height: 50,
+                        height: 10,
+                      ),
+              Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                           enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText:    currentKid.gender,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                           ),
+                      ),
+                        SizedBox(
+                        height: 10,
+                      ),
+                    // NewText(
+                    //   text: ':الجنس ',
+                    //   fontWeight: FontWeight.bold,
+                    //   size: 18,
+                    // ),
+                    // SizedBox(
+                    //   width: 300,
+                    //   height: 50,
+                    //   child: new Directionality(
+                    //     textDirection: ui.TextDirection.rtl,
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Text(
+                    //           currentKid.gender,
+                    //           style: const TextStyle(
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.w400,
+                    //             color: Colors.grey,
+                    //           ),
+                    //         ),
+                    //         imgWidget(set(currentKid.gender), 32, 32),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    Align(
+                       alignment: Alignment.centerRight,
+                      child: Text(
+                           'تاريخ الميلاد:',
+                           
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                                   textDirection:  ui.TextDirection.rtl,
+                                   textAlign:TextAlign.right ,
+                          ),
+                    ),
+                    SizedBox(
+                        height: 10,
+                      ),
+                
+              Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                           enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText:  '${DateFormat.yMd().format(currentKid.date.toDate())}',
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                           ),
+                      ),
+                    // NewText(
+                    //   text: ':تاريخ الميلاد',
+                    //   fontWeight: FontWeight.bold,
+                    //   size: 18,
+                    // ),
+                    // SizedBox(
+                    //   width: 300,
+                    //   height: 50,
+                    //   /*
+                    //   child: ElevatedButton(
+                    //     onPressed: _showDatePicker,
+                    //     style: ElevatedButton.styleFrom(
+                    //       padding: EdgeInsets.zero,
+                    //       backgroundColor: Colors.grey[200],
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(30),
+                    //         side: const BorderSide(
+                    //           width: 1,
+                    //           color: Colors.grey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     */
+                    //   child: new Directionality(
+                    //     textDirection: ui.TextDirection.rtl,
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Text(
+                    //           '${DateFormat.yMd().format(currentKid.date.toDate())}',
+                    //           overflow: TextOverflow.visible,
+                    //           textAlign: TextAlign.left,
+                    //           style: const TextStyle(
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.w400,
+                    //             color: Colors.grey,
+                    //           ),
+                    //         ),
+                    //         Icon(
+                    //           Icons.calendar_today,
+                    //           size: 30,
+                    //           color: Colors.black,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    //   //),
+                    // ),
+                    // Divider(
+                    //   color: Colors.grey[300],
+                    //   thickness: 2,
+                    //   height: 5,
+                    // ),
                     /*
-                    child: ElevatedButton(
-                      onPressed: _showDatePicker,
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        backgroundColor: Colors.grey[200],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          side: const BorderSide(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      */
-                    child: new Directionality(
-                      textDirection: ui.TextDirection.rtl,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${DateFormat.yMd().format(currentKid.date.toDate())}',
-                            overflow: TextOverflow.visible,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Icon(
-                            Icons.calendar_today,
-                            size: 30,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                    ),
-                    //),
-                  ),
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 2,
-                    height: 5,
-                  ),
-                  /*
-                  if (isEnabled == false)
-                    NewButton(
-                        text: 'تعديل',
-                        height: 100,
-                        width: 320,
-                        onClick: () {
-                          isEnabled = !isEnabled;
-                          setState(() {});
-                        }),
-                  if (isEnabled == true)
-                    NewButton(
-                        height: 100,
-                        width: 320,
-                        text: 'حفظ التغييرات',
-                        onClick: () {
-                          //resetEmail(_emailController.text);
-                          //updateProfile();
-                        }),
-                  if (isEnabled == true)
-                    NewButton(
-                        height: 100,
-                        width: 320,
-                        text: 'إلغاء',
-                        onClick: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdultsKidProfile()));
-                        })
-                        */
-                ],
+                    if (isEnabled == false)
+                      NewButton(
+                          text: 'تعديل',
+                          height: 100,
+                          width: 320,
+                          onClick: () {
+                            isEnabled = !isEnabled;
+                            setState(() {});
+                          }),
+                    if (isEnabled == true)
+                      NewButton(
+                          height: 100,
+                          width: 320,
+                          text: 'حفظ التغييرات',
+                          onClick: () {
+                            //resetEmail(_emailController.text);
+                            //updateProfile();
+                          }),
+                    if (isEnabled == true)
+                      NewButton(
+                          height: 100,
+                          width: 320,
+                          text: 'إلغاء',
+                          onClick: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdultsKidProfile()));
+                          })
+                          */
+                  ],
+                ),
               ),
             )),
       ),
