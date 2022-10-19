@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
@@ -17,26 +22,145 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/kids.dart';
 import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
+import 'package:http/http.dart' as http;
 
 class kidTasks extends StatefulWidget {
-  const kidTasks({super.key});
+  const kidTasks({Key? key}) : super(key: key);
 
   @override
   State<kidTasks> createState() => _kidTasksState();
 }
 
 class _kidTasksState extends State<kidTasks> {
+  //notification
+  late AndroidNotificationChannel channel;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   final user = FirebaseAuth.instance.currentUser!;
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   List _selecteCategorysID = [];
-
+  String? mtoken = " ";
   @override
   void initState() {
-    // TODO: implement initState
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
     super.initState();
+    requestPermission();
+
+    // loadFCM();
+
+    // listenFCM();
+
+    getToken();
+
+    // FirebaseMessaging.instance.subscribeToTopic("Animal");
+  }
+
+  void sendPushMessage() async {
+    try {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+              'key=AAAA5eBmZts:APA91bFUp8EYFt--BGdxV7o4PjaZuLtgso883qpbr5Cn7reyqaekt7g1PKdrzKID3JgU33Tl9rrf40TvF-il14Q_0hXknWATm6Q6D8jyQu6LUbvb8DrSMscy7HKIRM9LwF1oZJVek391',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{
+              'body': 'Test Body',
+              'title': 'Test Title 2'
+            },
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done'
+            },
+            "to": "/topics/Animal",
+          },
+        ),
+      );
+    } catch (e) {
+      print("error push notification");
+    }
+  }
+
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        mtoken = token;
+        print('my token is $mtoken');
+      });
+      saveToken(token!);
+    });
+  }
+
+  void saveToken(String token) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc('wBFhZAKFBjTsuQ5b3KQtUl0oWl32')
+        .set({
+      'token': token,
+    });
+  }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  void listenFCM() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: 'launch_background',
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+  void loadFCM() async {
+    if (!kIsWeb) {
+      channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        importance: Importance.high,
+        enableVibration: true,
+      );
+    }
   }
 
 /*
@@ -166,6 +290,7 @@ class _kidTasksState extends State<kidTasks> {
   }
 
   bool checkedValue = false;
+
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
@@ -227,6 +352,7 @@ class _kidTasksState extends State<kidTasks> {
                                     onChanged: (selected) {
                                       updateTask(
                                           list[index].tid, list[index].adult);
+
                                       _onCategorySelected(selected!,
                                           taskNotifier.taskList[index]);
                                     },
@@ -317,6 +443,19 @@ class _kidTasksState extends State<kidTasks> {
                       crossAxisSpacing: 8),
                 ),
               ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+        onPressed: () {
+          sendPushMessage();
+
+          //DocumentSnapshot snap= await FirebaseFirestore.instance.collection('kids').doc()
+        },
       ),
     );
   }
