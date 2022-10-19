@@ -318,7 +318,7 @@ Widget pointsSelect(String label, int color) {
       });
     }),
     child: Chip(
-      backgroundColor: points == label ? Colors.white : Color(color),
+      backgroundColor: points == label ? Colors.black : Color(color),
      // onPressed: () => setState(() => pressAttention = !pressAttention),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
@@ -328,7 +328,7 @@ Widget pointsSelect(String label, int color) {
       label: Text(
         label,
         style: TextStyle(
-          color: points == label ? Colors.black : Colors.white,
+          color: Colors.white,
           fontSize: 15,
           fontWeight: FontWeight.w600,
         ),
