@@ -490,7 +490,7 @@ backgroundColor: categoty.isEmpty? Color(color) : categoty == label ? Color(colo
         label: Text(
           label,
           style: TextStyle(
- color: categoty.isEmpty? Colors.white : points == label ? Colors.white : Colors.black,            
+ color: categoty.isEmpty? Colors.white : categoty == label ? Colors.white : Colors.black,            
  fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
@@ -520,8 +520,8 @@ backgroundColor: points.isEmpty? Color(color) : points == label ? Color(color) :
         label: Text(
           label,
           style: TextStyle(
- color: points.isEmpty? Colors.white : points == label ? Colors.white : Colors.black,            
- fontSize: 15,
+          color: points.isEmpty? Colors.white : points == label ? Colors.white : Colors.black,            
+         fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
