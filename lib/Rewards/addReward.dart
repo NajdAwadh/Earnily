@@ -334,8 +334,8 @@ Widget pointsSelect(String label, int color) {
         ),
       ),
       labelPadding: EdgeInsets.symmetric(
-        horizontal: 17,
-        vertical: 3.5,
+         horizontal: points == label ? 30 :17,
+          vertical:  points == label ?10: 3.5,
       ),
     ),
   );
