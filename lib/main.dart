@@ -29,7 +29,7 @@ import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
 import 'notifier/kidsNotifier.dart';
 import 'notifier/taskNotifier.dart';
-
+import 'notifier/RewardNotifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +48,11 @@ void main() async {
       create: (BuildContext context) {
         return KidsNotifier();
       },
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) {
+        return RewardNotifier();
+      },
     )
   ], child: MyApp()));
 }
@@ -60,9 +65,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: HomeScreen(),
-      //home: MainPage(),
+      home: MainPage(),
       //home: MainRewards(),
-      home:add_Reward(),
+      //home:add_Reward(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),
