@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_btn_colored_text_material.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_btn_colored_text_material.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_color_highlight_material.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_tint_edittext.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_tint_btn_checkable.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_tint_default.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_tint_default.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_tint_spinner.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_btn_colored_borderless_text_material.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_tint_switch_track.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/color-v23/abc_tint_seek_thumb.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/color-v23/abc_tint_seek_thumb.xml"
+    }
+]

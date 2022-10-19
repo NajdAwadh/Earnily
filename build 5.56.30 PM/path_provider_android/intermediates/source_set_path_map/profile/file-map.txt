@@ -1,0 +1,12 @@
+io.flutter.plugins.pathprovider.path_provider_android-core-1.6.0-0 /Users/najdalm/.gradle/caches/transforms-3/2b7d41cbc7056fed5c47ca027c515892/transformed/core-1.6.0/res
+io.flutter.plugins.pathprovider.path_provider_android-jetified-window-1.0.0-beta04-1 /Users/najdalm/.gradle/caches/transforms-3/591037583eed3cad43e249610e19e22a/transformed/jetified-window-1.0.0-beta04/res
+io.flutter.plugins.pathprovider.path_provider_android-jetified-window-java-1.0.0-beta04-2 /Users/najdalm/.gradle/caches/transforms-3/7ca1d12ce11835aeae7aab11d2bd0198/transformed/jetified-window-java-1.0.0-beta04/res
+io.flutter.plugins.pathprovider.path_provider_android-jetified-annotation-experimental-1.1.0-3 /Users/najdalm/.gradle/caches/transforms-3/da8d98c0d20d24bd00eb962624309242/transformed/jetified-annotation-experimental-1.1.0/res
+io.flutter.plugins.pathprovider.path_provider_android-pngs-4 /Users/najdalm/Desktop/Earnily/build/path_provider_android/generated/res/pngs/profile
+io.flutter.plugins.pathprovider.path_provider_android-resValues-5 /Users/najdalm/Desktop/Earnily/build/path_provider_android/generated/res/resValues/profile
+io.flutter.plugins.pathprovider.path_provider_android-rs-6 /Users/najdalm/Desktop/Earnily/build/path_provider_android/generated/res/rs/profile
+io.flutter.plugins.pathprovider.path_provider_android-mergeProfileResources-7 /Users/najdalm/Desktop/Earnily/build/path_provider_android/intermediates/incremental/profile/mergeProfileResources/merged.dir
+io.flutter.plugins.pathprovider.path_provider_android-mergeProfileResources-8 /Users/najdalm/Desktop/Earnily/build/path_provider_android/intermediates/incremental/profile/mergeProfileResources/stripped.dir
+io.flutter.plugins.pathprovider.path_provider_android-merged_res-9 /Users/najdalm/Desktop/Earnily/build/path_provider_android/intermediates/merged_res/profile
+io.flutter.plugins.pathprovider.path_provider_android-main-10 /Users/najdalm/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.20/android/src/main/res
+io.flutter.plugins.pathprovider.path_provider_android-profile-11 /Users/najdalm/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.20/android/src/profile/res

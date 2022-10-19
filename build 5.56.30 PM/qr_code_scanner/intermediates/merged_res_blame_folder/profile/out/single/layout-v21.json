@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/layout-v21/notification_template_icon_group.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-core-1.7.0-9:/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/layout-v21/notification_action.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-core-1.7.0-9:/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/layout-v21/notification_action_tombstone.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-core-1.7.0-9:/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/layout-v21/notification_template_custom_big.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-core-1.7.0-9:/layout-v21/notification_template_custom_big.xml"
+    }
+]

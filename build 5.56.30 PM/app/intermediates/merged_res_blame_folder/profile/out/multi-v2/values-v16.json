@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.earnily.app-mergeProfileResources-28:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/35fde6136fbf2763d1b253a955b6fcdf/transformed/appcompat-1.4.2/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/27b8d8c9a95d5b7fe6dc1deefb8194b2/transformed/core-1.8.0/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}

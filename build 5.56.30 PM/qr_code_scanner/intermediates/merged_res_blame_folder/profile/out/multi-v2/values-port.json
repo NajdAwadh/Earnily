@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "net.touchcapture.qr.flutterqr.qr_code_scanner-mergeProfileResources-17:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/35fde6136fbf2763d1b253a955b6fcdf/transformed/appcompat-1.4.2/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/35fde6136fbf2763d1b253a955b6fcdf/transformed/appcompat-1.4.2/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

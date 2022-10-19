@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "io.github.ponnamkarthik.toast.fluttertoast-merged_res-8:/values-be/values-be.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/2b7d41cbc7056fed5c47ca027c515892/transformed/core-1.6.0/res/values-be/values-be.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "io.github.ponnamkarthik.toast.fluttertoast-mergeProfileResources-6:/values-be/values-be.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/2b7d41cbc7056fed5c47ca027c515892/transformed/core-1.6.0/res/values-be/values-be.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-core-1.6.0-0 /Users/najdalm/.gradle/caches/transforms-3/2b7d41cbc7056fed5c47ca027c515892/transformed/core-1.6.0/res
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-jetified-window-1.0.0-beta04-1 /Users/najdalm/.gradle/caches/transforms-3/591037583eed3cad43e249610e19e22a/transformed/jetified-window-1.0.0-beta04/res
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-jetified-window-java-1.0.0-beta04-2 /Users/najdalm/.gradle/caches/transforms-3/7ca1d12ce11835aeae7aab11d2bd0198/transformed/jetified-window-java-1.0.0-beta04/res
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-media-1.1.0-3 /Users/najdalm/.gradle/caches/transforms-3/8619a37b529fcefa41a831cb4383558d/transformed/media-1.1.0/res
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-jetified-annotation-experimental-1.1.0-4 /Users/najdalm/.gradle/caches/transforms-3/da8d98c0d20d24bd00eb962624309242/transformed/jetified-annotation-experimental-1.1.0/res
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-pngs-5 /Users/najdalm/Desktop/Earnily/build/flutter_local_notifications/generated/res/pngs/profile
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-resValues-6 /Users/najdalm/Desktop/Earnily/build/flutter_local_notifications/generated/res/resValues/profile
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-rs-7 /Users/najdalm/Desktop/Earnily/build/flutter_local_notifications/generated/res/rs/profile
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-mergeProfileResources-8 /Users/najdalm/Desktop/Earnily/build/flutter_local_notifications/intermediates/incremental/profile/mergeProfileResources/merged.dir
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-mergeProfileResources-9 /Users/najdalm/Desktop/Earnily/build/flutter_local_notifications/intermediates/incremental/profile/mergeProfileResources/stripped.dir
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-merged_res-10 /Users/najdalm/Desktop/Earnily/build/flutter_local_notifications/intermediates/merged_res/profile
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-main-11 /Users/najdalm/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.9.1/android/src/main/res
+com.dexterous.flutterlocalnotifications.flutter_local_notifications-profile-12 /Users/najdalm/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.9.1/android/src/profile/res

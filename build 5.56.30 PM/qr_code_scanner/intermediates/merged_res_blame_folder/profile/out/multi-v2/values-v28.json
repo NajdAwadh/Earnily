@@ -1,0 +1,52 @@
+{
+    "logs": [
+        {
+            "outputFile": "net.touchcapture.qr.flutterqr.qr_code_scanner-mergeProfileResources-17:/values-v28/values-v28.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/35fde6136fbf2763d1b253a955b6fcdf/transformed/appcompat-1.4.2/res/values-v28/values-v28.xml",
+                    "from": {
+                        "startLines": "2,3,4,8",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,130,217,447",
+                        "endLines": "2,3,7,11",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "125,212,442,684"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,8",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,130,217,397",
+                        "endLines": "2,3,7,11",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "125,212,392,584"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/values-v28/values-v28.xml",
+            "map": [
+                {
+                    "source": "/Users/najdalm/.gradle/caches/transforms-3/35fde6136fbf2763d1b253a955b6fcdf/transformed/appcompat-1.4.2/res/values-v28/values-v28.xml",
+                    "from": {
+                        "startLines": "2,3,4,8",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,130,217,447",
+                        "endLines": "2,3,7,11",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "125,212,442,684"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,8",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,130,217,397",
+                        "endLines": "2,3,7,11",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "125,212,392,584"
+                    }
+                }
+            ]
+        }
+    ]
+}

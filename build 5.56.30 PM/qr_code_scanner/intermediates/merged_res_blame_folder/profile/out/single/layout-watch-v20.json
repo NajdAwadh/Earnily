@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/layout-watch-v20/abc_alert_dialog_title_material.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/layout-watch-v20/abc_alert_dialog_title_material.xml"
+    },
+    {
+        "merged": "net.touchcapture.qr.flutterqr.qr_code_scanner-merged_res-19:/layout-watch-v20/abc_alert_dialog_button_bar_material.xml",
+        "source": "net.touchcapture.qr.flutterqr.qr_code_scanner-appcompat-1.4.2-1:/layout-watch-v20/abc_alert_dialog_button_bar_material.xml"
+    }
+]
