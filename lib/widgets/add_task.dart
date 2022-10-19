@@ -366,6 +366,7 @@ class _Add_taskState extends State<Add_task> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
+                      /*
                       Container(
                         height: 50,
                         child: Row(
@@ -392,6 +393,51 @@ class _Add_taskState extends State<Add_task> {
                                 ))
                             //here
                           ],
+                        ),
+                      ),
+                      */
+
+                      SizedBox(
+                        //width: 300,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _presentDatePicker,
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.grey[200],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              side: const BorderSide(
+                                width: 1,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          child: new Directionality(
+                            textDirection: ui.TextDirection.rtl,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _selectedDate == ""
+                                      ? 'لم يتم اختيار تاريخ'
+                                      : 'التاريخ المختار: ${_selectedDate}',
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -479,9 +525,12 @@ class _Add_taskState extends State<Add_task> {
         });
       }),
       child: Chip(
-        
-       // backgroundColor: categoty == label ? Color(color) : Colors.grey,
-backgroundColor: categoty.isEmpty? Color(color) : categoty == label ? Color(color) : Colors.grey,
+        // backgroundColor: categoty == label ? Color(color) : Colors.grey,
+        backgroundColor: categoty.isEmpty
+            ? Color(color)
+            : categoty == label
+                ? Color(color)
+                : Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -490,8 +539,12 @@ backgroundColor: categoty.isEmpty? Color(color) : categoty == label ? Color(colo
         label: Text(
           label,
           style: TextStyle(
- color: categoty.isEmpty? Colors.white : categoty == label ? Colors.white : Colors.black,            
- fontSize: 15,
+            color: categoty.isEmpty
+                ? Colors.white
+                : categoty == label
+                    ? Colors.white
+                    : Colors.black,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -511,7 +564,11 @@ backgroundColor: categoty.isEmpty? Color(color) : categoty == label ? Color(colo
         });
       }),
       child: Chip(
-backgroundColor: points.isEmpty? Color(color) : points == label ? Color(color) : Colors.grey,
+        backgroundColor: points.isEmpty
+            ? Color(color)
+            : points == label
+                ? Color(color)
+                : Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -520,13 +577,17 @@ backgroundColor: points.isEmpty? Color(color) : points == label ? Color(color) :
         label: Text(
           label,
           style: TextStyle(
-          color: points.isEmpty? Colors.white : points == label ? Colors.white : Colors.black,            
-         fontSize: 15,
+            color: points.isEmpty
+                ? Colors.white
+                : points == label
+                    ? Colors.white
+                    : Colors.black,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-              horizontal: 17,
+          horizontal: 17,
           vertical: 3.5,
         ),
       ),

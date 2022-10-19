@@ -63,6 +63,13 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
         });
       });
 
+  String set(String gender) {
+    if (gender == "طفلة")
+      return "assets/images/girlIcon.png";
+    else
+      return "assets/images/boy24.png";
+  }
+
   @override
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
@@ -113,7 +120,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
               child: Column(
                 children: [
                   Text(
-                    'رمز التعريف لطفلي',
+                    'الرمز التعريفي لطفلي',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
@@ -124,7 +131,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    'الاسم لتسجيل',
+                    'الاسم للتسجيل',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
@@ -144,14 +151,62 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     height: 20,
                   ),
                   NewText(
-                    text: ':الاسم الاول',
+                    text: ':الاسم',
                     fontWeight: FontWeight.bold,
                     size: 18,
                   ),
+                  //edit
+                  /*
                   CustomTextField(
                       controller: nameController,
                       hint: currentKid.name,
                       isEnabled: isEnabled),
+                      */
+                  NewText(
+                    text: currentKid.name,
+                    size: 15,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                  Divider(
+                    color: Colors.grey[300],
+                    thickness: 2,
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  NewText(
+                    text: ':الجنس ',
+                    fontWeight: FontWeight.bold,
+                    size: 18,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    height: 50,
+                    child: new Directionality(
+                      textDirection: ui.TextDirection.rtl,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            currentKid.gender,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          imgWidget(set(currentKid.gender), 32, 32),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.grey[300],
+                    thickness: 2,
+                    height: 5,
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -204,23 +259,11 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     //),
                   ),
                   Divider(
-                    color: Colors.black,
+                    color: Colors.grey[300],
+                    thickness: 2,
                     height: 5,
                   ),
                   /*
-                  NewText(
-                    text: ':العائلة',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  CustomTextField(
-                      controller: _familyController,
-                      hint: family,
-                      isEnabled: isEnabled),
-                  SizedBox(
-                    height: 10,
-                  ),
-                      */
                   if (isEnabled == false)
                     NewButton(
                         text: 'تعديل',
@@ -250,6 +293,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                               MaterialPageRoute(
                                   builder: (context) => AdultsKidProfile()));
                         })
+                        */
                 ],
               ),
             )),

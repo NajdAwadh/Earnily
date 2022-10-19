@@ -104,6 +104,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         );*/
 
         Navigator.of(context).pop();
+        setState(getKids(Provider.of<KidsNotifier>(context, listen: false)));
 
         /*
       Navigator.of(context).push(
@@ -416,7 +417,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       */
 
                     SizedBox(
-                      width: 300,
+                      //width: 300,
                       height: 50,
                       child: ElevatedButton(
                         onPressed: _showDatePicker,
