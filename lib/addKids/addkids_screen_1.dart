@@ -272,14 +272,44 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    reuasbleTextField(
-                        "الاسم ", Icons.person, false, nameController),
-                    SizedBox(
-                      height: 20,
+                  Container(
+                     alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                      child: TextFormField(
+                            controller: nameController,
+                            
+                            textAlign: TextAlign.right,
+                            
+                            decoration: InputDecoration(
+                            
+                                border: InputBorder.none,
+                                hintText:  "اسم الطفل ",
+                                hintTextDirection: ui.TextDirection.rtl,
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 17,
+                                ),
+                               
+                                contentPadding: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                )),
+                                
+                          
+                          ),
                     ),
+                    // reuasbleTextField(
+                    //     "الاسم ", Icons.person, false, nameController),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -287,7 +317,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
 
@@ -375,7 +405,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     //ghada
@@ -422,14 +452,12 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       child: ElevatedButton(
                         onPressed: _showDatePicker,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: Colors.grey[200],
+                                                      padding: EdgeInsets.all(18),
+
+                          backgroundColor: Colors.grey[100],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                            side: const BorderSide(
-                              width: 1,
-                              color: Colors.grey,
-                            ),
+                           
                           ),
                         ),
                         child: new Directionality(
