@@ -247,7 +247,6 @@ class _Add_taskState extends State<Add_task> {
                       SizedBox(
                         height: 10,
                       ),
-                      
                       Container(
                         alignment: Alignment.topRight,
                         height: 50,
@@ -257,7 +256,7 @@ class _Add_taskState extends State<Add_task> {
                             borderRadius: BorderRadius.circular(15)),
                         child: TextFormField(
                           controller: _nameController,
-                          
+
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -341,19 +340,19 @@ class _Add_taskState extends State<Add_task> {
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            pointsSelect("100", 0xffff6d6e),
+                            pointsSelect("١٠٠", 0xffff6d6e),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('75', 0xfff29732),
+                            pointsSelect('٧٥', 0xfff29732),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('50', 0xff6557ff),
+                            pointsSelect('٥٠', 0xff6557ff),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('25', 0xff2bc8d9),
+                            pointsSelect('٢٥', 0xff2bc8d9),
                           ]),
                       SizedBox(
                         height: 10,
@@ -405,12 +404,10 @@ class _Add_taskState extends State<Add_task> {
                         child: ElevatedButton(
                           onPressed: _presentDatePicker,
                           style: ElevatedButton.styleFrom(
-                         
                             padding: EdgeInsets.all(18),
                             backgroundColor: Colors.grey[100],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
-                            
                             ),
                           ),
                           child: new Directionality(
@@ -517,7 +514,7 @@ class _Add_taskState extends State<Add_task> {
     );
   }
 
-    Widget categorySelect(String label, int color) {
+  Widget categorySelect(String label, int color) {
     return InkWell(
       onTap: (() {
         setState(() {

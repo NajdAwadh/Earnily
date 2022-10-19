@@ -16,18 +16,7 @@ class RewardNotifier with ChangeNotifier {
   }
 
   set currentReward(AdultReward currentReward) {
-    _currentReward = currentReward;
-    notifyListeners();
-  }
-
-  addReward(AdultReward reward) {
-    _rewardList.insert(0, reward);
-    notifyListeners();
-  }
-
-  deleteReward(AdultReward reward) {
-    _rewardList
-        .removeWhere((_reward) => _reward.rewardName == reward.rewardName);
+    _currentReward = _currentReward;
     notifyListeners();
   }
 }

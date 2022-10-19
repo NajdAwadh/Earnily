@@ -194,6 +194,10 @@ class _MainTaskState extends State<MainTask> {
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
 
+    Future<void> _refreshList() async {
+      getTask(taskNotifier);
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -281,14 +285,14 @@ class _MainTaskState extends State<MainTask> {
                               style: TextStyle(fontSize: 17),
                             ),
                             isThreeLine: true,
-                                  onTap: () {
-                            taskNotifier.currentTask =
-                                taskNotifier.taskList[index];
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) {
-                              return View_task();
-                            }));
-                          },
+                            onTap: () {
+                              taskNotifier.currentTask =
+                                  taskNotifier.taskList[index];
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return View_task();
+                              }));
+                            },
                             trailing: Wrap(spacing: 0, children: <Widget>[
                               IconButton(
                                 icon: Icon(Icons.delete),

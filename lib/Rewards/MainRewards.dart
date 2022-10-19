@@ -1,27 +1,22 @@
+import 'dart:math';
+import 'dart:ui' as ui;
+
 import 'package:earnily/Rewards/addReward.dart';
-import 'package:earnily/models/AdultReward.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
-import 'package:earnily/notifications/local_notification_service.dart';
-import 'package:earnily/notifications/second_screen.dart';
-
-import '../reuasblewidgets.dart';
-import '../widgets/MainTask.dart';
-import 'package:earnily/notifier/RewardNotifier.dart';
-import 'package:earnily/widgets/add_task.dart';
-import 'package:flutter/material.dart';
-import 'package:earnily/api/taskApi.dart';
-import 'package:earnily/notifier/taskNotifier.dart';
-import 'package:provider/provider.dart';
-
-import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:earnily/addKids/adultsKidProfile.dart';
+import 'package:earnily/api/rewardApi.dart';
+import 'package:earnily/notifier/rewardNotifier.dart';
+import 'package:earnily/reuasblewidgets.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart' as path;
-import 'package:uuid/uuid.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:provider/provider.dart';
+import 'dart:ui';
+import '../models/AdultReward.dart';
+import '../widgets/MainTask.dart';
+
+import 'package:age_calculator/age_calculator.dart';
 
 class MainRewards extends StatefulWidget {
   const MainRewards({super.key});
@@ -31,18 +26,88 @@ class MainRewards extends StatefulWidget {
 }
 
 class _MainRewardsState extends State<MainRewards> {
-  late final LocalNotificationService service;
+  final user = FirebaseAuth.instance.currentUser!;
+  final kidsDb = FirebaseFirestore.instance.collection('kids');
 
+  @override
   void initState() {
+    // TODO: implement initState
+    super.initState();
     RewardNotifier rewardNotifier =
         Provider.of<RewardNotifier>(context, listen: false);
-    getRewards(rewardNotifier);
-    super.initState();
+    getReward(rewardNotifier);
+  }
+
+/*
+  void profile() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              text,
+              textAlign: TextAlign.right,
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
+          );
+        });
+  }
+*/
+
+  int getBirthday(Timestamp date) {
+    int birth = AgeCalculator.age(date.toDate()).years;
+    return birth;
+  }
+
+  String set(String gender) {
+    if (gender == "طفلة")
+      return "assets/images/girlIcon.png";
+    else
+      return "assets/images/boy24.png";
+  }
+
+  List<Color> myColors = [
+    //ghada
+    Color(0xffff6d6e),
+    Color(0xfff29732),
+    Color(0xff6557ff),
+    Color(0xff2bc8d9),
+    Color(0xff234ebd),
+
+    Color(0xff6DC8F3),
+    Color(0xff73A1F9),
+    Color(0xffFFB157),
+    Color(0xffFFA057),
+    Color(0xffFF5B95),
+    Color(0xffF8556D),
+    Color(0xffD76EF5),
+    Color(0xff8F7AFE),
+    Color(0xff42E695),
+    Color(0xff3BB2B8),
+  ];
+
+  Color chooseColor(int index) {
+    return myColors[index];
   }
 
   @override
   Widget build(BuildContext context) {
     RewardNotifier rewardNotifier = Provider.of<RewardNotifier>(context);
+    List<AdultReward> list = rewardNotifier.rewardList;
+
+    Future<void> _refreshList() async {
+      getReward(rewardNotifier);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -53,73 +118,115 @@ class _MainRewardsState extends State<MainRewards> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
-              "المكافأت",
+              "مكافآت اطفالي",
               style: TextStyle(fontSize: 40),
             ),
           ),
         ),
       ),
-      body:
-          // rewardNotifier.rewardList.isEmpty
-          //     ? Center(
-          //         child: Text(
-          //           'لاتوجد مكافأت مضافة',
-          //           style: TextStyle(fontSize: 30, color: Colors.grey),
-          //         ),
-          //       )
-          Container(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            IconData iconData;
-            Color iconColor;
-            return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 5,
+      body: new Directionality(
+        textDirection: ui.TextDirection.rtl,
+        child: list.isEmpty
+            ? Center(
+                child: Text(
+                  "لا يوجد لديك مكافآت \n قم بالإضافة الآن",
+                  style: TextStyle(fontSize: 30, color: Colors.grey),
                 ),
-                child: new Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new ListTile(
-                    //   leading: CircleAvatar(
-                    //     backgroundColor: Colors.white,
-                    //     foregroundColor: Colors.white,
-                    //     radius: 30,
-                    //     child: Padding(
-                    //         padding: EdgeInsets.all(6),
-                    //         child: Container(
-                    //           height: 33,
-                    //           width: 36,
-                    //           child: IconButton,
-                    //         )),
+              )
+            : Container(
+                child: GridView.builder(
+                  itemBuilder: (ctx, index) {
+                    list = rewardNotifier.rewardList;
+                    return Card(
+                        elevation: 5,
+                        margin: EdgeInsets.symmetric(
+                          vertical: 6,
+                          horizontal: 8,
+                        ),
+                        child: Container(
+                          height: 150,
+                          color: chooseColor(
+                              index), //Colors.primaries[Random().nextInt(myColors.length)],
 
-                    title: Text(
-                      rewardNotifier.rewardList[index].rewardName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                    subtitle: Text(
-                      ' 🌟 ${rewardNotifier.rewardList[index].points}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    isThreeLine: true,
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () => {},
-                    ),
-                  ),
-                ));
-          },
-          itemCount: rewardNotifier.rewardList.length,
-        ),
+                          child: new Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: new GridTile(
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 10),
+                                  Icon(
+                                    Icons.card_giftcard,
+                                    color: Colors.black,
+                                    size: 50,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    list[index].rewardName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30,
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Text(
+                                    list[index].points + '🌟',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30,
+                                    ),
+                                  ),
+                                  //SizedBox(height: 15),
+                                  /*
+                                Text(
+                                  list[index].date.toString(),
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                  ),
+                                ),
+                                */
+/*
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    color: Theme.of(context).errorColor,
+                                    onPressed: () => {list[index]},
+                                  ),
+*/
+
+                                  /*
+                                  InkWell(
+                                    onTap: () {
+                                      kidsNotifier.currentKid =
+                                          kidsNotifier.kidsList[index];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdultsKidProfile()));
+                                    },
+                                    */
+                                  //),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ));
+                  },
+                  itemCount: rewardNotifier.rewardList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8),
+                ),
+              ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
-        onPressed: () async {
+        child: Icon(
+          Icons.add,
+          size: 30,
+        ),
+        onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) {
@@ -128,38 +235,7 @@ class _MainRewardsState extends State<MainRewards> {
             ),
           );
         },
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
       ),
     );
-  }
-
-  /*void listenToNotification() =>
-      service.onNotificationClick.stream.listen(onNoticationListener);
-  void onNoticationListener(String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      print('payload $payload');
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => SecondScreen(payload: payload))));
-    }
-  }*/
-
-  getRewards(RewardNotifier rewardNotifier) async {
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('reward').get();
-
-    List<AdultReward> _rewardList = [];
-
-    snapshot.docs.forEach((document) {
-      AdultReward reward =
-          AdultReward.fromMap(document.data() as Map<String, dynamic>);
-      _rewardList.add(reward);
-    });
-
-    rewardNotifier.rewardList = _rewardList;
   }
 }

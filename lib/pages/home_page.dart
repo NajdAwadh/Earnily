@@ -50,14 +50,13 @@ class _HomePageState extends State<HomePage> {
         leading: Icon(
           Icons.qr_code_scanner_sharp,
           size: 30,
-          
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: imgWidget("assets/images/EarnilyLogo.png", 50, 250),
         toolbarHeight: 100,
-     ),
+      ),
       endDrawer: Drawer(
         backgroundColor: Colors.black,
         child: SingleChildScrollView(
@@ -119,7 +118,10 @@ class _HomePageState extends State<HomePage> {
                       size: 30,
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen())); 
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()));
                     },
                   ),
                   Text(

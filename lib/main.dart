@@ -1,5 +1,6 @@
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
+
 import 'package:earnily/onbording.dart';
 import 'package:earnily/pages/KidTasks.dart';
 
@@ -25,6 +26,7 @@ import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
 import 'notifier/kidsNotifier.dart';
 import 'notifier/taskNotifier.dart';
+import 'notifier/rewardNotifier.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -50,7 +52,12 @@ void main() async {
       create: (BuildContext context) {
         return TaskNotifier();
       },
-    )
+    ),
+    ChangeNotifierProvider(
+      create: (BuildContext context) {
+        return RewardNotifier();
+      },
+    ),
   ], child: MyApp()));
 }
 
