@@ -86,162 +86,162 @@ class _ProfileScreenState extends State<ProfileScreen> {
               //  iconTheme: IconThemeData(color: Colors.black),
             ),
             backgroundColor: Colors.white,
-            body: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                children: [
-                  Center(
-                    child: Stack(
-                      children: [
-                        file == null
-                            ? CircleAvatar(
-                                radius: 60,
-                              )
-                            : CircleAvatar(
-                                radius: 60,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(70),
-                                  child: Image.network(
-                                    image,
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                        Positioned.fill(
-                            child: InkWell(
-                          onTap: () {
-                            showPicker(
-                              context,
-                              onGalleryTap: () {
-                                getImage(ImageSource.gallery);
-                                Navigator.of(context).pop();
-                              },
-                              onCameraTap: () {
-                                getImage(ImageSource.camera);
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.photo_library_outlined,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
-                      ],
+            body: SingleChildScrollView(
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                child: Column(
+                  children: [
+                 
+              SizedBox(
+                      height: 40,
                     ),
-                  ),
-
-                  Text(
-                    name + ' ' + family,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    email,
-                    style:
-                        TextStyle(fontSize: 13.0, fontWeight: FontWeight.w300),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  // GestureDetector(
-                  //   onTap: (){
-                  //     isEnabled =! isEnabled;
-                  //   setState(() {});
-                  //     },
-                  //   child: Align(
-                  //       alignment: Alignment.centerRight,
-                  //       child: Text('تعديل',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,color: Colors.black),)),
-
-                  // ),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-                  NewText(
-                    text: ':الاسم الاول',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  CustomTextField(
-                      controller: nameController,
-                      hint: name,
-                      isEnabled: isEnabled),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  NewText(
-                    text: ':العائلة',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  CustomTextField(
-                      controller: _familyController,
-                      hint: family,
-                      isEnabled: isEnabled),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  NewText(
-                    text: ':البريد الإلكتروني',
-                    fontWeight: FontWeight.bold,
-                    size: 18,
-                  ),
-                  CustomTextField(
-                      controller: _emailController,
-                      hint: email,
-                      isEnabled: isEnabled),
-                  if (isEnabled == false)
-                    NewButton(
-                        text: 'تعديل',
-                        height: 100,
-                        width: 320,
-                        onClick: () {
-                          isEnabled = !isEnabled;
-                          setState(() {});
-                        }),
-                  if (isEnabled == true)
-                    NewButton(
-                        height: 100,
-                        width: 320,
-                        text: 'حفظ التغييرات',
-                        onClick: () {
-                          resetEmail(_emailController.text);
-                          updateProfile();
-                        }),
-                  if (isEnabled == true)
-                    NewButton(
-                        height: 100,
-                        width: 320,
-                        text: 'إلغاء',
-                        onClick: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileScreen()));
-                        })
-                ],
+             
+                    SizedBox(
+                      height: 20,
+                    ),
+                    // GestureDetector(
+                    //   onTap: (){
+                    //     isEnabled =! isEnabled;
+                    //   setState(() {});
+                    //     },
+                    //   child: Align(
+                    //       alignment: Alignment.centerRight,
+                    //       child: Text('تعديل',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,color: Colors.black),)),
+            
+                    // ),
+            
+                    SizedBox(
+                      height: 20,
+                    ),
+                    NewText(
+                      text: ':الاسم الاول',
+                      fontWeight: FontWeight.bold,
+                      size: 18,
+                    ),
+              
+                     Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: nameController,
+                           enabled: isEnabled,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: name,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
+                      ),    
+                    SizedBox(
+                      height: 10,
+                    ),
+                    NewText(
+                      text: ':العائلة',
+                      fontWeight: FontWeight.bold,
+                      size: 18,
+                    ),
+      
+                           Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: _familyController,
+                           enabled: isEnabled,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: family,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
+                      ), 
+                    SizedBox(
+                      height: 10,
+                    ),
+                    NewText(
+                      text: ':البريد الإلكتروني',
+                      fontWeight: FontWeight.bold,
+                      size: 18,
+                    ),
+                
+                        Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: _emailController,
+                           enabled: isEnabled,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: email,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
+                      ), 
+                         SizedBox(
+                      height: 25,
+                    ),
+                    if (isEnabled == false)
+                      NewButton(
+                          text: 'تعديل',
+                          height: 100,
+                          width: 320,
+                          onClick: () {
+                            isEnabled = !isEnabled;
+                            setState(() {});
+                          }),
+                    if (isEnabled == true)
+                      NewButton(
+                          height: 100,
+                          width: 320,
+                          text: 'حفظ التغييرات',
+                          onClick: () {
+                            resetEmail(_emailController.text);
+                            updateProfile();
+                          }),
+                    if (isEnabled == true)
+                      NewButton(
+                          height: 100,
+                          width: 320,
+                          text: 'إلغاء',
+                          onClick: () {
+                               Navigator.of(context).pop();  })
+                  ],
+                ),
               ),
             )),
       ),
