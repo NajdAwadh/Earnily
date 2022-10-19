@@ -22,53 +22,33 @@ class add_Reward extends StatefulWidget {
   @override
   State<add_Reward> createState() => _addRewardState();
 }
+/*
 bool isLoading = false;
 String name = '';
 String image = '';
 String email = '';
 String family = '';
-
+*/
 class _addRewardState extends State<add_Reward> {
   @override
- List<dynamic>_savedPoint=['250','500','750','1000'];
+ late List<String>_savedPoint=['250','500','750','1000'];
  //text controlllers
  final _nameController = TextEditingController();
- //final _pointController = TextEditingController();
- bool isEnabled = false;
+// bool isEnabled = false;
  String points = '';
 //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
  
  final _formKey = GlobalKey<FormState>();
  GlobalKey<FormState> formKey = GlobalKey<FormState>();
- DateTime _selectedDate = DateTime.now();
-//final _nameController = TextEditingController();
- String categoty = "";
- String childName = "";
-//String points = '';
+
+
 
 //final user = FirebaseAuth.instance.currentUser!;
 
 Future retrieve() async {
-
-    //final uid = AuthService().currentUser?.uid;
-    final value = await FirebaseFirestore.instance
-    .collection("points")
-    //.doc("points")
-    .add({
-      "points1":_savedPoint
-      });
-
-//_savedPoint = value.data()!["points"];
-                /* var data= await FirebaseFirestore.instance
-                      .collection('point')
-                      .doc('points')
-                      .collection("points")
-                      .where('name')
-                      .get();
-                     // .orderBy('timestamp', descending: true)
-      setState(() {
-        _savedPoint = List.from(data.docs);
-      });*/
+DocumentReference docRef= FirebaseFirestore.instance.collection('points').doc('points');
+DocumentSnapshot doc = await docRef.get();
+ List<String>_savedPoint =doc.data() as List<String>;
   }
 
  void _showDialog() {
@@ -131,16 +111,11 @@ Future retrieve() async {
      'rewardName': _nameController.text,
      'points': points,
      'image':"assets/images/gold-star.png",
-   // 'date': DateFormat.yMd().format(_selectedDate),
-    //'category': categoty,
-    //'asignedKid': childName,
-    //'state': 0,
    });
+   retrieve();
  }
 
   Widget build(BuildContext context) {
-    var value;
-    String point2 = "25";
 
 
     return Scaffold(
@@ -257,6 +232,7 @@ backgroundColor: Colors.white,
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
+                            
                             pointsSelect(_savedPoint[3], 0xffff6d6e),
                             SizedBox(
                               width: 20,
