@@ -1,3 +1,4 @@
+import 'package:earnily/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -38,6 +39,7 @@ class _CalendarState extends State<Calendar> {
     return selectedEvents[date] ?? [];
   }
 
+/*
   void sendTasks(List<Task> tasks) {
     for (var i = 0; i < tasks.length; i++) {
       DateTime date = formatter.parseUTC(tasks[i].date);
@@ -45,14 +47,22 @@ class _CalendarState extends State<Calendar> {
       print(date);
     }
   }
-
-  void em(String name) {
-    if (selectedEvents[selectedDay] != null) {
-      selectedEvents[selectedDay]?.add(
-        Event(title: name),
-      );
-    } else {
+*/
+  void em(String name, DateTime date) {
+    print('before if');
+    if (selectedDay == date) {
       selectedEvents[selectedDay] = [Event(title: name)];
+      /*
+      if (selectedEvents[selectedDay] != null) {
+        print('in if');
+        selectedEvents[selectedDay]?.add(
+          Event(title: name),
+        );
+      } else {
+        print('else');
+        selectedEvents[selectedDay] = [Event(title: name)];
+      }
+      */
     }
   }
 
@@ -61,15 +71,8 @@ class _CalendarState extends State<Calendar> {
       String name = tasks[i].taskName;
       DateTime date = formatter.parseUTC(tasks[i].date);
       _getEventsfromDay(date);
-      em(name);
+      em(name, date);
     }
-    _getEventsfromDay(selectedDay).map(
-      (Event event) => ListTile(
-        title: Text(
-          event.title,
-        ),
-      ),
-    );
   }
 
   @override
