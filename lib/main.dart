@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
       // home: HomeScreen(),
       //home: MainPage(),
       //home: MainRewards(),
-      home:add(),
+      home:add_Reward(),
 
       //home: HomePage(),
       //home: AddKids_screen_1(),

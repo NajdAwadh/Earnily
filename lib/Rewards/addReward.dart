@@ -37,7 +37,7 @@ class _addRewardState extends State<add_Reward> {
  bool isEnabled = false;
  String points = '';
 //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
- final user = FirebaseAuth.instance.currentUser!;
+ //final user = FirebaseAuth.instance.currentUser!;
  final _formKey = GlobalKey<FormState>();
  GlobalKey<FormState> formKey = GlobalKey<FormState>();
  DateTime _selectedDate = DateTime.now();
@@ -124,8 +124,8 @@ Future retrieve() async {
    //const tuid = Uuid();
    //String tid = tuid.v4();
    await FirebaseFirestore.instance
-       .collection('users')
-       .doc(user.uid)
+      // .collection('users')
+       //.doc(user.uid)
        .collection('reward')
        .add({
      'rewardName': _nameController.text,
@@ -185,10 +185,77 @@ backgroundColor: Colors.white,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
                   SizedBox(height: 40,),
-                  imgWidget("assets/images/gold-star.png", 100, 100),
+                  //imgWidget("assets/images/gold-star.png", 100, 100),
                   SizedBox(height: 40,),
                     //photo uplode
-                Center(
+                    Center(
+                child: Stack(
+                  children: [
+                    file != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child:Image.network(
+                      imageUrl,
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ),
+                    ),
+                    )
+                    :
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ClipRRect(
+                      child: Image.network(
+                      "assets/images/gold-star.png",
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    ),)
+                      )
+                    ,Positioned.fill(
+                      child: InkWell(
+                    onTap: () {
+                      showPicker(
+                        context,
+                        onGalleryTap: () {
+                          getImage(ImageSource.gallery);
+                          Navigator.of(context).pop();
+                        },
+                        onCameraTap: () {
+                          getImage(ImageSource.camera);
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Center(
+                            child: Icon(
+                              Icons.photo_library_outlined,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+              ),
+               /* Center(
                 child: Stack(
                   children: [
                     file == null
@@ -198,7 +265,7 @@ backgroundColor: Colors.white,
                     )
                   : CircleAvatar(
                       radius: 80,
-                     // backgroundImage: AssetImage("assets/images/gold-star.jpg"),
+                      backgroundImage: AssetImage("assets/images/gold-star.jpg"),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(70),
                     child: Image.network(
@@ -248,7 +315,7 @@ backgroundColor: Colors.white,
                   )),
                 ],
               ),
-          ),
+          ),*/
                       SizedBox(
                         height: 20,
                       ),
@@ -414,7 +481,7 @@ backgroundColor: Colors.white,
   }
   ImagePicker picker = ImagePicker();
   File? file;
-  String imageUrl = "assets/images/gold-star.png";
+  String imageUrl = "";
 
 Future getImage(ImageSource source) async {
   final pickedFile = await picker.pickImage(source: source );
@@ -424,12 +491,12 @@ Future getImage(ImageSource source) async {
     setState(() {});
     // ignore: use_build_context_synchronously
     imageUrl = await UploadFileServices().getUrl(context, file: file!);
-    await FirebaseFirestore.instance
+    //await FirebaseFirestore.instance
         //.collection("users")
         //.doc(user.uid)
-        .collection('reward')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
+        //.collection('reward')
+        //.doc(FirebaseAuth.instance.currentUser!.uid)
+       // .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
   }
 }
 loadingTrue() {
