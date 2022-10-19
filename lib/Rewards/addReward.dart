@@ -22,22 +22,16 @@ class add_Reward extends StatefulWidget {
   @override
   State<add_Reward> createState() => _addRewardState();
 }
-/*
-bool isLoading = false;
-String name = '';
-String image = '';
-String email = '';
-String family = '';
-*/
+
+
 class _addRewardState extends State<add_Reward> {
   @override
- late List<String>_savedPoint=['250','500','750','1000'];
- //text controlllers
- final _nameController = TextEditingController();
-// bool isEnabled = false;
- String points = '';
-//final List<String> list = <String>['سعد', 'ريما', 'خالد'];
+   late List<String>_savedPoint=['250','500','750','1000'];
  
+ final _nameController = TextEditingController();
+
+ String points = '';
+
  final _formKey = GlobalKey<FormState>();
  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -232,7 +226,6 @@ backgroundColor: Colors.white,
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            
                             pointsSelect(_savedPoint[3], 0xffff6d6e),
                             SizedBox(
                               width: 20,
@@ -324,25 +317,33 @@ Widget pointsSelect(String label, int color) {
         points = label;
       });
     }),
-    child: Chip(
-      backgroundColor: points == label ? Colors.white : Color(color),
-     // onPressed: () => setState(() => pressAttention = !pressAttention),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          10,
+
+    child: SizedBox(
+     // width: points == label ? 100: 70 ,
+     // height:  points == label ? 100: 70,
+      child: Chip(
+        backgroundColor: points == label ? Colors.black : Color(color),
+        //elevation: points == label ? 20.0: 0,
+        //shadowColor:points == label ? Colors.blue: Colors.grey[60],
+       // onPressed: () => setState(() => pressAttention = !pressAttention),
+        shape:
+         RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
         ),
-      ),
-      label: Text(
-        label,
-        style: TextStyle(
-          color: points == label ? Colors.black : Colors.white,
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
+        label: Text(
+          label,
+          style: TextStyle(
+            color: points == label ? Colors.white : Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      ),
-      labelPadding: EdgeInsets.symmetric(
-        horizontal: 17,
-        vertical: 3.5,
+        labelPadding: EdgeInsets.symmetric(
+          horizontal: points == label ? 30 :17,
+          vertical:  points == label ?10: 3.5,
+        ),
       ),
     ),
   );
