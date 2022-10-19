@@ -281,6 +281,14 @@ class _MainTaskState extends State<MainTask> {
                               style: TextStyle(fontSize: 17),
                             ),
                             isThreeLine: true,
+                                  onTap: () {
+                            taskNotifier.currentTask =
+                                taskNotifier.taskList[index];
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return View_task();
+                            }));
+                          },
                             trailing: Wrap(spacing: 0, children: <Widget>[
                               IconButton(
                                 icon: Icon(Icons.delete),
