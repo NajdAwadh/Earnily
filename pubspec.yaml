@@ -68,6 +68,8 @@ dependencies:
   firebase_messaging: ^13.0.4
   overlay_support: ^1.2.1
   http: ^0.13.4
+  table_calendar: ^3.0.7
+  googleapis: ^9.2.0
 
 
   #firebase database (lamis)
