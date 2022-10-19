@@ -97,11 +97,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         addKidDetails();
         showToastMessage("تمت إضافة الطفل بنجاح");
 
-        Notifications.showNotification(
+        /*  Notifications.showNotification(
           title: "EARNILY",
           body: ' لديك نشاط جديد بأنتظارك',
           payload: 'earnily',
-        );
+        );*/
 
         Navigator.of(context).pop();
 
