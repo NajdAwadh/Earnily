@@ -517,7 +517,7 @@ class _Add_taskState extends State<Add_task> {
     );
   }
 
-  Widget categorySelect(String label, int color) {
+    Widget categorySelect(String label, int color) {
     return InkWell(
       onTap: (() {
         setState(() {
