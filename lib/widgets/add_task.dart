@@ -148,7 +148,7 @@ class _Add_taskState extends State<Add_task> {
         .set({
       'taskName': _nameController.text,
       'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
+      'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
       'state': 'Not complete',
