@@ -1,10 +1,14 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'dart:io';
+
+import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
 import 'package:earnily/reuasblewidgets.dart';
+import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
@@ -26,23 +30,18 @@ class AddKids_screen_1 extends StatefulWidget {
 }
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
-  static TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
-  //List<Kids>? names;
-
-  void kk() {
-    print(nameController);
-  }
 
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     getKidsNames(kidsNotifier);
-    super.initState();
   }
 
   final List<String> items = <String>["طفل", "طفلة"];
@@ -98,11 +97,14 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         addKidDetails();
         showToastMessage("تمت إضافة الطفل بنجاح");
 
-        Notifications.showNotification(
-          title: "sarah",
-          body: 'hey',
+        /*  Notifications.showNotification(
+          title: "EARNILY",
+          body: ' لديك نشاط جديد بأنتظارك',
           payload: 'earnily',
-        );
+        );*/
+
+        Navigator.of(context).pop();
+        setState(getKids(Provider.of<KidsNotifier>(context, listen: false)));
 
         /*
       Navigator.of(context).push(
@@ -113,6 +115,12 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         ),
       );*/
       } // push,
+    }
+  }
+
+  void validateReturn(bool flag) {
+    if (flag) {
+      _showDialog("هل انت متأكد من الخروج ؟");
     }
   }
 
@@ -142,17 +150,36 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   */
 
   Future addKidDetails() async {
+    var uuid = Uuid();
+    String u = uuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('kids')
-        .doc(nameController.text)
+        .doc(nameController.text + '@gmail.com')
         .set({
       'name': nameController.text,
       'gender': value,
       'date': date,
       'uid': user.uid,
+      'pass': u.substring(0, 8),
     });
+
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(nameController.text + '@gmail.com')
+        .set({
+      'name': nameController.text,
+      'gender': value,
+      'date': date,
+      'uid': user.uid,
+      'pass': u.substring(0, 8),
+    });
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: nameController.text + '@gmail.com', password: u.substring(0, 8));
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: user.email!, password: '123456');
+    // await FirebaseAuth.instance.signOut();
   }
 
   void _showDatePicker() async => showDatePicker(
@@ -183,6 +210,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
 
+    Future<void> _refreshList() async {
+      getKids(kidsNotifier);
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -194,6 +225,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
               size: 40,
             ),
             onPressed: () {
+              //validateReturn(true);
               Navigator.of(context).pop();
             },
           )
@@ -204,9 +236,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Directionality(
             textDirection: ui.TextDirection.rtl,
-            child: Text(
-              "إضافة طفل",
-              style: TextStyle(fontSize: 40),
+            child: Center(
+              child: Text(
+                "إضافة طفل",
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
         ),
@@ -322,61 +356,15 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                           width: 5,
                                         ),
                                         //Image.asset("assets/images/boy24.png"),
-                                        imgWidget(
-                                            "assets/images/boyIcon.png", 32, 32),
+                                        imgWidget("assets/images/boyIcon.png",
+                                            32, 32),
                                         /*
                                         Icon(Icons.child_care,
                                             color: Colors.blue),*/
                                       ],
                                     )
                                   ],
-                                )))
-
-                        /*Container(
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(30),
-                              border: const Border(
-                                left: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                right: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                top: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                bottom: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            child: DropdownButton<String>(
-                                hint: const Text(
-                                  "الجنس",
-                                  overflow: TextOverflow.visible,
-                                  textAlign: TextAlign.right,
-                                ),
-                                value: value,
-                                items: items.map((valueItem) {
-                                  return DropdownMenuItem(
-                                    value: valueItem,
-                                    child: Text(valueItem),
-                                  );
-                                }).toList(),
-                                onChanged: (newVal) {
-                                  setState(() {
-                                    value = newVal!;
-                                  });
-                                }
-                                ),
-                                ),*/
-                        ),
+                                )))),
                     SizedBox(
                       height: 20,
                     ),
@@ -390,6 +378,8 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
+                    //ghada
+                    /*
                     Positioned(
                       right: 107,
                       top: 425,
@@ -424,38 +414,52 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           ],
                         ),
                       ),
+                      */
 
-                      /*SizedBox(
-                          width: 350,
-                          height: 66,
-                          child: ElevatedButton(
-                              onPressed: _showDatePicker,
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.grey[200],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 2,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
+                    SizedBox(
+                      //width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _showDatePicker,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          backgroundColor: Colors.grey[200],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: const BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        child: new Directionality(
+                          textDirection: ui.TextDirection.rtl,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
                                 date == null
                                     ? 'اختر تاريخ الميلاد'
                                     : '${DateFormat.yMd().format(date!)}',
                                 overflow: TextOverflow.visible,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey,
                                 ),
-                                textDirection: ui.TextDirection.rtl,
-                              )),
-                        )*/
+                              ),
+                              Icon(
+                                Icons.calendar_today,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
+
                     SizedBox(
                       height: 60,
                     ),

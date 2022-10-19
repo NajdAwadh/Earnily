@@ -21,3 +21,23 @@ getTask(TaskNotifier taskNotifier) async {
 
   taskNotifier.taskList = _taskList;
 }
+
+getDates(TaskNotifier taskNotifier) async {
+  final user = FirebaseAuth.instance.currentUser!;
+  QuerySnapshot snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('Task')
+      .orderBy('date')
+      .get();
+
+  List<String> _currentDateList = [];
+
+  snapshot.docs.forEach((document) {
+    String date = Task.fromMap(document.data() as Map<String, dynamic>).date;
+
+    _currentDateList.add(date);
+  });
+
+  taskNotifier.currentDateList = _currentDateList;
+}

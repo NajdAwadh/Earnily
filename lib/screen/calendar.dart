@@ -1,8 +1,12 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../api/taskApi.dart';
+import '../models/task.dart';
+import '../notifier/taskNotifier.dart';
 import 'event.dart';
+import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -14,17 +18,58 @@ class _CalendarState extends State<Calendar> {
   CalendarFormat format = CalendarFormat.week;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+  final formatter = DateFormat('yMd');
 
   TextEditingController _eventController = TextEditingController();
 
   @override
   void initState() {
     selectedEvents = {};
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+
+    getTask(taskNotifier);
+    getDates(taskNotifier);
+
     super.initState();
   }
 
   List<Event> _getEventsfromDay(DateTime date) {
     return selectedEvents[date] ?? [];
+  }
+
+  void sendTasks(List<Task> tasks) {
+    for (var i = 0; i < tasks.length; i++) {
+      DateTime date = formatter.parseUTC(tasks[i].date);
+      _getEventsfromDay(date);
+      print(date);
+    }
+  }
+
+  void em(String name) {
+    if (selectedEvents[selectedDay] != null) {
+      selectedEvents[selectedDay]?.add(
+        Event(title: name),
+      );
+    } else {
+      selectedEvents[selectedDay] = [Event(title: name)];
+    }
+  }
+
+  void add(List<Task> tasks) {
+    for (var i = 0; i < tasks.length; i++) {
+      String name = tasks[i].taskName;
+      DateTime date = formatter.parseUTC(tasks[i].date);
+      _getEventsfromDay(date);
+      em(name);
+    }
+    _getEventsfromDay(selectedDay).map(
+      (Event event) => ListTile(
+        title: Text(
+          event.title,
+        ),
+      ),
+    );
   }
 
   @override
@@ -35,9 +80,17 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    List<String> tasks = taskNotifier.currentDateList;
+    List<Task> task = taskNotifier.taskList;
+    //Task current = taskNotifier.currentTask;
+    //String name = taskNotifier.currentTask.taskName;
+
+    add(task);
+
     return Scaffold(
       body: Column(
-
         children: [
           TableCalendar(
             locale: 'en_US',
@@ -89,13 +142,11 @@ class _CalendarState extends State<Calendar> {
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(5.0),
               ),
-              markerDecoration : BoxDecoration(
+              markerDecoration: BoxDecoration(
                 color: Colors.blue,
                 shape: BoxShape.circle,
               ),
             ),
-
-
 
             headerStyle: HeaderStyle(
               formatButtonVisible: true,
@@ -109,22 +160,16 @@ class _CalendarState extends State<Calendar> {
                 color: Colors.white,
               ),
             ),
-
           ),
-
-
-
           ..._getEventsfromDay(selectedDay).map(
             (Event event) => ListTile(
               title: Text(
                 event.title,
               ),
             ),
-            ),
+          ),
         ],
       ),
-
-      
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showDialog(
           context: context,
@@ -142,7 +187,6 @@ class _CalendarState extends State<Calendar> {
                 child: Text("Ok"),
                 onPressed: () {
                   if (_eventController.text.isEmpty) {
-
                   } else {
                     if (selectedEvents[selectedDay] != null) {
                       selectedEvents[selectedDay]?.add(
@@ -153,11 +197,10 @@ class _CalendarState extends State<Calendar> {
                         Event(title: _eventController.text)
                       ];
                     }
-
                   }
                   Navigator.pop(context);
                   _eventController.clear();
-                  setState((){});
+                  setState(() {});
                   return;
                 },
               ),

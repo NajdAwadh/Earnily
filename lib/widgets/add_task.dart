@@ -1,4 +1,5 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
+import 'package:earnily/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -11,7 +12,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../api/kidsApi.dart';
+import '../api/taskApi.dart';
 import '../notifier/kidsNotifier.dart';
+
+import 'package:table_calendar/table_calendar.dart';
+
+import '../notifier/taskNotifier.dart';
+import '../screen/event.dart';
 
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
@@ -32,6 +39,11 @@ class _Add_taskState extends State<Add_task> {
   String categoty = "";
   String childName = "";
   String points = '';
+
+  late Map<DateTime, List<Task>> selectedEvents;
+  CalendarFormat format = CalendarFormat.week;
+  DateTime selectedDay = DateTime.now();
+  DateTime focusedDay = DateTime.now();
 
   void _showDialog() {
     showDialog(
@@ -79,6 +91,7 @@ class _Add_taskState extends State<Add_task> {
         points != "" &&
         _selectedDate != "") {
       addTask();
+      addToCalendar();
 
       showToastMessage("تمت إضافة نشاط بنجاح");
     } else {
@@ -103,22 +116,23 @@ class _Add_taskState extends State<Add_task> {
     });
 
     await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
         .collection('kids')
-        .doc('sarakid2')
+        .doc(childName + '@gmail.com')
         .collection('Task')
-        .add({
+        .doc(tid)
+        .set({
       'taskName': _nameController.text,
       'points': points,
-      'date': DateFormat.yMd().format(_selectedDate),
+      'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
-      
+      'adult': user.uid,
     });
   }
+
+  void addToCalendar() {}
 
   void _presentDatePicker() {
     showDatePicker(
@@ -142,16 +156,40 @@ class _Add_taskState extends State<Add_task> {
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     getKidsNames(kidsNotifier);
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    getDates(taskNotifier);
+    selectedEvents = {};
 
     super.initState();
   }
 
+  List<Task> _getEventsfromDay(DateTime date) {
+    return selectedEvents[date] ?? [];
+  }
+
+  // @override
+  // void dispose() {
+  //   text.dispose();
+  //   super.dispose();
+  // }
+
   // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
+
+  void printlist(List<String> tasks) {
+    for (var i = 0; i < tasks.length; i++) {
+      showToastMessage(tasks[i]);
+      print(tasks[i]);
+    }
+  }
 
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<String> list = kidsNotifier.kidsNamesList;
-
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    List<String> tasks = taskNotifier.currentDateList;
+    printlist(tasks);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
