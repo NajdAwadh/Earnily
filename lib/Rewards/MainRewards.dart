@@ -1,3 +1,4 @@
+import 'package:earnily/Rewards/addReward.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -18,9 +19,6 @@ class _MainRewardsState extends State<MainRewards> {
   late final LocalNotificationService service;
 
   void initState() {
-    service = LocalNotificationService();
-    service.intialize();
-    listenToNotification();
     super.initState();
   }
 
@@ -51,12 +49,13 @@ class _MainRewardsState extends State<MainRewards> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
-          await service.showNotificationWithPayload(
-              id: 1,
-              title: 'Notification Title',
-              body: 'Some body',
-              payload: 'payload navigation');
-          //do something
+                      Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return const add_Reward();
+                },
+              ),
+            );
         },
         child: Icon(
           Icons.add,
@@ -66,15 +65,4 @@ class _MainRewardsState extends State<MainRewards> {
     );
   }
 
-  void listenToNotification() =>
-      service.onNotificationClick.stream.listen(onNoticationListener);
-  void onNoticationListener(String? payload) {
-    if (payload != null && payload.isNotEmpty) {
-      print('payload $payload');
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => SecondScreen(payload: payload))));
-    }
-  }
 }
