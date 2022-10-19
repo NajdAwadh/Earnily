@@ -1,5 +1,6 @@
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/driveactivity/v2.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -39,20 +40,8 @@ class _CalendarState extends State<Calendar> {
     return selectedEvents[date] ?? [];
   }
 
-/*
-  void sendTasks(List<Task> tasks) {
-    for (var i = 0; i < tasks.length; i++) {
-      DateTime date = formatter.parseUTC(tasks[i].date);
-      _getEventsfromDay(date);
-      print(date);
-    }
-  }
-*/
-  void em(String name, DateTime date) {
-    print('before if');
+  void addToCalendar(String name, DateTime date) {
     if (selectedDay == date) {
-      selectedEvents[selectedDay] = [Event(title: name)];
-      /*
       if (selectedEvents[selectedDay] != null) {
         print('in if');
         selectedEvents[selectedDay]?.add(
@@ -62,7 +51,6 @@ class _CalendarState extends State<Calendar> {
         print('else');
         selectedEvents[selectedDay] = [Event(title: name)];
       }
-      */
     }
   }
 
@@ -71,7 +59,7 @@ class _CalendarState extends State<Calendar> {
       String name = tasks[i].taskName;
       DateTime date = formatter.parseUTC(tasks[i].date);
       _getEventsfromDay(date);
-      em(name, date);
+      addToCalendar(name, date);
     }
   }
 
@@ -85,10 +73,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
-    List<String> tasks = taskNotifier.currentDateList;
     List<Task> task = taskNotifier.taskList;
-    //Task current = taskNotifier.currentTask;
-    //String name = taskNotifier.currentTask.taskName;
 
     add(task);
 
@@ -114,6 +99,7 @@ class _CalendarState extends State<Calendar> {
               setState(() {
                 selectedDay = selectDay;
                 focusedDay = focusDay;
+                selectedEvents.clear();
               });
               print(focusedDay);
             },
