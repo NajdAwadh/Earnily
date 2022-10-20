@@ -219,7 +219,8 @@ class _MainRewardsState extends State<MainRewards> {
                 ),
               ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Icon(

@@ -259,7 +259,8 @@ class _AdultKidsState extends State<AdultKids> {
                 ),
               ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Icon(

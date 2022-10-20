@@ -385,7 +385,8 @@ class _MainTaskState extends State<MainTask> {
       //   ),
       // ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
