@@ -140,9 +140,9 @@ class _MainRewardsState extends State<MainRewards> {
                     return Card(
                         elevation: 5,
                         margin: EdgeInsets.symmetric(
-                          vertical: 6,
-                          horizontal: 8,
-                        ),
+                            //vertical: 6,
+                            //horizontal: 8,
+                            ),
                         child: Container(
                           height: 150,
                           color: chooseColor(

@@ -139,10 +139,7 @@ class _AdultKidsState extends State<AdultKids> {
                     list = kidsNotifier.kidsList;
                     return Card(
                         elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 6,
-                          horizontal: 8,
-                        ),
+                        margin: EdgeInsets.symmetric(),
                         child: Container(
                           height: 150,
                           color: chooseColor(
@@ -153,9 +150,9 @@ class _AdultKidsState extends State<AdultKids> {
                             child: new GridTile(
                               child: Column(
                                 children: [
-                                  SizedBox(height: 10),
+                                  //SizedBox(height: 10),
                                   imgWidget(set(list[index].gender), 64, 64),
-                                  SizedBox(height: 15),
+                                  //SizedBox(height: 15),
                                   Text(
                                     list[index].name,
                                     style: TextStyle(
