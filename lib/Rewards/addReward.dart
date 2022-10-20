@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import '../widgets/show_picker.dart';
 import 'dart:ui' as ui;
+import 'package:uuid/uuid.dart';
 
 class add_Reward extends StatefulWidget {
   const add_Reward({super.key});
@@ -24,7 +25,8 @@ class add_Reward extends StatefulWidget {
 
 class _addRewardState extends State<add_Reward> {
   @override
-  late List<String> _savedPoint = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
+  late List<String> _savedPoint= ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
+
   final user = FirebaseAuth.instance.currentUser!;
 
   final _nameController = TextEditingController();
@@ -100,13 +102,14 @@ class _addRewardState extends State<add_Reward> {
   }
 
   Future addTask() async {
-    //const tuid = Uuid();
-    //String tid = tuid.v4();
+    const tuid = Uuid();
+    String tid = tuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('reward')
-        .add({
+        .doc(tid)
+        .set({
       'rewardName': _nameController.text,
       'points': points,
       //'image':"assets/images/gold-star.png",
@@ -298,6 +301,7 @@ loadingTrue() {
   isLoading = true;
   setState(() {});
 }
+/ = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
 loadingFalse() {
   isLoading = false;
   setState(() {});
