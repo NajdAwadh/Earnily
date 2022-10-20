@@ -194,28 +194,34 @@ class _CalendarState extends State<Calendar> {
               leading: CircleAvatar(
                 foregroundColor: Colors.white,
                 radius: 30,
-                child: Padding(
-                    padding: EdgeInsets.all(6),
-                    child: Container(
-                      height: 33,
-                      width: 36,
-                      child: Icon(Icons.text_snippet),
-                    )),
+                child: new Directionality(
+                    textDirection: ui.TextDirection.rtl,
+                    child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: Container(
+                          height: 33,
+                          width: 36,
+                          child: Icon(Icons.text_snippet),
+                        ))),
               ),
-              title: Text(
-                event.title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+              title: new Directionality(
+                textDirection: ui.TextDirection.rtl,
+                child: Text(
+                  event.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
                 ),
               ),
-              subtitle: Text('test'),
+              //subtitle: Text('test'),
+              /*
               isThreeLine: true,
               trailing: IconButton(
                 icon: Icon(Icons.delete),
                 color: Theme.of(context).errorColor,
                 onPressed: () => {},
-              ),
+              ),*/
             ),
           ),
         ],
