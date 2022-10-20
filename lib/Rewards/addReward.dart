@@ -24,7 +24,7 @@ class add_Reward extends StatefulWidget {
 
 class _addRewardState extends State<add_Reward> {
   @override
-  late List<String> _savedPoint = ['250', '500', '750', '1000'];
+  late List<String> _savedPoint = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
   final user = FirebaseAuth.instance.currentUser!;
 
   final _nameController = TextEditingController();
@@ -300,7 +300,7 @@ loadingFalse() {
 }
 */
 //point
- Widget pointsSelect(String label, int color) {
+  Widget pointsSelect(String label, int color) {
     return InkWell(
       onTap: (() {
         setState(() {

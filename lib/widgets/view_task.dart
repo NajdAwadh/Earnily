@@ -285,46 +285,33 @@ class _View_taskState extends State<View_task> {
                       SizedBox(
                         height: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              validator: (val) =>
-                                  val!.isEmpty ? 'اختر اسم النشاط' : null,
-                              textAlign: TextAlign.right,
-                              controller: _nameController,
-                              enabled: edit,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400),
-                              decoration: InputDecoration(
-                                  hintText: "اسم النشاط الجديد",
-                                  hintStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: Colors.red),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(12),
-                                  )),
-                            ),
-                          ],
+                     
+                      Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: _nameController,
+                           enabled: edit,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: ' اسم النشاط الجديد',
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                          validator: (val) =>
+                              val!.isEmpty ? 'اختر اسم النشاط' : null,
+                          //onChanged: (val) => setState(() => _currentName = val),
                         ),
                       ),
                       SizedBox(
@@ -350,41 +337,34 @@ class _View_taskState extends State<View_task> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (edit == false)
-                              TextField(
-                                textAlign: TextAlign.right,
-                                enabled: false,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                                decoration: InputDecoration(
-                                    hintText: childName,
-                                    hintStyle: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            const BorderSide(color: Colors.red),
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(12),
-                                    )),
+
+                              Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          
+                          enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                         hintText: childName,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
                               ),
-                          ],
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                      
+                        ),
+                      ),
+                                ],
                         ),
                       ),
                       if (edit == true)
@@ -472,73 +452,80 @@ class _View_taskState extends State<View_task> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (edit == false)
-                              TextField(
-                                textAlign: TextAlign.right,
-                                enabled: false,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                                decoration: InputDecoration(
-                                    hintText: _selectedDate,
-                                    hintStyle: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            const BorderSide(color: Colors.red),
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(12),
-                                    )),
+
+                            Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          
+                          enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+hintText: _selectedDate,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
                               ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                      
+                          //onChanged: (val) => setState(() => _currentName = val),
+                        ),
+                      ),
+                            
                           ],
                         ),
                       ),
                       if (edit == true)
-                        Container(
-                          height: 50,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  textDirection: ui.TextDirection.rtl,
-                                  _selectedDate.isEmpty
-                                      ? '! لم يتم اختيار تاريخ'
+                      SizedBox(
+                        //width: 300,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _presentDatePicker,
+                          style: ElevatedButton.styleFrom(
+                         
+                            padding: EdgeInsets.all(18),
+                            backgroundColor: Colors.grey[100],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            
+                            ),
+                          ),
+                          child: new Directionality(
+                            textDirection: ui.TextDirection.rtl,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _selectedDate == ""
+                                      ? 'لم يتم اختيار تاريخ'
                                       : 'التاريخ المختار: ${_selectedDate}',
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                  onPressed: _presentDatePicker,
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.black),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white)),
-                                  icon: Icon(
-                                    Icons.calendar_today,
-                                    //  size: 30,
-                                  ))
-                              //here
-                            ],
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -609,9 +596,9 @@ class _View_taskState extends State<View_task> {
                               width: 320,
                               text: 'إلغاء',
                               onClick: () {
-                                setState(() {
-                                  edit = !edit;
-                                });
+                                
+                                 Navigator.of(context).pop();
+                                
                               }),
                       ]),
                     ],
@@ -631,8 +618,11 @@ class _View_taskState extends State<View_task> {
             })
           : null,
       child: Chip(
-        backgroundColor: categoty == label ? Colors.white : Color(color),
-        shape: RoundedRectangleBorder(
+   backgroundColor: categoty.isEmpty
+            ? Color(color)
+            : categoty == label
+                ? Color(color)
+                : Colors.grey,        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
           ),
@@ -640,8 +630,11 @@ class _View_taskState extends State<View_task> {
         label: Text(
           label,
           style: TextStyle(
-            color: categoty == label ? Colors.black : Colors.white,
-            fontSize: 15,
+  color: categoty.isEmpty
+                ? Colors.white
+                : categoty == label
+                    ? Colors.white
+                    : Colors.black,            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -663,7 +656,11 @@ class _View_taskState extends State<View_task> {
             })
           : null,
       child: Chip(
-        backgroundColor: points == label ? Colors.white : Color(color),
+         backgroundColor: points.isEmpty
+            ? Color(color)
+            : points == label
+                ? Color(color)
+                : Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -672,8 +669,11 @@ class _View_taskState extends State<View_task> {
         label: Text(
           label,
           style: TextStyle(
-            color: points == label ? Colors.black : Colors.white,
-            fontSize: 15,
+       color: points.isEmpty
+                ? Colors.white
+                : points == label
+                    ? Colors.white
+                    : Colors.black,            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
