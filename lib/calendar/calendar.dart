@@ -9,6 +9,8 @@ import '../models/task.dart';
 import '../notifier/taskNotifier.dart';
 import 'event.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'dart:ui' as ui;
 
 class Calendar extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   late Map<DateTime, List<Event>> selectedEvents;
+
   CalendarFormat format = CalendarFormat.week;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
@@ -29,7 +32,6 @@ class _CalendarState extends State<Calendar> {
     selectedEvents = {};
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
-
     getTask(taskNotifier);
     super.initState();
   }
@@ -38,7 +40,8 @@ class _CalendarState extends State<Calendar> {
     return selectedEvents[date] ?? [];
   }
 
-  void addToCalendar(String name, DateTime date) {
+  void addToCalendar(String name, DateTime date, String asignedKid,
+      String category, String points) {
     if (selectedDay == date) {
       if (selectedEvents[selectedDay] != null) {
         print('in if');
@@ -55,9 +58,14 @@ class _CalendarState extends State<Calendar> {
   void add(List<Task> tasks) {
     for (var i = 0; i < tasks.length; i++) {
       String name = tasks[i].taskName;
+      String asignedKid = tasks[i].asignedKid;
+      String category = tasks[i].category;
+      String points = tasks[i].points;
+
       DateTime date = formatter.parseUTC(tasks[i].date);
+
       _getEventsfromDay(date);
-      addToCalendar(name, date);
+      addToCalendar(name, date, asignedKid, category, points);
     }
   }
 
@@ -69,6 +77,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('ar');
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     List<Task> task = taskNotifier.taskList;
@@ -79,7 +88,12 @@ class _CalendarState extends State<Calendar> {
       body: Column(
         children: [
           TableCalendar(
-            locale: 'en_US',
+            locale: 'ar',
+            availableCalendarFormats: const {
+              CalendarFormat.month: 'شهر',
+              CalendarFormat.twoWeeks: 'أسبوعين',
+              CalendarFormat.week: 'أسبوع',
+            },
             focusedDay: selectedDay,
             firstDay: DateTime(1990),
             lastDay: DateTime(2050),
@@ -148,10 +162,59 @@ class _CalendarState extends State<Calendar> {
               ),
             ),
           ),
+          // Expanded(
+
+          //   child: ValueListenableBuilder<List<Event>>(
+          //     valueListenable: _selectedEvents,
+          //     builder: (context, value, _) {
+          //       return ListView.builder(
+          //         itemCount: value.length,
+          //         itemBuilder: (context, index) {
+          //           return Container(
+          //             margin: const EdgeInsets.symmetric(
+          //               horizontal: 12.0,
+          //               vertical: 4.0,
+          //             ),
+          //             decoration: BoxDecoration(
+          //               border: Border.all(),
+          //               borderRadius: BorderRadius.circular(12.0),
+          //             ),
+          //             child: ListTile(
+          //               onTap: () => print('${value[index]}'),
+          //               title: Text('${value[index]}'),
+          //             ),
+          //           );
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
           ..._getEventsfromDay(selectedDay).map(
             (Event event) => ListTile(
+              leading: CircleAvatar(
+                foregroundColor: Colors.white,
+                radius: 30,
+                child: Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Container(
+                      height: 33,
+                      width: 36,
+                      child: Icon(Icons.text_snippet),
+                    )),
+              ),
               title: Text(
                 event.title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+              subtitle: Text('test'),
+              isThreeLine: true,
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                color: Theme.of(context).errorColor,
+                onPressed: () => {},
               ),
             ),
           ),
