@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(18.0),
                 child: Column(
                   children: [
-                    Center(
+                    /*  Center(
                       child: Stack(
                         children: [
                           file == null
@@ -149,19 +149,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           )),
                         ],
                       ),
-                    ),
-            
+                    ),*/
+
                     Text(
                       name + ' ' + family,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
                       email,
-                      style:
-                          TextStyle(fontSize: 13.0, fontWeight: FontWeight.w300),
+                      style: TextStyle(
+                          fontSize: 13.0, fontWeight: FontWeight.w300),
                     ),
                     SizedBox(
                       height: 20,
@@ -174,9 +175,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //   child: Align(
                     //       alignment: Alignment.centerRight,
                     //       child: Text('تعديل',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,color: Colors.black),)),
-            
+
                     // ),
-            
+
                     SizedBox(
                       height: 20,
                     ),

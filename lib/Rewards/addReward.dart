@@ -49,18 +49,22 @@ class _addRewardState extends State<add_Reward> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              "خطأ",
+              "حقل المكافآة او النقاط مفقودة",
               textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.red, fontSize: 20),
             ),
             content: Text(
               "ادخل البيانات المطلوبة",
               textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: Navigator.of(context).pop,
-                child: const Text("حسناً"),
+                child: const Text(
+                  "حسناً",
+                  style: TextStyle(fontSize: 20),
+                ),
               )
             ],
           );

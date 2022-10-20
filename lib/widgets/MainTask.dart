@@ -83,7 +83,7 @@ class _MainTaskState extends State<MainTask> {
 
   Future delete2(String id, String adult, String kid, String msg) async {
     showToastMessage(msg);
-
+    Navigator.of(context).pop();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adult)
@@ -181,10 +181,59 @@ class _MainTaskState extends State<MainTask> {
         });
   }
 
-  String _colors(String i) {
+  void _showDialog3(String id, String adult, String kid) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "لا",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "نعم",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              delete2(id, adult, kid, 'تم حذف النشاط');
+            },
+          );
+
+          return AlertDialog(
+            title: Text(
+              'حذف المهمة من طفلك',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بحذف مهمة طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+              continueButton,
+            ],
+          );
+        });
+  }
+
+  int dd = 0;
+  String _colors(String i, String kid) {
     if (i == "Not complete") {
       return 'غير مكتمل';
     } else if (i == "pending") {
+      if (dd == 0)
+        Notifications.showNotification(
+          title: "EARNILY",
+          body: ' طفلك  ' + kid + ' اكمل المهمة ',
+          payload: 'earnily',
+        );
+      dd++;
       return 'انتظار موافقتك';
     } else
       return 'مكتمل';
@@ -281,7 +330,7 @@ class _MainTaskState extends State<MainTask> {
                               ),
                             ),
                             subtitle: Text(
-                              '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points} | ${_colors(taskNotifier.taskList[index].state)}',
+                              '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points} | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
                               style: TextStyle(fontSize: 17),
                             ),
                             isThreeLine: true,
@@ -299,11 +348,10 @@ class _MainTaskState extends State<MainTask> {
                                 color: Theme.of(context).errorColor,
                                 onPressed: () => {
                                   //delete
-                                  delete2(
+                                  _showDialog3(
                                       taskNotifier.taskList[index].tid,
                                       taskNotifier.taskList[index].adult,
-                                      taskNotifier.taskList[index].asignedKid,
-                                      'تم حذف النشاط')
+                                      taskNotifier.taskList[index].asignedKid)
                                 },
                               ),
                               IconButton(

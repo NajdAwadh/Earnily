@@ -97,14 +97,12 @@ class _View_taskState extends State<View_task> {
     if (formKey.currentState!.validate() &&
         categoty != "" &&
         points != "" &&
-        _selectedDate != "") {  
-            TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+        _selectedDate != "") {
+      TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
 
-      _updateTask(
-        taskNotifier.currentTask.tid, 
-        taskNotifier.currentTask.adult,
-        taskNotifier.currentTask.asignedKid);
-      showToastMessage("تمت إضافة نشاط بنجاح");
+      _updateTask(taskNotifier.currentTask.tid, taskNotifier.currentTask.adult,
+          taskNotifier.currentTask.asignedKid);
+      showToastMessage("تمت تعديل نشاط بنجاح");
       // Notifications.showNotification(
       //   title: "EARNILY",
       //   body: ' لديك نشاط جديد بأنتظارك',
@@ -118,40 +116,36 @@ class _View_taskState extends State<View_task> {
 
   Future _updateTask(String id, String adult, String kid) async {
     //Navigator.of(context).pop();
-    
-    
-    
-       if (formKey.currentState!.validate() &&
+
+    if (formKey.currentState!.validate() &&
         categoty != "" &&
         points != "" &&
-        _selectedDate != "") {  
-         
-       await FirebaseFirestore.instance
-        .collection('users')
-        .doc(adult)
-        .collection("Task")
-        .doc(id)
-        .update({
-  'taskName': _nameController.text,
-      'points': points,
-      'date': _selectedDate,
-      'category': categoty,
-      'asignedKid': childName,
-    });
-    await FirebaseFirestore.instance
-        .collection('kids')
-        .doc(kid + '@gmail.com')
-        .collection("Task")
-        .doc(id)
-        .update({
-
-    'taskName': _nameController.text,
-      'points': points,
-      'date': _selectedDate,
-      'category': categoty,
-      'asignedKid': childName,
-    });
-      showToastMessage("تمت إضافة نشاط بنجاح");
+        _selectedDate != "") {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(adult)
+          .collection("Task")
+          .doc(id)
+          .update({
+        'taskName': _nameController.text,
+        'points': points,
+        'date': _selectedDate,
+        'category': categoty,
+        'asignedKid': childName,
+      });
+      await FirebaseFirestore.instance
+          .collection('kids')
+          .doc(kid + '@gmail.com')
+          .collection("Task")
+          .doc(id)
+          .update({
+        'taskName': _nameController.text,
+        'points': points,
+        'date': _selectedDate,
+        'category': categoty,
+        'asignedKid': childName,
+      });
+      showToastMessage("تمت تعديل نشاط بنجاح");
       // Notifications.showNotification(
       //   title: "EARNILY",
       //   body: ' لديك نشاط جديد بأنتظارك',
@@ -161,11 +155,6 @@ class _View_taskState extends State<View_task> {
     } else {
       _showDialog();
     }
-    
-    
-    
-    
-   
   }
 
   Future updateTaskOld() async {
@@ -183,7 +172,7 @@ class _View_taskState extends State<View_task> {
       'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
-      'state': 0,
+      'state': 'Not c',
     });
     // await FirebaseFirestore.instance
     //     .collection('users')
@@ -234,7 +223,8 @@ class _View_taskState extends State<View_task> {
   }
 
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context, listen: false);
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
     List<String> list = kidsNotifier.kidsNamesList;
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
@@ -285,7 +275,6 @@ class _View_taskState extends State<View_task> {
                       SizedBox(
                         height: 10,
                       ),
-                     
                       Container(
                         alignment: Alignment.topRight,
                         height: 50,
@@ -295,7 +284,7 @@ class _View_taskState extends State<View_task> {
                             borderRadius: BorderRadius.circular(15)),
                         child: TextFormField(
                           controller: _nameController,
-                           enabled: edit,
+                          enabled: edit,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -337,34 +326,31 @@ class _View_taskState extends State<View_task> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (edit == false)
-
                               Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                          
-                          enabled: false,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                         hintText: childName,
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
+                                alignment: Alignment.topRight,
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: TextFormField(
+                                  enabled: false,
+                                  textAlign: TextAlign.right,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: childName,
+                                      hintTextDirection: ui.TextDirection.rtl,
+                                      hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 17,
+                                      ),
+                                      contentPadding: EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                      )),
+                                ),
                               ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                      
-                        ),
-                      ),
-                                ],
+                          ],
                         ),
                       ),
                       if (edit == true)
@@ -452,80 +438,76 @@ class _View_taskState extends State<View_task> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (edit == false)
+                              Container(
+                                alignment: Alignment.topRight,
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: TextFormField(
+                                  enabled: false,
+                                  textAlign: TextAlign.right,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: _selectedDate,
+                                      hintTextDirection: ui.TextDirection.rtl,
+                                      hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 17,
+                                      ),
+                                      contentPadding: EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                      )),
 
-                            Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                          
-                          enabled: false,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-hintText: _selectedDate,
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
+                                  //onChanged: (val) => setState(() => _currentName = val),
+                                ),
                               ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                      
-                          //onChanged: (val) => setState(() => _currentName = val),
-                        ),
-                      ),
-                            
                           ],
                         ),
                       ),
                       if (edit == true)
-                      SizedBox(
-                        //width: 300,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: _presentDatePicker,
-                          style: ElevatedButton.styleFrom(
-                         
-                            padding: EdgeInsets.all(18),
-                            backgroundColor: Colors.grey[100],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            
+                        SizedBox(
+                          //width: 300,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _presentDatePicker,
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(18),
+                              backgroundColor: Colors.grey[100],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
-                          ),
-                          child: new Directionality(
-                            textDirection: ui.TextDirection.rtl,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  _selectedDate == ""
-                                      ? 'لم يتم اختيار تاريخ'
-                                      : 'التاريخ المختار: ${_selectedDate}',
-                                  overflow: TextOverflow.visible,
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey,
+                            child: new Directionality(
+                              textDirection: ui.TextDirection.rtl,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    _selectedDate == ""
+                                        ? 'لم يتم اختيار تاريخ'
+                                        : 'التاريخ المختار: ${_selectedDate}',
+                                    overflow: TextOverflow.visible,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                Icon(
-                                  Icons.calendar_today,
-                                  size: 30,
-                                  color: Colors.black,
-                                ),
-                              ],
+                                  Icon(
+                                    Icons.calendar_today,
+                                    size: 30,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -567,8 +549,6 @@ hintText: _selectedDate,
                       SizedBox(
                         height: 15,
                       ),
-                        
-                      
                       Column(children: <Widget>[
                         if (edit == false)
                           NewButton(
@@ -581,24 +561,23 @@ hintText: _selectedDate,
                                 });
                               }),
                         if (edit == true)
-                            NewButton(
+                          NewButton(
                               height: 100,
                               width: 320,
                               text: 'حفظ التغييرات',
-                              onClick: ()=> { _updateTask( taskNotifier.currentTask.tid,
+                              onClick: () => {
+                                    _updateTask(
+                                        taskNotifier.currentTask.tid,
                                         taskNotifier.currentTask.adult,
                                         taskNotifier.currentTask.asignedKid)
-                              }),
-                    
+                                  }),
                         if (edit == true)
                           NewButton(
                               height: 100,
                               width: 320,
                               text: 'إلغاء',
                               onClick: () {
-                                
-                                 Navigator.of(context).pop();
-                                
+                                Navigator.of(context).pop();
                               }),
                       ]),
                     ],
@@ -618,11 +597,12 @@ hintText: _selectedDate,
             })
           : null,
       child: Chip(
-   backgroundColor: categoty.isEmpty
+        backgroundColor: categoty.isEmpty
             ? Color(color)
             : categoty == label
                 ? Color(color)
-                : Colors.grey,        shape: RoundedRectangleBorder(
+                : Colors.grey,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
           ),
@@ -630,11 +610,12 @@ hintText: _selectedDate,
         label: Text(
           label,
           style: TextStyle(
-  color: categoty.isEmpty
+            color: categoty.isEmpty
                 ? Colors.white
                 : categoty == label
                     ? Colors.white
-                    : Colors.black,            fontSize: 15,
+                    : Colors.black,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -656,7 +637,7 @@ hintText: _selectedDate,
             })
           : null,
       child: Chip(
-         backgroundColor: points.isEmpty
+        backgroundColor: points.isEmpty
             ? Color(color)
             : points == label
                 ? Color(color)
@@ -669,11 +650,12 @@ hintText: _selectedDate,
         label: Text(
           label,
           style: TextStyle(
-       color: points.isEmpty
+            color: points.isEmpty
                 ? Colors.white
                 : points == label
                     ? Colors.white
-                    : Colors.black,            fontSize: 15,
+                    : Colors.black,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
