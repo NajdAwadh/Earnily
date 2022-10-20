@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:earnily/models/users.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,9 +18,11 @@ import 'dart:ui' as ui;
 import 'package:earnily/models/task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
+import 'package:earnily/services/notification.dart' as notification;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/kids.dart';
+import '../notifications/notification_api.dart';
 import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 import 'package:http/http.dart' as http;
@@ -52,12 +55,20 @@ class _kidTasksState extends State<kidTasks> {
 
     // listenFCM();
 
-    getToken();
+  //  getToken();
 
     // FirebaseMessaging.instance.subscribeToTopic("Animal");
   }
 
-  void sendPushMessage() async {
+  void sendPushMessage(String taskName) async {
+
+    final snapshot = await kidsDb.doc(user.email).get();
+
+    final String name = snapshot.get("name");
+    final String uID = snapshot.get("uid");
+
+    notification.Notification().sendNotification(uID, "Your kid ${name} just completed the task $taskName");
+/*
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -84,7 +95,7 @@ class _kidTasksState extends State<kidTasks> {
       );
     } catch (e) {
       print("error push notification");
-    }
+    }*/
   }
 
   void getToken() async {
@@ -347,14 +358,15 @@ class _kidTasksState extends State<kidTasks> {
 
                                   CheckboxListTile(
                                     selected: false,
-                                    value: _selecteCategorysID
-                                        .contains(taskNotifier.taskList[index]),
+                                    value: _selecteCategorysID.contains(taskNotifier.taskList[index]),
                                     onChanged: (selected) {
-                                      updateTask(
-                                          list[index].tid, list[index].adult);
+                                      updateTask(list[index].tid, list[index].adult);
 
-                                      _onCategorySelected(selected!,
-                                          taskNotifier.taskList[index]);
+                                      _onCategorySelected(selected!, taskNotifier.taskList[index]);
+
+                                      if(selected) {
+                                        sendPushMessage(list[index].taskName);
+                                      }
                                     },
 
                                     //   title: Text(taskNotifier.taskList[index]),
@@ -443,19 +455,6 @@ class _kidTasksState extends State<kidTasks> {
                       crossAxisSpacing: 8),
                 ),
               ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
-        onPressed: () {
-          sendPushMessage();
-
-          //DocumentSnapshot snap= await FirebaseFirestore.instance.collection('kids').doc()
-        },
       ),
     );
   }

@@ -15,6 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 //import 'package:earnily/pages/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 //import 'package:qr_generator_tutorial/ui/style/style.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,12 +44,12 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (BuildContext context) {
-        return TaskNotifier();
+        return KidsNotifier();
       },
     ),
     ChangeNotifierProvider(
       create: (BuildContext context) {
-        return KidsNotifier();
+        return TaskNotifier();
       },
     )
   ], child: MyApp()));
@@ -59,24 +60,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // home: HomeScreen(),
-      // home: MainPage(),
+    return OverlaySupport(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // home: HomeScreen(),
+        // home: MainPage(),
 
-      //home: HomePage(),
-      //home: AddKids_screen_1(),
+        //home: HomePage(),
+        //home: AddKids_screen_1(),
 
-      // home: MainTask(),
-      //home: MainTask(),
+        // home: MainTask(),
+        //home: MainTask(),
 
-      // home: MainTask(),
-      // home: QrCreateScreen(),
-      // home: kidTasks(),
-      //home: kidWish()
-      //  home: HomePageKid(),
-      home: onbording(),
-      // home: MainScreen(),
+        // home: MainTask(),
+        // home: QrCreateScreen(),
+        // home: kidTasks(),
+        //home: kidWish()
+        //  home: HomePageKid(),
+        home: onbording(),
+        // home: MainScreen(),
+      ),
     );
   }
 }

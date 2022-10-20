@@ -37,11 +37,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     getKidsNames(kidsNotifier);
-    super.initState();
   }
 
   final List<String> items = <String>["طفل", "طفلة"];
@@ -97,11 +97,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         addKidDetails();
         showToastMessage("تمت إضافة الطفل بنجاح");
 
-        Notifications.showNotification(
+        /*  Notifications.showNotification(
           title: "EARNILY",
           body: ' لديك نشاط جديد بأنتظارك',
           payload: 'earnily',
-        );
+        );*/
 
         Navigator.of(context).pop();
 
@@ -147,6 +147,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       .doc("message1");
   
   */
+
 
   Future addKidDetails() async {
     var uuid = Uuid();
@@ -208,6 +209,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
+
+    Future<void> _refreshList() async {
+      getKids(kidsNotifier);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -306,7 +311,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         Radio(
                                             value: items[1],
                                             groupValue: value,
-                                            onChanged: (newValue) {
+                                            onChanged: (String? newValue) {
                                               setState(() {
                                                 value = newValue!;
                                               });
@@ -335,7 +340,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         Radio(
                                             value: items[0],
                                             groupValue: value,
-                                            onChanged: (newValue) {
+                                            onChanged: (String? newValue) {
                                               setState(() {
                                                 value = newValue!;
                                               });
@@ -374,6 +379,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       ),
                     ),
                     //ghada
+                    /*
                     Positioned(
                       right: 107,
                       top: 425,
@@ -408,38 +414,52 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                           ],
                         ),
                       ),
+                      */
 
-                      /*SizedBox(
-                          width: 350,
-                          height: 66,
-                          child: ElevatedButton(
-                              onPressed: _showDatePicker,
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.grey[200],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: const BorderSide(
-                                    width: 2,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _showDatePicker,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                     //     backgroundColor: Colors.grey[200],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: const BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        child: new Directionality(
+                          textDirection: ui.TextDirection.rtl,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
                                 date == null
                                     ? 'اختر تاريخ الميلاد'
                                     : '${DateFormat.yMd().format(date!)}',
                                 overflow: TextOverflow.visible,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey,
                                 ),
-                                textDirection: ui.TextDirection.rtl,
-                              )),
-                        )*/
+                              ),
+                              Icon(
+                                Icons.calendar_today,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
+
                     SizedBox(
                       height: 60,
                     ),

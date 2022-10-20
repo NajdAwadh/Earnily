@@ -22,4 +22,16 @@ class Task {
     tid = data['tid'];
     adult = data['adult'];
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'taskName': taskName,
+      'asignedKid': asignedKid,
+      'category': category,
+      'points': points,
+      'date': date,
+      'state': state,
+      'tid': tid,
+    };
+  }
 }

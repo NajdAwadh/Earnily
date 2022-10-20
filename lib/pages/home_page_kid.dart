@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:earnily/Rewards/kidrewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
+import 'package:earnily/addKids/adultsKidProfile.dart';
 import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -9,11 +10,15 @@ import 'package:earnily/screen/signin_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import '../Rewards/MainRewards.dart';
 import '../screen/profile_screen.dart';
@@ -21,7 +26,6 @@ import '../services/upload_file.dart';
 import '../widgets/show_picker.dart';
 
 import 'dart:io';
-
 
 class HomePageKid extends StatefulWidget {
   const HomePageKid({super.key});
@@ -48,6 +52,25 @@ class _HomePageKidState extends State<HomePageKid> {
     kidWish(),
     kidreward(),
   ];
+
+  @override
+  void initState() {
+    registerNotification();
+
+    // For handling notification when the app is in background
+    // but not terminated
+    checkForInitialMessage();
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      _showNotification({
+        'title': message.notification?.title ?? "",
+        'body': message.notification?.body ?? "",
+      });
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,69 +101,12 @@ class _HomePageKidState extends State<HomePageKid> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   imgWidget("assets/images/EarnilyLogo.png", 100, 250),
-                  Center(
-                    child: Stack(
-                      children: [
-                        file == null
-                            ? CircleAvatar(
-                                radius: 60,
-                              )
-                            : CircleAvatar(
-                                radius: 60,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(70),
-                                  child: Image.network(
-                                    image,
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                        Positioned.fill(
-                            child: InkWell(
-                          onTap: () {
-                            showPicker(
-                              context,
-                              onGalleryTap: () {
-                                getImage(ImageSource.gallery);
-                                Navigator.of(context).pop();
-                              },
-                              onCameraTap: () {
-                                getImage(ImageSource.camera);
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.photo_library_outlined,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
-                      ],
-                    ),
-                  ),
-
                   Text(
-                    'Reema' ,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                    user.email!.substring(0, user.email!.indexOf('@')),
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
                   ),
                   Text(
                     '________________________________',
@@ -170,24 +136,6 @@ class _HomePageKidState extends State<HomePageKid> {
                           },
                         ),
                       );
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'ملفي الشخصي',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.account_circle,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {
-                      //do
                     },
                   ),
                   Text(
@@ -306,8 +254,7 @@ class _HomePageKidState extends State<HomePageKid> {
     );
   }
 
-
-    ImagePicker picker = ImagePicker();
+  ImagePicker picker = ImagePicker();
 
   File? file;
   String imageUrl = "";
@@ -336,5 +283,55 @@ class _HomePageKidState extends State<HomePageKid> {
   loadingFalse() {
     isLoading = false;
     setState(() {});
+  }
+
+  void registerNotification() async {
+    final FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        _showNotification({
+          'title': message.notification?.title ?? "",
+          'body': message.notification?.body ?? "",
+        });
+      });
+    } else {
+      if (kDebugMode) {
+        print('User declined or has not accepted permission');
+      }
+    }
+  }
+
+  checkForInitialMessage() async {
+    await Firebase.initializeApp();
+
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _showNotification({
+        'title': initialMessage.notification?.title ?? "",
+        'body': initialMessage.notification?.body ?? "",
+      });
+    }
+  }
+
+  void _showNotification(Map<String, String> notification) {
+    if (notification['body'] != "" && notification['title'] != "") {
+      showSimpleNotification(
+        Text(notification['title']!),
+        leading: const Icon(Icons.notifications),
+        subtitle: Text(notification['body']!),
+        background: Colors.black,
+        duration: const Duration(seconds: 2),
+      );
+    }
   }
 }

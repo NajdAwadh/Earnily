@@ -11,10 +11,14 @@ import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/src/widgets/container.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import '../reuasblewidgets.dart';
 import 'home_page_kid.dart';
@@ -42,6 +46,24 @@ class _HomePageState extends State<HomePage> {
     MainTask(),
     MainRewards(),
   ];
+
+  @override
+  void initState() {
+    registerNotification();
+
+    // For handling notification when the app is in background
+    // but not terminated
+    checkForInitialMessage();
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      _showNotification({
+        'title': message.notification?.title ?? "",
+        'body': message.notification?.body ?? "",
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,5 +242,55 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void registerNotification() async {
+    final FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        _showNotification({
+          'title': message.notification?.title ?? "",
+          'body': message.notification?.body ?? "",
+        });
+      });
+    } else {
+      if (kDebugMode) {
+        print('User declined or has not accepted permission');
+      }
+    }
+  }
+
+  checkForInitialMessage() async {
+    await Firebase.initializeApp();
+
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _showNotification({
+        'title': initialMessage.notification?.title ?? "",
+        'body': initialMessage.notification?.body ?? "",
+      });
+    }
+  }
+
+  void _showNotification(Map<String, String> notification) {
+    if (notification['body'] != "" && notification['title'] != "") {
+      showSimpleNotification(
+        Text(notification['title']!),
+        leading: const Icon(Icons.notifications),
+        subtitle: Text(notification['body']!),
+        background: Colors.black,
+        duration: const Duration(seconds: 2),
+      );
+    }
   }
 }

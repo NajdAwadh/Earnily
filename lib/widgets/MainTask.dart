@@ -3,11 +3,14 @@ import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
+import 'package:earnily/widgets/view_task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../notifications/notification_api.dart';
 
 class MainTask extends StatefulWidget {
   const MainTask({super.key});
@@ -32,7 +35,21 @@ class _MainTaskState extends State<MainTask> {
     super.initState();
   }
 
+  void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
+  }
+
   Future updateTask(String id, String adult, kid) async {
+    showToastMessage('تم قبول النشاط');
+    Navigator.of(context).pop();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adult)
@@ -47,7 +64,26 @@ class _MainTaskState extends State<MainTask> {
         .update({'state': 'complete'});
   }
 
-  Future delete(String id, String adult, kid) async {
+  Future delete(String id, String adult, String kid, String msg) async {
+    showToastMessage(msg);
+    Navigator.of(context).pop();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection("Task")
+        .doc(id)
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .collection("Task")
+        .doc(id)
+        .delete();
+  }
+
+  Future delete2(String id, String adult, String kid, String msg) async {
+    showToastMessage(msg);
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adult)
@@ -74,7 +110,7 @@ class _MainTaskState extends State<MainTask> {
             ),
             onPressed: () {
               // Navigator.of(context).pop;
-              delete(id, adult, kid);
+              delete(id, adult, kid, 'تم رفض النشاط');
             },
           );
           Widget continueButton = TextButton(
@@ -83,9 +119,19 @@ class _MainTaskState extends State<MainTask> {
               style: TextStyle(fontSize: 20, color: Colors.green),
             ),
             onPressed: () {
-              // Navigator.of(context).pop;
+              Navigator.of(context).pop;
               updateTask(id, adult, kid);
             },
+          );
+
+          Widget backButton = TextButton(
+            child: Text(
+              "تراجع",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
           );
           return AlertDialog(
             title: Text(
@@ -99,6 +145,7 @@ class _MainTaskState extends State<MainTask> {
               style: TextStyle(fontSize: 20),
             ),
             actions: [
+              backButton,
               cancelButton,
               continueButton,
             ],
@@ -137,9 +184,9 @@ class _MainTaskState extends State<MainTask> {
   String _colors(String i) {
     if (i == "Not complete") {
       return 'غير مكتمل';
-    } else if (i == "pending")
+    } else if (i == "pending") {
       return 'انتظار موافقتك';
-    else
+    } else
       return 'مكتمل';
   }
 
@@ -240,6 +287,11 @@ class _MainTaskState extends State<MainTask> {
                                 color: Theme.of(context).errorColor,
                                 onPressed: () => {
                                   //delete
+                                  delete2(
+                                      taskNotifier.taskList[index].tid,
+                                      taskNotifier.taskList[index].adult,
+                                      taskNotifier.taskList[index].asignedKid,
+                                      'تم حذف النشاط')
                                 },
                               ),
                               IconButton(

@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sized_box_for_whitespace
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/kidsignup/kidsignup.dart';
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/pages/home_page_kid.dart';
@@ -8,6 +9,7 @@ import 'package:earnily/screen/signup_screen.dart';
 import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../reuasblewidgets.dart';
 
@@ -52,7 +54,28 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var ui;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -96,12 +119,6 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    NewText(
-                        text: 'هل نسيت كلمة المرور؟',
-                        color: Colors.blue,
-                        size: 18,
-                        fontWeight: FontWeight.w500,
-                        onClick: () {}),
 
                     NewButton(
                         text: 'تسجيل',
@@ -116,7 +133,13 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
                                 .signInWithEmailAndPassword(
                                     email: _emailController.text + '@gmail.com',
                                     password: _passController.text.trim())
-                                .then((value) {
+                                .then((value) async {
+
+                              String? token = await FirebaseMessaging.instance.getToken();
+
+                              await FirebaseFirestore.instance.collection('kids').doc(_emailController.text + '@gmail.com').update(
+                                      {"token" : token});
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -126,54 +149,7 @@ class _kidSignInScreenState extends State<kidSignInScreen> {
                             });
                         }),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          // optional flex property if flex is 1 because the default flex is 1
-                          flex: 0,
-                          child: NewText(
-                            text: 'سجل الان',
-                            size: 18,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blue,
-                            onClick: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => kidSignUpScreen()));
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          // optional flex property if flex is 1 because the default flex is 1
-                          flex: 0,
-                          child: NewText(
-                              text: ' ليس لديك عائلة؟',
-                              size: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-
                     SizedBox(height: 20),
-                    NewButton(
-                        text: 'انضم الى عائلتك ',
-                        width: MediaQuery.of(context).size.width,
-                        height: 110,
-                        onClick: () {
-                          /*
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const QRreader(
-                                  title: '',
-                                );
-                              },
-                            ),
-                          );*/
-                        }),
 
                     /*
 

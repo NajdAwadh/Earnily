@@ -1,11 +1,9 @@
-// ignore_for_file: camel_case_types, library_private_types_in_public_api
-
-import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/task.dart';
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
+import 'package:earnily/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -24,39 +22,49 @@ import '../notifier/kidsNotifier.dart';
 import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
-import '../notifier/taskNotifier.dart';
+import 'new_button.dart';
 
-class Add_task extends StatefulWidget {
-  const Add_task({super.key});
+class View_task extends StatefulWidget {
+  const View_task({super.key});
 
   @override
-  State<Add_task> createState() => _Add_taskState();
+  State<View_task> createState() => _View_taskState();
 }
 
-class _Add_taskState extends State<Add_task> {
+class _View_taskState extends State<View_task> {
+  late Task _currentTask;
   @override
   //notification
   late final LocalNotificationService service;
-  void initState() {
-    super.initState();
-    service = LocalNotificationService();
-    service.intialize();
-    listenToNotification();
-
-    getTask(Provider.of<TaskNotifier>(context, listen: false));
-    getKidsNames(Provider.of<KidsNotifier>(context, listen: false));
-  }
 
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
   final user = FirebaseAuth.instance.currentUser!;
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String _selectedDate = "";
-  final _nameController = TextEditingController();
-  String categoty = "";
-  String childName = "";
-  String points = '';
+  late String _selectedDate;
+  late final _nameController;
+  late String categoty;
+  late String childName;
+  late String points;
+  bool edit = false;
+
+  void initState() {
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+
+    _nameController =
+        TextEditingController(text: taskNotifier.currentTask.taskName);
+    categoty = taskNotifier.currentTask.category;
+    childName = taskNotifier.currentTask.asignedKid;
+    points = taskNotifier.currentTask.points;
+    _selectedDate = taskNotifier.currentTask.date;
+
+    service = LocalNotificationService();
+    service.intialize();
+    listenToNotification();
+    super.initState();
+  }
 
   void _showDialog() {
     showDialog(
@@ -103,15 +111,15 @@ class _Add_taskState extends State<Add_task> {
         categoty != "" &&
         points != "" &&
         _selectedDate != "") {
-      addTask();
+      updateTask();
 
       showToastMessage("تمت إضافة نشاط بنجاح");
 
-      /* Notifications.showNotification(
+      Notifications.showNotification(
         title: "EARNILY",
         body: ' لديك نشاط جديد بأنتظارك',
         payload: 'earnily',
-      );*/
+      );
 
       Navigator.of(context).pop();
     } else {
@@ -119,31 +127,32 @@ class _Add_taskState extends State<Add_task> {
     }
   }
 
-  Future addTask() async {
+  Future updateTask() async {
+        TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
     const tuid = Uuid();
     String tid = tuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('Task')
-        .doc(tid)
-        .set({
+        .doc(taskNotifier.currentTask.tid)
+        .update({
       'taskName': _nameController.text,
       'points': points,
       'date': _selectedDate,
       'category': categoty,
       'asignedKid': childName,
-      'state': 'Not complete',
-      'tid': tid,
-      'adult': user.uid,
+      'state': 0,
     });
 
     await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
         .collection('kids')
-        .doc(childName + '@gmail.com')
+        .doc('reema')
         .collection('Task')
-        .doc(tid)
-        .set({
+        .add({
       'taskName': _nameController.text,
       'points': points,
       'date': _selectedDate,
@@ -151,10 +160,9 @@ class _Add_taskState extends State<Add_task> {
       'asignedKid': childName,
       'state': 'Not complete',
       'tid': tid,
-      'adult': user.uid,
     });
     //notification
-    /*await service.showNotificationWithPayload(
+    await service.showNotificationWithPayload(
       id: 1,
       title: 'تمت اضافة نشاط جديد',
       body: 'اسم النشاط:' + _nameController.text,
@@ -167,7 +175,7 @@ class _Add_taskState extends State<Add_task> {
           '\n  نوع النشاط:' +
           categoty,
       // 'asignedKid'+ childName,
-    );*/
+    );
   }
 
   void _presentDatePicker() {
@@ -185,22 +193,12 @@ class _Add_taskState extends State<Add_task> {
       });
     });
   }
-/*
-  void initState() {
-    // TODO: implement initState
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
-    getKidsNames(kidsNotifier);
-
-    super.initState();
-  }*/
-  // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
 
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<String> list = kidsNotifier.kidsNamesList;
-
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -220,7 +218,7 @@ class _Add_taskState extends State<Add_task> {
         elevation: 0,
         title: Center(
           child: Text(
-            'إضافة نشاط',
+          taskNotifier.currentTask.taskName,
             style: TextStyle(fontSize: 40),
           ),
         ),
@@ -230,7 +228,7 @@ class _Add_taskState extends State<Add_task> {
         child: Container(
           child: SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 25),
@@ -247,31 +245,46 @@ class _Add_taskState extends State<Add_task> {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                          controller: _nameController,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: ' اسم النشاط الجديد',
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
-                              ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                          validator: (val) =>
-                              val!.isEmpty ? 'اختر اسم النشاط' : null,
-                          //onChanged: (val) => setState(() => _currentName = val),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              validator: (val) =>
+                                  val!.isEmpty ? 'اختر اسم النشاط' : null,
+                              textAlign: TextAlign.right,
+                              controller: _nameController,
+                              enabled: edit,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                              decoration: InputDecoration(
+                                  hintText: "اسم النشاط الجديد",
+                                  hintStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  )),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -290,12 +303,53 @@ class _Add_taskState extends State<Add_task> {
                       SizedBox(
                         height: 10,
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if(edit==false)
+                            TextField(
+                              textAlign: TextAlign.right,
+                              enabled: false,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                              decoration: InputDecoration(
+                                  hintText: childName,
+                                  hintStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
+                        if(edit==true)
                       Container(
                           alignment: Alignment.topRight,
                           height: 50,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              color: Colors.grey[100],
+                              color: Color.fromRGBO(245, 245, 245, 1),
                               borderRadius: BorderRadius.circular(15)),
                           child: DropdownButtonFormField<String>(
                               hint: childName.isEmpty
@@ -309,6 +363,7 @@ class _Add_taskState extends State<Add_task> {
                               },
                               items: list.map((valueItem) {
                                 return DropdownMenuItem(
+                                  enabled: edit,
                                   alignment: Alignment.centerRight,
                                   value: valueItem,
                                   child: Text(valueItem),
@@ -366,6 +421,47 @@ class _Add_taskState extends State<Add_task> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if(edit==false)
+                            TextField(
+                              textAlign: TextAlign.right,
+                              enabled: false,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                              decoration: InputDecoration(
+                                  hintText: _selectedDate,
+                                  hintStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if(edit==true)
                       Container(
                         height: 50,
                         child: Row(
@@ -373,15 +469,16 @@ class _Add_taskState extends State<Add_task> {
                             Expanded(
                               child: Text(
                                 textDirection: ui.TextDirection.rtl,
-                                _selectedDate == ""
-                                    ? 'لم يتم اختيار تاريخ'
+                                _selectedDate.isEmpty 
+                                    ? '! لم يتم اختيار تاريخ'
                                     : 'التاريخ المختار: ${_selectedDate}',
                               ),
                             ),
 
                             IconButton(
                                 onPressed: _presentDatePicker,
-                               /* style: ButtonStyle(
+                         /*
+                                style: ButtonStyle(
                                     foregroundColor:
                                         MaterialStateProperty.all(Colors.black),
                                     backgroundColor: MaterialStateProperty.all(
@@ -433,37 +530,38 @@ class _Add_taskState extends State<Add_task> {
                             categorySelect('تطوير الشخصية', 0xff2bc8d9),
                           ]),
                       SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
-                      Positioned(
-                          left: 21,
-                          top: 625,
-                          width: 350,
-                          height: 66,
-                          child: SizedBox(
-                              width: 347,
-                              height: 68,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  backgroundColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    side: const BorderSide(
-                                      width: 0,
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: _validate,
-                                child: const Text('إضافة ',
-                                    overflow: TextOverflow.visible,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                              ))),
+                      Column(children: <Widget>[
+                        if (edit == false)
+                          NewButton(
+                              height: 100,
+                              width: 320,
+                              text: 'تعديل',
+                              onClick: () {
+                                setState(() {
+                                  edit = !edit;
+                                });
+                              }),
+                        if (edit == true)
+                          NewButton(
+                              height: 100,
+                              width: 320,
+                              text: 'حفظ التغييرات',
+                              onClick: () {
+                                setState(() {});
+                              }),
+                        if (edit == true)
+                          NewButton(
+                              height: 100,
+                              width: 320,
+                              text: 'إلغاء',
+                              onClick: () {
+                                setState(() {
+                                  edit = !edit;
+                                });
+                              }),
+                      ]),
                     ],
                   ))),
         ),
@@ -473,13 +571,15 @@ class _Add_taskState extends State<Add_task> {
 
   Widget categorySelect(String label, int color) {
     return InkWell(
-      onTap: (() {
-        setState(() {
-          categoty = label;
-        });
-      }),
+      onTap: edit
+          ? (() {
+              setState(() {
+                categoty = label;
+              });
+            })
+          : null,
       child: Chip(
-        backgroundColor: categoty == label ? Colors.black : Color(color),
+        backgroundColor: categoty == label ? Colors.white : Color(color),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -488,14 +588,14 @@ class _Add_taskState extends State<Add_task> {
         label: Text(
           label,
           style: TextStyle(
-            color: Colors.white,
+            color: categoty == label ? Colors.black : Colors.white,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-         horizontal: points == label ? 30 :17,
-          vertical:  points == label ?10: 3.5,
+          horizontal: 17,
+          vertical: 3.5,
         ),
       ),
     );
@@ -503,13 +603,15 @@ class _Add_taskState extends State<Add_task> {
 
   Widget pointsSelect(String label, int color) {
     return InkWell(
-      onTap: (() {
-        setState(() {
-          points = label;
-        });
-      }),
+      onTap: edit
+          ? (() {
+              setState(() {
+                points = label;
+              });
+            })
+          : null,
       child: Chip(
-        backgroundColor: points == label ? Colors.black : Color(color),
+        backgroundColor: points == label ? Colors.white : Color(color),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             10,
@@ -518,14 +620,14 @@ class _Add_taskState extends State<Add_task> {
         label: Text(
           label,
           style: TextStyle(
-            color:  Colors.white,
+            color: points == label ? Colors.black : Colors.white,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
         labelPadding: EdgeInsets.symmetric(
-          horizontal: points == label ? 30 :17,
-          vertical:  points == label ?10: 3.5,
+          horizontal: 17,
+          vertical: 3.5,
         ),
       ),
     );

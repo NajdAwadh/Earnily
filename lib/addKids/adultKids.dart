@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:earnily/addKids/adultsKidProfile.dart';
 import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/notifier/kidsNotifier.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -31,10 +32,10 @@ class _AdultKidsState extends State<AdultKids> {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
-    super.initState();
   }
 
 /*
@@ -103,9 +104,11 @@ class _AdultKidsState extends State<AdultKids> {
   Widget build(BuildContext context) {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     List<Kids> list = kidsNotifier.kidsList;
-    //return Directionality(
-    //textDirection: ui.TextDirection.rtl,
-    //child:
+
+    Future<void> _refreshList() async {
+      getKids(kidsNotifier);
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -115,7 +118,7 @@ class _AdultKidsState extends State<AdultKids> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
-              "الأطفال",
+              "أطفالي",
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -133,11 +136,12 @@ class _AdultKidsState extends State<AdultKids> {
             : Container(
                 child: GridView.builder(
                   itemBuilder: (ctx, index) {
+                    list = kidsNotifier.kidsList;
                     return Card(
                         elevation: 5,
                         margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
+                          vertical: 6,
+                          horizontal: 8,
                         ),
                         child: Container(
                           height: 150,
@@ -149,9 +153,9 @@ class _AdultKidsState extends State<AdultKids> {
                             child: new GridTile(
                               child: Column(
                                 children: [
-                                  SizedBox(height: 15),
+                                  SizedBox(height: 10),
                                   imgWidget(set(list[index].gender), 64, 64),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 15),
                                   Text(
                                     list[index].name,
                                     style: TextStyle(
@@ -175,10 +179,20 @@ class _AdultKidsState extends State<AdultKids> {
                                     onPressed: () => {list[index]},
                                   ),
 */
+
                                   IconButton(
-                                    icon: Icon(Icons.person),
-                                    color: Theme.of(context).errorColor,
+                                    icon: Icon(Icons.account_circle_sharp),
+                                    color: Colors.black,
+                                    iconSize: 40,
                                     onPressed: () {
+                                      kidsNotifier.currentKid =
+                                          kidsNotifier.kidsList[index];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdultsKidProfile()));
+                                      /*
                                       showDialog(
                                           context: context,
                                           builder: (context) {
@@ -215,9 +229,22 @@ class _AdultKidsState extends State<AdultKids> {
                                                 ),
                                               ],
                                             );
-                                          });
+                                          });*/
                                     },
                                   ),
+                                  /*
+                                  InkWell(
+                                    onTap: () {
+                                      kidsNotifier.currentKid =
+                                          kidsNotifier.kidsList[index];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdultsKidProfile()));
+                                    },
+                                    */
+                                  //),
                                 ],
                               ),
                             ),
