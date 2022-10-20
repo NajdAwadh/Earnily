@@ -1,5 +1,5 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/pages/home_page.dart';
@@ -14,24 +14,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-
 import '../reuasblewidgets.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/new_text.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
 bool isLoading = false;
 String name = '';
 String image = '';
 String email = '';
 String family = '';
-
 class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController _familyController = TextEditingController();
@@ -45,7 +40,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     print(email);
     _getUserDetail();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,82 +82,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                 child: Column(
                   children: [
-                    /*  Center(
-                      child: Stack(
-                        children: [
-                          file == null
-                              ? CircleAvatar(
-                                  radius: 60,
-                                )
-                              : CircleAvatar(
-                                  radius: 60,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(70),
-                                    child: Image.network(
-                                      image,
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                          Positioned.fill(
-                              child: InkWell(
-                            onTap: () {
-                              showPicker(
-                                context,
-                                onGalleryTap: () {
-                                  getImage(ImageSource.gallery);
-                                  Navigator.of(context).pop();
-                                },
-                                onCameraTap: () {
-                                  getImage(ImageSource.camera);
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            },
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.photo_library_outlined,
-                                      size: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),*/
-
-                    Text(
-                      name + ' ' + family,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                 
+              SizedBox(
+                      height: 40,
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      email,
-                      style: TextStyle(
-                          fontSize: 13.0, fontWeight: FontWeight.w300),
-                    ),
+             
                     SizedBox(
                       height: 20,
                     ),
@@ -175,9 +101,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //   child: Align(
                     //       alignment: Alignment.centerRight,
                     //       child: Text('تعديل',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,color: Colors.black),)),
-
+            
                     // ),
-
+            
                     SizedBox(
                       height: 20,
                     ),
@@ -186,10 +112,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.bold,
                       size: 18,
                     ),
-                    CustomTextField(
-                        controller: nameController,
-                        hint: name,
-                        isEnabled: isEnabled),
+              
+                     Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: nameController,
+                           enabled: isEnabled,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: name,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
+                      ),    
                     SizedBox(
                       height: 10,
                     ),
@@ -198,10 +146,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.bold,
                       size: 18,
                     ),
-                    CustomTextField(
-                        controller: _familyController,
-                        hint: family,
-                        isEnabled: isEnabled),
+      
+                           Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: _familyController,
+                           enabled: isEnabled,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: family,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
+                      ), 
                     SizedBox(
                       height: 10,
                     ),
@@ -210,10 +180,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.bold,
                       size: 18,
                     ),
-                    CustomTextField(
-                        controller: _emailController,
-                        hint: email,
-                        isEnabled: isEnabled),
+                
+                        Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          controller: _emailController,
+                           enabled: isEnabled,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: email,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
+                      ), 
+                         SizedBox(
+                      height: 25,
+                    ),
                     if (isEnabled == false)
                       NewButton(
                           text: 'تعديل',
@@ -238,11 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 320,
                           text: 'إلغاء',
                           onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfileScreen()));
-                          })
+                               Navigator.of(context).pop();  })
                   ],
                 ),
               ),
@@ -250,17 +241,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
   ImagePicker picker = ImagePicker();
-
   File? file;
   String imageUrl = "";
-
   Future getImage(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source, imageQuality: 30);
     if (pickedFile != null && pickedFile.path != null) {
       loadingTrue();
-
       file = File(pickedFile.path);
       setState(() {});
       // ignore: use_build_context_synchronously
@@ -271,7 +258,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
     }
   }
-
   Future resetEmail(String newEmail) async {
     FirebaseAuth.instance.userChanges().listen((User? user) {
       if (user == null) {
@@ -286,7 +272,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     });
   }
-
   _getUserDetail() {
     FirebaseFirestore.instance
         .collection('users')
@@ -300,7 +285,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {});
     });
   }
-
   updateProfile() {
     loadingTrue();
     try {
@@ -320,12 +304,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       loadingFalse();
     }
   }
-
   loadingTrue() {
     isLoading = true;
     setState(() {});
   }
-
   loadingFalse() {
     isLoading = false;
     setState(() {});
