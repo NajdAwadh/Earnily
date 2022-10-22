@@ -150,9 +150,9 @@ class _AdultKidsState extends State<AdultKids> {
                             child: new GridTile(
                               child: Column(
                                 children: [
-                                  //SizedBox(height: 10),
+                                  //    SizedBox(height: 10),
                                   imgWidget(set(list[index].gender), 64, 64),
-                                  //SizedBox(height: 15),
+                                  //  SizedBox(height: 15),
                                   Text(
                                     list[index].name,
                                     style: TextStyle(
@@ -160,6 +160,7 @@ class _AdultKidsState extends State<AdultKids> {
                                       fontSize: 30,
                                     ),
                                   ),
+
                                   //SizedBox(height: 15),
                                   /*
                                 Text(
@@ -189,46 +190,9 @@ class _AdultKidsState extends State<AdultKids> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   AdultsKidProfile()));
-                                      /*
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              icon: imgWidget(
-                                                  set(list[index].gender),
-                                                  64,
-                                                  64),
-                                              title: Text(
-                                                list[index].name +
-                                                    '\n' +
-                                                    list[index].pass,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                              content: Text(
-                                                getBirthday(list[index].date)
-                                                    .toString(),
-                                                textAlign: TextAlign.right,
-                                              ),
-                                              actions: <Widget>[
-                                                IconButton(
-                                                  icon: Icon(Icons.delete),
-                                                  color: Theme.of(context)
-                                                      .errorColor,
-                                                  onPressed: () => {
-                                                    kidsDb
-                                                        .doc(kidsNotifier
-                                                            .currentKid
-                                                            .toString())
-                                                        .delete()
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          });*/
                                     },
                                   ),
+
                                   /*
                                   InkWell(
                                     onTap: () {

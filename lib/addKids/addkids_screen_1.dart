@@ -104,7 +104,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         );*/
 
         Navigator.of(context).pop();
-        setState(getKids(Provider.of<KidsNotifier>(context, listen: false)));
+        // setState(getKids(Provider.of<KidsNotifier>(context, listen: false)));
 
         /*
       Navigator.of(context).push(
@@ -275,35 +275,29 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                  Container(
-                     alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
+                    Container(
+                      alignment: Alignment.topRight,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(15)),
                       child: TextFormField(
-                            controller: nameController,
-                            
-                            textAlign: TextAlign.right,
-                            
-                            decoration: InputDecoration(
-                            
-                                border: InputBorder.none,
-                                hintText:  "اسم الطفل ",
-                                hintTextDirection: ui.TextDirection.rtl,
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 17,
-                                ),
-                               
-                                contentPadding: EdgeInsets.only(
-                                  left: 20,
-                                  right: 20,
-                                )),
-                                
-                          
-                          ),
+                        controller: nameController,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "اسم الطفل ",
+                            hintTextDirection: ui.TextDirection.rtl,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 17,
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )),
+                      ),
                     ),
                     // reuasbleTextField(
                     //     "الاسم ", Icons.person, false, nameController),
@@ -452,12 +446,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       child: ElevatedButton(
                         onPressed: _showDatePicker,
                         style: ElevatedButton.styleFrom(
-                                                      padding: EdgeInsets.all(18),
-
+                          padding: EdgeInsets.all(18),
                           backgroundColor: Colors.grey[100],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                           
                           ),
                         ),
                         child: new Directionality(
