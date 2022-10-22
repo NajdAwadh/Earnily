@@ -45,7 +45,7 @@ class _HomePageKidState extends State<HomePageKid> {
 
   final List<Widget> _pages = [
     kidTasks(),
-    kidWish(),
+    // kidWish(),
     kidreward(),
   ];
   @override
@@ -196,11 +196,6 @@ class _HomePageKidState extends State<HomePageKid> {
         items: [
           Icon(
             Icons.playlist_add_sharp,
-            color: Colors.white,
-            size: 35,
-          ),
-          Icon(
-            Icons.favorite,
             color: Colors.white,
             size: 35,
           ),

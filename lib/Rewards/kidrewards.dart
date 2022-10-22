@@ -20,19 +20,18 @@ class kidreward extends StatefulWidget {
 
 class _kidrewardState extends State<kidreward> {
   @override
-  
- final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser!;
   final kidsDb = FirebaseFirestore.instance.collection('kids');
 
-
-   void initState() {
+  void initState() {
     // TODO: implement initState
     super.initState();
     RewardNotifier rewardNotifier =
         Provider.of<RewardNotifier>(context, listen: false);
     getReward(rewardNotifier);
   }
-int getBirthday(Timestamp date) {
+
+  int getBirthday(Timestamp date) {
     int birth = AgeCalculator.age(date.toDate()).years;
     return birth;
   }
@@ -68,13 +67,10 @@ int getBirthday(Timestamp date) {
     return myColors[index];
   }
 
-
   Widget build(BuildContext context) {
-        RewardNotifier rewardNotifier = Provider.of<RewardNotifier>(context);
+    RewardNotifier rewardNotifier = Provider.of<RewardNotifier>(context);
     List<AdultReward> list = rewardNotifier.rewardList;
 
-
-    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -141,7 +137,6 @@ int getBirthday(Timestamp date) {
                                       fontSize: 30,
                                     ),
                                   ),
-                
                                 ],
                               ),
                             ),
@@ -156,7 +151,23 @@ int getBirthday(Timestamp date) {
                 ),
               ),
       ),
-     
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        width: 110,
+        child: FittedBox(
+          child: FloatingActionButton.extended(
+            backgroundColor: Colors.black,
+            icon: Icon(
+              Icons.wallet,
+              size: 30,
+            ),
+            onPressed: () {
+              //
+            },
+            label: Text('0'),
+          ),
+        ),
+      ),
     );
- }
+  }
 }

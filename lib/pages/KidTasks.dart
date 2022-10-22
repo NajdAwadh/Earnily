@@ -445,6 +445,23 @@ class _kidTasksState extends State<kidTasks> {
                 ),
               ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        width: 110,
+        child: FittedBox(
+          child: FloatingActionButton.extended(
+            backgroundColor: Colors.black,
+            icon: Icon(
+              Icons.wallet,
+              size: 30,
+            ),
+            onPressed: () {
+              //
+            },
+            label: Text('0'),
+          ),
+        ),
+      ),
     );
   }
 }
