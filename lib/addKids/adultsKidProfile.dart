@@ -310,6 +310,48 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                               )),
                            ),
                       ),
+                      Align(
+                               alignment: Alignment.centerRight,
+                       child: Text(
+                     
+                           'النقاط التي لديه:',
+                            style: TextStyle(
+                     
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                                   textDirection:  ui.TextDirection.rtl,
+                                      textAlign:TextAlign.right
+                          ),
+                     ),
+                  
+                  SizedBox(
+                        height: 10,
+                      ),
+              Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                           enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText:    currentKid.point,
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                           ),
+                      ),
                     // NewText(
                     //   text: ':تاريخ الميلاد',
                     //   fontWeight: FontWeight.bold,

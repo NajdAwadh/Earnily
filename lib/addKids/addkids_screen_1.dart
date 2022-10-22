@@ -161,6 +161,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'name': nameController.text,
       'gender': value,
       'date': date,
+      'point':0,
       'uid': user.uid,
       'pass': u.substring(0, 8),
     });
@@ -172,6 +173,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'name': nameController.text,
       'gender': value,
       'date': date,
+      'point':0,
       'uid': user.uid,
       'pass': u.substring(0, 8),
     });
