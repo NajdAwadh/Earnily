@@ -55,7 +55,7 @@ class _MainTaskState extends State<MainTask> {
         .doc(adult)
         .collection("Task")
         .doc(id)
-        .delete();
+        .update({'state': 'complete'});
     await FirebaseFirestore.instance
         .collection('kids')
         .doc(kid + '@gmail.com')
@@ -225,7 +225,7 @@ class _MainTaskState extends State<MainTask> {
   int dd = 0;
   String _colors(String i, String kid) {
     if (i == "Not complete") {
-      return 'غير مكتمل';
+      return 'غير مكتمل🔴';
     } else if (i == "pending") {
       if (dd == 0)
         Notifications.showNotification(
@@ -234,9 +234,9 @@ class _MainTaskState extends State<MainTask> {
           payload: 'earnily',
         );
       dd++;
-      return 'انتظار موافقتك';
+      return 'انتظار موافقتك🟠';
     } else
-      return 'مكتمل';
+      return 'مكتمل🟢';
   }
 
   @override
@@ -330,7 +330,7 @@ class _MainTaskState extends State<MainTask> {
                               ),
                             ),
                             subtitle: Text(
-                              '   ${taskNotifier.taskList[index].asignedKid} \n 🌟 ${taskNotifier.taskList[index].points} | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
+                              '${taskNotifier.taskList[index].asignedKid}\n${taskNotifier.taskList[index].points}🌟 | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
                               style: TextStyle(fontSize: 17),
                             ),
                             isThreeLine: true,
@@ -354,20 +354,23 @@ class _MainTaskState extends State<MainTask> {
                                       taskNotifier.taskList[index].asignedKid)
                                 },
                               ),
-                              IconButton(
-                                icon: Icon(Icons.pending_actions),
-                                color: Colors.black,
-                                onPressed: () => {
-                                  if (taskNotifier.taskList[index].state ==
-                                      'pending')
-                                    _showDialog(
-                                        taskNotifier.taskList[index].tid,
-                                        taskNotifier.taskList[index].adult,
-                                        taskNotifier.taskList[index].asignedKid)
-                                  else
-                                    _showDialog2()
-                                },
-                              ),
+                              if (taskNotifier.taskList[index].state ==
+                                  'pending')
+                                IconButton(
+                                  icon: Icon(Icons.check),
+                                  color: Colors.black,
+                                  onPressed: () => {
+                                    if (taskNotifier.taskList[index].state ==
+                                        'pending')
+                                      _showDialog(
+                                          taskNotifier.taskList[index].tid,
+                                          taskNotifier.taskList[index].adult,
+                                          taskNotifier
+                                              .taskList[index].asignedKid)
+                                    else
+                                      _showDialog2()
+                                  },
+                                ),
                             ])),
                       ));
                 },
