@@ -25,6 +25,7 @@ import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
 import '../notifier/taskNotifier.dart';
+import '../pages/home_page.dart';
 
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
@@ -80,6 +81,44 @@ class _Add_taskState extends State<Add_task> {
             ],
           );
         });
+  }
+
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من إلغاء العملية ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return HomePage();
+                    },
+                  ),
+                );
+              },
+              child: const Text("إلغاء"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("البقاء"),
+            )
+          ],
+        );
+      },
+    );
   }
 
   void showToastMessage(String message) {
@@ -212,7 +251,7 @@ class _Add_taskState extends State<Add_task> {
               size: 40,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              _showDialogCancel();
             },
           )
         ],

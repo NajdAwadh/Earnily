@@ -2,12 +2,15 @@
 
 import 'dart:io';
 
+import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
+import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/servicemanagement/v1.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -73,6 +76,44 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             ],
           );
         });
+  }
+
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من إلغاء العملية ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return AdultKids();
+                    },
+                  ),
+                );
+              },
+              child: const Text("إلغاء"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("البقاء"),
+            )
+          ],
+        );
+      },
+    );
   }
 
   void showToastMessage(String message) {
@@ -210,10 +251,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
 
-    Future<void> _refreshList() async {
-      getKids(kidsNotifier);
-    }
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -225,8 +262,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
               size: 40,
             ),
             onPressed: () {
-              //validateReturn(true);
-              Navigator.of(context).pop();
+              _showDialogCancel();
             },
           )
         ],

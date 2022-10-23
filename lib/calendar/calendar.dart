@@ -24,6 +24,10 @@ class _CalendarState extends State<Calendar> {
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
   final formatter = DateFormat('yMd');
+  List<Task> list = [];
+  String category = '';
+  late IconData iconData;
+  late Color iconColor;
 
   TextEditingController _eventController = TextEditingController();
 
@@ -41,17 +45,51 @@ class _CalendarState extends State<Calendar> {
   }
 
   void addToCalendar(String name, DateTime date, String asignedKid,
-      String category, String points) {
+      String category, String points, Task task) {
     if (selectedDay == date) {
+      list.add(task);
       if (selectedEvents[selectedDay] != null) {
         print('in if');
-        selectedEvents[selectedDay]?.add(
-          Event(title: name),
-        );
+        selectedEvents[selectedDay]
+            ?.add(Event(title: name, category: category, points: points));
       } else {
         print('else');
-        selectedEvents[selectedDay] = [Event(title: name)];
+        selectedEvents[selectedDay] = [
+          Event(title: name, category: category, points: points)
+        ];
       }
+    }
+  }
+
+  void color(String category) {
+    switch (category) {
+      case "النظافة":
+        iconData = Icons.wash;
+
+        iconColor = Color(0xffff6d6e);
+        break;
+      case "الأكل":
+        iconData = Icons.flatware_rounded;
+        iconColor = Color(0xfff29732);
+        break;
+
+      case "الدراسة":
+        iconData = Icons.auto_stories_outlined;
+        iconColor = Color(0xff6557ff);
+        break;
+
+      case "تطوير الشخصية":
+        iconData = Icons.border_color_outlined;
+        iconColor = Color(0xff2bc8d9);
+        break;
+
+      case "الدين":
+        iconData = Icons.brightness_4_rounded;
+        iconColor = Color(0xff234ebd);
+        break;
+      default:
+        iconData = Icons.brightness_4_rounded;
+        iconColor = Color(0xff6557ff);
     }
   }
 
@@ -65,7 +103,7 @@ class _CalendarState extends State<Calendar> {
       DateTime date = formatter.parseUTC(tasks[i].date);
 
       _getEventsfromDay(date);
-      addToCalendar(name, date, asignedKid, category, points);
+      addToCalendar(name, date, asignedKid, category, points, tasks[i]);
     }
   }
 
@@ -162,68 +200,201 @@ class _CalendarState extends State<Calendar> {
               ),
             ),
           ),
-          // Expanded(
-
-          //   child: ValueListenableBuilder<List<Event>>(
-          //     valueListenable: _selectedEvents,
-          //     builder: (context, value, _) {
-          //       return ListView.builder(
-          //         itemCount: value.length,
-          //         itemBuilder: (context, index) {
-          //           return Container(
-          //             margin: const EdgeInsets.symmetric(
-          //               horizontal: 12.0,
-          //               vertical: 4.0,
-          //             ),
-          //             decoration: BoxDecoration(
-          //               border: Border.all(),
-          //               borderRadius: BorderRadius.circular(12.0),
-          //             ),
-          //             child: ListTile(
-          //               onTap: () => print('${value[index]}'),
-          //               title: Text('${value[index]}'),
-          //             ),
-          //           );
-          //         },
-          //       );
-          //     },
-          //   ),
-          // ),
           ..._getEventsfromDay(selectedDay).map(
-            (Event event) => ListTile(
-              leading: CircleAvatar(
-                foregroundColor: Colors.white,
-                radius: 30,
-                child: new Directionality(
-                    textDirection: ui.TextDirection.rtl,
-                    child: Padding(
-                        padding: EdgeInsets.all(6),
-                        child: Container(
-                          height: 33,
-                          width: 36,
-                          child: Icon(Icons.text_snippet),
-                        ))),
+            (Event event) =>
+                /*Container(
+              child: ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    IconData iconData;
+                    Color iconColor;
+                    switch (event.category) {
+                      case "النظافة":
+                        iconData = Icons.wash;
+
+                        iconColor = Color(0xffff6d6e);
+                        break;
+                      case "الأكل":
+                        iconData = Icons.flatware_rounded;
+                        iconColor = Color(0xfff29732);
+                        break;
+
+                      case "الدراسة":
+                        iconData = Icons.auto_stories_outlined;
+                        iconColor = Color(0xff6557ff);
+                        break;
+
+                      case "تطوير الشخصية":
+                        iconData = Icons.border_color_outlined;
+                        iconColor = Color(0xff2bc8d9);
+                        break;
+
+                      case "الدين":
+                        iconData = Icons.brightness_4_rounded;
+                        iconColor = Color(0xff234ebd);
+                        break;
+                      default:
+                        iconData = Icons.brightness_4_rounded;
+                        iconColor = Color(0xff6557ff);
+                    }
+                    return Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 5,
+                      ),
+                      child: new Directionality(
+                        textDirection: ui.TextDirection.rtl,
+                        child: new ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: iconColor,
+                            foregroundColor: Colors.white,
+                            radius: 30,
+                            child: Padding(
+                                padding: EdgeInsets.all(6),
+                                child: Container(
+                                  height: 33,
+                                  width: 36,
+                                  child: Icon(iconData),
+                                )),
+                          ),
+                          title: Text(
+                            event.title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                          subtitle: Text(
+                            event.points,
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: selectedEvents.length),
+            ),*/
+
+                Card(
+              elevation: 5,
+              margin: EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 5,
               ),
-              title: new Directionality(
+              child: new Directionality(
                 textDirection: ui.TextDirection.rtl,
-                child: Text(
-                  event.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    foregroundColor: Colors.white,
+                    radius: 30,
+                    child: new Directionality(
+                        textDirection: ui.TextDirection.rtl,
+                        child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Container(
+                              height: 33,
+                              width: 36,
+                              child: Icon(Icons.text_snippet),
+                            ))),
                   ),
-                ),
-              ),
-              //subtitle: Text('test'),
-              /*
+                  title: new Directionality(
+                    textDirection: ui.TextDirection.rtl,
+                    child: Text(
+                      event.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  //subtitle: Text('test'),
+                  /*
               isThreeLine: true,
               trailing: IconButton(
                 icon: Icon(Icons.delete),
                 color: Theme.of(context).errorColor,
                 onPressed: () => {},
               ),*/
+                ),
+              ),
             ),
           ),
+          /*
+          IconData iconData;
+                    Color iconColor;
+                    switch (event.category) {
+                      case "النظافة":
+                        iconData = Icons.wash;
+
+                        iconColor = Color(0xffff6d6e);
+                        break;
+                      case "الأكل":
+                        iconData = Icons.flatware_rounded;
+                        iconColor = Color(0xfff29732);
+                        break;
+
+                      case "الدراسة":
+                        iconData = Icons.auto_stories_outlined;
+                        iconColor = Color(0xff6557ff);
+                        break;
+
+                      case "تطوير الشخصية":
+                        iconData = Icons.border_color_outlined;
+                        iconColor = Color(0xff2bc8d9);
+                        break;
+
+                      case "الدين":
+                        iconData = Icons.brightness_4_rounded;
+                        iconColor = Color(0xff234ebd);
+                        break;
+                      default:
+                        iconData = Icons.brightness_4_rounded;
+                        iconColor = Color(0xff6557ff);
+          
+          Card(
+              elevation: 5,
+              margin: EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 5,
+              ),
+              child: new Directionality(
+                textDirection: ui.TextDirection.rtl,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    foregroundColor: Colors.white,
+                    radius: 30,
+                    child: new Directionality(
+                        textDirection: ui.TextDirection.rtl,
+                        child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Container(
+                              height: 33,
+                              width: 36,
+                              child: Icon(Icons.text_snippet),
+                            ))),
+                  ),
+                  title: new Directionality(
+                    textDirection: ui.TextDirection.rtl,
+                    child: Text(
+                      event.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  //subtitle: Text('test'),
+                  /*
+              isThreeLine: true,
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                color: Theme.of(context).errorColor,
+                onPressed: () => {},
+              ),*/
+                ),
+              ),
+            ),
+            */
         ],
       ),
     );
