@@ -25,13 +25,13 @@ class add_Reward extends StatefulWidget {
 
 class _addRewardState extends State<add_Reward> {
   @override
-  late List<String> _savedPoint= ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
-//
+ // late List<int> _savedPoint= [٢٥٠', '٥٠٠', '٧٥'١٠٠٠'];
+
   final user = FirebaseAuth.instance.currentUser!;
 
   final _nameController = TextEditingController();
 
-  String points = '';
+  String points ='';
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -224,19 +224,19 @@ class _addRewardState extends State<add_Reward> {
                         alignment: WrapAlignment.center,
                         runSpacing: 10,
                         children: [
-                          pointsSelect(_savedPoint[3], 0xffff6d6e),
+                          pointsSelect("1000", 0xffff6d6e),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect(_savedPoint[2], 0xfff29732),
+                          pointsSelect("750", 0xfff29732),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect(_savedPoint[1], 0xff6557ff),
+                          pointsSelect("500", 0xff6557ff),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect(_savedPoint[0], 0xff2bc8d9),
+                          pointsSelect("250", 0xff2bc8d9),
                         ]),
                     SizedBox(
                       height: 80,
@@ -309,10 +309,12 @@ loadingFalse() {
 */
 //point
   Widget pointsSelect(String label, int color) {
+ 
     return InkWell(
       onTap: (() {
         setState(() {
           points = label;
+         //String point=points as String ;
         });
       }),
       child: Chip(
