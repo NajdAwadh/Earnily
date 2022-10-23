@@ -124,7 +124,31 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     }
   }
 
- 
+  //final kidsDb = FirebaseFirestore.instance.collection('kids');
+  //final user = FirebaseAuth.instance.currentUser!;
+
+  /* Future addUserDetails(String name, String family, String email) async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .set({
+      'firstName': name,
+      'family': family,
+      'email': email,
+      'image': '',
+      'uid': firebaseUser.uid,
+    });
+  }
+  
+  final messageRef = FirebaseFirestore.instance
+      .collection("rooms")
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection("messages")
+      .doc("message1");
+  
+  */
+
   Future addKidDetails() async {
     var uuid = Uuid();
     String u = uuid.v4();
