@@ -99,7 +99,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return HomePage();
+                      return AdultKids();
                     },
                   ),
                 );
