@@ -12,6 +12,7 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import '../reuasblewidgets.dart';
@@ -43,7 +44,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _getUserDetail();
   }
 
-  
+  void showToastMessage(String message) {
+    //raghad
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white,
+
+        //message text color
+
+        fontSize: 16.0 //message font size
+        );
+  }
+    void _validate() {
+    if (formKey.currentState!.validate() &&
+        name != "" &&
+        email != "" &&
+        family != "") {
+      
+
+      showToastMessage("تم التعديل بنجاح  ");
+
+      /* Notifications.showNotification(
+        title: "EARNILY",
+        body: ' لديك نشاط جديد بأنتظارك',
+        payload: 'earnily',
+      );*/
+
+      Navigator.of(context).pop();
+    } else {
+      _showDialog();
+    }
+  }
+
+    void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              "ادخل البيانات المطلوبة",
+              textAlign: TextAlign.right,
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 320,
                             text: 'حفظ التغييرات',
                             onClick: () {
+                              _validate();
                               resetEmail(_emailController.text);
                               updateProfile();
                             }),
