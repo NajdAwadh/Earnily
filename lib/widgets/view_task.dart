@@ -404,19 +404,19 @@ class _View_taskState extends State<View_task> {
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            pointsSelect("100", 0xffff6d6e),
+                            pointsSelect("١٠٠", 0xffff6d6e),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('75', 0xfff29732),
+                            pointsSelect('٧٥', 0xfff29732),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('50', 0xff6557ff),
+                            pointsSelect('٥٠', 0xff6557ff),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('25', 0xff2bc8d9),
+                            pointsSelect('٢٥', 0xff2bc8d9),
                           ]),
                       SizedBox(
                         height: 10,
