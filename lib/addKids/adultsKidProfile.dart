@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/models/kids.dart';
+import 'package:earnily/notifier/taskNotifier.dart';
+
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/services/upload_file.dart';
 import 'package:earnily/widgets/new_button.dart';
@@ -18,6 +20,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../api/kidsApi.dart';
+import '../notifications/local_notification_service.dart';
 import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 import '../widgets/custom_textfield.dart';
@@ -40,14 +43,36 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
   TextEditingController nameController = TextEditingController();
   TextEditingController _familyController = TextEditingController();
   bool isEnabled = false;
+  late final LocalNotificationService service;
+  final user = FirebaseAuth.instance.currentUser!;
+  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late String _selectedDate;
+  late final _nameController;
+  late String categoty;
+  late String childName;
+  late String points;
+  bool edit = false;
+  
   @override
   void initState() {
+     TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    _nameController =
+        TextEditingController(text: taskNotifier.currentTask.taskName);
+    categoty = taskNotifier.currentTask.category;
+    childName = taskNotifier.currentTask.asignedKid;
+    points = taskNotifier.currentTask.points;
+    _selectedDate = taskNotifier.currentTask.date;
+    service = LocalNotificationService();
+    service.intialize();
     // TODO: implement initState
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     super.initState();
   }
+  
 
   void _showDatePicker() async => showDatePicker(
         context: context,
