@@ -22,6 +22,7 @@ class MainTask extends StatefulWidget {
 class _MainTaskState extends State<MainTask> {
   Future getPointsFirestore() async {
     var firestore = FirebaseFirestore.instance;
+    // int points=0;
     QuerySnapshot qn = await firestore.collection("points").get();
     return qn.docs;
   }
@@ -47,9 +48,12 @@ class _MainTaskState extends State<MainTask> {
         );
   }
 
-  Future updateTask(String id, String adult, kid) async {
+  int points = 0;
+  Future updateTask(String id, String adult, String kid, int point) async {
     showToastMessage('تم قبول النشاط');
     Navigator.of(context).pop();
+
+    points += point;
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adult)
@@ -62,6 +66,18 @@ class _MainTaskState extends State<MainTask> {
         .collection("Task")
         .doc(id)
         .update({'state': 'complete'});
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': points});
+
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': points});
   }
 
   Future delete(String id, String adult, String kid, String msg) async {
@@ -98,7 +114,8 @@ class _MainTaskState extends State<MainTask> {
         .delete();
   }
 
-  void _showDialog(String id, String adult, String kid) {
+  void _showDialog(String id, String adult, String kid, String points) {
+    var point = int.parse(points);
     showDialog(
         context: context,
         builder: (context) {
@@ -120,7 +137,7 @@ class _MainTaskState extends State<MainTask> {
             ),
             onPressed: () {
               Navigator.of(context).pop;
-              updateTask(id, adult, kid);
+              updateTask(id, adult, kid, point);
             },
           );
 
@@ -366,7 +383,8 @@ class _MainTaskState extends State<MainTask> {
                                           taskNotifier.taskList[index].tid,
                                           taskNotifier.taskList[index].adult,
                                           taskNotifier
-                                              .taskList[index].asignedKid)
+                                              .taskList[index].asignedKid,
+                                          taskNotifier.taskList[index].points)
                                     else
                                       _showDialog2()
                                   },
