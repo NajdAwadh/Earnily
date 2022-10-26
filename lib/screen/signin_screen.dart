@@ -2,6 +2,7 @@
 import 'package:earnily/kidsignup/kidsignin.dart';
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/screen/QRreader.dart';
+import 'package:earnily/screen/forgotpassword_screen.dart';
 
 import 'package:earnily/screen/signup_screen.dart';
 import 'package:earnily/widgets/new_button.dart';
@@ -100,7 +101,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         color: Colors.blue,
                         size: 18,
                         fontWeight: FontWeight.w500,
-                        onClick: () {}),
+                        onClick: () {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ForgotPassword()));
+                        }),
 
                     NewButton(
                         text: 'تسجيل',

@@ -9,6 +9,7 @@ import 'package:earnily/pages/home_page_kid.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/pages/main_page.dart';
 import 'package:earnily/screen/QRreader.dart';
+import 'package:earnily/screen/forgotpassword_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/MainTask.dart';
 import 'package:earnily/widgets/add_task.dart';
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
       //  home: HomePageKid(),
       home: onbording(),
       // home: MainScreen(),
+      //home: ForgotPassword(),
     );
   }
 }
