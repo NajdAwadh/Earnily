@@ -249,24 +249,94 @@ class _MainTaskState extends State<MainTask> {
 
     return Scaffold(
       appBar: AppBar(
+
+        
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Center(
           child: Text(
-            'الانشطة الحالية',
+            'انشطة اطفالي ',
             style: TextStyle(fontSize: 40),
           ),
         ),
+        
       ),
+      
 
-      body: taskNotifier.taskList.isEmpty
-          ? Center(
-              child: Text(
-                "لا يوجد لديك مهام \n قم بالإضافة الآن",
-                style: TextStyle(fontSize: 30, color: Colors.grey),
+      body:
+       taskNotifier.taskList.isEmpty
+          ? SafeArea(
+            child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              /* Center(
+                  child: Text(
+                    "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                    style: TextStyle(fontSize: 30, color: Colors.grey),
+                  ),
+                ), */
+                 Expanded(
+                child: DefaultTabController(
+                  length: 2,
+                  initialIndex: 0,
+                  child: Column(
+                    children: [
+                      TabBar(
+                        labelColor: Colors.black,
+                        labelStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 20,
+                                  ),
+                        indicatorColor:Colors.black,
+                        tabs: [
+                          Tab(
+                            text: ' الحالية',
+                          ),
+                          Tab(
+                            text: ' السابقة',
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            Center(
+                              child: taskNotifier.taskList.isEmpty?
+                              Text(
+                                "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                                style: TextStyle(fontSize: 30, color: Colors.grey),
+                                )
+                               :Container(),
+                            ),
+                            Center(
+                               child: taskNotifier.taskList.isEmpty?
+                               Text(
+                                'لاتوجد انشطة سابقة',
+                               style: TextStyle(fontSize: 30, color: Colors.grey),
+                            ):
+                               Container(),
+                             )
+                            // put history hire
+                      ],
+                        ),
+                      ),
+                    ],
+                    ),
+                ),
               ),
+               /* Center(
+                  child: Text(
+                    "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                    style: TextStyle(fontSize: 30, color: Colors.grey),
+                  ),
+                ), */
+            ],
+          )
             )
+          )
           : Container(
               child: ListView.builder(
                 itemBuilder: (ctx, index) {

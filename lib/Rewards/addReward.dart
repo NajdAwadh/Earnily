@@ -12,6 +12,7 @@ import 'package:earnily/widgets/show_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import '../reuasblewidgets.dart';
 import '../widgets/show_picker.dart';
 import 'dart:ui' as ui;
 import 'package:uuid/uuid.dart';
@@ -158,6 +159,37 @@ class _addRewardState extends State<add_Reward> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Row(
+  mainAxisSize: MainAxisSize.max,
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        color: Color(0xFFDBE2E7),
+        shape: BoxShape.circle,
+      ),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+        child: Container(
+          width: 90,
+          height: 90,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Image.network(
+            "assets/image/gold-star.png",
+            //widget.userProfile!.photoUrl!,
+           // imgWidget("assets/image/gold-star.jpg" , 10 ,10),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+      ),
+    ),
+  ],
+),
                     SizedBox(
                       height: 40,
                     ),
