@@ -61,36 +61,34 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
-  void color(String category) {
-    switch (category) {
-      case "النظافة":
-        iconData = Icons.wash;
+  Color chooseColor(String category) {
+    if (category == ("النظافة")) return Color(0xffff6d6e);
 
-        iconColor = Color(0xffff6d6e);
-        break;
-      case "الأكل":
-        iconData = Icons.flatware_rounded;
-        iconColor = Color(0xfff29732);
-        break;
+    if (category == ("الأكل")) return Color(0xfff29732);
 
-      case "الدراسة":
-        iconData = Icons.auto_stories_outlined;
-        iconColor = Color(0xff6557ff);
-        break;
+    if (category == ("الدراسة")) return Color(0xff6557ff);
 
-      case "تطوير الشخصية":
-        iconData = Icons.border_color_outlined;
-        iconColor = Color(0xff2bc8d9);
-        break;
+    if (category == ("تطوير الشخصية")) return Color(0xff2bc8d9);
 
-      case "الدين":
-        iconData = Icons.brightness_4_rounded;
-        iconColor = Color(0xff234ebd);
-        break;
-      default:
-        iconData = Icons.brightness_4_rounded;
-        iconColor = Color(0xff6557ff);
-    }
+    if (category == ("الدين"))
+      return Color(0xff234ebd);
+    else
+      return Color(0xff6557ff);
+  }
+
+  IconData chooseIcon(String category) {
+    if (category == ("النظافة")) return Icons.wash;
+
+    if (category == ("الأكل")) return Icons.flatware_rounded;
+
+    if (category == ("الدراسة")) return Icons.auto_stories_outlined;
+
+    if (category == ("تطوير الشخصية")) return Icons.border_color_outlined;
+
+    if (category == ("الدين"))
+      return Icons.brightness_4_rounded;
+    else
+      return Icons.brightness_4_rounded;
   }
 
   void add(List<Task> tasks) {
@@ -285,6 +283,7 @@ class _CalendarState extends State<Calendar> {
                 textDirection: ui.TextDirection.rtl,
                 child: ListTile(
                   leading: CircleAvatar(
+                    backgroundColor: chooseColor(event.category),
                     foregroundColor: Colors.white,
                     radius: 30,
                     child: new Directionality(
@@ -294,7 +293,7 @@ class _CalendarState extends State<Calendar> {
                             child: Container(
                               height: 33,
                               width: 36,
-                              child: Icon(Icons.text_snippet),
+                              child: Icon(chooseIcon(event.category)),
                             ))),
                   ),
                   title: new Directionality(
