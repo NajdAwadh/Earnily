@@ -137,6 +137,7 @@ class _CalendarState extends State<Calendar> {
             onFormatChanged: (CalendarFormat _format) {
               setState(() {
                 format = _format;
+                selectedEvents.clear();
               });
             },
             startingDayOfWeek: StartingDayOfWeek.sunday,
