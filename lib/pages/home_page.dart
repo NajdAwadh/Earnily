@@ -4,6 +4,7 @@ import 'package:earnily/Rewards/MainRewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/calendar/calendar.dart';
+import 'package:earnily/chatting/chatScreen.dart';
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/screen/signin_screen.dart';
@@ -148,6 +149,37 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onTap: () {
                       //do
+                    },
+                  ),
+
+                  Text(
+                    '________________________________',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      textAlign: TextAlign.right,
+                      'المحادثة',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 23,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.message_outlined,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const ChatScreen();
+                          },
+                        ),
+                      );
                     },
                   ),
 
