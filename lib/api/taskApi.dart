@@ -22,3 +22,22 @@ getTask(TaskNotifier taskNotifier) async {
 
   taskNotifier.taskList = _taskList;
 }
+getCompleteTask(TaskNotifier taskNotifier) async {
+  final user = FirebaseAuth.instance.currentUser!;
+  QuerySnapshot snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('Task')
+      .orderBy('date')
+      .get();
+
+
+  List<Task> _completeTaskList = [];
+
+  snapshot.docs.forEach((document) {
+    Task task = Task.fromMap(document.data() as Map<String, dynamic>);
+    _completeTaskList.add(task);
+  });
+
+  taskNotifier.completeTaskList = _completeTaskList;
+}

@@ -34,6 +34,8 @@ class _MainTaskState extends State<MainTask> {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
+     getCompleteTask(taskNotifier);
+  
   }
 
   void showToastMessage(String message) {
@@ -484,7 +486,7 @@ class _MainTaskState extends State<MainTask> {
                                         ),
                                 ),
                                 Center(
-                                  child: taskNotifier.taskList.isEmpty
+                                  child: taskNotifier.completeTaskList.isEmpty
                                       ? Text(
                                           'لاتوجد انشطة سابقة',
                                           style: TextStyle(
