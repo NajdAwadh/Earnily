@@ -25,7 +25,7 @@ class add_Reward extends StatefulWidget {
 
 class _addRewardState extends State<add_Reward> {
   @override
-  late List<String> _savedPoint= ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
+  late List<String> _savedPoint = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
 
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -117,6 +117,44 @@ class _addRewardState extends State<add_Reward> {
     // retrieve();
   }
 
+  int count = 0;
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من إلغاء العملية ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  (route) {
+                    return count++ == 2;
+                  },
+                );
+              },
+              child: const Text("إلغاء"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("البقاء"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -130,7 +168,7 @@ class _addRewardState extends State<add_Reward> {
               ),
               onPressed: () {
                 //validateReturn(true);
-                Navigator.of(context).pop();
+                _showDialogCancel();
               },
             )
           ],
