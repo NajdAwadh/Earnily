@@ -490,9 +490,111 @@ class _MainTaskState extends State<MainTask> {
                                           style: TextStyle(
                                               fontSize: 30, color: Colors.grey),
                                         )
-                                      : Container(),
+                                      : Container(
+                                        child: ListView.builder(
+                                            itemBuilder: (ctx, index) {
+                                              IconData iconData;
+                                              Color iconColor;
+                                              switch (taskNotifier
+                                                  .taskList[index].category) {
+                                                case "النظافة":
+                                                  iconData = Icons.wash;
+
+                                                  iconColor = Color(0xffff6d6e);
+                                                  break;
+                                                case "الأكل":
+                                                  iconData =
+                                                      Icons.flatware_rounded;
+                                                  iconColor = Color(0xfff29732);
+                                                  break;
+
+                                                case "الدراسة":
+                                                  iconData = Icons
+                                                      .auto_stories_outlined;
+                                                  iconColor = Color(0xff6557ff);
+                                                  break;
+
+                                                case "تطوير الشخصية":
+                                                  iconData = Icons
+                                                      .border_color_outlined;
+                                                  iconColor = Color(0xff2bc8d9);
+                                                  break;
+
+                                                case "الدين":
+                                                  iconData = Icons
+                                                      .brightness_4_rounded;
+                                                  iconColor = Color(0xff234ebd);
+                                                  break;
+                                                default:
+                                                  iconData = Icons
+                                                      .brightness_4_rounded;
+                                                  iconColor = Color(0xff6557ff);
+                                              }
+                                              return Card(
+                                                  elevation: 5,
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 8,
+                                                    horizontal: 5,
+                                                  ),
+                                                  child: new Directionality(
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    child: new ListTile(
+                                                        leading: CircleAvatar(
+                                                          backgroundColor:
+                                                              iconColor,
+                                                          foregroundColor:
+                                                              Colors.white,
+                                                          radius: 30,
+                                                          child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(6),
+                                                              child: Container(
+                                                                height: 33,
+                                                                width: 36,
+                                                                child: Icon(
+                                                                    iconData),
+                                                              )),
+                                                        ),
+                                                        title: Text(
+                                                          taskNotifier
+                                                              .taskList[index]
+                                                              .taskName,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 22,
+                                                          ),
+                                                        ),
+                                                        subtitle: Text(
+                                                          '${taskNotifier.taskList[index].asignedKid}\n${taskNotifier.taskList[index].points}🌟 | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
+                                                          style: TextStyle(
+                                                              fontSize: 17),
+                                                        ),
+                                                        isThreeLine: true,
+                                                        onTap: () {
+                                                          taskNotifier
+                                                                  .currentTask =
+                                                              taskNotifier
+                                                                      .taskList[
+                                                                  index];
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                            return View_task();
+                                                          }));
+                                                        },
+                                                      ),
+                                                  ));
+                                            },
+                                            itemCount:
+                                                taskNotifier.taskList.length,
+                                      ),
+                                ),
                                 )
-                                // put history hire
                               ],
                             ),
                           ),
