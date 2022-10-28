@@ -28,7 +28,8 @@ getCompleteTask(TaskNotifier taskNotifier) async {
       .collection('users')
       .doc(user.uid)
       .collection('Task')
-      .orderBy('date')
+      //.orderBy('date')
+      .where('state', isEqualTo: 'complete')
       .get();
 
 

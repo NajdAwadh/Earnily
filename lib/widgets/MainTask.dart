@@ -498,7 +498,7 @@ class _MainTaskState extends State<MainTask> {
                                               IconData iconData;
                                               Color iconColor;
                                               switch (taskNotifier
-                                                  .taskList[index].category) {
+                                                  .completeTaskList[index].category) {
                                                 case "النظافة":
                                                   iconData = Icons.wash;
 
@@ -561,7 +561,7 @@ class _MainTaskState extends State<MainTask> {
                                                         ),
                                                         title: Text(
                                                           taskNotifier
-                                                              .taskList[index]
+                                                              .completeTaskList[index]
                                                               .taskName,
                                                           style: TextStyle(
                                                             fontWeight:
@@ -570,7 +570,7 @@ class _MainTaskState extends State<MainTask> {
                                                           ),
                                                         ),
                                                         subtitle: Text(
-                                                          '${taskNotifier.taskList[index].asignedKid}\n${taskNotifier.taskList[index].points}🌟 | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
+                                                          '${taskNotifier.completeTaskList[index].asignedKid}\n${taskNotifier.completeTaskList[index].points}🌟 | ${_colors(taskNotifier.completeTaskList[index].state, taskNotifier.completeTaskList[index].asignedKid)}',
                                                           style: TextStyle(
                                                               fontSize: 17),
                                                         ),
@@ -579,7 +579,7 @@ class _MainTaskState extends State<MainTask> {
                                                           taskNotifier
                                                                   .currentTask =
                                                               taskNotifier
-                                                                      .taskList[
+                                                                      .completeTaskList[
                                                                   index];
                                                           Navigator.of(context).push(
                                                               MaterialPageRoute(
@@ -593,7 +593,7 @@ class _MainTaskState extends State<MainTask> {
                                                   ));
                                             },
                                             itemCount:
-                                                taskNotifier.taskList.length,
+                                                taskNotifier.completeTaskList.length,
                                       ),
                                 ),
                                 )
