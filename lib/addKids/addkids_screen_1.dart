@@ -53,6 +53,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   //final _nameController = TextEditingController();
   List<String> names = [];
+  int count = 0;
 
   void _showDialog(String text) {
     showDialog(
@@ -96,12 +97,11 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return AdultKids();
-                    },
-                  ),
+                Navigator.popUntil(
+                  context,
+                  (route) {
+                    return count++ == 2;
+                  },
                 );
               },
               child: const Text("إلغاء"),

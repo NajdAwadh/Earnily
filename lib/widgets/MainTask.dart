@@ -29,11 +29,11 @@ class _MainTaskState extends State<MainTask> {
 
   //snapShot.data[index]
   void initState() {
+    super.initState();
     // TODO: implement initState
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
-    super.initState();
   }
 
   void showToastMessage(String message) {

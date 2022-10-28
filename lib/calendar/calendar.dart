@@ -121,6 +121,17 @@ class _CalendarState extends State<Calendar> {
     add(task);
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: Center(
+          child: Text(
+            'التقويم',
+            style: TextStyle(fontSize: 40),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           TableCalendar(

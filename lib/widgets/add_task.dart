@@ -58,6 +58,7 @@ class _Add_taskState extends State<Add_task> {
   String categoty = "";
   String childName = "";
   String points = '';
+  int count = 0;
 
   void _showDialog() {
     showDialog(
@@ -101,12 +102,11 @@ class _Add_taskState extends State<Add_task> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return HomePage();
-                    },
-                  ),
+                Navigator.popUntil(
+                  context,
+                  (route) {
+                    return count++ == 2;
+                  },
                 );
               },
               child: const Text("إلغاء"),
@@ -379,19 +379,19 @@ class _Add_taskState extends State<Add_task> {
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            pointsSelect("100", 0xffff6d6e),
+                            pointsSelect("١٠٠", 0xffff6d6e),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('75', 0xfff29732),
+                            pointsSelect('٧٥', 0xfff29732),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('50', 0xff6557ff),
+                            pointsSelect('٥٠', 0xff6557ff),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('25', 0xff2bc8d9),
+                            pointsSelect('٢٥', 0xff2bc8d9),
                           ]),
                       SizedBox(
                         height: 10,
