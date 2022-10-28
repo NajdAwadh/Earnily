@@ -378,7 +378,22 @@ class _Add_taskState extends State<Add_task> {
                       Wrap(
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
-                          children: [
+                           children: [
+                            pointsSelect("100", 0xffff6d6e),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('75', 0xfff29732),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('50', 0xff6557ff),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('25', 0xff2bc8d9),
+                          ]
+                          /* children: [
                             pointsSelect("١٠٠", 0xffff6d6e),
                             SizedBox(
                               width: 20,
@@ -392,7 +407,7 @@ class _Add_taskState extends State<Add_task> {
                               width: 20,
                             ),
                             pointsSelect('٢٥', 0xff2bc8d9),
-                          ]),
+                          ] */),
                       SizedBox(
                         height: 10,
                       ),

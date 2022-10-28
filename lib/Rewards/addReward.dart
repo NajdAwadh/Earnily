@@ -25,7 +25,8 @@ class add_Reward extends StatefulWidget {
 
 class _addRewardState extends State<add_Reward> {
   @override
-  late List<String> _savedPoint = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
+  //late List<String> _savedPoint = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
+  late List<String> _savedPoint = ['1000','750','500','250'];
 
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -262,19 +263,19 @@ class _addRewardState extends State<add_Reward> {
                         alignment: WrapAlignment.center,
                         runSpacing: 10,
                         children: [
-                          pointsSelect(_savedPoint[3], 0xffff6d6e),
+                          pointsSelect(_savedPoint[0], 0xffff6d6e),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect(_savedPoint[2], 0xfff29732),
+                          pointsSelect(_savedPoint[1], 0xfff29732),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect(_savedPoint[1], 0xff6557ff),
+                          pointsSelect(_savedPoint[2], 0xff6557ff),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect(_savedPoint[0], 0xff2bc8d9),
+                          pointsSelect(_savedPoint[3], 0xff2bc8d9),
                         ]),
                     SizedBox(
                       height: 80,
