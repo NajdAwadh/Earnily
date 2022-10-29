@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:earnily/widgets/StreamTask.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
@@ -20,22 +23,9 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
-  Future getPointsFirestore() async {
-    var firestore = FirebaseFirestore.instance;
-    // int points=0;
-    QuerySnapshot qn = await firestore.collection("points").get();
-    return qn.docs;
-  }
-
   //snapShot.data[index]
   void initState() {
     super.initState();
-    // TODO: implement initState
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
-    getTask(taskNotifier);
-     getCompleteTask(taskNotifier);
-  
   }
 
   void showToastMessage(String message) {
@@ -81,7 +71,7 @@ class _MainTaskState extends State<MainTask> {
         .doc(kid + '@gmail.com')
         .update({'points': points});
 
-        //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
+    //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
   }
 
   Future delete(String id, String adult, String kid, String msg) async {
@@ -262,11 +252,11 @@ class _MainTaskState extends State<MainTask> {
 
   @override
   Widget build(BuildContext context) {
-    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-
-    Future<void> _refreshList() async {
-      getTask(taskNotifier);
-    }
+    final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('users')
+        .doc('u2ugWimG5NVtLFAloARuIIT5I5y1')
+        .collection('Task')
+        .snapshots();
 
     return Scaffold(
       appBar: AppBar(
@@ -312,293 +302,324 @@ class _MainTaskState extends State<MainTask> {
                             child: TabBarView(
                               children: [
                                 Center(
-                                  child: taskNotifier.taskList.isEmpty
-                                      ? Text(
-                                          "لا يوجد لديك مهام \n قم بالإضافة الآن",
-                                          style: TextStyle(
-                                              fontSize: 30, color: Colors.grey),
-                                        )
-                                      : Container(
-                                          child: ListView.builder(
-                                            itemBuilder: (ctx, index) {
-                                              IconData iconData;
-                                              Color iconColor;
-                                              switch (taskNotifier
-                                                  .taskList[index].category) {
-                                                case "النظافة":
-                                                  iconData = Icons.wash;
+                                  child: StreamBuilder(
+                                      stream: _stream,
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Text(
+                                            "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Colors.grey),
+                                          );
+                                        }
+                                        return ListView.builder(
+                                          itemBuilder: (contex, index) {
+                                            Map<String, dynamic> document =
+                                                snapshot.data!.docs[index]
+                                                        .data()
+                                                    as Map<String, dynamic>;
 
-                                                  iconColor = Color(0xffff6d6e);
-                                                  break;
-                                                case "الأكل":
-                                                  iconData =
-                                                      Icons.flatware_rounded;
-                                                  iconColor = Color(0xfff29732);
-                                                  break;
+                                            IconData iconData;
+                                            Color iconColor;
+                                            switch (document['category']) {
+                                              case "النظافة":
+                                                iconData = Icons.wash;
 
-                                                case "الدراسة":
-                                                  iconData = Icons
-                                                      .auto_stories_outlined;
-                                                  iconColor = Color(0xff6557ff);
-                                                  break;
+                                                iconColor = Color(0xffff6d6e);
+                                                break;
+                                              case "الأكل":
+                                                iconData =
+                                                    Icons.flatware_rounded;
+                                                iconColor = Color(0xfff29732);
+                                                break;
 
-                                                case "تطوير الشخصية":
-                                                  iconData = Icons
-                                                      .border_color_outlined;
-                                                  iconColor = Color(0xff2bc8d9);
-                                                  break;
+                                              case "الدراسة":
+                                                iconData =
+                                                    Icons.auto_stories_outlined;
+                                                iconColor = Color(0xff6557ff);
+                                                break;
 
-                                                case "الدين":
-                                                  iconData = Icons
-                                                      .brightness_4_rounded;
-                                                  iconColor = Color(0xff234ebd);
-                                                  break;
-                                                default:
-                                                  iconData = Icons
-                                                      .brightness_4_rounded;
-                                                  iconColor = Color(0xff6557ff);
-                                              }
-                                              return Card(
-                                                  elevation: 5,
-                                                  margin: EdgeInsets.symmetric(
-                                                    vertical: 8,
-                                                    horizontal: 5,
-                                                  ),
-                                                  child: new Directionality(
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                    child: new ListTile(
-                                                        leading: CircleAvatar(
-                                                          backgroundColor:
-                                                              iconColor,
-                                                          foregroundColor:
-                                                              Colors.white,
-                                                          radius: 30,
-                                                          child: Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(6),
-                                                              child: Container(
-                                                                height: 33,
-                                                                width: 36,
-                                                                child: Icon(
-                                                                    iconData),
-                                                              )),
+                                              case "تطوير الشخصية":
+                                                iconData =
+                                                    Icons.border_color_outlined;
+                                                iconColor = Color(0xff2bc8d9);
+                                                break;
+
+                                              case "الدين":
+                                                iconData =
+                                                    Icons.brightness_4_rounded;
+                                                iconColor = Color(0xff234ebd);
+                                                break;
+                                              default:
+                                                iconData =
+                                                    Icons.brightness_4_rounded;
+                                                iconColor = Color(0xff6557ff);
+                                            }
+                                            return Card(
+                                                elevation: 5,
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 8,
+                                                  horizontal: 5,
+                                                ),
+                                                child: new Directionality(
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                  child: new ListTile(
+                                                      leading: CircleAvatar(
+                                                        backgroundColor:
+                                                            iconColor,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                        radius: 30,
+                                                        child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    6),
+                                                            child: Container(
+                                                              height: 33,
+                                                              width: 36,
+                                                              child: Icon(
+                                                                  iconData),
+                                                            )),
+                                                      ),
+                                                      title: Text(
+                                                        document['taskName'],
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 22,
                                                         ),
-                                                        title: Text(
-                                                          taskNotifier
-                                                              .taskList[index]
-                                                              .taskName,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 22,
-                                                          ),
-                                                        ),
-                                                        subtitle: Text(
-                                                          '${taskNotifier.taskList[index].asignedKid}\n${taskNotifier.taskList[index].points}🌟 | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
-                                                          style: TextStyle(
-                                                              fontSize: 17),
-                                                        ),
-                                                        isThreeLine: true,
-                                                        onTap: () {
-                                                          taskNotifier
-                                                                  .currentTask =
-                                                              taskNotifier
-                                                                      .taskList[
-                                                                  index];
-                                                          Navigator.of(context).push(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                            return View_task();
-                                                          }));
-                                                        },
-                                                        trailing: Wrap(
-                                                            spacing: 0,
-                                                            children: <Widget>[
+                                                      ),
+                                                      subtitle: Text(
+                                                        '${document['asignedKid']}\n${document['points']}🌟 | ${_colors(document['state'], document['asignedKid'])}',
+                                                        style: TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                      isThreeLine: true,
+                                                      onTap: () {
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (builder) =>
+                                                                        View_task(
+                                                                          document:
+                                                                              document,
+                                                                        )));
+                                                      },
+                                                      trailing: Wrap(
+                                                          spacing: 0,
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              icon: Icon(
+                                                                  Icons.delete),
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .errorColor,
+                                                              onPressed: () => {
+                                                                //delete
+                                                                _showDialog3(
+                                                                    document[
+                                                                        'tid'],
+                                                                    document[
+                                                                        'adult'],
+                                                                    document[
+                                                                        'asignedKid'])
+                                                              },
+                                                            ),
+                                                            if (document[
+                                                                    'state'] ==
+                                                                'pending')
                                                               IconButton(
                                                                 icon: Icon(Icons
-                                                                    .delete),
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .errorColor,
+                                                                    .check),
+                                                                color: Colors
+                                                                    .black,
                                                                 onPressed: () =>
                                                                     {
-                                                                  //delete
-                                                                  _showDialog3(
-                                                                      taskNotifier
-                                                                          .taskList[
-                                                                              index]
-                                                                          .tid,
-                                                                      taskNotifier
-                                                                          .taskList[
-                                                                              index]
-                                                                          .adult,
-                                                                      taskNotifier
-                                                                          .taskList[
-                                                                              index]
-                                                                          .asignedKid)
+                                                                  if (document[
+                                                                          'state'] ==
+                                                                      'pending')
+                                                                    _showDialog(
+                                                                        document[
+                                                                            'tid'],
+                                                                        document[
+                                                                            'adult'],
+                                                                        document[
+                                                                            'asignedKid'],
+                                                                        document[
+                                                                            'points'])
+                                                                  else
+                                                                    _showDialog2()
                                                                 },
                                                               ),
-                                                              if (taskNotifier
-                                                                      .taskList[
-                                                                          index]
-                                                                      .state ==
-                                                                  'pending')
-                                                                IconButton(
-                                                                  icon: Icon(Icons
-                                                                      .check),
-                                                                  color: Colors
-                                                                      .black,
-                                                                  onPressed:
-                                                                      () => {
-                                                                    if (taskNotifier
-                                                                            .taskList[
-                                                                                index]
-                                                                            .state ==
-                                                                        'pending')
-                                                                      _showDialog(
-                                                                          taskNotifier
-                                                                              .taskList[
-                                                                                  index]
-                                                                              .tid,
-                                                                          taskNotifier
-                                                                              .taskList[
-                                                                                  index]
-                                                                              .adult,
-                                                                          taskNotifier
-                                                                              .taskList[
-                                                                                  index]
-                                                                              .asignedKid,
-                                                                          taskNotifier
-                                                                              .taskList[index]
-                                                                              .points)
-                                                                    else
-                                                                      _showDialog2()
-                                                                  },
-                                                                ),
-                                                            ])),
-                                                  ));
-                                            },
-                                            itemCount:
-                                                taskNotifier.taskList.length,
-                                          ),
-                                        ),
+                                                          ])),
+                                                ));
+                                          },
+                                          itemCount: snapshot.data!.docs.length,
+                                        );
+                                      }),
                                 ),
-                                Center(
-                                  child: taskNotifier.completeTaskList.isEmpty
-                                      ? Text(
-                                          'لاتوجد انشطة سابقة',
-                                          style: TextStyle(
-                                              fontSize: 30, color: Colors.grey),
-                                        )
-                                      : Container(
-                                        child: ListView.builder(
-                                            itemBuilder: (ctx, index) {
-                                              IconData iconData;
-                                              Color iconColor;
-                                              switch (taskNotifier
-                                                  .completeTaskList[index].category) {
-                                                case "النظافة":
-                                                  iconData = Icons.wash;
+                                 Center(
+                                  child: StreamBuilder(
+                                      stream: _stream,
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Text(
+                                            "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Colors.grey),
+                                          );
+                                        }
+                                        return ListView.builder(
+                                          itemBuilder: (contex, index) {
+                                            Map<String, dynamic> document =
+                                                snapshot.data!.docs[index]
+                                                        .data()
+                                                    as Map<String, dynamic>;
 
-                                                  iconColor = Color(0xffff6d6e);
-                                                  break;
-                                                case "الأكل":
-                                                  iconData =
-                                                      Icons.flatware_rounded;
-                                                  iconColor = Color(0xfff29732);
-                                                  break;
+                                            IconData iconData;
+                                            Color iconColor;
+                                            switch (document['category']) {
+                                              case "النظافة":
+                                                iconData = Icons.wash;
 
-                                                case "الدراسة":
-                                                  iconData = Icons
-                                                      .auto_stories_outlined;
-                                                  iconColor = Color(0xff6557ff);
-                                                  break;
+                                                iconColor = Color(0xffff6d6e);
+                                                break;
+                                              case "الأكل":
+                                                iconData =
+                                                    Icons.flatware_rounded;
+                                                iconColor = Color(0xfff29732);
+                                                break;
 
-                                                case "تطوير الشخصية":
-                                                  iconData = Icons
-                                                      .border_color_outlined;
-                                                  iconColor = Color(0xff2bc8d9);
-                                                  break;
+                                              case "الدراسة":
+                                                iconData =
+                                                    Icons.auto_stories_outlined;
+                                                iconColor = Color(0xff6557ff);
+                                                break;
 
-                                                case "الدين":
-                                                  iconData = Icons
-                                                      .brightness_4_rounded;
-                                                  iconColor = Color(0xff234ebd);
-                                                  break;
-                                                default:
-                                                  iconData = Icons
-                                                      .brightness_4_rounded;
-                                                  iconColor = Color(0xff6557ff);
-                                              }
-                                              return Card(
-                                                  elevation: 5,
-                                                  margin: EdgeInsets.symmetric(
-                                                    vertical: 8,
-                                                    horizontal: 5,
-                                                  ),
-                                                  child: new Directionality(
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                    child: new ListTile(
-                                                        leading: CircleAvatar(
-                                                          backgroundColor:
-                                                              iconColor,
-                                                          foregroundColor:
-                                                              Colors.white,
-                                                          radius: 30,
-                                                          child: Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(6),
-                                                              child: Container(
-                                                                height: 33,
-                                                                width: 36,
-                                                                child: Icon(
-                                                                    iconData),
-                                                              )),
-                                                        ),
-                                                        title: Text(
-                                                          taskNotifier
-                                                              .completeTaskList[index]
-                                                              .taskName,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 22,
-                                                          ),
-                                                        ),
-                                                        subtitle: Text(
-                                                          '${taskNotifier.completeTaskList[index].asignedKid}\n${taskNotifier.completeTaskList[index].points}🌟 | ${_colors(taskNotifier.completeTaskList[index].state, taskNotifier.completeTaskList[index].asignedKid)}',
-                                                          style: TextStyle(
-                                                              fontSize: 17),
-                                                        ),
-                                                        isThreeLine: true,
-                                                        /* onTap: () {
-                                                          taskNotifier
-                                                                  .currentTask =
-                                                              taskNotifier
-                                                                      .completeTaskList[
-                                                                  index];
-                                                          Navigator.of(context).push(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                            return View_task();
-                                                          }));
-                                                        }, */
+                                              case "تطوير الشخصية":
+                                                iconData =
+                                                    Icons.border_color_outlined;
+                                                iconColor = Color(0xff2bc8d9);
+                                                break;
+
+                                              case "الدين":
+                                                iconData =
+                                                    Icons.brightness_4_rounded;
+                                                iconColor = Color(0xff234ebd);
+                                                break;
+                                              default:
+                                                iconData =
+                                                    Icons.brightness_4_rounded;
+                                                iconColor = Color(0xff6557ff);
+                                            }
+                                            return Card(
+                                                elevation: 5,
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 8,
+                                                  horizontal: 5,
+                                                ),
+                                                child: new Directionality(
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                  child: new ListTile(
+                                                      leading: CircleAvatar(
+                                                        backgroundColor:
+                                                            iconColor,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                        radius: 30,
+                                                        child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    6),
+                                                            child: Container(
+                                                              height: 33,
+                                                              width: 36,
+                                                              child: Icon(
+                                                                  iconData),
+                                                            )),
                                                       ),
-                                                  ));
-                                            },
-                                            itemCount:
-                                                taskNotifier.completeTaskList.length,
-                                      ),
+                                                      title: Text(
+                                                        document['taskName'],
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 22,
+                                                        ),
+                                                      ),
+                                                      subtitle: Text(
+                                                        '${document['asignedKid']}\n${document['points']}🌟 | ${_colors(document['state'], document['asignedKid'])}',
+                                                        style: TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                      isThreeLine: true,
+                                                      onTap: () {
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (builder) =>
+                                                                        View_task(
+                                                                          document:
+                                                                              document,
+                                                                        )));
+                                                      },
+                                                      trailing: Wrap(
+                                                          spacing: 0,
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              icon: Icon(
+                                                                  Icons.delete),
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .errorColor,
+                                                              onPressed: () => {
+                                                                //delete
+                                                                _showDialog3(
+                                                                    document[
+                                                                        'tid'],
+                                                                    document[
+                                                                        'adult'],
+                                                                    document[
+                                                                        'asignedKid'])
+                                                              },
+                                                            ),
+                                                            if (document[
+                                                                    'state'] ==
+                                                                'pending')
+                                                              IconButton(
+                                                                icon: Icon(Icons
+                                                                    .check),
+                                                                color: Colors
+                                                                    .black,
+                                                                onPressed: () =>
+                                                                    {
+                                                                  if (document[
+                                                                          'state'] ==
+                                                                      'pending')
+                                                                    _showDialog(
+                                                                        document[
+                                                                            'tid'],
+                                                                        document[
+                                                                            'adult'],
+                                                                        document[
+                                                                            'asignedKid'],
+                                                                        document[
+                                                                            'points'])
+                                                                  else
+                                                                    _showDialog2()
+                                                                },
+                                                              ),
+                                                          ])),
+                                                ));
+                                          },
+                                          itemCount: snapshot.data!.docs.length,
+                                        );
+                                      }),
                                 ),
-                                )
+                              
                               ],
                             ),
                           ),
@@ -607,159 +628,6 @@ class _MainTaskState extends State<MainTask> {
                     ),
                   ),
                 ],
-
-/*
-      body: 
-      taskNotifier.taskList.isEmpty
-          ? Center(
-              child: Text(
-                "لا يوجد لديك مهام \n قم بالإضافة الآن",
-                style: TextStyle(fontSize: 30, color: Colors.grey),
-              ),
-            )
-          : Container(
-              child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  IconData iconData;
-                  Color iconColor;
-                  switch (taskNotifier.taskList[index].category) {
-                    case "النظافة":
-                      iconData = Icons.wash;
-
-                      iconColor = Color(0xffff6d6e);
-                      break;
-                    case "الأكل":
-                      iconData = Icons.flatware_rounded;
-                      iconColor = Color(0xfff29732);
-                      break;
-
-                    case "الدراسة":
-                      iconData = Icons.auto_stories_outlined;
-                      iconColor = Color(0xff6557ff);
-                      break;
-
-                    case "تطوير الشخصية":
-                      iconData = Icons.border_color_outlined;
-                      iconColor = Color(0xff2bc8d9);
-                      break;
-
-                    case "الدين":
-                      iconData = Icons.brightness_4_rounded;
-                      iconColor = Color(0xff234ebd);
-                      break;
-                    default:
-                      iconData = Icons.brightness_4_rounded;
-                      iconColor = Color(0xff6557ff);
-                  }
-                  return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 5,
-                      ),
-                      child: new Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: new ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: iconColor,
-                              foregroundColor: Colors.white,
-                              radius: 30,
-                              child: Padding(
-                                  padding: EdgeInsets.all(6),
-                                  child: Container(
-                                    height: 33,
-                                    width: 36,
-                                    child: Icon(iconData),
-                                  )),
-                            ),
-                            title: Text(
-                              taskNotifier.taskList[index].taskName,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                              ),
-                            ),
-                            subtitle: Text(
-                              '${taskNotifier.taskList[index].asignedKid}\n${taskNotifier.taskList[index].points}🌟 | ${_colors(taskNotifier.taskList[index].state, taskNotifier.taskList[index].asignedKid)}',
-                              style: TextStyle(fontSize: 17),
-                            ),
-                            isThreeLine: true,
-                            onTap: () {
-                              taskNotifier.currentTask =
-                                  taskNotifier.taskList[index];
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return View_task();
-                              }));
-                            },
-                            trailing: Wrap(spacing: 0, children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                color: Theme.of(context).errorColor,
-                                onPressed: () => {
-                                  //delete
-                                  _showDialog3(
-                                      taskNotifier.taskList[index].tid,
-                                      taskNotifier.taskList[index].adult,
-                                      taskNotifier.taskList[index].asignedKid)
-                                },
-                              ),
-                              if (taskNotifier.taskList[index].state ==
-                                  'pending')
-                                IconButton(
-                                  icon: Icon(Icons.check),
-                                  color: Colors.black,
-                                  onPressed: () => {
-                                    if (taskNotifier.taskList[index].state ==
-                                        'pending')
-                                      _showDialog(
-                                          taskNotifier.taskList[index].tid,
-                                          taskNotifier.taskList[index].adult,
-                                          taskNotifier
-                                              .taskList[index].asignedKid,
-                                          taskNotifier.taskList[index].points)
-                                    else
-                                      _showDialog2()
-                                  },
-                                ),
-                            ])),
-                      ));
-                },
-                itemCount: taskNotifier.taskList.length,
-              ),
-            ),*/
-
-                // SingleChildScrollView(
-                //   child: Column(
-                //     // mainAxisAlignment: MainAxisAlignment.start,
-                //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                //     children: <Widget>[
-                //       TaskList(_userTasks, _deleteTask),
-                //     ],
-                //   ),
-                // ),
-
-                /*  floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        child: Icon(
-          Icons.add,
-          size: 30,
-        ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return const Add_task();
-              },
-            ),
-          );
-        },
-      ),
- */
-                //home: MyHomePage(),
               ))),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,

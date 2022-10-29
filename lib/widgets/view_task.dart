@@ -20,7 +20,8 @@ import 'package:earnily/notifications/second_screen.dart';
 import 'new_button.dart';
 
 class View_task extends StatefulWidget {
-  const View_task({super.key});
+   View_task({super.key,required this.document}) ;
+  final Map<String, dynamic> document;
   @override
   State<View_task> createState() => _View_taskState();
 }
