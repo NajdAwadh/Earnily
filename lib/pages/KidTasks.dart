@@ -327,6 +327,42 @@ class _kidTasksState extends State<kidTasks> {
             : Container(
                 child: GridView.builder(
                   itemBuilder: (ctx, index) {
+                    String iconData = '';
+                    Color iconColor;
+                    switch (taskNotifier.taskList[index].category) {
+                      case "النظافة":
+                        // iconData = Icons.wash;
+                        iconData = '🫧';
+
+                        iconColor = Color(0xffff6d6e);
+                        break;
+                      case "الأكل":
+                        // iconData = Icons.flatware_rounded;
+                        iconData = '🍽';
+                        iconColor = Color(0xfff29732);
+                        break;
+
+                      case "الدراسة":
+                        // iconData = Icons.auto_stories_outlined;
+                        iconData = '📚';
+                        iconColor = Color(0xff6557ff);
+                        break;
+
+                      case "تطوير الشخصية":
+                        //  iconData = Icons.border_color_outlined;
+                        iconData = '📖';
+                        iconColor = Color(0xff2bc8d9);
+                        break;
+
+                      case "الدين":
+                        //  iconData = Icons.brightness_4_rounded;
+                        iconData = '🕌';
+                        iconColor = Color(0xff234ebd);
+                        break;
+                      default:
+                        // iconData = Icons.brightness_4_rounded;
+                        iconColor = Color(0xff6557ff);
+                    }
                     return Card(
                         elevation: 5,
                         margin: EdgeInsets.symmetric(
@@ -335,8 +371,8 @@ class _kidTasksState extends State<kidTasks> {
                         ),
                         child: Container(
                           height: 150,
-                          color: chooseColor(
-                              index), //Colors.primaries[Random().nextInt(myColors.length)],
+                          color:
+                              iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
 
                           child: new Directionality(
                             textDirection: TextDirection.rtl,
@@ -346,40 +382,50 @@ class _kidTasksState extends State<kidTasks> {
                                   // SizedBox(height: 1),
                                   //    imgWidget(set(list[index].gender), 64, 64),
 
-                                  CheckboxListTile(
-                                    selected: false,
-                                    value: _selecteCategorysID
-                                        .contains(taskNotifier.taskList[index]),
-                                    onChanged: (selected) {
-                                      updateTask(
-                                          list[index].tid, list[index].adult);
-
-                                      _onCategorySelected(selected!,
-                                          taskNotifier.taskList[index]);
-                                    },
-
-                                    //   title: Text(taskNotifier.taskList[index]),
-                                  ),
                                   //SizedBox(height: 1),
+                                  SizedBox(height: 35),
+                                  /*  Container(
+                                    height: 33,
+                                    width: 36,
+                                    child: Icon(iconData),
+                                  ),*/
                                   Text(
-                                    list[index].taskName,
+                                    iconData + list[index].taskName,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25,
                                     ),
                                   ),
                                   Text(
-                                    'أنجز مهمتك قبل: \n' + list[index].date,
+                                    '🕐' + list[index].date,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
                                   ),
                                   Text(
-                                    list[index].points,
+                                    '🌟' + list[index].points,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25,
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.all(0),
+                                    child: CheckboxListTile(
+                                      selected: false,
+                                      value: _selecteCategorysID.contains(
+                                          taskNotifier.taskList[index]),
+                                      onChanged: (selected) {
+                                        updateTask(
+                                            list[index].tid, list[index].adult);
+
+                                        _onCategorySelected(selected!,
+                                            taskNotifier.taskList[index]);
+                                      },
+
+                                      //   title: Text(taskNotifier.taskList[index]),
                                     ),
                                   ),
 
@@ -444,6 +490,23 @@ class _kidTasksState extends State<kidTasks> {
                       crossAxisSpacing: 8),
                 ),
               ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        width: 110,
+        child: FittedBox(
+          child: FloatingActionButton.extended(
+            backgroundColor: Colors.black,
+            icon: Icon(
+              Icons.wallet,
+              size: 30,
+            ),
+            onPressed: () {
+              //
+            },
+            label: Text('0'),
+          ),
+        ),
       ),
     );
   }

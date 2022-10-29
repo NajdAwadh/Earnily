@@ -12,7 +12,6 @@ import 'package:earnily/widgets/show_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import '../reuasblewidgets.dart';
 import '../widgets/show_picker.dart';
 import 'dart:ui' as ui;
 import 'package:uuid/uuid.dart';
@@ -26,13 +25,14 @@ class add_Reward extends StatefulWidget {
 
 class _addRewardState extends State<add_Reward> {
   @override
- // late List<int> _savedPoint= [٢٥٠', '٥٠٠', '٧٥'١٠٠٠'];
+  //late List<String> _savedPoint = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
+  late List<String> _savedPoint = ['1000','750','500','250'];
 
   final user = FirebaseAuth.instance.currentUser!;
 
   final _nameController = TextEditingController();
 
-  String points ='';
+  String points = '';
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -118,6 +118,44 @@ class _addRewardState extends State<add_Reward> {
     // retrieve();
   }
 
+  int count = 0;
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من إلغاء العملية ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  (route) {
+                    return count++ == 2;
+                  },
+                );
+              },
+              child: const Text("إلغاء"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("البقاء"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -131,7 +169,7 @@ class _addRewardState extends State<add_Reward> {
               ),
               onPressed: () {
                 //validateReturn(true);
-                Navigator.of(context).pop();
+                _showDialogCancel();
               },
             )
           ],
@@ -159,37 +197,6 @@ class _addRewardState extends State<add_Reward> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Row(
-  mainAxisSize: MainAxisSize.max,
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        color: Color(0xFFDBE2E7),
-        shape: BoxShape.circle,
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-        child: Container(
-          width: 90,
-          height: 90,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Image.network(
-            "assets/image/gold-star.png",
-            //widget.userProfile!.photoUrl!,
-           // imgWidget("assets/image/gold-star.jpg" , 10 ,10),
-            fit: BoxFit.fitWidth,
-          ),
-        ),
-      ),
-    ),
-  ],
-),
                     SizedBox(
                       height: 40,
                     ),
@@ -256,19 +263,19 @@ class _addRewardState extends State<add_Reward> {
                         alignment: WrapAlignment.center,
                         runSpacing: 10,
                         children: [
-                          pointsSelect("1000", 0xffff6d6e),
+                          pointsSelect(_savedPoint[0], 0xffff6d6e),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect("750", 0xfff29732),
+                          pointsSelect(_savedPoint[1], 0xfff29732),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect("500", 0xff6557ff),
+                          pointsSelect(_savedPoint[2], 0xff6557ff),
                           SizedBox(
                             width: 20,
                           ),
-                          pointsSelect("250", 0xff2bc8d9),
+                          pointsSelect(_savedPoint[3], 0xff2bc8d9),
                         ]),
                     SizedBox(
                       height: 80,
@@ -341,12 +348,10 @@ loadingFalse() {
 */
 //point
   Widget pointsSelect(String label, int color) {
- 
     return InkWell(
       onTap: (() {
         setState(() {
           points = label;
-         //String point=points as String ;
         });
       }),
       child: Chip(

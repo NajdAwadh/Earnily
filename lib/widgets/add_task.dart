@@ -25,6 +25,7 @@ import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 
 import '../notifier/taskNotifier.dart';
+import '../pages/home_page.dart';
 
 class Add_task extends StatefulWidget {
   const Add_task({super.key});
@@ -57,6 +58,7 @@ class _Add_taskState extends State<Add_task> {
   String categoty = "";
   String childName = "";
   String points = '';
+  int count = 0;
 
   void _showDialog() {
     showDialog(
@@ -80,6 +82,43 @@ class _Add_taskState extends State<Add_task> {
             ],
           );
         });
+  }
+
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من إلغاء العملية ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  (route) {
+                    return count++ == 2;
+                  },
+                );
+              },
+              child: const Text("إلغاء"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("البقاء"),
+            )
+          ],
+        );
+      },
+    );
   }
 
   void showToastMessage(String message) {
@@ -212,7 +251,7 @@ class _Add_taskState extends State<Add_task> {
               size: 40,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              _showDialogCancel();
             },
           )
         ],
@@ -339,7 +378,7 @@ class _Add_taskState extends State<Add_task> {
                       Wrap(
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
-                          children: [
+                           children: [
                             pointsSelect("100", 0xffff6d6e),
                             SizedBox(
                               width: 20,
@@ -353,7 +392,22 @@ class _Add_taskState extends State<Add_task> {
                               width: 20,
                             ),
                             pointsSelect('25', 0xff2bc8d9),
-                          ]),
+                          ]
+                          /* children: [
+                            pointsSelect("١٠٠", 0xffff6d6e),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('٧٥', 0xfff29732),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('٥٠', 0xff6557ff),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            pointsSelect('٢٥', 0xff2bc8d9),
+                          ] */),
                       SizedBox(
                         height: 10,
                       ),

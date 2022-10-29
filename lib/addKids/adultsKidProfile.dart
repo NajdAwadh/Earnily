@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/models/kids.dart';
-import 'package:earnily/notifier/taskNotifier.dart';
-
 import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/services/upload_file.dart';
 import 'package:earnily/widgets/new_button.dart';
@@ -15,12 +14,12 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../api/kidsApi.dart';
-import '../notifications/local_notification_service.dart';
 import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 import '../widgets/custom_textfield.dart';
@@ -43,36 +42,14 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
   TextEditingController nameController = TextEditingController();
   TextEditingController _familyController = TextEditingController();
   bool isEnabled = false;
-  late final LocalNotificationService service;
-  final user = FirebaseAuth.instance.currentUser!;
-  final _formKey = GlobalKey<FormState>();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late String _selectedDate;
-  late final _nameController;
-  late String categoty;
-  late String childName;
-  late String points;
-  bool edit = false;
-  
   @override
   void initState() {
-     TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
-    _nameController =
-        TextEditingController(text: taskNotifier.currentTask.taskName);
-    categoty = taskNotifier.currentTask.category;
-    childName = taskNotifier.currentTask.asignedKid;
-    points = taskNotifier.currentTask.points;
-    _selectedDate = taskNotifier.currentTask.date;
-    service = LocalNotificationService();
-    service.intialize();
     // TODO: implement initState
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
     super.initState();
   }
-  
 
   void _showDatePicker() async => showDatePicker(
         context: context,
@@ -93,6 +70,90 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
       return "assets/images/girlIcon.png";
     else
       return "assets/images/boy24.png";
+  }
+
+  void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
+  }
+
+  Future delete(Kids kid, String msg) async {
+    // Navigator.of(context);
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(kid.uid)
+        .collection("kids")
+        .doc(kid.name + "@gmail.com")
+        .delete();
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid.name + '@gmail.com')
+        .delete();
+
+    /*final user = FirebaseAuth.instance.currentUser!;
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: kid.name + "@gmail.com", password: kid.pass);
+    final user2 = FirebaseAuth.instance.currentUser!;
+    user2.delete();
+    // print(user2.email);
+    // print(user.email);
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: user.email!, password: '123456');*/
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return HomePage();
+    }));
+    showToastMessage(msg);
+  }
+
+  void _showDialog(Kids kid) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "لا",
+              style: TextStyle(fontSize: 20, color: Colors.red),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          Widget continueButton = TextButton(
+            child: Text(
+              "نعم",
+              style: TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            onPressed: () {
+              delete(kid, 'تم حذف الطفل');
+            },
+          );
+
+          return AlertDialog(
+            title: Text(
+              'حذف طفلك',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            content: Text(
+              'هل انت متاكد بحذف طفلك؟',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+              continueButton,
+            ],
+          );
+        });
   }
 
   @override
@@ -142,7 +203,8 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),              child: Column(
+                padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                child: Column(
                   children: [
                     Text(
                       'الرمز التعريفي لطفلي',
@@ -153,7 +215,8 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     ),
                     Text(
                       currentKid.pass,
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                     ),
                     Text(
                       'الاسم للتسجيل',
@@ -175,99 +238,89 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     SizedBox(
                       height: 20,
                     ),
-                Align
-                (
-                           alignment: Alignment.centerRight,
-                  child: Text(
-                            "اسم الطفل:",
-                            style: TextStyle(
-                              
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold
-                                
-                                ),
-                                textDirection:  ui.TextDirection.rtl,
-                                   textAlign:TextAlign.right
-                          ),
-                ),
-                  
-                  SizedBox(
-                        height: 10,
-                      ),
-              Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                           enabled: false,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: currentKid.name,
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                           ),
-                      ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("اسم الطفل:",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                          textDirection: ui.TextDirection.rtl,
+                          textAlign: TextAlign.right),
+                    ),
 
                     SizedBox(
                       height: 10,
                     ),
-                     Align(
-                               alignment: Alignment.centerRight,
-                       child: Text(
-                     
-                           'الجنس:',
-                            style: TextStyle(
-                     
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                                   textDirection:  ui.TextDirection.rtl,
-                                      textAlign:TextAlign.right
-                          ),
-                     ),
-                  
-                  SizedBox(
-                        height: 10,
+                    Container(
+                      alignment: Alignment.topRight,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(15)),
+                      child: TextFormField(
+                        enabled: false,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: currentKid.name,
+                            hintTextDirection: ui.TextDirection.rtl,
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )),
                       ),
-              Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                           enabled: false,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText:    currentKid.gender,
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                           ),
+                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text('الجنس:',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                          textDirection: ui.TextDirection.rtl,
+                          textAlign: TextAlign.right),
+                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(15)),
+                      child: TextFormField(
+                        enabled: false,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: currentKid.gender,
+                            hintTextDirection: ui.TextDirection.rtl,
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )),
                       ),
-                        SizedBox(
-                        height: 10,
-                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     // NewText(
                     //   text: ':الجنس ',
                     //   fontWeight: FontWeight.bold,
@@ -295,88 +348,55 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     //   ),
                     // ),
                     Align(
-                       alignment: Alignment.centerRight,
+                      alignment: Alignment.centerRight,
                       child: Text(
-                           'تاريخ الميلاد:',
-                           
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                                   textDirection:  ui.TextDirection.rtl,
-                                   textAlign:TextAlign.right ,
-                          ),
+                        'تاريخ الميلاد:',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                        textDirection: ui.TextDirection.rtl,
+                        textAlign: TextAlign.right,
+                      ),
                     ),
                     SizedBox(
-                        height: 10,
+                      height: 10,
+                    ),
+
+                    Container(
+                      alignment: Alignment.topRight,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(15)),
+                      child: TextFormField(
+                        enabled: false,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText:
+                                '${DateFormat.yMd().format(currentKid.date.toDate())}',
+                            hintTextDirection: ui.TextDirection.rtl,
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )),
                       ),
-                
-              Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                           enabled: false,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText:  '${DateFormat.yMd().format(currentKid.date.toDate())}',
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                           ),
-                      ),
-                      Align(
-                               alignment: Alignment.centerRight,
-                       child: Text(
-                     
-                           'النقاط التي لديه:',
-                            style: TextStyle(
-                     
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                                   textDirection:  ui.TextDirection.rtl,
-                                      textAlign:TextAlign.right
-                          ),
-                     ),
-                  
-                  SizedBox(
-                        height: 10,
-                      ),
-              Container(
-                        alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: TextFormField(
-                           enabled: false,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText:    currentKid.point,
-                              hintTextDirection: ui.TextDirection.rtl,
-                              hintStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              )),
-                           ),
-                      ),
+                    ),
+
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Colors.red,
+                      iconSize: 40,
+                      onPressed: () {
+                        _showDialog(currentKid);
+                      },
+                    ),
                     // NewText(
                     //   text: ':تاريخ الميلاد',
                     //   fontWeight: FontWeight.bold,

@@ -2,12 +2,15 @@
 
 import 'dart:io';
 
+import 'package:earnily/addKids/adultKids.dart';
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
+import 'package:earnily/pages/home_page.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/servicemanagement/v1.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +53,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   //final _nameController = TextEditingController();
   List<String> names = [];
+  int count = 0;
 
   void _showDialog(String text) {
     showDialog(
@@ -73,6 +77,43 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
             ],
           );
         });
+  }
+
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من إلغاء العملية ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  (route) {
+                    return count++ == 2;
+                  },
+                );
+              },
+              child: const Text("إلغاء"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("البقاء"),
+            )
+          ],
+        );
+      },
+    );
   }
 
   void showToastMessage(String message) {
@@ -104,7 +145,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
         );*/
 
         Navigator.of(context).pop();
-        setState(getKids(Provider.of<KidsNotifier>(context, listen: false)));
+        // setState(getKids(Provider.of<KidsNotifier>(context, listen: false)));
 
         /*
       Navigator.of(context).push(
@@ -164,6 +205,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'point':0,
       'uid': user.uid,
       'pass': u.substring(0, 8),
+      'points': 0,
     });
 
     await FirebaseFirestore.instance
@@ -176,6 +218,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'point':0,
       'uid': user.uid,
       'pass': u.substring(0, 8),
+      'points': 0,
     });
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: nameController.text + '@gmail.com', password: u.substring(0, 8));
@@ -212,10 +255,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     names = kidsNotifier.kidsNamesList;
 
-    Future<void> _refreshList() async {
-      getKids(kidsNotifier);
-    }
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -227,8 +266,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
               size: 40,
             ),
             onPressed: () {
-              //validateReturn(true);
-              Navigator.of(context).pop();
+              _showDialogCancel();
             },
           )
         ],
@@ -277,35 +315,29 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                  Container(
-                     alignment: Alignment.topRight,
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(15)),
+                    Container(
+                      alignment: Alignment.topRight,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(15)),
                       child: TextFormField(
-                            controller: nameController,
-                            
-                            textAlign: TextAlign.right,
-                            
-                            decoration: InputDecoration(
-                            
-                                border: InputBorder.none,
-                                hintText:  "اسم الطفل ",
-                                hintTextDirection: ui.TextDirection.rtl,
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 17,
-                                ),
-                               
-                                contentPadding: EdgeInsets.only(
-                                  left: 20,
-                                  right: 20,
-                                )),
-                                
-                          
-                          ),
+                        controller: nameController,
+                        textAlign: TextAlign.right,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "اسم الطفل ",
+                            hintTextDirection: ui.TextDirection.rtl,
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 17,
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )),
+                      ),
                     ),
                     // reuasbleTextField(
                     //     "الاسم ", Icons.person, false, nameController),
@@ -454,12 +486,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                       child: ElevatedButton(
                         onPressed: _showDatePicker,
                         style: ElevatedButton.styleFrom(
-                                                      padding: EdgeInsets.all(18),
-
+                          padding: EdgeInsets.all(18),
                           backgroundColor: Colors.grey[100],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                           
                           ),
                         ),
                         child: new Directionality(
