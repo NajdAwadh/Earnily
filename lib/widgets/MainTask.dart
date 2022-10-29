@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/StreamTask.dart';
 import 'package:earnily/widgets/add_task.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
@@ -23,6 +24,8 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
+    final user = FirebaseAuth.instance.currentUser!;
+
   //snapShot.data[index]
   void initState() {
     super.initState();
@@ -70,8 +73,6 @@ class _MainTaskState extends State<MainTask> {
         .collection('kids')
         .doc(kid + '@gmail.com')
         .update({'points': points});
-
-    //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
   }
 
   Future delete(String id, String adult, String kid, String msg) async {
@@ -254,7 +255,7 @@ class _MainTaskState extends State<MainTask> {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('users')
-        .doc('u2ugWimG5NVtLFAloARuIIT5I5y1')
+        .doc(user.uid)
         .collection('Task')
         .snapshots();
 

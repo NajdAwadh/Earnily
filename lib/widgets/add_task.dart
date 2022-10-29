@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'package:earnily/api/kidtaskApi.dart';
+import 'package:earnily/models/kids.dart';
 import 'package:earnily/models/task.dart';
 import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
@@ -40,12 +41,8 @@ class _Add_taskState extends State<Add_task> {
   late final LocalNotificationService service;
   void initState() {
     super.initState();
-    service = LocalNotificationService();
-    service.intialize();
-    listenToNotification();
-
-    getTask(Provider.of<TaskNotifier>(context, listen: false));
-    getKidsNames(Provider.of<KidsNotifier>(context, listen: false));
+    
+     List<Kids> k = lstKids() as List<Kids>;
   }
 
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
@@ -59,6 +56,7 @@ class _Add_taskState extends State<Add_task> {
   String childName = "";
   String points = '';
   int count = 0;
+  
 
   void _showDialog() {
     showDialog(
@@ -224,22 +222,24 @@ class _Add_taskState extends State<Add_task> {
       });
     });
   }
-/*
-  void initState() {
-    // TODO: implement initState
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
-    getKidsNames(kidsNotifier);
 
-    super.initState();
-  }*/
-  // final List<String> list = <String>[kidsNotifier.kidsList[index].name,];
+  Future<List<Kids>> lstKids() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('kids')
+        .orderBy('date')
+        .get();
+
+    List<Kids> _kidsList = [];
+    snapshot.docs.forEach((document) {
+      Kids kids = Kids.fromMap(document.data() as Map<String, dynamic>);
+      _kidsList.add(kids);
+    });
+    return _kidsList;
+  }
 
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    List<String> list = kidsNotifier.kidsNamesList;
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -347,7 +347,7 @@ class _Add_taskState extends State<Add_task> {
                                 if (val == null) return "اختر الطفل";
                                 return null;
                               },
-                              items: list.map((valueItem) {
+                              items: k.map((valueItem) {
                                 return DropdownMenuItem(
                                   alignment: Alignment.centerRight,
                                   value: valueItem,
@@ -378,7 +378,7 @@ class _Add_taskState extends State<Add_task> {
                       Wrap(
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
-                           children: [
+                          children: [
                             pointsSelect("100", 0xffff6d6e),
                             SizedBox(
                               width: 20,
@@ -407,7 +407,8 @@ class _Add_taskState extends State<Add_task> {
                               width: 20,
                             ),
                             pointsSelect('٢٥', 0xff2bc8d9),
-                          ] */),
+                          ] */
+                          ),
                       SizedBox(
                         height: 10,
                       ),

@@ -27,8 +27,7 @@ class AdultKids extends StatefulWidget {
 
 class _AdultKidsState extends State<AdultKids> {
   final user = FirebaseAuth.instance.currentUser!;
-  final kidsDb = FirebaseFirestore.instance.collection('kids');
-
+ 
   @override
   void initState() {
     // TODO: implement initState
@@ -37,32 +36,6 @@ class _AdultKidsState extends State<AdultKids> {
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
   }
-
-/*
-  void profile() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              "خطأ",
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.red),
-            ),
-            content: Text(
-              text,
-              textAlign: TextAlign.right,
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text("حسناً"),
-              )
-            ],
-          );
-        });
-  }
-*/
 
   int getBirthday(Timestamp date) {
     int birth = AgeCalculator.age(date.toDate()).years;
@@ -102,12 +75,11 @@ class _AdultKidsState extends State<AdultKids> {
 
   @override
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    List<Kids> list = kidsNotifier.kidsList;
-
-    Future<void> _refreshList() async {
-      getKids(kidsNotifier);
-    }
+    final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('kids')
+        .snapshots();
 
     return Scaffold(
       appBar: AppBar(
@@ -126,104 +98,67 @@ class _AdultKidsState extends State<AdultKids> {
       ),
       body: new Directionality(
         textDirection: ui.TextDirection.rtl,
-        child: list.isEmpty
-            ? Center(
-                child: Text(
-                  "لا يوجد لديك أطفال \n قم بالإضافة الآن",
+        child: StreamBuilder(
+            stream: _stream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Text(
+                  "لا يوجد لديك مهام \n قم بالإضافة الآن",
                   style: TextStyle(fontSize: 30, color: Colors.grey),
-                ),
-              )
-            : Container(
-                child: GridView.builder(
-                  itemBuilder: (ctx, index) {
-                    list = kidsNotifier.kidsList;
-                    return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        //  margin: EdgeInsets.symmetric(),
-                        child: Container(
-                          height: 150,
-                          color: chooseColor(
-                              index), //Colors.primaries[Random().nextInt(myColors.length)],
+                );
+              }
+              return GridView.builder(
+                itemBuilder: (contex, index) {
+                  Map<String, dynamic> document =
+                      snapshot.data!.docs[index].data() as Map<String, dynamic>;
 
-                          child: new Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: new GridTile(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 15),
-                                  imgWidget(set(list[index].gender), 64, 64),
-
-                                  //  SizedBox(height: 15),
-                                  Text(
-                                    list[index].name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    ),
-                                  ),
-
-                                  //SizedBox(height: 15),
-                                  /*
+                  return Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
+                      child: Container(
+                        height: 150,
+                        color: chooseColor(index),
+                        child: new Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: new GridTile(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 15),
+                                imgWidget(set(document['gender']), 64, 64),
                                 Text(
-                                  list[index].date.toString(),
+                                  document['name'],
                                   style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 30,
                                   ),
                                 ),
-                                */
-/*
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    color: Theme.of(context).errorColor,
-                                    onPressed: () => {list[index]},
-                                  ),
-*/
-
-                                  IconButton(
-                                    icon: Icon(Icons.account_circle_sharp),
-                                    color: Colors.black,
-                                    iconSize: 40,
-                                    onPressed: () {
-                                      kidsNotifier.currentKid =
-                                          kidsNotifier.kidsList[index];
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AdultsKidProfile()));
-                                    },
-                                  ),
-
-                                  /*
-                                  InkWell(
-                                    onTap: () {
-                                      kidsNotifier.currentKid =
-                                          kidsNotifier.kidsList[index];
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AdultsKidProfile()));
-                                    },
-                                    */
-                                  //),
-                                ],
-                              ),
+                                IconButton(
+                                  icon: Icon(Icons.account_circle_sharp),
+                                  color: Colors.black,
+                                  iconSize: 40,
+                                  onPressed: () {
+                                    
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AdultsKidProfile()));
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                        ));
-                  },
-                  itemCount: kidsNotifier.kidsList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8),
-                ),
-              ),
+                        ),
+                      ));
+                },
+                itemCount: snapshot.data!.docs.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8),
+              );
+            }),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
