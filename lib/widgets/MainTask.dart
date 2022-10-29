@@ -80,6 +80,8 @@ class _MainTaskState extends State<MainTask> {
         .collection('kids')
         .doc(kid + '@gmail.com')
         .update({'points': points});
+
+        //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
   }
 
   Future delete(String id, String adult, String kid, String msg) async {
@@ -575,7 +577,7 @@ class _MainTaskState extends State<MainTask> {
                                                               fontSize: 17),
                                                         ),
                                                         isThreeLine: true,
-                                                        onTap: () {
+                                                        /* onTap: () {
                                                           taskNotifier
                                                                   .currentTask =
                                                               taskNotifier
@@ -588,7 +590,7 @@ class _MainTaskState extends State<MainTask> {
                                                                           context) {
                                                             return View_task();
                                                           }));
-                                                        },
+                                                        }, */
                                                       ),
                                                   ));
                                             },
