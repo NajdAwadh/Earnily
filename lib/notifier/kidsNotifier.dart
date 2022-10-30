@@ -8,9 +8,14 @@ class KidsNotifier with ChangeNotifier {
   List<String> _kidsNamesList = [];
 
   UnmodifiableListView<Kids> get kidsList => UnmodifiableListView(_kidsList);
-  UnmodifiableListView<String> get kidsNamesList =>
-      UnmodifiableListView(_kidsNamesList);
-  Kids get currentKid => _currentKid;
+
+  
+  UnmodifiableListView<String> get kidsNamesList {
+    return UnmodifiableListView(_kidsNamesList);
+  }
+  Kids get currentKid {
+    return _currentKid;
+  }
 
   set kidsList(List<Kids> kidsList) {
     _kidsList = kidsList;

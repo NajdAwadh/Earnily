@@ -1,5 +1,8 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
+import 'dart:collection';
+import 'package:earnily/models/kids.dart';
+
 import 'package:earnily/api/kidtaskApi.dart';
 import 'package:earnily/models/kids.dart';
 import 'package:earnily/models/task.dart';
@@ -7,6 +10,8 @@ import 'package:earnily/notifications/notification_api.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
 import 'package:earnily/reuasblewidgets.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
+import 'package:earnily/screen/profile_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -38,11 +43,12 @@ class Add_task extends StatefulWidget {
 class _Add_taskState extends State<Add_task> {
   @override
   //notification
+
   late final LocalNotificationService service;
   void initState() {
     super.initState();
-    
-     List<Kids> k = lstKids() as List<Kids>;
+
+    //  List<String> list = lstKids() as List<String>;
   }
 
   //final List<String> list = <String>['سعد', 'ريما', 'خالد'];
@@ -56,7 +62,7 @@ class _Add_taskState extends State<Add_task> {
   String childName = "";
   String points = '';
   int count = 0;
-  
+List<String> list = [];
 
   void _showDialog() {
     showDialog(
@@ -190,21 +196,6 @@ class _Add_taskState extends State<Add_task> {
       'tid': tid,
       'adult': user.uid,
     });
-    //notification
-    /*await service.showNotificationWithPayload(
-      id: 1,
-      title: 'تمت اضافة نشاط جديد',
-      body: 'اسم النشاط:' + _nameController.text,
-      payload: 'اسم النشاط:' +
-          _nameController.text +
-          '\n  النقاط:' +
-          points +
-          '\n  تاريخ التنفيذ:' +
-          _selectedDate +
-          '\n  نوع النشاط:' +
-          categoty,
-      // 'asignedKid'+ childName,
-    );*/
   }
 
   void _presentDatePicker() {
@@ -223,23 +214,33 @@ class _Add_taskState extends State<Add_task> {
     });
   }
 
-  Future<List<Kids>> lstKids() async {
+  Future<List<String>> lstKids() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('kids')
-        .orderBy('date')
+        .where(name)
         .get();
 
-    List<Kids> _kidsList = [];
+    List<String> _kidsNamesList = [];
     snapshot.docs.forEach((document) {
-      Kids kids = Kids.fromMap(document.data() as Map<String, dynamic>);
-      _kidsList.add(kids);
+      String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
+      _kidsNamesList.add(name);
     });
-    return _kidsList;
+    return _kidsNamesList;
   }
 
+  // Future<void> lllll(Future<List<String>> j) async {
+  //   List<String> list = [];
+  //   list = await Future.wait(j);
+    
+  // }
+
   Widget build(BuildContext context) {
+    //here
+
+    list = lstKids() as List<String>;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -347,7 +348,7 @@ class _Add_taskState extends State<Add_task> {
                                 if (val == null) return "اختر الطفل";
                                 return null;
                               },
-                              items: k.map((valueItem) {
+                              items: list.map((valueItem) {
                                 return DropdownMenuItem(
                                   alignment: Alignment.centerRight,
                                   value: valueItem,
@@ -422,37 +423,6 @@ class _Add_taskState extends State<Add_task> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      /*
-                      Container(
-                        height: 50,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                textDirection: ui.TextDirection.rtl,
-                                _selectedDate == ""
-                                    ? 'لم يتم اختيار تاريخ'
-                                    : 'التاريخ المختار: ${_selectedDate}',
-                              ),
-                            ),
-
-                            IconButton(
-                                onPressed: _presentDatePicker,
-                                style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all(Colors.black),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.white)),
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  //  size: 30,
-                                ))
-                            //here
-                          ],
-                        ),
-                      ),
-                      */
-
                       SizedBox(
                         //width: 300,
                         height: 50,
