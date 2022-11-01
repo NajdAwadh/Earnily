@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:earnily/Rewards/kidrewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultsKidProfile.dart';
+import 'package:earnily/chatting/chatScreen.dart';
 import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -47,6 +48,7 @@ class _HomePageKidState extends State<HomePageKid> {
     kidTasks(),
     // kidWish(),
     kidreward(),
+    ChatScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -201,6 +203,11 @@ class _HomePageKidState extends State<HomePageKid> {
           ),
           Icon(
             Icons.star,
+            color: Colors.white,
+            size: 35,
+          ),
+           Icon(
+            Icons.message,
             color: Colors.white,
             size: 35,
           ),

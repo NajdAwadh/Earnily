@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:googleapis/connectors/v1.dart';
 
-late User signedInUser;
+// late User signedInUser;
 
 class ChatScreen extends StatefulWidget {
   static const String screenRoute = 'chat_screen';
@@ -31,8 +31,7 @@ class _ChatScreenState extends State<ChatScreen> {
     try {
       final user = auth.currentUser;
       if (user != null) {
-        signedInUser = user;
-        print(signedInUser.email);
+        print(user.email);
       }
     } catch (e) {
       print(e);
@@ -45,31 +44,32 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future addMessages() async {
-    print(signedInUser.email);
     final user = await auth.currentUser!;
+    print(user.email);
+    
     await firebase
-        .collection('users')
-        .doc(signedInUser.uid)
+        // .collection('users')
+        // .doc(signedInUser.uid)
         .collection('messages')
         .doc(messageText)
         .set({
       'text': messageText,
-      'sender': signedInUser.email,
-      'id': signedInUser.uid,
+      'sender': user.email,
+      'id': user.uid,
       'time': FieldValue.serverTimestamp(),
       //'uid': firebaseUser.uid,
     });
-    print(user.uid);
-    print(signedInUser.uid);
-    print(messageText);
-    print(signedInUser.displayName);
-    messageStream();
+    // print(user.uid + 'tf');
+    // print(signedInUser.uid);
+    // print(messageText);
+    // print(signedInUser.displayName);
+    // messageStream();
   }
 
   void messageStream() async {
     await for (var snapshot in firebase
-        .collection('users')
-        .doc(signedInUser.uid)
+        // .collection('users')
+        // .doc(signedInUser.uid)
         .collection('messages')
         .snapshots()) {
       for (var message in snapshot.docs) {
@@ -224,8 +224,8 @@ class messageStreamBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(signedInUser.uid)
+            // .collection('users')
+            // .doc(signedInUser.uid)
             .collection('messages')
             .orderBy('time')
             .snapshots(),
@@ -244,12 +244,13 @@ class messageStreamBuilder extends StatelessWidget {
 
           final messages = snapshot.data!.docs.reversed;
           for (var message in messages) {
+            final user =  FirebaseAuth.instance.currentUser!;
             String text = message.get('text');
             String sender = message.get('sender');
-            String? currentUser = signedInUser.email;
+            String? currentUser = user.email;
 
             print(sender);
-            print(signedInUser);
+            print(user);
             if (currentUser == sender) {
               //from signed in user
 
