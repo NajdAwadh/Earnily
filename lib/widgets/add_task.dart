@@ -150,7 +150,12 @@ class _Add_taskState extends State<Add_task> {
     if (formKey.currentState!.validate() &&
         categoty != "" &&
         points != "" &&
-        _selectedDate != "") {
+        _selectedDate != ""
+        &&
+        childName != ""
+        
+        
+        ) {
       addTask();
 
       showToastMessage("تمت إضافة نشاط بنجاح");
@@ -362,10 +367,10 @@ List<String> _kidsNamesList = [];
                                         : Text(childName),
                                     isExpanded: true,
                                     alignment: Alignment.centerRight,
-                                    validator: (val) {
-                                      if (val == null) return "اختر الطفل";
-                                      return null;
-                                    },
+                                    // validator: (val) {
+                                    //   if (val == null) return "اختر الطفل";
+                                    //   return null;
+                                    // },
                                     items: snapshot.data?.map((valueItem) {
                                       return DropdownMenuItem(
                                         alignment: Alignment.centerRight,
