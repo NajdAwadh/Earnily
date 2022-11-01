@@ -27,7 +27,6 @@ class View_task extends StatefulWidget {
 }
 
 class _View_taskState extends State<View_task> {
-  late Task _currentTask;
   @override
   //notification
   late final LocalNotificationService service;

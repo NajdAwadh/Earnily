@@ -46,6 +46,10 @@ class _Add_taskState extends State<Add_task> {
 
   late final LocalNotificationService service;
   void initState() {
+    // namesListClass forThePurposeOfTheList = namesListClass();
+    // updateList(forThePurposeOfTheList);
+    // forThePurposeOfTheList.kidsNamesList;
+
     super.initState();
 
     //  List<String> list = lstKids() as List<String>;
@@ -62,7 +66,8 @@ class _Add_taskState extends State<Add_task> {
   String childName = "";
   String points = '';
   int count = 0;
-List<String> list = [];
+  //List<String> list = [];
+  // namesListClass forThePurposeOfTheList = namesListClass();
 
   void _showDialog() {
     showDialog(
@@ -90,7 +95,6 @@ List<String> list = [];
 
   void _showDialogCancel() {
     showDialog(
-      //barrierDismissible = false;
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -233,13 +237,11 @@ List<String> list = [];
   // Future<void> lllll(Future<List<String>> j) async {
   //   List<String> list = [];
   //   list = await Future.wait(j);
-    
+
   // }
 
   Widget build(BuildContext context) {
     //here
-
-    list = lstKids() as List<String>;
 
     return Scaffold(
       appBar: AppBar(
@@ -338,28 +340,42 @@ List<String> list = [];
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               borderRadius: BorderRadius.circular(15)),
-                          child: DropdownButtonFormField<String>(
-                              hint: childName.isEmpty
-                                  ? Text("اختر الطفل")
-                                  : Text(childName),
-                              isExpanded: true,
-                              alignment: Alignment.centerRight,
-                              validator: (val) {
-                                if (val == null) return "اختر الطفل";
-                                return null;
-                              },
-                              items: list.map((valueItem) {
-                                return DropdownMenuItem(
-                                  alignment: Alignment.centerRight,
-                                  value: valueItem,
-                                  child: Text(valueItem),
+                          child: FutureBuilder(
+                            future: lstKids(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                      ConnectionState.done ) {
+                                print(snapshot.data);
+
+                                return DropdownButtonFormField<String>(
+                                    hint: childName.isEmpty
+                                        ? Text("اختر الطفل")
+                                        : Text(childName),
+                                    isExpanded: true,
+                                    alignment: Alignment.centerRight,
+                                    validator: (val) {
+                                      if (val == null) return "اختر الطفل";
+                                      return null;
+                                    },
+                                    items: snapshot.data?.map((valueItem) {
+                                      return DropdownMenuItem(
+                                        alignment: Alignment.centerRight,
+                                        value: valueItem,
+                                        child: Text(valueItem),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newVal) {
+                                      setState(() {
+                                        childName = newVal!;
+                                      });
+                                    });
+                              } else {
+                                return SizedBox(
+                                  height: 10,
                                 );
-                              }).toList(),
-                              onChanged: (newVal) {
-                                setState(() {
-                                  childName = newVal!;
-                                });
-                              })),
+                              }
+                            },
+                          )),
                       SizedBox(
                         height: 10,
                       ),
@@ -629,3 +645,23 @@ List<String> list = [];
     }
   }
 }
+
+// class namesListClass {
+//   List<String> kidsNamesList = [];
+//   namesListClass();
+// }
+
+// updateList(namesListClass obj) async {
+//   final user = FirebaseAuth.instance.currentUser!;
+//   QuerySnapshot snapshot = await FirebaseFirestore.instance
+//       .collection('users')
+//       .doc(user.uid)
+//       .collection('kids')
+//       .where(name)
+//       .get();
+
+//   snapshot.docs.forEach((document) {
+//     String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
+//     obj.kidsNamesList.add(name);
+//   });
+// }

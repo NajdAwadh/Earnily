@@ -20,7 +20,7 @@ getKids(KidsNotifier kidsNotifier) async {
   snapshot.docs.forEach((document) {
     Kids kids = Kids.fromMap(document.data() as Map<String, dynamic>);
     _kidsList.add(kids);
-  });
+  }); 
 
   kidsNotifier.kidsList = _kidsList;
 }
