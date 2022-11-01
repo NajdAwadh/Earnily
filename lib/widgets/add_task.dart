@@ -231,6 +231,8 @@ class _Add_taskState extends State<Add_task> {
       String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
       _kidsNamesList.add(name);
     });
+  //   List<String> list = <String>['سعد', 'ريما', 'خالد'];
+
     return _kidsNamesList;
   }
 
