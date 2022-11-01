@@ -307,7 +307,6 @@ class _MainTaskState extends State<MainTask> {
                                       stream: _stream,
                                       builder: (context, snapshot) {
                                         if (!snapshot.hasData) {
-                                          
                                           return Text(
                                             "لا يوجد لديك مهام \n قم بالإضافة الآن",
                                             style: TextStyle(
@@ -315,12 +314,13 @@ class _MainTaskState extends State<MainTask> {
                                                 color: Colors.grey),
                                           );
                                         }
-                                 
 
                                         return ListView.builder(
                                           itemBuilder: (Context, index) {
                                             Map<String, dynamic> document =
-                                                snapshot.data!.docs[index].data()  as Map<String, dynamic>;
+                                                snapshot.data!.docs[index]
+                                                        .data()
+                                                    as Map<String, dynamic>;
 // come back here
 //print(snapshot.data!.docs[index].data());
                                             IconData iconData;
@@ -395,7 +395,7 @@ class _MainTaskState extends State<MainTask> {
                                                         ),
                                                       ),
                                                       subtitle: Text(
-                                                        document['asignedKid'],
+                                                        '${document['asignedKid']}\n${document['points']}🌟 | ${_colors(document['state'], document['asignedKid'])}',
                                                         style: TextStyle(
                                                             fontSize: 17),
                                                       ),
@@ -463,9 +463,9 @@ class _MainTaskState extends State<MainTask> {
                                         );
                                       }),
                                 ),
-                                  Tab(
-                                text: ' السابقة',
-                              ),
+                                Tab(
+                                  text: ' السابقة',
+                                ),
                               ],
                             ),
                           ),

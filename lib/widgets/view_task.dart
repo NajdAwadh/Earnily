@@ -231,6 +231,7 @@ class _View_taskState extends State<View_task> {
 
     return Scaffold(
       appBar: AppBar(
+        
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
@@ -248,7 +249,12 @@ class _View_taskState extends State<View_task> {
         elevation: 0,
         title: Center(
           child: Text(
-            taskNotifier.currentTask.taskName,
+            widget.document['taskName'],
+
+
+            //here it works like almonds
+
+            
             style: TextStyle(fontSize: 40),
           ),
         ),
