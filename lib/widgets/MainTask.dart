@@ -1,7 +1,6 @@
 import 'dart:html';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:earnily/widgets/StreamTask.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -308,6 +307,7 @@ class _MainTaskState extends State<MainTask> {
                                       stream: _stream,
                                       builder: (context, snapshot) {
                                         if (!snapshot.hasData) {
+                                          
                                           return Text(
                                             "لا يوجد لديك مهام \n قم بالإضافة الآن",
                                             style: TextStyle(
@@ -315,12 +315,14 @@ class _MainTaskState extends State<MainTask> {
                                                 color: Colors.grey),
                                           );
                                         }
-                                        print(snapshot.data);
+                                 
+
                                         return ListView.builder(
                                           itemBuilder: (Context, index) {
                                             Map<String, dynamic> document =
                                                 snapshot.data!.docs[index].data()  as Map<String, dynamic>;
 // come back here
+//print(snapshot.data!.docs[index].data());
                                             IconData iconData;
                                             Color iconColor;
                                             switch (document['category']) {
@@ -385,7 +387,7 @@ class _MainTaskState extends State<MainTask> {
                                                             )),
                                                       ),
                                                       title: Text(
-                                                        "",
+                                                        document['taskName'],
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -393,7 +395,7 @@ class _MainTaskState extends State<MainTask> {
                                                         ),
                                                       ),
                                                       subtitle: Text(
-                                                        "",
+                                                        document['asignedKid'],
                                                         style: TextStyle(
                                                             fontSize: 17),
                                                       ),
@@ -461,7 +463,9 @@ class _MainTaskState extends State<MainTask> {
                                         );
                                       }),
                                 ),
-                                SizedBox()
+                                  Tab(
+                                text: ' السابقة',
+                              ),
                               ],
                             ),
                           ),
