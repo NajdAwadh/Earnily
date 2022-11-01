@@ -22,21 +22,7 @@ class Kids {
     uid = data["uid"];
     pass = data["pass"];
   }
-  getKids() async {
-    final user = FirebaseAuth.instance.currentUser!;
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .collection('kids')
-        .where(name)
-        .get();
 
-
-    snapshot.docs.forEach((document) {
-      String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
-      kidsNamesList.add(name);
-    });
-  }
 
   Map<String, dynamic> toMap() {
     return {

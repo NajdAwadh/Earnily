@@ -25,7 +25,7 @@ class MainTask extends StatefulWidget {
 }
 
 class _MainTaskState extends State<MainTask> {
-    final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser!;
 
   //snapShot.data[index]
   void initState() {
@@ -315,10 +315,12 @@ class _MainTaskState extends State<MainTask> {
                                                 color: Colors.grey),
                                           );
                                         }
+                                        print(snapshot.data);
                                         return ListView.builder(
                                           itemBuilder: (Context, index) {
-                                            Map<String, dynamic> document = snapshot.data!.docs[index].data() as Map<String, dynamic>;
-
+                                            Map<String, dynamic> document =
+                                                snapshot.data!.docs[index].data()  as Map<String, dynamic>;
+// come back here
                                             IconData iconData;
                                             Color iconColor;
                                             switch (document['category']) {
@@ -459,7 +461,7 @@ class _MainTaskState extends State<MainTask> {
                                         );
                                       }),
                                 ),
-                               SizedBox()
+                                SizedBox()
                               ],
                             ),
                           ),

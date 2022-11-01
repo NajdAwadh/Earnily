@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'dart:collection';
+import 'dart:html';
 import 'package:earnily/models/kids.dart';
 
 import 'package:earnily/api/kidtaskApi.dart';
@@ -219,6 +220,8 @@ class _Add_taskState extends State<Add_task> {
   }
 
   Future<List<String>> lstKids() async {
+    final user = FirebaseAuth.instance.currentUser!;
+
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
@@ -226,24 +229,28 @@ class _Add_taskState extends State<Add_task> {
         .where(name)
         .get();
 
-    List<String> _kidsNamesList = [];
-    snapshot.docs.forEach((document) {
-      String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
-      _kidsNamesList.add(name);
-    });
-  //   List<String> list = <String>['سعد', 'ريما', 'خالد'];
+    var k;
 
+    Map<String, dynamic> document =
+        snapshot.docs[1].data() as Map<String, dynamic>;
+    print(k);
+List<String> _kidsNamesList = [];
+    print(document['name']);
+    for (var i = 0; i < snapshot.docs.length; i++) {
+      Map<String, dynamic> document =
+          snapshot.docs[i].data() as Map<String, dynamic>;
+      
+      String name = document['name'];
+      _kidsNamesList.add(name);
+    }
+   
     return _kidsNamesList;
   }
 
-  // Future<void> lllll(Future<List<String>> j) async {
-  //   List<String> list = [];
-  //   list = await Future.wait(j);
-
-  // }
+  
 
   Widget build(BuildContext context) {
-    //here
+   
 
     return Scaffold(
       appBar: AppBar(
@@ -346,7 +353,7 @@ class _Add_taskState extends State<Add_task> {
                             future: lstKids(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
-                                      ConnectionState.done ) {
+                                  ConnectionState.done) {
                                 print(snapshot.data);
 
                                 return DropdownButtonFormField<String>(
@@ -648,22 +655,3 @@ class _Add_taskState extends State<Add_task> {
   }
 }
 
-// class namesListClass {
-//   List<String> kidsNamesList = [];
-//   namesListClass();
-// }
-
-// updateList(namesListClass obj) async {
-//   final user = FirebaseAuth.instance.currentUser!;
-//   QuerySnapshot snapshot = await FirebaseFirestore.instance
-//       .collection('users')
-//       .doc(user.uid)
-//       .collection('kids')
-//       .where(name)
-//       .get();
-
-//   snapshot.docs.forEach((document) {
-//     String name = Kids.fromMap(document.data() as Map<String, dynamic>).name;
-//     obj.kidsNamesList.add(name);
-//   });
-// }
