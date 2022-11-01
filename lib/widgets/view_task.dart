@@ -22,6 +22,7 @@ import 'new_button.dart';
 class View_task extends StatefulWidget {
    View_task({super.key,required this.document}) ;
   final Map<String, dynamic> document;
+   //pass doc
   @override
   State<View_task> createState() => _View_taskState();
 }
@@ -250,6 +251,8 @@ class _View_taskState extends State<View_task> {
         title: Center(
           child: Text(
             widget.document['taskName'],
+
+             //pass doc
 
 
             //here it works like almonds
