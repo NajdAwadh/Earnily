@@ -137,10 +137,14 @@ RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () async {
-                          if (_emailController.text.isEmpty ){
+                          if(_emailController.text.isEmpty &&_passController.text.isEmpty ){
+                            _showDialog();
+
+                          }
+                          else if (_emailController.text.isEmpty ){
                             showToastMessage('الرجاء إدخال بريد الكتروني');
                           } else if(!_emailController.text.contains('@')){
-                            showToastMessage('الرجاء إدخال بريد الكتروني صحيح يحتوي على @');
+                            showToastMessage('@ الرجاء إدخال بريد الكتروني صحيح يحتوي على');
                           } else if(_passController.text.isEmpty){
                             showToastMessage('الرجاء إدخال كلمة مرور ');
                           }
@@ -155,7 +159,7 @@ RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
                                   MaterialPageRoute(
                                       builder: (context) => HomePage()));
                             }).onError((error, stackTrace) {
-                              showToastMessage("error ${error.toString()}");
+                              showToastMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة");
                             });
                         }),
 
