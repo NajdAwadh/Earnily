@@ -9,6 +9,7 @@ import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:provider/provider.dart';
 
@@ -22,6 +23,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+    RegExp numReg = RegExp(r".*[0-9].*");
+RegExp letterReg = RegExp(r".*[A-Za-z].*");
+RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _repassController = TextEditingController();
@@ -55,7 +59,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
         });
   }
+    void showToastMessage(String message) {
+    //raghad
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white,
+        backgroundColor: Colors.red,
+        webBgColor: Colors.red,
 
+        //message text color
+
+        fontSize: 16.0 //message font size
+        );
+  }
   void _showError() {
     showDialog(
         context: context,
@@ -166,12 +186,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () async {
-                          if (_nameController.text.isEmpty ||
-                              _emailController.text.isEmpty ||
-                              _passController.text.isEmpty ||
-                              _repassController.text.isEmpty) {
-                            _showDialog();
-                          } else if (_passController.text !=
+                          if (_emailController.text.isEmpty ){
+                            showToastMessage('الرجاء إدخال بريد الكتروني');
+                          } else if(!_emailController.text.contains('@')){
+                            showToastMessage('الرجاء إدخال بريد الكتروني صحيح يحتوي على @');
+                          } else if(_passController.text.isEmpty){
+                            showToastMessage('الرجاء إدخال كلمة مرور ');
+                          }else if(!numReg.hasMatch(_passController.text)){
+                            showToastMessage('كلمة المرور يجب أن تحتوي على أرقام');
+                          }else if(!letterReg.hasMatch(_passController.text)){
+                            showToastMessage('كلمة المرور يجب أن تحتوي على حروف');                                                     
+                          }else if(_passController.text.length < 8){
+                            showToastMessage('كلمة المرور يجب أن لا تقل عن 8 رموز');                                                     
+                          }
+                         else if (_passController.text !=
                               _repassController.text)
                             _showError();
                           else
@@ -185,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => HomePage()));
                             }).onError((error, stackTrace) {
-                              print("Error ${error.toString()}");
+                              showToastMessage("Error ${error.toString()}");
                             });
                           addUserDetails(
                               _nameController.text.trim(),
