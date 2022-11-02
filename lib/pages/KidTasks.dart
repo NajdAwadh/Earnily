@@ -384,15 +384,16 @@ class _kidTasksState extends State<kidTasks> {
                                             fontSize: 25,
                                           ),
                                         ),
-
+                                        if(document['state']=="Not complete")
                                         Padding(
                                           padding: EdgeInsets.all(0),
                                           child: CheckboxListTile(
 
-                                            selected: _selecteCategorysID.contains(document['tid']),
+                                            selected: false,
 
                                             value: _selecteCategorysID.contains(document['tid']),
                                             onChanged: (selected) {
+                                              print(document['state']);
                                              print(document);
                                                updateTask(document['tid'],
                                                   document['adult']);
