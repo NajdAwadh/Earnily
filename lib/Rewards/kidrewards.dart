@@ -17,7 +17,7 @@ class kidreward extends StatefulWidget {
   @override
   State<kidreward> createState() => _kidrewardState();
 }
-
+String adultID ='';
 class _kidrewardState extends State<kidreward> {
 
 
@@ -27,6 +27,7 @@ class _kidrewardState extends State<kidreward> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getUserDetail();
   
   }
 
@@ -68,9 +69,9 @@ class _kidrewardState extends State<kidreward> {
 
   Widget build(BuildContext context) {
      final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
-  
+
           .collection('users')
-      .doc(user.uid)
+      .doc(adultID)
       .collection('reward')
         .snapshots();
     return Scaffold(
@@ -82,7 +83,7 @@ class _kidrewardState extends State<kidreward> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
-              "مكافآت اطفالي",
+              "مكافآتي",
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -181,4 +182,14 @@ class _kidrewardState extends State<kidreward> {
       ),
     );
   }
+  _getUserDetail() {
+    FirebaseFirestore.instance
+        .collection('kids')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) {
+      adultID = snapshot.get("uid");
+      setState(() {});
+      });
+      }
 }
