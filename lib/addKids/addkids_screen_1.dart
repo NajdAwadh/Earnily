@@ -35,17 +35,15 @@ class AddKids_screen_1 extends StatefulWidget {
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final TextEditingController nameController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser!;
-  String? value ;
-DateTime? date;
+  String? value;
+  DateTime? date;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  
   }
 
   final List<String> items = <String>["طفل", "طفلة"];
-  
 
   //final _nameController = TextEditingController();
   List<String> names = [];
@@ -124,10 +122,11 @@ DateTime? date;
         );
   }
 
-  void _validate() {
+  Future<void> _validate() async {
     if (nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
     } else {
+      names =await lstKids();
       if (myLoop(names)) {
         _showDialog("ممنوع إدخال معلومات مكررة");
       } else {
@@ -173,7 +172,7 @@ DateTime? date;
       'name': nameController.text,
       'gender': value,
       'date': date,
-      'point':0,
+      'point': 0,
       'uid': user.uid,
       'pass': u.substring(0, 8),
       'points': 0,
@@ -186,7 +185,7 @@ DateTime? date;
       'name': nameController.text,
       'gender': value,
       'date': date,
-      'point':0,
+      'point': 0,
       'uid': user.uid,
       'pass': u.substring(0, 8),
       'points': 0,
@@ -221,10 +220,32 @@ DateTime? date;
     return false;
   }
 
+  Future<List<String>> lstKids() async {
+    final user = FirebaseAuth.instance.currentUser!;
+
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('kids')
+        .where(name)
+        .get();
+
+    List<String> _kidsNamesList = [];
+
+    for (var i = 0; i < snapshot.docs.length; i++) {
+      Map<String, dynamic> document =
+          snapshot.docs[i].data() as Map<String, dynamic>;
+
+      String name = document['name'];
+      _kidsNamesList.add(name);
+    }
+
+    return _kidsNamesList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    names = kidsNotifier.kidsNamesList;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -269,7 +290,7 @@ DateTime? date;
                     SizedBox(height: 30),
                     //Image.asset("assets/images/ChildrenFreepik.png"),
                     imgWidget("assets/images/ChildrenFreepik.png", 100, 100),
-               
+
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -338,9 +359,7 @@ DateTime? date;
                                       //female
                                       children: [
                                         Radio(
-                                          
                                             value: items[1],
-                                            
                                             groupValue: value,
                                             onChanged: (newValue) {
                                               setState(() {
@@ -371,13 +390,11 @@ DateTime? date;
                                         Radio(
                                             value: items[0],
                                             groupValue: value,
-                                            
                                             onChanged: (newValue) {
                                               setState(() {
                                                 value = newValue!;
                                               });
-                                            }
-                                            ),
+                                            }),
                                         Text(
                                           items[0],
                                           style: TextStyle(
@@ -390,13 +407,10 @@ DateTime? date;
                                         ),
                                         imgWidget("assets/images/boyIcon.png",
                                             32, 32),
-                                     
                                       ],
                                     )
                                   ],
-                                ))
-                                
-                                )),
+                                )))),
                     SizedBox(
                       height: 20,
                     ),
