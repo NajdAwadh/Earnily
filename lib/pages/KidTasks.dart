@@ -38,24 +38,14 @@ class _kidTasksState extends State<kidTasks> {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   final user = FirebaseAuth.instance.currentUser!;
-  final kidsDb = FirebaseFirestore.instance.collection('kids');
   List _selecteCategorysID = [];
   String? mtoken = " ";
   @override
   void initState() {
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
-    getTask(taskNotifier);
     super.initState();
     requestPermission();
 
-    // loadFCM();
-
-    // listenFCM();
-
     getToken();
-
-    // FirebaseMessaging.instance.subscribeToTopic("Animal");
   }
 
   void sendPushMessage() async {
@@ -164,32 +154,6 @@ class _kidTasksState extends State<kidTasks> {
     }
   }
 
-/*
-  void profile() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              "خطأ",
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.red),
-            ),
-            content: Text(
-              text,
-              textAlign: TextAlign.right,
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text("حسناً"),
-              )
-            ],
-          );
-        });
-  }
-*/
-
   String set(String gender) {
     if (gender == "طفلة")
       return "assets/images/girlIcon.png";
@@ -237,16 +201,18 @@ class _kidTasksState extends State<kidTasks> {
         );
   }
 
-  void _onCategorySelected(bool selected, category_id) {
+  void _onCategorySelected(bool selected, String tid) {
+    
+
     if (selected == true) {
       showToastMessage('تم التآكيد! انتظر قبول والدك');
 
       setState(() {
-        _selecteCategorysID.add(category_id);
+        _selecteCategorysID.add(tid);
       });
     } else {
       setState(() {
-        _selecteCategorysID.add(category_id);
+        _selecteCategorysID.add(tid);
       });
     }
   }
@@ -294,12 +260,13 @@ class _kidTasksState extends State<kidTasks> {
 
   @override
   Widget build(BuildContext context) {
-    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-    var list = taskNotifier.taskList;
+    final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('kids')
+        .doc(user.email)
+        .collection('Task')
+        .orderBy('date')
+        .snapshots();
 
-    //return Directionality(
-    //textDirection: ui.TextDirection.rtl,
-    //child:
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -315,182 +282,145 @@ class _kidTasksState extends State<kidTasks> {
           ),
         ),
       ),
-      body: new Directionality(
-        textDirection: ui.TextDirection.rtl,
-        child: list.isEmpty
-            ? Center(
-                child: Text(
-                  'لايوجد مهام',
-                  style: TextStyle(fontSize: 30, color: Colors.grey),
-                ),
-              )
-            : Container(
-                child: GridView.builder(
-                  itemBuilder: (ctx, index) {
-                    String iconData = '';
-                    Color iconColor;
-                    switch (taskNotifier.taskList[index].category) {
-                      case "النظافة":
-                        // iconData = Icons.wash;
-                        iconData = '🫧';
+      body: StreamBuilder(
+          stream: _stream,
+          builder: (context, snapshot) {
+            return new Directionality(
+              textDirection: ui.TextDirection.rtl,
+              child: !snapshot.hasData
+                  ? Center(
+                      child: Text(
+                        'لايوجد مهام',
+                        style: TextStyle(fontSize: 30, color: Colors.grey),
+                      ),
+                    )
+                  : Container(
+                      child: GridView.builder(
+                        itemBuilder: (ctx, index) {
+                          Map<String, dynamic> document =
+                              snapshot.data!.docs[index].data()
+                                  as Map<String, dynamic>;
 
-                        iconColor = Color(0xffff6d6e);
-                        break;
-                      case "الأكل":
-                        // iconData = Icons.flatware_rounded;
-                        iconData = '🍽';
-                        iconColor = Color(0xfff29732);
-                        break;
+                          String iconData = '';
+                          Color iconColor;
+                          switch (document['category']) {
+                            case "النظافة":
+                              // iconData = Icons.wash;
+                              iconData = '🫧';
 
-                      case "الدراسة":
-                        // iconData = Icons.auto_stories_outlined;
-                        iconData = '📚';
-                        iconColor = Color(0xff6557ff);
-                        break;
+                              iconColor = Color(0xffff6d6e);
+                              break;
+                            case "الأكل":
+                              // iconData = Icons.flatware_rounded;
+                              iconData = '🍽';
+                              iconColor = Color(0xfff29732);
+                              break;
 
-                      case "تطوير الشخصية":
-                        //  iconData = Icons.border_color_outlined;
-                        iconData = '📖';
-                        iconColor = Color(0xff2bc8d9);
-                        break;
+                            case "الدراسة":
+                              // iconData = Icons.auto_stories_outlined;
+                              iconData = '📚';
+                              iconColor = Color(0xff6557ff);
+                              break;
 
-                      case "الدين":
-                        //  iconData = Icons.brightness_4_rounded;
-                        iconData = '🕌';
-                        iconColor = Color(0xff234ebd);
-                        break;
-                      default:
-                        // iconData = Icons.brightness_4_rounded;
-                        iconColor = Color(0xff6557ff);
-                    }
-                    return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        child: Container(
-                          height: 150,
-                          color:
-                              iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
+                            case "تطوير الشخصية":
+                              //  iconData = Icons.border_color_outlined;
+                              iconData = '📖';
+                              iconColor = Color(0xff2bc8d9);
+                              break;
 
-                          child: new Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: new GridTile(
-                              child: Column(
-                                children: [
-                                  // SizedBox(height: 1),
-                                  //    imgWidget(set(list[index].gender), 64, 64),
+                            case "الدين":
+                              //  iconData = Icons.brightness_4_rounded;
+                              iconData = '🕌';
+                              iconColor = Color(0xff234ebd);
+                              break;
+                            default:
+                              // iconData = Icons.brightness_4_rounded;
+                              iconColor = Color(0xff6557ff);
+                          }
+                          return Card(
+                              elevation: 5,
+                              margin: EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 10,
+                              ),
+                              child: Container(
+                                height: 150,
+                                color:
+                                    iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
 
-                                  //SizedBox(height: 1),
-                                  SizedBox(height: 35),
-                                  /*  Container(
-                                    height: 33,
-                                    width: 36,
-                                    child: Icon(iconData),
-                                  ),*/
-                                  Text(
-                                    iconData + list[index].taskName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
+                                child: new Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: new GridTile(
+                                    child: Column(
+                                      children: [
+                                        // SizedBox(height: 1),
+                                        //    imgWidget(set(list[index].gender), 64, 64),
+
+                                        //SizedBox(height: 1),
+                                        SizedBox(height: 35),
+                                        /*  Container(
+                                        height: 33,
+                                        width: 36,
+                                        child: Icon(iconData),
+                                      ),*/
+                                        Text(
+                                          iconData + document['taskName'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+                                        Text(
+                                          '🕐' + document['date'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        Text(
+                                          '🌟' + document['points'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                          ),
+                                        ),
+
+                                        Padding(
+                                          padding: EdgeInsets.all(0),
+                                          child: CheckboxListTile(
+
+                                            selected: _selecteCategorysID.contains(document['tid']),
+
+                                            value: _selecteCategorysID.contains(document['tid']),
+                                            onChanged: (selected) {
+                                             print(document);
+                                               updateTask(document['tid'],
+                                                  document['adult']);
+
+                                              _onCategorySelected(selected!,
+                                                  document['tid']);
+                                             
+                                            },
+
+                                          ),
+                                        ),
+
+                            
+                                      ],
                                     ),
-                                  ),
-                                  Text(
-                                    '🕐' + list[index].date,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    '🌟' + list[index].points,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
-                                    ),
-                                  ),
-
-                                  Padding(
-                                    padding: EdgeInsets.all(0),
-                                    child: CheckboxListTile(
-                                      selected: false,
-                                      value: _selecteCategorysID.contains(
-                                          taskNotifier.taskList[index]),
-                                      onChanged: (selected) {
-                                        updateTask(
-                                            list[index].tid, list[index].adult);
-
-                                        _onCategorySelected(selected!,
-                                            taskNotifier.taskList[index]);
-                                      },
-
-                                      //   title: Text(taskNotifier.taskList[index]),
-                                    ),
-                                  ),
-
-                                  //SizedBox(height: 15),
-                                  /*
-                                Text(
-                                  list[index].date.toString(),
-                                  style: TextStyle(
-                                    fontSize: 30,
                                   ),
                                 ),
-                                */
-/*
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    color: Theme.of(context).errorColor,
-                                    onPressed: () => {list[index]},
-                                  ),
-                                  
-*/
-
-                                  /*   IconButton(
-                                    icon: Icon(Icons.person),
-                                    color: Theme.of(context).errorColor,
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              //  icon: imgWidget(
-                                              //  set(list[index].gender),
-                                              //  64,
-                                              //  64),
-                                              title: Text(
-                                                list[index].taskName +
-                                                    '\n' +
-                                                    list[index].category,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                              /* content: Text(
-                                                getBirthday(list[index].date)
-                                                   .toString(),
-                                               textAlign: TextAlign.right,
-                                              ),*/
-                                              actions: <Widget>[],
-                                            );
-                                          });
-                                    },
-                                  ),*/
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
-                  },
-                  itemCount: taskNotifier.taskList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8),
-                ),
-              ),
-      ),
+                              ));
+                        },
+                        itemCount:snapshot.data!.docs.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 8),
+                      ),
+                    ),
+            );
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         width: 110,
@@ -511,3 +441,4 @@ class _kidTasksState extends State<kidTasks> {
     );
   }
 }
+

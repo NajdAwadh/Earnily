@@ -75,7 +75,8 @@ class _MainRewardsState extends State<MainRewards> {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
-   .collection('users')
+  
+          .collection('users')
       .doc(user.uid)
       .collection('reward')
         .snapshots();

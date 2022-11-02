@@ -19,16 +19,15 @@ class kidreward extends StatefulWidget {
 }
 
 class _kidrewardState extends State<kidreward> {
-  @override
-  final user = FirebaseAuth.instance.currentUser!;
-  final kidsDb = FirebaseFirestore.instance.collection('kids');
 
+
+  final user = FirebaseAuth.instance.currentUser!;
+
+ 
   void initState() {
     // TODO: implement initState
     super.initState();
-    RewardNotifier rewardNotifier =
-        Provider.of<RewardNotifier>(context, listen: false);
-    getReward(rewardNotifier);
+  
   }
 
   int getBirthday(Timestamp date) {
@@ -68,9 +67,12 @@ class _kidrewardState extends State<kidreward> {
   }
 
   Widget build(BuildContext context) {
-    RewardNotifier rewardNotifier = Provider.of<RewardNotifier>(context);
-    List<AdultReward> list = rewardNotifier.rewardList;
-
+     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+  
+          .collection('users')
+      .doc(user.uid)
+      .collection('reward')
+        .snapshots();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -80,78 +82,87 @@ class _kidrewardState extends State<kidreward> {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Center(
             child: Text(
-              "مكافآتي",
+              "مكافآت اطفالي",
               style: TextStyle(fontSize: 40),
             ),
           ),
         ),
       ),
-      body: new Directionality(
-        textDirection: ui.TextDirection.rtl,
-        child: list.isEmpty
-            ? Center(
-                child: Text(
+      body: StreamBuilder(
+        stream: _stream,
+        builder: (context, snapshot) {
+          return new Directionality(
+            textDirection: ui.TextDirection.rtl,
+            child: !snapshot.hasData
+                ? Center(
+                    child: Text(
                   "لا يوجد لديك مكافآت",
-                  style: TextStyle(fontSize: 30, color: Colors.grey),
-                ),
-              )
-            : Container(
-                child: GridView.builder(
-                  itemBuilder: (ctx, index) {
-                    list = rewardNotifier.rewardList;
-                    return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 6,
-                          horizontal: 8,
-                        ),
-                        child: Container(
-                          height: 150,
-                          color: chooseColor(
-                              index), //Colors.primaries[Random().nextInt(myColors.length)],
-
-                          child: new Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: new GridTile(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  Icon(
-                                    Icons.card_giftcard,
-                                    color: Colors.black,
-                                    size: 50,
+                      style: TextStyle(fontSize: 30, color: Colors.grey),
+                    ),
+                  )
+                : Container(
+                    child: GridView.builder(
+                      itemBuilder: (ctx, index) {
+                      Map<String, dynamic> document =
+                                                snapshot.data!.docs[index]
+                                                        .data()
+                                                    as Map<String, dynamic>;
+                        return Card(
+                            elevation: 5,
+                            margin: EdgeInsets.symmetric(
+                                //vertical: 6,
+                                //horizontal: 8,
+                                ),
+                            child: Container(
+                              height: 150,
+                              color: chooseColor(
+                                  index), //Colors.primaries[Random().nextInt(myColors.length)],
+      
+                              child: new Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: new GridTile(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Icon(
+                                        Icons.card_giftcard,
+                                        color: Colors.black,
+                                        size: 50,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        document['rewardName'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                      SizedBox(height: 15),
+                                      Text(
+                                        document['points'] + '🌟',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                    
+                                    ],
                                   ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    list[index].rewardName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    ),
-                                  ),
-                                  SizedBox(height: 15),
-                                  Text(
-                                    list[index].points + '🌟',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ));
-                  },
-                  itemCount: rewardNotifier.rewardList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8),
-                ),
-              ),
+                            ));
+                      },
+                      itemCount: snapshot.data!.docs.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8),
+                    ),
+                  ),
+          );
+        }
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         width: 110,
         child: FittedBox(
