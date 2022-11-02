@@ -94,7 +94,7 @@ class _addRewardState extends State<add_Reward> {
             points != ""
         //_selectedDate != ""
         ) {
-      addTask();
+      addReward();
       showToastMessage("تمت إضافة مكافاة بنجاح");
       Navigator.of(context).pop();
     } else {
@@ -102,7 +102,7 @@ class _addRewardState extends State<add_Reward> {
     }
   }
 
-  Future addTask() async {
+  Future addReward() async {
     const tuid = Uuid();
     String tid = tuid.v4();
     await FirebaseFirestore.instance
@@ -315,38 +315,7 @@ class _addRewardState extends State<add_Reward> {
             ))));
   }
 
-  /*
-  ImagePicker picker = ImagePicker();
-  File? file;
-  String imageUrl = "";
-
-Future getImage(ImageSource source) async {
-  final pickedFile = await picker.pickImage(source: source );
-  if (pickedFile != null && pickedFile.path != null) {
-    loadingTrue();
-    file = File(pickedFile.path);
-    setState(() {});
-    // ignore: use_build_context_synchronously
-    imageUrl = await UploadFileServices().getUrl(context, file: file!);
-    //await FirebaseFirestore.instance
-        //.collection("users")
-        //.doc(user.uid)
-        //.collection('reward')
-        //.doc(FirebaseAuth.instance.currentUser!.uid)
-       // .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
-  }
-}
-loadingTrue() {
-  isLoading = true;
-  setState(() {});
-}
-/ = ['٢٥٠', '٥٠٠', '٧٥٠', '١٠٠٠'];
-loadingFalse() {
-  isLoading = false;
-  setState(() {});
-}
-*/
-//point
+  
   Widget pointsSelect(String label, int color) {
     return InkWell(
       onTap: (() {
@@ -384,37 +353,4 @@ loadingFalse() {
       ),
     );
   }
-/*
-  Widget pointsSelect(String label, int color) {
-    return InkWell(
-      onTap: (() {
-        setState(() {
-          points = label;
-        });
-      }),
-      child: Chip(
-        backgroundColor: points == label ? Colors.black : Color(color),
-        // onPressed: () => setState(() => pressAttention = !pressAttention),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
-        ),
-        label: Text(
-          label,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        labelPadding: EdgeInsets.symmetric(
-          horizontal: points == label ? 17 : 17,
-          vertical: points == label ? 10 : 3.5,
-        ),
-      ),
-    );
-  }
-}
-*/
 }

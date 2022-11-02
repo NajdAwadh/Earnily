@@ -2,10 +2,7 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:earnily/Rewards/addReward.dart';
-import 'package:earnily/addKids/adultsKidProfile.dart';
-import 'package:earnily/api/rewardApi.dart';
-import 'package:earnily/notifier/rewardNotifier.dart';
-import 'package:earnily/reuasblewidgets.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,43 +23,18 @@ class MainRewards extends StatefulWidget {
 }
 
 class _MainRewardsState extends State<MainRewards> {
+ 
   final user = FirebaseAuth.instance.currentUser!;
-  final kidsDb = FirebaseFirestore.instance.collection('kids');
 
+ 
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    RewardNotifier rewardNotifier =
-        Provider.of<RewardNotifier>(context, listen: false);
-    getReward(rewardNotifier);
+ 
   }
 
-/*
-  void profile() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              "خطأ",
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.red),
-            ),
-            content: Text(
-              text,
-              textAlign: TextAlign.right,
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text("حسناً"),
-              )
-            ],
-          );
-        });
-  }
-*/
 
   int getBirthday(Timestamp date) {
     int birth = AgeCalculator.age(date.toDate()).years;
@@ -102,12 +74,12 @@ class _MainRewardsState extends State<MainRewards> {
 
   @override
   Widget build(BuildContext context) {
-    RewardNotifier rewardNotifier = Provider.of<RewardNotifier>(context);
-    List<AdultReward> list = rewardNotifier.rewardList;
+    final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+   .collection('users')
+      .doc(user.uid)
+      .collection('reward')
+        .snapshots();
 
-    Future<void> _refreshList() async {
-      getReward(rewardNotifier);
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -124,100 +96,79 @@ class _MainRewardsState extends State<MainRewards> {
           ),
         ),
       ),
-      body: new Directionality(
-        textDirection: ui.TextDirection.rtl,
-        child: list.isEmpty
-            ? Center(
-                child: Text(
-                  "لا يوجد لديك مكافآت \n قم بالإضافة الآن",
-                  style: TextStyle(fontSize: 30, color: Colors.grey),
-                ),
-              )
-            : Container(
-                child: GridView.builder(
-                  itemBuilder: (ctx, index) {
-                    list = rewardNotifier.rewardList;
-                    return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                            //vertical: 6,
-                            //horizontal: 8,
-                            ),
-                        child: Container(
-                          height: 150,
-                          color: chooseColor(
-                              index), //Colors.primaries[Random().nextInt(myColors.length)],
-
-                          child: new Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: new GridTile(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  Icon(
-                                    Icons.card_giftcard,
-                                    color: Colors.black,
-                                    size: 50,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    list[index].rewardName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    ),
-                                  ),
-                                  SizedBox(height: 15),
-                                  Text(
-                                    list[index].points + '🌟',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    ),
-                                  ),
-                                  //SizedBox(height: 15),
-                                  /*
-                                Text(
-                                  list[index].date.toString(),
-                                  style: TextStyle(
-                                    fontSize: 30,
+      body: StreamBuilder(
+        stream: _stream,
+        builder: (context, snapshot) {
+          return new Directionality(
+            textDirection: ui.TextDirection.rtl,
+            child: !snapshot.hasData
+                ? Center(
+                    child: Text(
+                      "لا يوجد لديك مكافآت \n قم بالإضافة الآن",
+                      style: TextStyle(fontSize: 30, color: Colors.grey),
+                    ),
+                  )
+                : Container(
+                    child: GridView.builder(
+                      itemBuilder: (ctx, index) {
+                      Map<String, dynamic> document =
+                                                snapshot.data!.docs[index]
+                                                        .data()
+                                                    as Map<String, dynamic>;
+                        return Card(
+                            elevation: 5,
+                            margin: EdgeInsets.symmetric(
+                                //vertical: 6,
+                                //horizontal: 8,
+                                ),
+                            child: Container(
+                              height: 150,
+                              color: chooseColor(
+                                  index), //Colors.primaries[Random().nextInt(myColors.length)],
+      
+                              child: new Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: new GridTile(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Icon(
+                                        Icons.card_giftcard,
+                                        color: Colors.black,
+                                        size: 50,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        document['rewardName'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                      SizedBox(height: 15),
+                                      Text(
+                                        document['points'] + '🌟',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                    
+                                    ],
                                   ),
                                 ),
-                                */
-/*
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    color: Theme.of(context).errorColor,
-                                    onPressed: () => {list[index]},
-                                  ),
-*/
-
-                                  /*
-                                  InkWell(
-                                    onTap: () {
-                                      kidsNotifier.currentKid =
-                                          kidsNotifier.kidsList[index];
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AdultsKidProfile()));
-                                    },
-                                    */
-                                  //),
-                                ],
                               ),
-                            ),
-                          ),
-                        ));
-                  },
-                  itemCount: rewardNotifier.rewardList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8),
-                ),
-              ),
+                            ));
+                      },
+                      itemCount: snapshot.data!.docs.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8),
+                    ),
+                  ),
+          );
+        }
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
