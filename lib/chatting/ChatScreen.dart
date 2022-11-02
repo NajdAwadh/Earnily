@@ -8,6 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 late User signedInUser;
 final firebase = FirebaseFirestore.instance;
@@ -31,6 +33,12 @@ void getCurrentUser() {
     print('failed to log in');
   }
 }
+
+
+
+
+
+  
 
 /*
 void kidsStream() async {
@@ -109,6 +117,8 @@ class _ChatScreenState extends State<ChatScreen> {
     messageController.clear();
     addMessages();
   }
+
+  
 
   void _showDialog(String text) {
     showDialog(
@@ -270,6 +280,10 @@ class _ChatScreenState extends State<ChatScreen> {
                           messageText = value;
                         },
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: () => {},
+                              icon: Icon(Icons.photo),
+                            ),
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 20,

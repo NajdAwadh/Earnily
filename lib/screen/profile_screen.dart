@@ -316,6 +316,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+
+
+
   ImagePicker picker = ImagePicker();
   File? file;
   String imageUrl = "";

@@ -9,6 +9,7 @@ import 'package:earnily/widgets/new_button.dart';
 import 'package:earnily/widgets/new_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../reuasblewidgets.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -19,6 +20,10 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  RegExp numReg = RegExp(r".*[0-9].*");
+RegExp letterReg = RegExp(r".*[A-Za-z].*");
+RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
@@ -49,6 +54,25 @@ class _SignInScreenState extends State<SignInScreen> {
           );
         });
   }
+
+    void showToastMessage(String message) {
+    //raghad
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white,
+        backgroundColor: Colors.red,
+
+        //message text color
+
+        fontSize: 16.0 //message font size
+        );
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -113,10 +137,14 @@ class _SignInScreenState extends State<SignInScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () async {
-                          if (_emailController.text.isEmpty ||
-                              _passController.text.isEmpty) {
-                            _showDialog();
-                          } else
+                          if (_emailController.text.isEmpty ){
+                            showToastMessage('الرجاء إدخال بريد الكتروني');
+                          } else if(!_emailController.text.contains('@')){
+                            showToastMessage('الرجاء إدخال بريد الكتروني صحيح يحتوي على @');
+                          } else if(_passController.text.isEmpty){
+                            showToastMessage('الرجاء إدخال كلمة مرور ');
+                          }
+                          else
                             await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                                     email: _emailController.text.trim(),
@@ -127,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => HomePage()));
                             }).onError((error, stackTrace) {
-                              print("error ${error.toString()}");
+                              showToastMessage("error ${error.toString()}");
                             });
                         }),
 
