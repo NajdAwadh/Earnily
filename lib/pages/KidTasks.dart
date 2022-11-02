@@ -46,6 +46,8 @@ class _kidTasksState extends State<kidTasks> {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
+    getCompleteTask(taskNotifier);
+
     super.initState();
     requestPermission();
 
@@ -315,122 +317,336 @@ class _kidTasksState extends State<kidTasks> {
           ),
         ),
       ),
-      body: new Directionality(
-        textDirection: ui.TextDirection.rtl,
-        child: list.isEmpty
-            ? Center(
-                child: Text(
-                  'لايوجد مهام',
-                  style: TextStyle(fontSize: 30, color: Colors.grey),
-                ),
-              )
-            : Container(
-                child: GridView.builder(
-                  itemBuilder: (ctx, index) {
-                    String iconData = '';
-                    Color iconColor;
-                    switch (taskNotifier.taskList[index].category) {
-                      case "النظافة":
-                        // iconData = Icons.wash;
-                        iconData = '🫧';
+      body: SafeArea(
+          child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: DefaultTabController(
+                      length: 2,
+                      initialIndex: 0,
+                      child: Column(
+                        children: [
+                          TabBar(
+                            labelColor: Colors.black,
+                            labelStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                            ),
+                            indicatorColor: Colors.black,
+                            tabs: [
+                              Tab(
+                                text: ' الحالية',
+                              ),
+                              Tab(
+                                text: ' السابقة',
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              children: [
+                                Center(
+                                  child: list.isEmpty
+                                      ? Center(
+                                          child: Text(
+                                            'لايوجد مهام',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Colors.grey),
+                                          ),
+                                        )
+                                      : Container(
+                                          child: GridView.builder(
+                                            itemBuilder: (ctx, index) {
+                                              String iconData = '';
+                                              Color iconColor;
+                                              switch (taskNotifier
+                                                  .taskList[index].category) {
+                                                case "النظافة":
+                                                  // iconData = Icons.wash;
+                                                  iconData = '🫧';
 
-                        iconColor = Color(0xffff6d6e);
-                        break;
-                      case "الأكل":
-                        // iconData = Icons.flatware_rounded;
-                        iconData = '🍽';
-                        iconColor = Color(0xfff29732);
-                        break;
+                                                  iconColor = Color(0xffff6d6e);
+                                                  break;
+                                                case "الأكل":
+                                                  // iconData = Icons.flatware_rounded;
+                                                  iconData = '🍽';
+                                                  iconColor = Color(0xfff29732);
+                                                  break;
 
-                      case "الدراسة":
-                        // iconData = Icons.auto_stories_outlined;
-                        iconData = '📚';
-                        iconColor = Color(0xff6557ff);
-                        break;
+                                                case "الدراسة":
+                                                  // iconData = Icons.auto_stories_outlined;
+                                                  iconData = '📚';
+                                                  iconColor = Color(0xff6557ff);
+                                                  break;
 
-                      case "تطوير الشخصية":
-                        //  iconData = Icons.border_color_outlined;
-                        iconData = '📖';
-                        iconColor = Color(0xff2bc8d9);
-                        break;
+                                                case "تطوير الشخصية":
+                                                  //  iconData = Icons.border_color_outlined;
+                                                  iconData = '📖';
+                                                  iconColor = Color(0xff2bc8d9);
+                                                  break;
 
-                      case "الدين":
-                        //  iconData = Icons.brightness_4_rounded;
-                        iconData = '🕌';
-                        iconColor = Color(0xff234ebd);
-                        break;
-                      default:
-                        // iconData = Icons.brightness_4_rounded;
-                        iconColor = Color(0xff6557ff);
-                    }
-                    return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        child: Container(
-                          height: 150,
-                          color:
-                              iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
+                                                case "الدين":
+                                                  //  iconData = Icons.brightness_4_rounded;
+                                                  iconData = '🕌';
+                                                  iconColor = Color(0xff234ebd);
+                                                  break;
+                                                default:
+                                                  // iconData = Icons.brightness_4_rounded;
+                                                  iconColor = Color(0xff6557ff);
+                                              }
+                                              return Card(
+                                                  elevation: 5,
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 10,
+                                                  ),
+                                                  child: Container(
+                                                    height: 150,
+                                                    color:
+                                                        iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
 
-                          child: new Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: new GridTile(
-                              child: Column(
-                                children: [
-                                  // SizedBox(height: 1),
-                                  //    imgWidget(set(list[index].gender), 64, 64),
+                                                    child: new Directionality(
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      child: new GridTile(
+                                                        child: Column(
+                                                          children: [
+                                                            SizedBox(
+                                                                height: 35),
+                                                            Text(
+                                                              iconData +
+                                                                  list[index]
+                                                                      .taskName,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 25,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '🕐' +
+                                                                  list[index]
+                                                                      .date,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '🌟' +
+                                                                  list[index]
+                                                                      .points,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 25,
+                                                              ),
+                                                            ),
+                                                            if (taskNotifier
+                                                                    .taskList[
+                                                                        index]
+                                                                    .state ==
+                                                                'Not complete')
+                                                              Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              0),
+                                                                  child:
+                                                                      CheckboxListTile(
+                                                                    selected:
+                                                                        false,
+                                                                    value: _selecteCategorysID
+                                                                        .contains(
+                                                                            taskNotifier.taskList[index]),
+                                                                    onChanged:
+                                                                        (selected) {
+                                                                      updateTask(
+                                                                          list[index]
+                                                                              .tid,
+                                                                          list[index]
+                                                                              .adult);
+                                                                      _onCategorySelected(
+                                                                          selected!,
+                                                                          taskNotifier
+                                                                              .taskList[index]);
+                                                                    },
+                                                                  ))
+                                                            else if (taskNotifier
+                                                                    .taskList[
+                                                                        index]
+                                                                    .state ==
+                                                                'Pending')
+                                                              Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              0),
+                                                                  child: Text(
+                                                                      '!في انتظار تأكيد والدك'))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ));
+                                            },
+                                            itemCount:
+                                                taskNotifier.taskList.length,
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisSpacing: 8,
+                                                    crossAxisSpacing: 8),
+                                          ),
+                                        ),
+                                ),
+                                Center(
+                                  child: taskNotifier.completeTaskList.isEmpty
+                                      ? Center(
+                                          child: Text(
+                                            'لايوجد مهام',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Colors.grey),
+                                          ),
+                                        )
+                                      : Container(
+                                          child: GridView.builder(
+                                            itemBuilder: (ctx, index) {
+                                              String iconData = '';
+                                              Color iconColor;
+                                              switch (taskNotifier
+                                                  .completeTaskList[index]
+                                                  .category) {
+                                                case "النظافة":
+                                                  // iconData = Icons.wash;
+                                                  iconData = '🫧';
 
-                                  //SizedBox(height: 1),
-                                  SizedBox(height: 35),
-                                  /*  Container(
+                                                  iconColor = Color(0xffff6d6e);
+                                                  break;
+                                                case "الأكل":
+                                                  // iconData = Icons.flatware_rounded;
+                                                  iconData = '🍽';
+                                                  iconColor = Color(0xfff29732);
+                                                  break;
+
+                                                case "الدراسة":
+                                                  // iconData = Icons.auto_stories_outlined;
+                                                  iconData = '📚';
+                                                  iconColor = Color(0xff6557ff);
+                                                  break;
+
+                                                case "تطوير الشخصية":
+                                                  //  iconData = Icons.border_color_outlined;
+                                                  iconData = '📖';
+                                                  iconColor = Color(0xff2bc8d9);
+                                                  break;
+
+                                                case "الدين":
+                                                  //  iconData = Icons.brightness_4_rounded;
+                                                  iconData = '🕌';
+                                                  iconColor = Color(0xff234ebd);
+                                                  break;
+                                                default:
+                                                  // iconData = Icons.brightness_4_rounded;
+                                                  iconColor = Color(0xff6557ff);
+                                              }
+                                              return Card(
+                                                  elevation: 5,
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 10,
+                                                  ),
+                                                  child: Container(
+                                                    height: 150,
+                                                    color:
+                                                        iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
+
+                                                    child: new Directionality(
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      child: new GridTile(
+                                                        child: Column(
+                                                          children: [
+                                                            // SizedBox(height: 1),
+                                                            //    imgWidget(set(list[index].gender), 64, 64),
+
+                                                            //SizedBox(height: 1),
+                                                            SizedBox(
+                                                                height: 35),
+                                                            /*  Container(
                                     height: 33,
                                     width: 36,
                                     child: Icon(iconData),
                                   ),*/
-                                  Text(
-                                    iconData + list[index].taskName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
-                                    ),
-                                  ),
-                                  Text(
-                                    '🕐' + list[index].date,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    '🌟' + list[index].points,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
-                                    ),
-                                  ),
+                                                            Text(
+                                                              iconData +
+                                                                  taskNotifier
+                                                                      .completeTaskList[
+                                                                          index]
+                                                                      .taskName,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 25,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '🕐' +
+                                                                  taskNotifier
+                                                                      .completeTaskList[
+                                                                          index]
+                                                                      .date,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '🌟' +
+                                                                  taskNotifier
+                                                                      .completeTaskList[
+                                                                          index]
+                                                                      .points,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 25,
+                                                              ),
+                                                            ),
 
-                                  Padding(
-                                    padding: EdgeInsets.all(0),
-                                    child: CheckboxListTile(
-                                      selected: false,
-                                      value: _selecteCategorysID.contains(
-                                          taskNotifier.taskList[index]),
-                                      onChanged: (selected) {
-                                        updateTask(
-                                            list[index].tid, list[index].adult);
+                                                            // Padding(
+                                                            //   padding: EdgeInsets.all(0),
+                                                            //   child: CheckboxListTile(
+                                                            //     selected: false,
+                                                            //     value: _selecteCategorysID.contains(
+                                                            //         taskNotifier.completeTaskList[index]),
+                                                            //     onChanged: (selected) {
+                                                            //       updateTask(
+                                                            //           list[index].tid, list[index].adult);
 
-                                        _onCategorySelected(selected!,
-                                            taskNotifier.taskList[index]);
-                                      },
+                                                            //       _onCategorySelected(selected!,
+                                                            //           taskNotifier.taskList[index]);
+                                                            //     },
 
-                                      //   title: Text(taskNotifier.taskList[index]),
-                                    ),
-                                  ),
+                                                            //   title: Text(taskNotifier.taskList[index]),
+                                                            //   ),
+                                                            // ),
 
-                                  //SizedBox(height: 15),
-                                  /*
+                                                            //SizedBox(height: 15),
+                                                            /*
                                 Text(
                                   list[index].date.toString(),
                                   style: TextStyle(
@@ -447,7 +663,7 @@ class _kidTasksState extends State<kidTasks> {
                                   
 */
 
-                                  /*   IconButton(
+                                                            /*   IconButton(
                                     icon: Icon(Icons.person),
                                     color: Theme.of(context).errorColor,
                                     onPressed: () {
@@ -477,20 +693,31 @@ class _kidTasksState extends State<kidTasks> {
                                           });
                                     },
                                   ),*/
-                                ],
-                              ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ));
+                                            },
+                                            itemCount:
+                                                taskNotifier.taskList.length,
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisSpacing: 8,
+                                                    crossAxisSpacing: 8),
+                                          ),
+                                        ),
+                                )
+                              ],
                             ),
                           ),
-                        ));
-                  },
-                  itemCount: taskNotifier.taskList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8),
-                ),
-              ),
-      ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         width: 110,

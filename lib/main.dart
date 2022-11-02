@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
       // home: QrCreateScreen(),
       // home: kidTasks(),
       //home: kidWish()
-      //  home: HomePageKid(),
+      //home: HomePageKid(),
       home: onbording(),
       // home: MainScreen(),
     );

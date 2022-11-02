@@ -12,6 +12,7 @@ getTask(TaskNotifier taskNotifier) async {
       .collection('kids')
       .doc(user.email)
       .collection('Task')
+      .where('state', isNotEqualTo: 'complete')
       .orderBy('date')
       .get();
 
@@ -23,6 +24,27 @@ getTask(TaskNotifier taskNotifier) async {
   });
 
   taskNotifier.taskList = _taskList;
+}
+
+getCompleteTask(TaskNotifier taskNotifier) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  QuerySnapshot snapshot = await FirebaseFirestore.instance
+      .collection('kids')
+      .doc(user.email)
+      .collection('Task')
+      .where('state', isEqualTo: 'complete')
+      .orderBy('date')
+      .get();
+
+  List<Task> _completeTaskList = [];
+
+  snapshot.docs.forEach((document) {
+    Task task = Task.fromMap(document.data() as Map<String, dynamic>);
+    _completeTaskList.add(task);
+  });
+
+  taskNotifier.completeTaskList = _completeTaskList;
 }
 
 getKidName(String name) {
