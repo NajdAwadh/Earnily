@@ -72,6 +72,9 @@ class _MainRewardsState extends State<MainRewards> {
     return myColors[index];
   }
 
+_showRewardSelected(){
+
+}
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
@@ -154,7 +157,24 @@ class _MainRewardsState extends State<MainRewards> {
                                           fontSize: 30,
                                         ),
                                       ),
-                                    
+                                     IconButton(
+                                      icon: Icon(Icons.check),
+                                      color: Colors.black,
+                                      onPressed: () =>{
+                                           /*  if (document['state'] =='pending')
+                                                          _showRewardSelected(
+                                                               /*  document[
+                                                                      'tid'],
+                                                                document[
+                                                                      'adult'],
+                                                                document[
+                                                                      'asignedKid'],
+                                                                document[
+                                                                      'points'] */)
+                                                                  else
+                                                                    _showDialog2() */
+                                             },
+                                     )
                                     ],
                                   ),
                                 ),
