@@ -23,9 +23,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-    RegExp numReg = RegExp(r".*[0-9].*");
-RegExp letterReg = RegExp(r".*[A-Za-z].*");
-RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
+  RegExp numReg = RegExp(r".*[0-9].*");
+  RegExp letterReg = RegExp(r".*[A-Za-z].*");
+  RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _repassController = TextEditingController();
@@ -59,7 +59,7 @@ RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
           );
         });
   }
-    void showToastMessage(String message) {
+  /* void showToastMessage(String message) {
     //raghad
     Fluttertoast.showToast(
         msg: message, //message to show toast
@@ -75,7 +75,20 @@ RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
 
         fontSize: 16.0 //message font size
         );
+  }*/
+
+  void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
   }
+
   void _showError() {
     showDialog(
         context: context,
@@ -143,8 +156,11 @@ RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
                         Expanded(
                             // optional flex property if flex is 1 because the default flex is 1
                             flex: 1,
-                            child: reuasbleTextField('العائلة',
-                                Icons.family_restroom, false, _familyController)),
+                            child: reuasbleTextField(
+                                'العائلة',
+                                Icons.family_restroom,
+                                false,
+                                _familyController)),
                         SizedBox(width: 10.0),
                         Expanded(
                             // optional flex property if flex is 1 because the default flex is 1
@@ -186,20 +202,24 @@ RegExp specialReg = RegExp(r".*[!@#$%^&*()_+\-=\[\]{};':" "\\|,.<>/?].*");
                         width: MediaQuery.of(context).size.width,
                         height: 110,
                         onClick: () async {
-                          if (_emailController.text.isEmpty ){
+                          if (_emailController.text.isEmpty) {
                             showToastMessage('الرجاء إدخال بريد الكتروني');
-                          } else if(!_emailController.text.contains('@')){
-                            showToastMessage('الرجاء إدخال بريد الكتروني صحيح يحتوي على @');
-                          } else if(_passController.text.isEmpty){
+                          } else if (!_emailController.text.contains('@')) {
+                            showToastMessage(
+                                'الرجاء إدخال بريد الكتروني صحيح يحتوي على @');
+                          } else if (_passController.text.isEmpty) {
                             showToastMessage('الرجاء إدخال كلمة مرور ');
-                          }else if(!numReg.hasMatch(_passController.text)){
-                            showToastMessage('كلمة المرور يجب أن تحتوي على أرقام');
-                          }else if(!letterReg.hasMatch(_passController.text)){
-                            showToastMessage('كلمة المرور يجب أن تحتوي على حروف');                                                     
-                          }else if(_passController.text.length < 8){
-                            showToastMessage('كلمة المرور يجب أن لا تقل عن 8 رموز');                                                     
-                          }
-                         else if (_passController.text !=
+                          } else if (!numReg.hasMatch(_passController.text)) {
+                            showToastMessage(
+                                'كلمة المرور يجب أن تحتوي على أرقام');
+                          } else if (!letterReg
+                              .hasMatch(_passController.text)) {
+                            showToastMessage(
+                                'كلمة المرور يجب أن تحتوي على حروف');
+                          } else if (_passController.text.length < 8) {
+                            showToastMessage(
+                                'كلمة المرور يجب أن لا تقل عن 8 رموز');
+                          } else if (_passController.text !=
                               _repassController.text)
                             _showError();
                           else

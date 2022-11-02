@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,6 +33,8 @@ class kidTasks extends StatefulWidget {
   State<kidTasks> createState() => _kidTasksState();
 }
 
+int points = 0;
+
 class _kidTasksState extends State<kidTasks> {
   //notification
   late AndroidNotificationChannel channel;
@@ -46,7 +49,11 @@ class _kidTasksState extends State<kidTasks> {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
     super.initState();
+    _getUserDetail();
     requestPermission();
 
     // loadFCM();
@@ -295,6 +302,7 @@ class _kidTasksState extends State<kidTasks> {
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     var list = taskNotifier.taskList;
 
     //return Directionality(
@@ -411,23 +419,25 @@ class _kidTasksState extends State<kidTasks> {
                                     ),
                                   ),
 
-                                  Padding(
-                                    padding: EdgeInsets.all(0),
-                                    child: CheckboxListTile(
-                                      selected: false,
-                                      value: _selecteCategorysID.contains(
-                                          taskNotifier.taskList[index]),
-                                      onChanged: (selected) {
-                                        updateTask(
-                                            list[index].tid, list[index].adult);
+                                  if (taskNotifier.taskList[index].state ==
+                                      'Not complete')
+                                    Padding(
+                                      padding: EdgeInsets.all(0),
+                                      child: CheckboxListTile(
+                                        selected: false,
+                                        value: _selecteCategorysID.contains(
+                                            taskNotifier.taskList[index]),
+                                        onChanged: (selected) {
+                                          updateTask(list[index].tid,
+                                              list[index].adult);
 
-                                        _onCategorySelected(selected!,
-                                            taskNotifier.taskList[index]);
-                                      },
+                                          _onCategorySelected(selected!,
+                                              taskNotifier.taskList[index]);
+                                        },
 
-                                      //   title: Text(taskNotifier.taskList[index]),
+                                        //   title: Text(taskNotifier.taskList[index]),
+                                      ),
                                     ),
-                                  ),
 
                                   //SizedBox(height: 15),
                                   /*
@@ -493,8 +503,10 @@ class _kidTasksState extends State<kidTasks> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        width: 110,
-        child: FittedBox(
+        width: 150,
+        height: 60,
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: SizedBox(
           child: FloatingActionButton.extended(
             backgroundColor: Colors.black,
             icon: Icon(
@@ -504,10 +516,27 @@ class _kidTasksState extends State<kidTasks> {
             onPressed: () {
               //
             },
-            label: Text('0'),
+            label: Text(
+              points.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  _getUserDetail() {
+    FirebaseFirestore.instance
+        .collection('kids')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) {
+      points = snapshot.get("points");
+      // setState(() {});
+    });
   }
 }

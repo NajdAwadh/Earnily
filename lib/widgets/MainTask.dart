@@ -1,8 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:earnily/api/kidsApi.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:earnily/api/taskApi.dart';
 import 'package:earnily/notifier/taskNotifier.dart';
+import 'package:earnily/notifier/kidsNotifier.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:earnily/widgets/view_task.dart';
@@ -11,6 +13,8 @@ import 'package:earnily/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../notifications/notification_api.dart';
+
+int pn = 0;
 
 class MainTask extends StatefulWidget {
   const MainTask({super.key});
@@ -23,6 +27,8 @@ class _MainTaskState extends State<MainTask> {
   Future getPointsFirestore() async {
     var firestore = FirebaseFirestore.instance;
     // int points=0;
+
+    TextEditingController pointsController = TextEditingController();
     QuerySnapshot qn = await firestore.collection("points").get();
     return qn.docs;
   }
@@ -34,8 +40,10 @@ class _MainTaskState extends State<MainTask> {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
     getTask(taskNotifier);
-     getCompleteTask(taskNotifier);
-  
+    getCompleteTask(taskNotifier);
+    KidsNotifier kidsNotifier =
+        Provider.of<KidsNotifier>(context, listen: false);
+    getKids(kidsNotifier);
   }
 
   void showToastMessage(String message) {
@@ -51,7 +59,9 @@ class _MainTaskState extends State<MainTask> {
   }
 
   int points = 0;
-  Future updateTask(String id, String adult, String kid, int point) async {
+
+  Future updateTask(
+      String id, String adult, String kid, int point, int p, int n) async {
     showToastMessage('تم قبول النشاط');
     Navigator.of(context).pop();
 
@@ -68,21 +78,43 @@ class _MainTaskState extends State<MainTask> {
         .collection("Task")
         .doc(id)
         .update({'state': 'complete'});
+    print(points);
+    // print(point);
+    // print(p);
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': points + pn});
+
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': points + pn});
+    pn = points;
+    print(pn);
+
+    //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
+  }
+
+  /*Future updateTask2(String id, String adult, String kid, int p, int n) async {
+    // points += point;
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adult)
         .collection('kids')
         .doc(kid + '@gmail.com')
-        .update({'points': points});
+        .update({'points2': p + n});
 
     await FirebaseFirestore.instance
         .collection('kids')
         .doc(kid + '@gmail.com')
-        .update({'points': points});
+        .update({'points2': p + n});
 
-        //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
-  }
+    //delete(id, adult, kid, "تم نقل النشاط للانشطة السابقة");
+  }*/
 
   Future delete(String id, String adult, String kid, String msg) async {
     showToastMessage(msg);
@@ -118,7 +150,8 @@ class _MainTaskState extends State<MainTask> {
         .delete();
   }
 
-  void _showDialog(String id, String adult, String kid, String points) {
+  void _showDialog(
+      String id, String adult, String kid, String points, int p, int n) {
     var point = int.parse(points);
     showDialog(
         context: context,
@@ -141,7 +174,9 @@ class _MainTaskState extends State<MainTask> {
             ),
             onPressed: () {
               Navigator.of(context).pop;
-              updateTask(id, adult, kid, point);
+              // updateTask2(id, adult, kid, p, n);
+              updateTask(id, adult, kid, point, p, n);
+              //  updateTask2(id, adult, kid, p, n);
             },
           );
 
@@ -263,7 +298,7 @@ class _MainTaskState extends State<MainTask> {
   @override
   Widget build(BuildContext context) {
     TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-
+    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
     Future<void> _refreshList() async {
       getTask(taskNotifier);
     }
@@ -455,26 +490,24 @@ class _MainTaskState extends State<MainTask> {
                                                                   onPressed:
                                                                       () => {
                                                                     if (taskNotifier
-                                                                            .taskList[
-                                                                                index]
+                                                                            .taskList[index]
                                                                             .state ==
                                                                         'pending')
-                                                                      _showDialog(
-                                                                          taskNotifier
-                                                                              .taskList[
-                                                                                  index]
-                                                                              .tid,
-                                                                          taskNotifier
-                                                                              .taskList[
-                                                                                  index]
-                                                                              .adult,
-                                                                          taskNotifier
-                                                                              .taskList[
-                                                                                  index]
-                                                                              .asignedKid,
-                                                                          taskNotifier
-                                                                              .taskList[index]
-                                                                              .points)
+                                                                      {
+                                                                        _showDialog(
+                                                                            taskNotifier.taskList[index].tid,
+                                                                            taskNotifier.taskList[index].adult,
+                                                                            taskNotifier.taskList[index].asignedKid,
+                                                                            taskNotifier.taskList[index].points,
+                                                                            kidsNotifier.currentKid.points,
+                                                                            kidsNotifier.currentKid.points2),
+                                                                        /*  updateTask2(
+                                                                            taskNotifier.taskList[index].tid,
+                                                                            taskNotifier.taskList[index].adult,
+                                                                            taskNotifier.taskList[index].asignedKid,
+                                                                            kidsNotifier.currentKid.points,
+                                                                            kidsNotifier.currentKid.points2)*/
+                                                                      }
                                                                     else
                                                                       _showDialog2()
                                                                   },
@@ -495,12 +528,17 @@ class _MainTaskState extends State<MainTask> {
                                               fontSize: 30, color: Colors.grey),
                                         )
                                       : Container(
-                                        child: ListView.builder(
+                                          child: ListView.builder(
                                             itemBuilder: (ctx, index) {
+                                              /*  int n= taskNotifier.completeTaskList.length;
+                                               for(int i=0,i<n,i++){
+                                    taskNotifier.completeTaskList[index].points
+                                  }*/
                                               IconData iconData;
                                               Color iconColor;
                                               switch (taskNotifier
-                                                  .completeTaskList[index].category) {
+                                                  .completeTaskList[index]
+                                                  .category) {
                                                 case "النظافة":
                                                   iconData = Icons.wash;
 
@@ -544,40 +582,42 @@ class _MainTaskState extends State<MainTask> {
                                                     textDirection:
                                                         TextDirection.rtl,
                                                     child: new ListTile(
-                                                        leading: CircleAvatar(
-                                                          backgroundColor:
-                                                              iconColor,
-                                                          foregroundColor:
-                                                              Colors.white,
-                                                          radius: 30,
-                                                          child: Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(6),
-                                                              child: Container(
-                                                                height: 33,
-                                                                width: 36,
-                                                                child: Icon(
-                                                                    iconData),
-                                                              )),
+                                                      leading: CircleAvatar(
+                                                        backgroundColor:
+                                                            iconColor,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                        radius: 30,
+                                                        child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    6),
+                                                            child: Container(
+                                                              height: 33,
+                                                              width: 36,
+                                                              child: Icon(
+                                                                  iconData),
+                                                            )),
+                                                      ),
+                                                      title: Text(
+                                                        taskNotifier
+                                                            .completeTaskList[
+                                                                index]
+                                                            .taskName,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 22,
                                                         ),
-                                                        title: Text(
-                                                          taskNotifier
-                                                              .completeTaskList[index]
-                                                              .taskName,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 22,
-                                                          ),
-                                                        ),
-                                                        subtitle: Text(
-                                                          '${taskNotifier.completeTaskList[index].asignedKid}\n${taskNotifier.completeTaskList[index].points}🌟 | ${_colors(taskNotifier.completeTaskList[index].state, taskNotifier.completeTaskList[index].asignedKid)}',
-                                                          style: TextStyle(
-                                                              fontSize: 17),
-                                                        ),
-                                                        isThreeLine: true,
-                                                        /* onTap: () {
+                                                      ),
+                                                      subtitle: Text(
+                                                        '${taskNotifier.completeTaskList[index].asignedKid}\n${taskNotifier.completeTaskList[index].points}🌟 | ${_colors(taskNotifier.completeTaskList[index].state, taskNotifier.completeTaskList[index].asignedKid)}',
+                                                        style: TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                      isThreeLine: true,
+
+                                                      /* onTap: () {
                                                           taskNotifier
                                                                   .currentTask =
                                                               taskNotifier
@@ -591,13 +631,13 @@ class _MainTaskState extends State<MainTask> {
                                                             return View_task();
                                                           }));
                                                         }, */
-                                                      ),
+                                                    ),
                                                   ));
                                             },
-                                            itemCount:
-                                                taskNotifier.completeTaskList.length,
-                                      ),
-                                ),
+                                            itemCount: taskNotifier
+                                                .completeTaskList.length,
+                                          ),
+                                        ),
                                 )
                               ],
                             ),

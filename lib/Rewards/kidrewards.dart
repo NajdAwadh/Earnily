@@ -18,6 +18,8 @@ class kidreward extends StatefulWidget {
   State<kidreward> createState() => _kidrewardState();
 }
 
+int points = 0;
+
 class _kidrewardState extends State<kidreward> {
   @override
   final user = FirebaseAuth.instance.currentUser!;
@@ -26,6 +28,7 @@ class _kidrewardState extends State<kidreward> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getUserDetail();
     RewardNotifier rewardNotifier =
         Provider.of<RewardNotifier>(context, listen: false);
     getReward(rewardNotifier);
@@ -153,8 +156,10 @@ class _kidrewardState extends State<kidreward> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        width: 110,
-        child: FittedBox(
+        width: 150,
+        height: 60,
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: SizedBox(
           child: FloatingActionButton.extended(
             backgroundColor: Colors.black,
             icon: Icon(
@@ -164,10 +169,27 @@ class _kidrewardState extends State<kidreward> {
             onPressed: () {
               //
             },
-            label: Text('0'),
+            label: Text(
+              points.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  _getUserDetail() {
+    FirebaseFirestore.instance
+        .collection('kids')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) {
+      points = snapshot.get("points");
+      // setState(() {});
+    });
   }
 }

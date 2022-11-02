@@ -11,6 +11,8 @@ class Kids {
   late String uid;
   late String parentId;
   late String pass;
+  late int points;
+  late int points2;
 
   Kids.fromMap(Map<String, dynamic> data) {
     name = data['name'];
@@ -19,6 +21,8 @@ class Kids {
     uid = data["uid"];
     parentId = data["parentId"];
     pass = data["pass"];
+    points = data["points"];
+    points2 = data["points2"];
   }
 
   Map<String, dynamic> toMap() {
@@ -28,6 +32,8 @@ class Kids {
       'date': date,
       'parentId': parentId,
       'pass': pass,
+      'points': points,
+      'points2': points2,
     };
   }
 }

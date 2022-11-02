@@ -203,8 +203,10 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'gender': value,
       'date': date,
       'uid': user.uid,
+      'parentId': user.uid,
       'pass': u.substring(0, 8),
       'points': 0,
+      'points2': 0,
     });
 
     await FirebaseFirestore.instance
@@ -218,6 +220,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
       'parentId': user.uid,
       'pass': u.substring(0, 8),
       'points': 0,
+      'points2': 0,
     });
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: nameController.text + '@gmail.com', password: u.substring(0, 8));
