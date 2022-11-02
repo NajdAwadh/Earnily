@@ -72,9 +72,35 @@ class _MainRewardsState extends State<MainRewards> {
     return myColors[index];
   }
 
-_showRewardSelected(){
+void _showRewardSelected()  {
+   showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "حسنا",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+           return AlertDialog(
+            title: Text(
+              "طفلك اختار هذه المكافاة ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+            ]
 
+);
+        }
+   );
 }
+
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
@@ -157,24 +183,15 @@ _showRewardSelected(){
                                           fontSize: 30,
                                         ),
                                       ),
-                                     IconButton(
+                                      if (document['state'] =='selected')
+                                    IconButton(
                                       icon: Icon(Icons.check),
                                       color: Colors.black,
                                       onPressed: () =>{
-                                           /*  if (document['state'] =='pending')
-                                                          _showRewardSelected(
-                                                               /*  document[
-                                                                      'tid'],
-                                                                document[
-                                                                      'adult'],
-                                                                document[
-                                                                      'asignedKid'],
-                                                                document[
-                                                                      'points'] */)
-                                                                  else
-                                                                    _showDialog2() */
-                                             },
-                                     )
+                                        _showRewardSelected()
+
+                                            },
+                                      )
                                     ],
                                   ),
                                 ),

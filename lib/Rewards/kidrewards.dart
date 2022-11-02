@@ -69,14 +69,14 @@ class _kidrewardState extends State<kidreward> {
     return myColors[index];
   }
 
-  Future<void> deleteReward(String rid) async {
+ /*  Future<void> deleteReward(String rid) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adultID)
         .collection("reward")
         .doc(rid)
         .delete();
-  }
+  } */
 
   void _showDialog2(String point, String rid) async {
     print(point);
@@ -127,7 +127,14 @@ class _kidrewardState extends State<kidreward> {
           .collection('kids')
           .doc(kidName + '@gmail.com')
           .update({'points': kidPoint - rewardPoint});
-      deleteReward(rid);
+      //deleteReward(rid);
+
+      await FirebaseFirestore.instance
+         .collection('users')
+         .doc(adultID)
+         .collection('reward')
+         .doc(rid)
+         .update({'state':'selected'});
     }
   }
 
@@ -221,17 +228,6 @@ class _kidrewardState extends State<kidreward> {
                                           ),
                                         ),
                                         SizedBox(height: 10),
-                                        /* conButton(
-                                        icon: Icon(
-                                          Icons.shopping_bag,
-                                          size:20,
-                                          semanticLabel: "احصل على المكافاه"),
-                                          color: Colors.black,
-                                            onPressed: () => {
-                                              //chack kid point great reward point or not
-                                              _showDialog2(document['points'] , document['rid'])
-                                  },
-                                ), */
                                         OutlinedButton.icon(
                                           //color: Colors.black,
                                           onPressed: () => {
