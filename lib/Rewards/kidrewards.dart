@@ -18,21 +18,19 @@ class kidreward extends StatefulWidget {
   @override
   State<kidreward> createState() => _kidrewardState();
 }
-String adultID ='';
-int points =0;
-String kidName='';
+
+String adultID = '';
+int points = 0;
+String kidName = '';
+
 //String rid='';
 class _kidrewardState extends State<kidreward> {
-
-
   final user = FirebaseAuth.instance.currentUser!;
 
- 
   void initState() {
     // TODO: implement initState
     super.initState();
     _getUserDetail();
-  
   }
 
   int getBirthday(Timestamp date) {
@@ -72,7 +70,7 @@ class _kidrewardState extends State<kidreward> {
   }
 
   Future<void> deleteReward(String rid) async {
- await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(adultID)
         .collection("reward")
@@ -80,62 +78,60 @@ class _kidrewardState extends State<kidreward> {
         .delete();
   }
 
-  void _showDialog2( String point  , String rid) async  {
+  void _showDialog2(String point, String rid) async {
     print(point);
     print(points);
     print(rid);
-    int rewardPoint=  int.parse(point);
-     print(rewardPoint);
+    int rewardPoint = int.parse(point);
+    print(rewardPoint);
     int kidPoint = points;
-   /*  kidPoint= (await FirebaseFirestore.instance
+    /*  kidPoint= (await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .get()) as int; */
-    if (rewardPoint > kidPoint){
-    showDialog(
-        context: context,
-        builder: (context) {
-          // set up the buttons
-          Widget cancelButton = TextButton(
-            child: Text(
-              "حسنا",
-              style: TextStyle(
-                fontSize: 20,
+    if (rewardPoint > kidPoint) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            // set up the buttons
+            Widget cancelButton = TextButton(
+              child: Text(
+                "حسنا",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            onPressed: Navigator.of(context).pop,
-          );
-           return AlertDialog(
-            title: Text(
-              'ليس لديك نقاط كافية للحصول على المكافاة',
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
-            ),
-            actions: [
-              cancelButton,
-            ],
-          );
-        });}
-        else{
-          showToastMessage('لقد حصلت على المكافاة');
-          await FirebaseFirestore.instance
-        .collection('kids')
-        .doc(kidName+'@gmail.com')
-        .update({'points': kidPoint-rewardPoint});
+              onPressed: Navigator.of(context).pop,
+            );
+            return AlertDialog(
+              title: Text(
+                'ليس لديك نقاط كافية للحصول على المكافاة',
+                textAlign: TextAlign.right,
+                style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+              ),
+              actions: [
+                cancelButton,
+              ],
+            );
+          });
+    } else {
+      showToastMessage('لقد حصلت على المكافاة');
+      await FirebaseFirestore.instance
+          .collection('kids')
+          .doc(kidName + '@gmail.com')
+          .update({'points': kidPoint - rewardPoint});
 
-         await FirebaseFirestore.instance
-         .collection('users')
-         .doc(adultID)
-        .collection('kids')
-        .doc(kidName+'@gmail.com')
-        .update({'points': kidPoint-rewardPoint});
-        deleteReward(rid);
-        }
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(adultID)
+          .collection('kids')
+          .doc(kidName + '@gmail.com')
+          .update({'points': kidPoint - rewardPoint});
+      deleteReward(rid);
+    }
   }
 
-
-
-void showToastMessage(String message) {
+  void showToastMessage(String message) {
     Fluttertoast.showToast(
         msg: message, //message to show toast
         toastLength: Toast.LENGTH_LONG, //duration for message to show
@@ -145,13 +141,13 @@ void showToastMessage(String message) {
         textColor: Colors.white, //message text color
         fontSize: 16.0 //message font size
         );
-        }
-  Widget build(BuildContext context) {
-     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+  }
 
-          .collection('users')
-      .doc(adultID)
-      .collection('reward')
+  Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(adultID)
+        .collection('reward')
         .snapshots();
     return Scaffold(
       appBar: AppBar(
@@ -169,64 +165,63 @@ void showToastMessage(String message) {
         ),
       ),
       body: StreamBuilder(
-        stream: _stream,
-        builder: (context, snapshot) {
-          return new Directionality(
-            textDirection: ui.TextDirection.rtl,
-            child: !snapshot.hasData
-                ? Center(
-                    child: Text(
-                  "لا يوجد لديك مكافآت",
-                      style: TextStyle(fontSize: 30, color: Colors.grey),
-                    ),
-                  )
-                : Container(
-                    child: GridView.builder(
-                      itemBuilder: (ctx, index) {
-                      Map<String, dynamic> document =
-                                                snapshot.data!.docs[index]
-                                                        .data()
-                                                    as Map<String, dynamic>;
-                        return Card(
-                            elevation: 5,
-                            margin: EdgeInsets.symmetric(
-                                //vertical: 6,
-                                //horizontal: 8,
-                                ),
-                            child: Container(
-                              height: 150,
-                              color: chooseColor(
-                                  index), //Colors.primaries[Random().nextInt(myColors.length)],
-      
-                              child: new Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: new GridTile(
-                                  child: Column(
-                                    children: [
-                                      SizedBox(height: 10),
-                                       Icon(
-                                        Icons.card_giftcard,
-                                        color: Colors.black,
-                                        size: 20,
-                                      ),
-                                      SizedBox(height: 10), 
-                                      Text(
-                                        document['rewardName'],
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
+          stream: _stream,
+          builder: (context, snapshot) {
+            return new Directionality(
+              textDirection: ui.TextDirection.rtl,
+              child: !snapshot.hasData
+                  ? Center(
+                      child: Text(
+                        "لا يوجد لديك مكافآت",
+                        style: TextStyle(fontSize: 30, color: Colors.grey),
+                      ),
+                    )
+                  : Container(
+                      child: GridView.builder(
+                        itemBuilder: (ctx, index) {
+                          Map<String, dynamic> document =
+                              snapshot.data!.docs[index].data()
+                                  as Map<String, dynamic>;
+                          return Card(
+                              elevation: 5,
+                              margin: EdgeInsets.symmetric(
+                                  //vertical: 6,
+                                  //horizontal: 8,
+                                  ),
+                              child: Container(
+                                height: 150,
+                                color: chooseColor(
+                                    index), //Colors.primaries[Random().nextInt(myColors.length)],
+
+                                child: new Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: new GridTile(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Icon(
+                                          Icons.card_giftcard,
+                                          color: Colors.black,
+                                          size: 20,
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        document['points'] + '🌟',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
+                                        SizedBox(height: 10),
+                                        Text(
+                                          document['rewardName'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                    /* conButton(
+                                        SizedBox(height: 10),
+                                        Text(
+                                          document['points'] + '🌟',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        /* conButton(
                                         icon: Icon(
                                           Icons.shopping_bag,
                                           size:20,
@@ -237,44 +232,48 @@ void showToastMessage(String message) {
                                               _showDialog2(document['points'] , document['rid'])
                                   },
                                 ), */
-                                OutlinedButton.icon(
-                                  //color: Colors.black,
-                                  onPressed: () => {
-                                       //chack kid point great reward point or not
-                                      _showDialog2(document['points'] , document['rid'])
-                                  },
-                                  icon: Icon( // <-- Icon
-                                    Icons.shopping_bag,
-                                    size: 20.0,
-                                    color: Colors.black,
+                                        OutlinedButton.icon(
+                                          //color: Colors.black,
+                                          onPressed: () => {
+                                            //chack kid point great reward point or not
+                                            _showDialog2(document['points'],
+                                                document['rid'])
+                                          },
+                                          icon: Icon(
+                                            // <-- Icon
+                                            Icons.shopping_bag,
+                                            size: 20.0,
+                                            color: Colors.black,
+                                          ),
+                                          label: Text(
+                                            'احصل على المكافاه',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
                                             ),
-                                    label: Text(
-                                      'احصل على المكافاه',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                        ),), // <-- Text
-                                      ),
-                                    ],
+                                          ), // <-- Text
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ));
-                      },
-                      itemCount: snapshot.data!.docs.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8),
+                              ));
+                        },
+                        itemCount: snapshot.data!.docs.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 8),
+                      ),
                     ),
-                  ),
-          );
-        }
-      ),
-     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            );
+          }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        width: 110,
-        child: FittedBox(
+        width: 150,
+        height: 60,
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: SizedBox(
           child: FloatingActionButton.extended(
             backgroundColor: Colors.black,
             icon: Icon(
@@ -284,23 +283,30 @@ void showToastMessage(String message) {
             onPressed: () {
               //
             },
-            label: Text('0'),
+            label: Text(
+              points.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
   _getUserDetail() {
     FirebaseFirestore.instance
         .collection('kids')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .snapshots()
         .listen((DocumentSnapshot snapshot) {
-        kidName =snapshot.get('name');
+      kidName = snapshot.get('name');
       adultID = snapshot.get("uid");
-      points=snapshot.get("points");
-       //rid = snapshot.get("rid");
+      points = snapshot.get("points");
+      //rid = snapshot.get("rid");
       setState(() {});
-      });
-      }
+    });
+  }
 }

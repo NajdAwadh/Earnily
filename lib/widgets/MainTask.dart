@@ -16,6 +16,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../notifications/notification_api.dart';
 
+int pn = 0;
+
 class MainTask extends StatefulWidget {
   const MainTask({super.key});
 
@@ -47,7 +49,7 @@ class _MainTaskState extends State<MainTask> {
     showToastMessage('تم قبول النشاط');
     Navigator.of(context).pop();
 
-    points += point;
+    // points += point;
     await FirebaseFirestore.instance
         .collection('users')
         .doc(adult)
@@ -66,12 +68,14 @@ class _MainTaskState extends State<MainTask> {
         .doc(adult)
         .collection('kids')
         .doc(kid + '@gmail.com')
-        .update({'points': points});
+        .update({'points': point + pn});
 
     await FirebaseFirestore.instance
         .collection('kids')
         .doc(kid + '@gmail.com')
-        .update({'points': points});
+        .update({'points': point + pn});
+
+    pn = point;
   }
 
   Future delete(String id, String adult, String kid, String msg) async {
@@ -412,10 +416,13 @@ class _MainTaskState extends State<MainTask> {
                                                                 builder: (builder) => View_task(
                                                                     document:
                                                                         document,
-                                                                    id: snapshot.data?.docs[index].id as String
+                                                                    id: snapshot
+                                                                        .data
+                                                                        ?.docs[
+                                                                            index]
+                                                                        .id as String
                                                                     //pass doc
-                                                                    )
-                                                                    ));
+                                                                    )));
                                                       },
                                                       trailing: Wrap(
                                                           spacing: 0,
@@ -575,7 +582,10 @@ class _MainTaskState extends State<MainTask> {
                                                                         View_task(
                                                                           document:
                                                                               document,
-                                                                              id: snapshot.data?.docs[index].id as String,
+                                                                          id: snapshot
+                                                                              .data
+                                                                              ?.docs[index]
+                                                                              .id as String,
                                                                         )));
                                                       },
                                                       trailing: Wrap(

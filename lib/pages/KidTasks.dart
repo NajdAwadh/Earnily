@@ -32,6 +32,8 @@ class kidTasks extends StatefulWidget {
   State<kidTasks> createState() => _kidTasksState();
 }
 
+int points = 0;
+
 class _kidTasksState extends State<kidTasks> {
   //notification
   late AndroidNotificationChannel channel;
@@ -43,9 +45,10 @@ class _kidTasksState extends State<kidTasks> {
   @override
   void initState() {
     super.initState();
+    _getUserDetail();
     requestPermission();
 
-    getToken();
+    // getToken();
   }
 
   void sendPushMessage() async {
@@ -78,7 +81,7 @@ class _kidTasksState extends State<kidTasks> {
     }
   }
 
-  void getToken() async {
+  /*void getToken() async {
     await FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         mtoken = token;
@@ -86,7 +89,7 @@ class _kidTasksState extends State<kidTasks> {
       });
       saveToken(token!);
     });
-  }
+  }*/
 
   void saveToken(String token) async {
     await FirebaseFirestore.instance
@@ -202,8 +205,6 @@ class _kidTasksState extends State<kidTasks> {
   }
 
   void _onCategorySelected(bool selected, String tid) {
-    
-
     if (selected == true) {
       showToastMessage('تم التآكيد! انتظر قبول والدك');
 
@@ -384,36 +385,31 @@ class _kidTasksState extends State<kidTasks> {
                                             fontSize: 25,
                                           ),
                                         ),
-                                        if(document['state']=="Not complete")
-                                        Padding(
-                                          padding: EdgeInsets.all(0),
-                                          child: CheckboxListTile(
+                                        if (document['state'] == "Not complete")
+                                          Padding(
+                                            padding: EdgeInsets.all(0),
+                                            child: CheckboxListTile(
+                                              selected: false,
+                                              value: _selecteCategorysID
+                                                  .contains(document['tid']),
+                                              onChanged: (selected) {
+                                                print(document['state']);
+                                                print(document);
+                                                updateTask(document['tid'],
+                                                    document['adult']);
 
-                                            selected: false,
-
-                                            value: _selecteCategorysID.contains(document['tid']),
-                                            onChanged: (selected) {
-                                              print(document['state']);
-                                             print(document);
-                                               updateTask(document['tid'],
-                                                  document['adult']);
-
-                                              _onCategorySelected(selected!,
-                                                  document['tid']);
-                                             
-                                            },
-
+                                                _onCategorySelected(
+                                                    selected!, document['tid']);
+                                              },
+                                            ),
                                           ),
-                                        ),
-
-                            
                                       ],
                                     ),
                                   ),
                                 ),
                               ));
                         },
-                        itemCount:snapshot.data!.docs.length,
+                        itemCount: snapshot.data!.docs.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 8,
@@ -424,8 +420,10 @@ class _kidTasksState extends State<kidTasks> {
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        width: 110,
-        child: FittedBox(
+        width: 150,
+        height: 60,
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: SizedBox(
           child: FloatingActionButton.extended(
             backgroundColor: Colors.black,
             icon: Icon(
@@ -435,11 +433,28 @@ class _kidTasksState extends State<kidTasks> {
             onPressed: () {
               //
             },
-            label: Text('0'),
+            label: Text(
+              points.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
-}
 
+  _getUserDetail() {
+    FirebaseFirestore.instance
+        .collection('kids')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) {
+      points = snapshot.get("points");
+      //rid = snapshot.get("rid");
+      setState(() {});
+    });
+  }
+}

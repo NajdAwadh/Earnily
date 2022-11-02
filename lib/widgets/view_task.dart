@@ -104,7 +104,7 @@ class _View_taskState extends State<View_task> {
         'category': categoty,
         'asignedKid': childName,
       });
-    
+
       await FirebaseFirestore.instance
           .collection('kids')
           .doc(kid + '@gmail.com')
@@ -116,7 +116,7 @@ class _View_taskState extends State<View_task> {
         'date': _selectedDate,
         'category': categoty,
         'asignedKid': childName,
-      });  
+      });
       showToastMessage("تم تعديل النشاط بنجاح");
       // Notifications.showNotification(
       //   title: "EARNILY",
@@ -357,8 +357,6 @@ class _View_taskState extends State<View_task> {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.done) {
-                                 
-
                                     return DropdownButtonFormField<String>(
                                         hint: childName.isEmpty
                                             ? Text("اختر الطفل")
@@ -408,19 +406,19 @@ class _View_taskState extends State<View_task> {
                           alignment: WrapAlignment.center,
                           runSpacing: 10,
                           children: [
-                            pointsSelect("١٠٠", 0xffff6d6e),
+                            pointsSelect("100", 0xffff6d6e),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('٧٥', 0xfff29732),
+                            pointsSelect('75', 0xfff29732),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('٥٠', 0xff6557ff),
+                            pointsSelect('50', 0xff6557ff),
                             SizedBox(
                               width: 20,
                             ),
-                            pointsSelect('٢٥', 0xff2bc8d9),
+                            pointsSelect('25', 0xff2bc8d9),
                           ]),
                       SizedBox(
                         height: 10,

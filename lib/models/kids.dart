@@ -6,7 +6,7 @@ class Kids {
   late String name;
   late String gender;
   late Timestamp date;
-  late String point;
+  late int points;
   late String uid;
   late String pass;
 
@@ -18,18 +18,17 @@ class Kids {
     name = data['name'];
     gender = data['gender'];
     date = data['date'];
-    point = data['point'];
+    points = data['points'];
     uid = data["uid"];
     pass = data["pass"];
   }
-
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'gender': gender,
       'date': date,
-      'point': point,
+      'points': points,
       'uid': uid,
       'pass': pass,
     };
