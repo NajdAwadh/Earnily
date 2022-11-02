@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:earnily/Rewards/kidrewards.dart';
 import 'package:earnily/addKids/addkids_screen_1.dart';
 import 'package:earnily/addKids/adultsKidProfile.dart';
+import 'package:earnily/chatting/ChatScreenKid.dart';
 import 'package:earnily/pages/KidTasks.dart';
 import 'package:earnily/pages/kidWishs.dart';
 import 'package:earnily/reuasblewidgets.dart';
@@ -17,6 +18,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Rewards/MainRewards.dart';
+import '../chatting/chatScreen.dart';
 import '../screen/profile_screen.dart';
 import '../services/upload_file.dart';
 import '../widgets/show_picker.dart';
@@ -47,6 +49,7 @@ class _HomePageKidState extends State<HomePageKid> {
     kidTasks(),
     // kidWish(),
     kidreward(),
+    ChatScreenKid(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -201,6 +204,11 @@ class _HomePageKidState extends State<HomePageKid> {
           ),
           Icon(
             Icons.star,
+            color: Colors.white,
+            size: 35,
+          ),
+          Icon(
+            Icons.message_outlined,
             color: Colors.white,
             size: 35,
           ),

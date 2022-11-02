@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     MainTask(),
     Calendar(),
     MainRewards(),
+    ChatScreen(),
   ];
 
   @override
@@ -225,6 +226,11 @@ class _HomePageState extends State<HomePage> {
             Icons.star,
             color: Colors.white,
             size: 35,
+          ),
+          Icon(
+            Icons.message_outlined,
+            color: Colors.white,
+            size: 30,
           ),
         ],
       ),
