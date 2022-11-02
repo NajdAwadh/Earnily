@@ -27,12 +27,11 @@ class AdultKids extends StatefulWidget {
 
 class _AdultKidsState extends State<AdultKids> {
   final user = FirebaseAuth.instance.currentUser!;
- 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   int getBirthday(Timestamp date) {
@@ -101,7 +100,7 @@ class _AdultKidsState extends State<AdultKids> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Text(
-                  "لا يوجد لديك مهام \n قم بالإضافة الآن",
+                  "لا يوجد لديك أطفال \n قم بالإضافة الآن",
                   style: TextStyle(fontSize: 30, color: Colors.grey),
                 );
               }
@@ -138,19 +137,18 @@ class _AdultKidsState extends State<AdultKids> {
                                   color: Colors.black,
                                   iconSize: 40,
                                   onPressed: () {
-                                    
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                         
-                                                  builder: (builder) => AdultsKidProfile(
-                                                                    document:document,
-                                                                    id: snapshot.data?.docs[index].id as String
-                                                                    //pass doc
-                                                                    )
-                                                
-                                                )
-                                                );
+                                            builder: (builder) =>
+                                                AdultsKidProfile(
+                                                    document: document,
+                                                    id: snapshot
+                                                        .data
+                                                        ?.docs[index]
+                                                        .id as String
+                                                    //pass doc
+                                                    )));
                                   },
                                 ),
                               ],
