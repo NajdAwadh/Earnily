@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:earnily/api/rewardApi.dart';
 
@@ -18,6 +19,9 @@ class kidreward extends StatefulWidget {
   State<kidreward> createState() => _kidrewardState();
 }
 String adultID ='';
+int points =0;
+String kidName='';
+//String rid='';
 class _kidrewardState extends State<kidreward> {
 
 
@@ -67,6 +71,81 @@ class _kidrewardState extends State<kidreward> {
     return myColors[index];
   }
 
+  Future<void> deleteReward(String rid) async {
+ await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adultID)
+        .collection("reward")
+        .doc(rid)
+        .delete();
+  }
+
+  void _showDialog2( String point  , String rid) async  {
+    print(point);
+    print(points);
+    print(rid);
+    int rewardPoint=  int.parse(point);
+     print(rewardPoint);
+    int kidPoint = points;
+   /*  kidPoint= (await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()) as int; */
+    if (rewardPoint > kidPoint){
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "حسنا",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+           return AlertDialog(
+            title: Text(
+              'ليس لديك نقاط كافية للحصول على المكافاة',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+            ],
+          );
+        });}
+        else{
+          showToastMessage('لقد حصلت على المكافاة');
+          await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kidName+'@gmail.com')
+        .update({'points': kidPoint-rewardPoint});
+
+         await FirebaseFirestore.instance
+         .collection('users')
+         .doc(adultID)
+        .collection('kids')
+        .doc(kidName+'@gmail.com')
+        .update({'points': kidPoint-rewardPoint});
+        deleteReward(rid);
+        }
+  }
+
+
+
+void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        backgroundColor: Colors.grey, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
+        }
   Widget build(BuildContext context) {
      final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
 
@@ -125,28 +204,57 @@ class _kidrewardState extends State<kidreward> {
                                   child: Column(
                                     children: [
                                       SizedBox(height: 10),
-                                      Icon(
+                                       Icon(
                                         Icons.card_giftcard,
                                         color: Colors.black,
-                                        size: 50,
+                                        size: 20,
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(height: 10), 
                                       Text(
                                         document['rewardName'],
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 30,
+                                          fontSize: 20,
                                         ),
                                       ),
-                                      SizedBox(height: 15),
+                                      SizedBox(height: 10),
                                       Text(
                                         document['points'] + '🌟',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 30,
+                                          fontSize: 20,
                                         ),
                                       ),
-                                    
+                                      SizedBox(height: 10),
+                                    /* conButton(
+                                        icon: Icon(
+                                          Icons.shopping_bag,
+                                          size:20,
+                                          semanticLabel: "احصل على المكافاه"),
+                                          color: Colors.black,
+                                            onPressed: () => {
+                                              //chack kid point great reward point or not
+                                              _showDialog2(document['points'] , document['rid'])
+                                  },
+                                ), */
+                                OutlinedButton.icon(
+                                  //color: Colors.black,
+                                  onPressed: () => {
+                                       //chack kid point great reward point or not
+                                      _showDialog2(document['points'] , document['rid'])
+                                  },
+                                  icon: Icon( // <-- Icon
+                                    Icons.shopping_bag,
+                                    size: 20.0,
+                                    color: Colors.black,
+                                            ),
+                                    label: Text(
+                                      'احصل على المكافاه',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),), // <-- Text
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -188,7 +296,10 @@ class _kidrewardState extends State<kidreward> {
         .doc(FirebaseAuth.instance.currentUser!.email)
         .snapshots()
         .listen((DocumentSnapshot snapshot) {
+        kidName =snapshot.get('name');
       adultID = snapshot.get("uid");
+      points=snapshot.get("points");
+       //rid = snapshot.get("rid");
       setState(() {});
       });
       }

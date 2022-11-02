@@ -104,15 +104,16 @@ class _addRewardState extends State<add_Reward> {
 
   Future addReward() async {
     const tuid = Uuid();
-    String tid = tuid.v4();
+    String rid = tuid.v4();
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('reward')
-        .doc(tid)
+        .doc(rid)
         .set({
       'rewardName': _nameController.text,
       'points': points,
+      'rid':rid
       //'image':"assets/images/gold-star.png",
     });
     // retrieve();
