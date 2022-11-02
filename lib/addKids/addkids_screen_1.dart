@@ -35,7 +35,8 @@ class AddKids_screen_1 extends StatefulWidget {
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final TextEditingController nameController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser!;
-
+  String? value ;
+DateTime? date;
   @override
   void initState() {
     // TODO: implement initState
@@ -44,8 +45,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
   }
 
   final List<String> items = <String>["طفل", "طفلة"];
-  String? value;
-  DateTime? date;
+  
 
   //final _nameController = TextEditingController();
   List<String> names = [];
@@ -161,31 +161,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     }
   }
 
-  //final kidsDb = FirebaseFirestore.instance.collection('kids');
-  //final user = FirebaseAuth.instance.currentUser!;
-
-  /* Future addUserDetails(String name, String family, String email) async {
-    final firebaseUser = await FirebaseAuth.instance.currentUser!;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(firebaseUser.uid)
-        .set({
-      'firstName': name,
-      'family': family,
-      'email': email,
-      'image': '',
-      'uid': firebaseUser.uid,
-    });
-  }
-  
-  final messageRef = FirebaseFirestore.instance
-      .collection("rooms")
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection("messages")
-      .doc("message1");
-  
-  */
-
   Future addKidDetails() async {
     var uuid = Uuid();
     String u = uuid.v4();
@@ -294,13 +269,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     SizedBox(height: 30),
                     //Image.asset("assets/images/ChildrenFreepik.png"),
                     imgWidget("assets/images/ChildrenFreepik.png", 100, 100),
-                    /*
-                    Icon(
-                      Icons.family_restroom,
-                      color: Colors.black,
-                      size: 100,
-                    ),
-                    */
+               
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -369,7 +338,9 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                       //female
                                       children: [
                                         Radio(
+                                          
                                             value: items[1],
+                                            
                                             groupValue: value,
                                             onChanged: (newValue) {
                                               setState(() {
@@ -400,11 +371,13 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         Radio(
                                             value: items[0],
                                             groupValue: value,
+                                            
                                             onChanged: (newValue) {
                                               setState(() {
                                                 value = newValue!;
                                               });
-                                            }),
+                                            }
+                                            ),
                                         Text(
                                           items[0],
                                           style: TextStyle(
@@ -415,16 +388,15 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        //Image.asset("assets/images/boy24.png"),
                                         imgWidget("assets/images/boyIcon.png",
                                             32, 32),
-                                        /*
-                                        Icon(Icons.child_care,
-                                            color: Colors.blue),*/
+                                     
                                       ],
                                     )
                                   ],
-                                )))),
+                                ))
+                                
+                                )),
                     SizedBox(
                       height: 20,
                     ),

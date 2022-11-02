@@ -15,19 +15,18 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:googleapis/people/v1.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
-import '../api/kidsApi.dart';
-import '../notifier/kidsNotifier.dart';
 import '../reuasblewidgets.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/new_text.dart';
 import 'package:intl/intl.dart';
 
 class AdultsKidProfile extends StatefulWidget {
-  const AdultsKidProfile({super.key,required this.document, required this.id});
+  const AdultsKidProfile({super.key, required this.document, required this.id});
   final Map<String, dynamic> document;
   final String id;
 
@@ -37,43 +36,48 @@ class AdultsKidProfile extends StatefulWidget {
 
 final user = FirebaseAuth.instance.currentUser!;
 
-
 class _AdultsKidProfile extends State<AdultsKidProfile> {
-bool isLoading = false;
-String image = '';
-DateTime? date;
+  bool isLoading = false;
+  late String dateastimestamp;
+  String? value;
+  DateTime? date;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
 
+  final List<String> items = <String>["طفل", "طفلة"];
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController _familyController = TextEditingController();
   bool isEnabled = false;
+  bool edit = false;
+  late String pass;
+
   @override
   void initState() {
     // TODO: implement initState
 
+    _nameController = TextEditingController(text: widget.document['name']);
+    value = widget.document['gender'];
+    date = widget.document['date'].toDate();
+    pass = widget.document['pass'];
 
-      TextEditingController nameController = TextEditingController(text: widget.document['name']);
-  TextEditingController _familyController = TextEditingController(text: widget.document['name']);
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
     super.initState();
   }
 
-  void _showDatePicker() async => showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2007),
-        lastDate: DateTime.now(),
-      ).then((value) {
-        if (value == null) {
-          return;
-        }
-        setState(() {
-          date = value;
-        });
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2007),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      if (value == null) {
+        return;
+      }
+      setState(() {
+        date = value;
+        //here maybe an error
       });
+    });
+  }
 
   String set(String gender) {
     if (gender == "طفلة")
@@ -94,21 +98,20 @@ DateTime? date;
         );
   }
 
-  Future delete(Kids kid, String msg) async {
+  Future delete(String kiduid, String kidName, String msg) async {
     // Navigator.of(context);
 
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(kid.uid)
+        .doc(kiduid)
         .collection("kids")
-        .doc(kid.name + "@gmail.com")
+        .doc(kidName + "@gmail.com")
         .delete();
     await FirebaseFirestore.instance
         .collection('kids')
-        .doc(kid.name + '@gmail.com')
+        .doc(kidName + '@gmail.com')
         .delete();
 
-   
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return HomePage();
@@ -116,7 +119,7 @@ DateTime? date;
     showToastMessage(msg);
   }
 
-  void _showDialog(Kids kid) {
+  void _showDialog(String kiduid, String kidName) {
     showDialog(
         context: context,
         builder: (context) {
@@ -134,7 +137,7 @@ DateTime? date;
               style: TextStyle(fontSize: 20, color: Colors.green),
             ),
             onPressed: () {
-              delete(kid, 'تم حذف الطفل');
+              delete(kiduid, kidName, 'تم حذف الطفل');
             },
           );
 
@@ -157,11 +160,72 @@ DateTime? date;
         });
   }
 
+  Future _updateTask(String adult, String kid) async {
+    //Navigator.of(context).pop();
+    if (
+        value != "" &&
+        _nameController.text != "" &&
+        date != "") {
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(adult)
+          .collection("kids")
+          .doc(kid)
+          .update({
+        'name': _nameController.text,
+        'gender': value,
+        'date': date,
+      });
+
+      await FirebaseFirestore.instance
+          .collection('kids')
+          .doc(kid)
+         
+          .update({
+        'name': _nameController.text,
+        'gender': value,
+        'date': date,
+      });
+      showToastMessage("تم تعديل ملف طفلك بنجاح");
+      // Notifications.showNotification(
+      //   title: "EARNILY",
+      //   body: ' لديك نشاط جديد بأنتظارك',
+      //   payload: 'earnily',
+      // );
+      Navigator.of(context).pop();
+    } else {
+      _showDialog2();
+    }
+  }
+
+  void _showDialog2() {
+    showDialog(
+
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "خطأ",
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.red),
+            ),
+            content: Text(
+              "ادخل البيانات المطلوبة",
+              textAlign: TextAlign.right,
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text("حسناً"),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier = Provider.of<KidsNotifier>(context);
-    Kids currentKid = kidsNotifier.currentKid;
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -199,7 +263,6 @@ DateTime? date;
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              //  iconTheme: IconThemeData(color: Colors.black),
             ),
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
@@ -207,6 +270,10 @@ DateTime? date;
                 padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                 child: Column(
                   children: [
+                    if (widget.document['gender'] == 'طفلة' && edit == false)
+                      imgWidget("assets/images/girlIcon.png", 100, 100),
+                    if (widget.document['gender'] == 'طفل' && edit == false)
+                      imgWidget("assets/images/boyIcon.png", 100, 100),
                     Text(
                       'الرمز التعريفي لطفلي',
                       style: TextStyle(
@@ -215,23 +282,9 @@ DateTime? date;
                           color: Colors.deepPurple),
                     ),
                     Text(
-                      currentKid.pass,
+                      widget.document['pass'],
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      'الاسم للتسجيل',
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.deepPurple),
-                    ),
-                    Text(
-                      currentKid.name,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -249,7 +302,6 @@ DateTime? date;
                           textDirection: ui.TextDirection.rtl,
                           textAlign: TextAlign.right),
                     ),
-
                     SizedBox(
                       height: 10,
                     ),
@@ -261,11 +313,12 @@ DateTime? date;
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(15)),
                       child: TextFormField(
-                        enabled: false,
+                        controller: _nameController,
+                        enabled: edit,
                         textAlign: TextAlign.right,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: currentKid.name,
+                            hintText: 'اسم الطفل',
                             hintTextDirection: ui.TextDirection.rtl,
                             hintStyle: TextStyle(
                               color: Colors.black,
@@ -277,7 +330,6 @@ DateTime? date;
                             )),
                       ),
                     ),
-
                     SizedBox(
                       height: 10,
                     ),
@@ -291,38 +343,106 @@ DateTime? date;
                           textDirection: ui.TextDirection.rtl,
                           textAlign: TextAlign.right),
                     ),
-
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextFormField(
-                        enabled: false,
-                        textAlign: TextAlign.right,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: currentKid.gender,
-                            hintTextDirection: ui.TextDirection.rtl,
-                            hintStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                            ),
-                            contentPadding: EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                            )),
+                    if (edit == false)
+                      Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: widget.document['gender'],
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
+                        ),
                       ),
-                    ),
+                    if (edit == true)
+                      Positioned(
+                          right: 107,
+                          top: 300,
+                          width: 254,
+                          height: 66,
+                          child: Container(
+                              alignment: Alignment.topRight,
+                              child: new Directionality(
+                                  textDirection: ui.TextDirection.rtl,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                      ),
+                                      Row(
+                                        //female
+                                        children: [
+                                          Radio(
+                                              value: items[1],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[1],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          imgWidget(
+                                              "assets/images/girlIcon.png",
+                                              32,
+                                              32),
+                                        ],
+                                      ),
+                                      Row(
+                                        //male
+                                        children: [
+                                          Radio(
+                                              value: items[0],
+                                              groupValue: value,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  value = newValue!;
+                                                });
+                                              }),
+                                          Text(
+                                            items[0],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          imgWidget("assets/images/boyIcon.png",
+                                              32, 32),
+                                        ],
+                                      )
+                                    ],
+                                  )))),
                     SizedBox(
                       height: 10,
                     ),
-                
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -338,125 +458,108 @@ DateTime? date;
                     SizedBox(
                       height: 10,
                     ),
+                    if (edit == false)
+                      Container(
+                        alignment: Alignment.topRight,
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '${DateFormat.yMd().format(date!)}',
+                              hintTextDirection: ui.TextDirection.rtl,
+                              hintStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                              contentPadding: EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              )),
 
-                    Container(
-                      alignment: Alignment.topRight,
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(15)),
-                      child: TextFormField(
-                        enabled: false,
-                        textAlign: TextAlign.right,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText:
-                                '${DateFormat.yMd().format(currentKid.date.toDate())}',
-                            hintTextDirection: ui.TextDirection.rtl,
-                            hintStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                            ),
-                            contentPadding: EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                            )),
+                          //onChanged: (val) => setState(() => _currentName = val),
+                        ),
                       ),
-                    ),
-
+                    if (edit == true)
+                      SizedBox(
+                        //width: 300,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _showDatePicker,
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.all(18),
+                            backgroundColor: Colors.grey[100],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          child: new Directionality(
+                            textDirection: ui.TextDirection.rtl,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  date == ""
+                                      ? 'لم يتم اختيار تاريخ'
+                                      : 'التاريخ المختار: ${DateFormat.yMd().format(date!)}',
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    Column(children: <Widget>[
+                      if (edit == false)
+                        NewButton(
+                            height: 100,
+                            width: 320,
+                            text: 'تعديل',
+                            onClick: () {
+                              setState(() {
+                                edit = !edit;
+                              });
+                            }),
+                      if (edit == true)
+                        NewButton(
+                            height: 100,
+                            width: 320,
+                            text: 'حفظ التغييرات',
+                            onClick: () => {_updateTask(user.uid, widget.id)}),
+                      if (edit == true)
+                        NewButton(
+                            height: 100,
+                            width: 320,
+                            text: 'إلغاء',
+                            onClick: () {
+                              Navigator.of(context).pop();
+                            }),
+                    ]),
                     IconButton(
                       icon: Icon(Icons.delete),
                       color: Colors.red,
                       iconSize: 40,
                       onPressed: () {
-                        _showDialog(currentKid);
+                        _showDialog(
+                            widget.document['uid'], widget.document['name']);
                       },
                     ),
-                    // NewText(
-                    //   text: ':تاريخ الميلاد',
-                    //   fontWeight: FontWeight.bold,
-                    //   size: 18,
-                    // ),
-                    // SizedBox(
-                    //   width: 300,
-                    //   height: 50,
-                    //   /*
-                    //   child: ElevatedButton(
-                    //     onPressed: _showDatePicker,
-                    //     style: ElevatedButton.styleFrom(
-                    //       padding: EdgeInsets.zero,
-                    //       backgroundColor: Colors.grey[200],
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(30),
-                    //         side: const BorderSide(
-                    //           width: 1,
-                    //           color: Colors.grey,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     */
-                    //   child: new Directionality(
-                    //     textDirection: ui.TextDirection.rtl,
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //       children: [
-                    //         Text(
-                    //           '${DateFormat.yMd().format(currentKid.date.toDate())}',
-                    //           overflow: TextOverflow.visible,
-                    //           textAlign: TextAlign.left,
-                    //           style: const TextStyle(
-                    //             fontSize: 15,
-                    //             fontWeight: FontWeight.w400,
-                    //             color: Colors.grey,
-                    //           ),
-                    //         ),
-                    //         Icon(
-                    //           Icons.calendar_today,
-                    //           size: 30,
-                    //           color: Colors.black,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    //   //),
-                    // ),
-                    // Divider(
-                    //   color: Colors.grey[300],
-                    //   thickness: 2,
-                    //   height: 5,
-                    // ),
-                    /*
-                    if (isEnabled == false)
-                      NewButton(
-                          text: 'تعديل',
-                          height: 100,
-                          width: 320,
-                          onClick: () {
-                            isEnabled = !isEnabled;
-                            setState(() {});
-                          }),
-                    if (isEnabled == true)
-                      NewButton(
-                          height: 100,
-                          width: 320,
-                          text: 'حفظ التغييرات',
-                          onClick: () {
-                            //resetEmail(_emailController.text);
-                            //updateProfile();
-                          }),
-                    if (isEnabled == true)
-                      NewButton(
-                          height: 100,
-                          width: 320,
-                          text: 'إلغاء',
-                          onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AdultsKidProfile()));
-                          })
-                          */
                   ],
                 ),
               ),
@@ -464,56 +567,4 @@ DateTime? date;
       ),
     );
   }
-
-  ImagePicker picker = ImagePicker();
-
-  File? file;
-  String imageUrl = "";
-
-  Future getImage(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source, imageQuality: 30);
-    if (pickedFile != null && pickedFile.path != null) {
-      //loadingTrue();
-
-      file = File(pickedFile.path);
-      setState(() {});
-      // ignore: use_build_context_synchronously
-      imageUrl = await UploadFileServices().getUrl(context, file: file!);
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({"image": imageUrl}, SetOptions(merge: true)).then((value) {});
-    }
-  }
-/*
-  updateProfile() {
-    loadingTrue();
-    try {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({
-        "firstName": nameController.text.isEmpty ? name : nameController.text,
-        "family":
-            _familyController.text.isEmpty ? family : _familyController.text,
-        "email": _emailController.text.isEmpty ? email : _emailController.text
-      }, SetOptions(merge: true)).then((value) {
-        loadingFalse();
-        print('update');
-      });
-    } catch (e) {
-      loadingFalse();
-    }
-  }
-
-  loadingTrue() {
-    isLoading = true;
-    setState(() {});
-  }
-
-  loadingFalse() {
-    isLoading = false;
-    setState(() {});
-  }
-  */
 }
