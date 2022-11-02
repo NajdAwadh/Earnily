@@ -263,20 +263,17 @@ class _kidTasksState extends State<kidTasks> {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('kids')
-      .doc(user.email)
-      .collection('Task')
-      .where('state', isNotEqualTo: 'complete')
+        .doc(user.email)
+        .collection('Task')
+        .where('state', isNotEqualTo: 'complete')
         .snapshots();
-  
-      
 
-            final Stream<QuerySnapshot> _stream2 = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> _stream2 = FirebaseFirestore.instance
         .collection('kids')
-      .doc(user.email)
-      .collection('Task')
-      .where('state', isEqualTo: 'complete')
+        .doc(user.email)
+        .collection('Task')
+        .where('state', isEqualTo: 'complete')
         .snapshots();
-
 
     return Scaffold(
       appBar: AppBar(
@@ -293,7 +290,7 @@ class _kidTasksState extends State<kidTasks> {
           ),
         ),
       ),
-      body:SafeArea(
+      body: SafeArea(
           child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Column(
@@ -325,149 +322,189 @@ class _kidTasksState extends State<kidTasks> {
                             child: TabBarView(
                               children: [
                                 StreamBuilder(
-                                  stream: _stream,
-                                  builder: (context, snapshot) {
-                                    return 
-                                    Center(
-                                      child: !snapshot.hasData
-                                          ? Center(
-                                              child: Text(
-                                                'لايوجد مهام',
-                                                style: TextStyle(
-                                                    fontSize: 30,
-                                                    color: Colors.grey),
+                                    stream: _stream,
+                                    builder: (context, snapshot) {
+                                      return Center(
+                                        child: !snapshot.hasData
+                                            ? Center(
+                                                child: Text(
+                                                  'لايوجد مهام',
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      color: Colors.grey),
+                                                ),
+                                              )
+                                            : Container(
+                                                child: GridView.builder(
+                                                  itemBuilder: (ctx, index) {
+                                                    Map<String, dynamic>
+                                                        document = snapshot
+                                                                .data!
+                                                                .docs[index]
+                                                                .data()
+                                                            as Map<String,
+                                                                dynamic>;
+
+                                                    String iconData = '';
+                                                    Color iconColor;
+                                                    switch (
+                                                        document['category']) {
+                                                      case "النظافة":
+                                                        // iconData = Icons.wash;
+                                                        iconData = '🫧';
+
+                                                        iconColor =
+                                                            Color(0xffff6d6e);
+                                                        break;
+                                                      case "الأكل":
+                                                        // iconData = Icons.flatware_rounded;
+                                                        iconData = '🍽';
+                                                        iconColor =
+                                                            Color(0xfff29732);
+                                                        break;
+
+                                                      case "الدراسة":
+                                                        // iconData = Icons.auto_stories_outlined;
+                                                        iconData = '📚';
+                                                        iconColor =
+                                                            Color(0xff6557ff);
+                                                        break;
+
+                                                      case "تطوير الشخصية":
+                                                        //  iconData = Icons.border_color_outlined;
+                                                        iconData = '📖';
+                                                        iconColor =
+                                                            Color(0xff2bc8d9);
+                                                        break;
+
+                                                      case "الدين":
+                                                        //  iconData = Icons.brightness_4_rounded;
+                                                        iconData = '🕌';
+                                                        iconColor =
+                                                            Color(0xff234ebd);
+                                                        break;
+                                                      default:
+                                                        // iconData = Icons.brightness_4_rounded;
+                                                        iconColor =
+                                                            Color(0xff6557ff);
+                                                    }
+                                                    return Card(
+                                                        elevation: 5,
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                          vertical: 10,
+                                                          horizontal: 10,
+                                                        ),
+                                                        child: Container(
+                                                          height: 150,
+                                                          color:
+                                                              iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
+
+                                                          child:
+                                                              new Directionality(
+                                                            textDirection:
+                                                                TextDirection
+                                                                    .rtl,
+                                                            child: new GridTile(
+                                                              child: Column(
+                                                                children: [
+                                                                  SizedBox(
+                                                                      height:
+                                                                          35),
+                                                                  Text(
+                                                                    iconData +
+                                                                        document[
+                                                                            'taskName'],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          25,
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    '🕐' +
+                                                                        document[
+                                                                            'date'],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          20,
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    '🌟' +
+                                                                        document[
+                                                                            'points'],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          25,
+                                                                    ),
+                                                                  ),
+                                                                  if (document[
+                                                                          'state'] ==
+                                                                      "Not complete")
+                                                                    Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                      child:
+                                                                          CheckboxListTile(
+                                                                        selected:
+                                                                            false,
+                                                                        value: _selecteCategorysID
+                                                                            .contains(document['tid']),
+                                                                        onChanged:
+                                                                            (selected) {
+                                                                          print(
+                                                                              document['state']);
+                                                                          print(
+                                                                              document);
+                                                                          updateTask(
+                                                                              document['tid'],
+                                                                              document['adult']);
+
+                                                                          _onCategorySelected(
+                                                                              selected!,
+                                                                              document['tid']);
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ));
+                                                  },
+                                                  itemCount: snapshot
+                                                      .data!.docs.length,
+                                                  gridDelegate:
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount: 2,
+                                                          mainAxisSpacing: 8,
+                                                          crossAxisSpacing: 8),
+                                                ),
                                               ),
-                                            )
-                                          : Container(
-                                              child: GridView.builder(
-                                                 itemBuilder: (ctx, index) {
-                                                    Map<String, dynamic> document =
-                              snapshot.data!.docs[index].data()
-                                  as Map<String, dynamic>;
-
-                                                  String iconData = '';
-                                                  Color iconColor;
-                                                  switch (document['category']) {
-                                                    case "النظافة":
-                                                      // iconData = Icons.wash;
-                                                      iconData = '🫧';
-                                
-                                                      iconColor = Color(0xffff6d6e);
-                                                      break;
-                                                    case "الأكل":
-                                                      // iconData = Icons.flatware_rounded;
-                                                      iconData = '🍽';
-                                                      iconColor = Color(0xfff29732);
-                                                      break;
-                                
-                                                    case "الدراسة":
-                                                      // iconData = Icons.auto_stories_outlined;
-                                                      iconData = '📚';
-                                                      iconColor = Color(0xff6557ff);
-                                                      break;
-                                
-                                                    case "تطوير الشخصية":
-                                                      //  iconData = Icons.border_color_outlined;
-                                                      iconData = '📖';
-                                                      iconColor = Color(0xff2bc8d9);
-                                                      break;
-                                
-                                                    case "الدين":
-                                                      //  iconData = Icons.brightness_4_rounded;
-                                                      iconData = '🕌';
-                                                      iconColor = Color(0xff234ebd);
-                                                      break;
-                                                    default:
-                                                      // iconData = Icons.brightness_4_rounded;
-                                                      iconColor = Color(0xff6557ff);
-                                                  }
-                                                  return Card(
-                                                      elevation: 5,
-                                                      margin: EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10,
-                                                      ),
-                                                      child: Container(
-                                                        height: 150,
-                                                        color:
-                                                            iconColor, //Colors.primaries[Random().nextInt(myColors.length)],
-                                
-                                                        child: new Directionality(
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                          child: new GridTile(
-                                                            child: Column(
-                                                              children: [
-                                                                SizedBox(
-                                                                    height: 35),
-                                                                Text(
-                                                                  iconData +
-                                                                    document['taskName'],
-                                                                  style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: 25,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  '🕐' +
-                                                                    document['date'],
-                                                                  style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: 20,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  '🌟' +
-                                                                      document['points'],
-                                                                  style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: 25,
-                                                                  ),
-                                                                ),
-                                                                    if(document['state']=="Not complete")
-                                        Padding(
-                                          padding: EdgeInsets.all(0),
-                                          child: CheckboxListTile(
-
-                                            selected: false,
-
-                                            value: _selecteCategorysID.contains(document['tid']),
-                                            onChanged: (selected) {
-                                              print(document['state']);
-                                             print(document);
-                                               updateTask(document['tid'],
-                                                  document['adult']);
-
-                                              _onCategorySelected(selected!,
-                                                  document['tid']);
-                                             
-                                            },
-
-                                          ),
-                                        ),
-
-                            
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ));
-                        },
-                        itemCount:snapshot.data!.docs.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 8),
+                                      );
+                                    })
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-            );
-          }),
+                  ),
+                ],
+              ))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
         width: 150,
