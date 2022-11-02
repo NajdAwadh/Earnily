@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
+import '../chatting/ChatScreen.dart';
 import '../reuasblewidgets.dart';
 import 'home_page_kid.dart';
 

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/addKids/adultsKidProfile.dart';
-import 'package:earnily/chatting/ChatScreenKid.dart';
+import 'package:earnily/chatting/chatScreenKid.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:googleapis/clouddebugger/v2.dart';
@@ -21,16 +21,16 @@ List<String> list = [];
 String uid = '';
 String myId = '';
 
-class ChatScreenKid extends StatefulWidget {
+class ChatScreen extends StatefulWidget {
   static const String screenRoute = 'chat_screen';
 
-  const ChatScreenKid({Key? key}) : super(key: key);
+  const ChatScreen({Key? key}) : super(key: key);
 
   @override
-  _ChatScreenKidState createState() => _ChatScreenKidState();
+  _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenKidState extends State<ChatScreenKid> {
+class _ChatScreenState extends State<ChatScreen> {
   final firebase = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
   late String messageText;
@@ -41,6 +41,7 @@ class _ChatScreenKidState extends State<ChatScreenKid> {
     super.initState();
 
     getCurrentUser();
+    getKidsDetails();
   }
 
   void getCurrentUser() {
@@ -48,13 +49,26 @@ class _ChatScreenKidState extends State<ChatScreenKid> {
       final user = auth.currentUser;
       if (user != null) {
         signedInUser = user;
-        childName = user.email!.substring(0, user.email!.indexOf('@'));
         myId = signedInUser.uid;
         print(signedInUser);
       }
     } catch (e) {
       print('fail to log in');
     }
+  }
+
+  getKidsDetails() {
+    firebase
+        .collection('kids')
+        .doc(auth.currentUser!.email)
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) {
+      uid = snapshot.get('uid');
+      myId = snapshot.get('parentId');
+      name = snapshot.get('name');
+      print('getKid' + myId);
+      print(snapshot.get('name'));
+    });
   }
 
   void validate() {
@@ -163,6 +177,33 @@ class _ChatScreenKidState extends State<ChatScreenKid> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Container(
+                  alignment: Alignment.topRight,
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(15)),
+                  child: DropdownButtonFormField<String>(
+                      hint: childName.isEmpty ? Text("الطفل") : Text(childName),
+                      isExpanded: true,
+                      alignment: Alignment.centerRight,
+                      validator: (val) {
+                        if (val == null) return "اختر الطفل";
+                        return null;
+                      },
+                      items: list.map((valueItem) {
+                        return DropdownMenuItem(
+                          alignment: Alignment.centerRight,
+                          value: valueItem,
+                          child: Text(valueItem),
+                        );
+                      }).toList(),
+                      onChanged: (newVal) {
+                        setState(() {
+                          childName = newVal!;
+                        });
+                      })),
               messageStreamBuilder(),
               Container(
                 decoration: BoxDecoration(
