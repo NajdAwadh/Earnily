@@ -602,8 +602,7 @@ class _MainTaskState extends State<MainTask> {
                                                                     'state'] ==
                                                                 'pending')
                                                               IconButton(
-                                                                icon: Icon(Icons
-                                                                    .check),
+                                                                icon: Icon(Icons.check),
                                                                 color: Colors
                                                                     .black,
                                                                 onPressed: () =>

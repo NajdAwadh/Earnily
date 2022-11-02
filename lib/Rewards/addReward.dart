@@ -113,7 +113,8 @@ class _addRewardState extends State<add_Reward> {
         .set({
       'rewardName': _nameController.text,
       'points': points,
-      'rid':rid
+      'rid':rid,
+      'state':'unselected'
       //'image':"assets/images/gold-star.png",
     });
     // retrieve();
