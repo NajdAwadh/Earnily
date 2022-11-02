@@ -35,10 +35,10 @@ class AdultsKidProfile extends StatefulWidget {
   State<AdultsKidProfile> createState() => _AdultsKidProfile();
 }
 
+final user = FirebaseAuth.instance.currentUser!;
 
 
 class _AdultsKidProfile extends State<AdultsKidProfile> {
-final user = FirebaseAuth.instance.currentUser!;
 bool isLoading = false;
 String image = '';
 DateTime? date;
