@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:earnily/api/rewardApi.dart';
 
@@ -17,9 +18,7 @@ class kidreward extends StatefulWidget {
   @override
   State<kidreward> createState() => _kidrewardState();
 }
-
-int points = 0;
-
+int points =0 ;
 class _kidrewardState extends State<kidreward> {
   @override
   final user = FirebaseAuth.instance.currentUser!;
@@ -28,10 +27,11 @@ class _kidrewardState extends State<kidreward> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getUserDetail();
     RewardNotifier rewardNotifier =
         Provider.of<RewardNotifier>(context, listen: false);
     getReward(rewardNotifier);
+    
+    _getUserDetail();
   }
 
   int getBirthday(Timestamp date) {
@@ -69,6 +69,71 @@ class _kidrewardState extends State<kidreward> {
   Color chooseColor(int index) {
     return myColors[index];
   }
+void _showDialog2( String points) async  {
+    int rewardPoint=  int.parse(points);
+    int kidPoint =0 ;
+    kidPoint= (await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()) as int;
+    if (rewardPoint > kidPoint){
+    showDialog(
+        context: context,
+        builder: (context) {
+          // set up the buttons
+          Widget cancelButton = TextButton(
+            child: Text(
+              "حسنا",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onPressed: Navigator.of(context).pop,
+          );
+          return AlertDialog(
+            title: Text(
+              'ليس لديك نقاط كافية للحصول على المكافاة',
+              textAlign: TextAlign.right,
+              style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+            ),
+            actions: [
+              cancelButton,
+            ],
+          );
+        });}
+        else{
+          showToastMessage('لقد حصلت على المكافاة');
+          await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .update({'points': kidPoint-rewardPoint});
+        }
+        /*   await FirebaseFirestore.instance
+        .collection('users')
+        .doc(adult)
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .get({'points': points});
+
+    await FirebaseFirestore.instance
+        .collection('kids')
+        .doc(kid + '@gmail.com')
+        .update({'points': points}); */
+  }
+
+
+void showToastMessage(String message) {
+    Fluttertoast.showToast(
+        msg: message, //message to show toast
+        toastLength: Toast.LENGTH_LONG, //duration for message to show
+        gravity: ToastGravity.CENTER, //where you want to show, top, bottom
+        timeInSecForIosWeb: 1, //for iOS only
+        //backgroundColor: Colors.red, //background Color for message
+        textColor: Colors.white, //message text color
+        fontSize: 16.0 //message font size
+        );
+        }
+
 
   Widget build(BuildContext context) {
     RewardNotifier rewardNotifier = Provider.of<RewardNotifier>(context);
@@ -119,12 +184,12 @@ class _kidrewardState extends State<kidreward> {
                               child: Column(
                                 children: [
                                   SizedBox(height: 10),
-                                  Icon(
+                                 /*  Icon(
                                     Icons.card_giftcard,
                                     color: Colors.black,
                                     size: 50,
                                   ),
-                                  SizedBox(height: 10),
+                                  SizedBox(height: 10), */
                                   Text(
                                     list[index].rewardName,
                                     style: TextStyle(
@@ -140,6 +205,16 @@ class _kidrewardState extends State<kidreward> {
                                       fontSize: 30,
                                     ),
                                   ),
+                                  IconButton(
+                                        icon: Icon(
+                                          Icons.add,
+                                          semanticLabel: "احصل على المكافاه"),
+                                          color: Theme.of( context).primaryColorDark,
+                                            onPressed: () => {
+                                              //chack kid point great reward point or not
+                                              _showDialog2(list[index].points)
+                                   },
+                                ),
                                 ],
                               ),
                             ),
@@ -156,10 +231,8 @@ class _kidrewardState extends State<kidreward> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        width: 150,
-        height: 60,
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-        child: SizedBox(
+        width: 110,
+        child: FittedBox(
           child: FloatingActionButton.extended(
             backgroundColor: Colors.black,
             icon: Icon(
@@ -169,13 +242,7 @@ class _kidrewardState extends State<kidreward> {
             onPressed: () {
               //
             },
-            label: Text(
-              points.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
+            label: Text('0'),
           ),
         ),
       ),
@@ -189,7 +256,8 @@ class _kidrewardState extends State<kidreward> {
         .snapshots()
         .listen((DocumentSnapshot snapshot) {
       points = snapshot.get("points");
-      // setState(() {});
-    });
-  }
+      //points= int.parse(points);
+      setState(() {});
+      });
+    }
 }

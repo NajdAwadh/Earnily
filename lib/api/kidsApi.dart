@@ -12,7 +12,7 @@ getKids(KidsNotifier kidsNotifier) async {
       .collection('users')
       .doc(user.uid)
       .collection('kids')
-      .orderBy('date')
+     .orderBy('date')
       .get();
 
   List<Kids> _kidsList = [];
