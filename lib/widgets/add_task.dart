@@ -234,13 +234,9 @@ class _Add_taskState extends State<Add_task> {
         .where(name)
         .get();
 
-    var k;
 
-    Map<String, dynamic> document =
-        snapshot.docs[1].data() as Map<String, dynamic>;
-    print(k);
 List<String> _kidsNamesList = [];
-    print(document['name']);
+
     for (var i = 0; i < snapshot.docs.length; i++) {
       Map<String, dynamic> document =
           snapshot.docs[i].data() as Map<String, dynamic>;

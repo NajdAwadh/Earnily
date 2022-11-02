@@ -32,9 +32,7 @@ class _AdultKidsState extends State<AdultKids> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
+
   }
 
   int getBirthday(Timestamp date) {
@@ -144,8 +142,15 @@ class _AdultKidsState extends State<AdultKids> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                AdultsKidProfile()));
+                                         
+                                                  builder: (builder) => AdultsKidProfile(
+                                                                    document:document,
+                                                                    id: snapshot.data?.docs[index].id as String
+                                                                    //pass doc
+                                                                    )
+                                                
+                                                )
+                                                );
                                   },
                                 ),
                               ],

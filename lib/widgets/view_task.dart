@@ -1,7 +1,4 @@
-import 'package:earnily/models/task.dart';
-import 'package:earnily/notifications/notification_api.dart';
-import 'package:earnily/notifier/taskNotifier.dart';
-import 'package:earnily/reuasblewidgets.dart';
+import 'package:earnily/screen/profile_screen.dart';
 import 'package:earnily/screen/qrCreateScreen.dart';
 import 'package:earnily/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -11,28 +8,25 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
-import '../api/kidsApi.dart';
-import '../notifier/kidsNotifier.dart';
 //notification
 import 'package:earnily/notifications/local_notification_service.dart';
 import 'package:earnily/notifications/second_screen.dart';
 import 'new_button.dart';
 
 class View_task extends StatefulWidget {
-   View_task({super.key,required this.document}) ;
+  View_task({super.key, required this.document, required this.id});
   final Map<String, dynamic> document;
-   //pass doc
+  final String id;
+
+  //pass doc
   @override
   State<View_task> createState() => _View_taskState();
 }
 
 class _View_taskState extends State<View_task> {
-  @override
   //notification
   late final LocalNotificationService service;
   final user = FirebaseAuth.instance.currentUser!;
-  final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late String _selectedDate;
   late final _nameController;
@@ -42,14 +36,11 @@ class _View_taskState extends State<View_task> {
   bool edit = false;
 
   void initState() {
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
-    _nameController =
-        TextEditingController(text: taskNotifier.currentTask.taskName);
-    categoty = taskNotifier.currentTask.category;
-    childName = taskNotifier.currentTask.asignedKid;
-    points = taskNotifier.currentTask.points;
-    _selectedDate = taskNotifier.currentTask.date;
+    _nameController = TextEditingController(text: widget.document['taskName']);
+    categoty = widget.document['category'];
+    childName = widget.document['asignedKid'];
+    points = widget.document['points'];
+    _selectedDate = widget.document['date'];
     service = LocalNotificationService();
     service.intialize();
     listenToNotification();
@@ -94,27 +85,6 @@ class _View_taskState extends State<View_task> {
         );
   }
 
-  void _validate() {
-    if (formKey.currentState!.validate() &&
-        categoty != "" &&
-        points != "" &&
-        _selectedDate != "") {
-      TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-
-      _updateTask(taskNotifier.currentTask.tid, taskNotifier.currentTask.adult,
-          taskNotifier.currentTask.asignedKid);
-      showToastMessage("تمت تعديل نشاط بنجاح");
-      // Notifications.showNotification(
-      //   title: "EARNILY",
-      //   body: ' لديك نشاط جديد بأنتظارك',
-      //   payload: 'earnily',
-      // );
-      Navigator.of(context).pop();
-    } else {
-      _showDialog();
-    }
-  }
-
   Future _updateTask(String id, String adult, String kid) async {
     //Navigator.of(context).pop();
 
@@ -134,6 +104,7 @@ class _View_taskState extends State<View_task> {
         'category': categoty,
         'asignedKid': childName,
       });
+    
       await FirebaseFirestore.instance
           .collection('kids')
           .doc(kid + '@gmail.com')
@@ -145,8 +116,8 @@ class _View_taskState extends State<View_task> {
         'date': _selectedDate,
         'category': categoty,
         'asignedKid': childName,
-      });
-      showToastMessage("تمت تعديل نشاط بنجاح");
+      });  
+      showToastMessage("تم تعديل النشاط بنجاح");
       // Notifications.showNotification(
       //   title: "EARNILY",
       //   body: ' لديك نشاط جديد بأنتظارك',
@@ -159,14 +130,11 @@ class _View_taskState extends State<View_task> {
   }
 
   Future updateTaskOld() async {
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
-
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('Task')
-        .doc(taskNotifier.currentTask.tid)
+        .doc(widget.id)
         .update({
       'taskName': _nameController.text,
       'points': points,
@@ -223,16 +191,32 @@ class _View_taskState extends State<View_task> {
     });
   }
 
-  Widget build(BuildContext context) {
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    List<String> list = kidsNotifier.kidsNamesList;
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
+  Future<List<String>> lstKids() async {
+    final user = FirebaseAuth.instance.currentUser!;
 
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('kids')
+        .where(name)
+        .get();
+
+    List<String> _kidsNamesList = [];
+
+    for (var i = 0; i < snapshot.docs.length; i++) {
+      Map<String, dynamic> document =
+          snapshot.docs[i].data() as Map<String, dynamic>;
+
+      String name = document['name'];
+      _kidsNamesList.add(name);
+    }
+
+    return _kidsNamesList;
+  }
+
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
@@ -252,12 +236,10 @@ class _View_taskState extends State<View_task> {
           child: Text(
             widget.document['taskName'],
 
-             //pass doc
-
+            //pass doc
 
             //here it works like almonds
 
-            
             style: TextStyle(fontSize: 40),
           ),
         ),
@@ -370,28 +352,41 @@ class _View_taskState extends State<View_task> {
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(245, 245, 245, 1),
                                 borderRadius: BorderRadius.circular(15)),
-                            child: DropdownButtonFormField<String>(
-                                hint: childName.isEmpty
-                                    ? Text("اختر الطفل")
-                                    : Text(childName),
-                                isExpanded: true,
-                                alignment: Alignment.centerRight,
-                                // validator: (val) {
-                                //   if (val == null) return "اختر الطفل";
-                                //   return null;
-                                // },
-                                items: list.map((valueItem) {
-                                  return DropdownMenuItem(
-                                    enabled: edit,
-                                    alignment: Alignment.centerRight,
-                                    value: valueItem,
-                                    child: Text(valueItem),
-                                  );
-                                }).toList(),
-                                onChanged: (newVal) {
-                                  setState(() {
-                                    childName = newVal!;
-                                  });
+                            child: FutureBuilder(
+                                future: lstKids(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                 
+
+                                    return DropdownButtonFormField<String>(
+                                        hint: childName.isEmpty
+                                            ? Text("اختر الطفل")
+                                            : Text(childName),
+                                        isExpanded: true,
+                                        alignment: Alignment.centerRight,
+                                        // validator: (val) {
+                                        //   if (val == null) return "اختر الطفل";
+                                        //   return null;
+                                        // },
+                                        items: snapshot.data?.map((valueItem) {
+                                          return DropdownMenuItem(
+                                            enabled: edit,
+                                            alignment: Alignment.centerRight,
+                                            value: valueItem,
+                                            child: Text(valueItem),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newVal) {
+                                          setState(() {
+                                            childName = newVal!;
+                                          });
+                                        });
+                                  } else {
+                                    return SizedBox(
+                                      height: 10,
+                                    );
+                                  }
                                 })),
                       SizedBox(
                         height: 10,
@@ -575,10 +570,8 @@ class _View_taskState extends State<View_task> {
                               width: 320,
                               text: 'حفظ التغييرات',
                               onClick: () => {
-                                    _updateTask(
-                                        taskNotifier.currentTask.tid,
-                                        taskNotifier.currentTask.adult,
-                                        taskNotifier.currentTask.asignedKid)
+                                    _updateTask(widget.id, user.uid,
+                                        widget.document['asignedKid'])
                                   }),
                         if (edit == true)
                           NewButton(

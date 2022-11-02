@@ -25,7 +25,6 @@ class MainTask extends StatefulWidget {
 
 class _MainTaskState extends State<MainTask> {
   final user = FirebaseAuth.instance.currentUser!;
-
   //snapShot.data[index]
   void initState() {
     super.initState();
@@ -260,14 +259,12 @@ class _MainTaskState extends State<MainTask> {
         .where('state', isNotEqualTo: 'complete')
         .snapshots();
 
-   final Stream<QuerySnapshot> _stream2 = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> _stream2 = FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('Task')
         .where('state', isEqualTo: 'complete')
         .snapshots();
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -412,13 +409,13 @@ class _MainTaskState extends State<MainTask> {
                                                       onTap: () {
                                                         Navigator.of(context).push(
                                                             MaterialPageRoute(
-                                                                builder:
-                                                                    (builder) =>
-                                                                        View_task(
-                                                                          document:
-                                                                              document, 
-                                                                              //pass doc
-                                                                        )));
+                                                                builder: (builder) => View_task(
+                                                                    document:
+                                                                        document,
+                                                                    id: snapshot.data?.docs[index].id as String
+                                                                    //pass doc
+                                                                    )
+                                                                    ));
                                                       },
                                                       trailing: Wrap(
                                                           spacing: 0,
@@ -578,6 +575,7 @@ class _MainTaskState extends State<MainTask> {
                                                                         View_task(
                                                                           document:
                                                                               document,
+                                                                              id: snapshot.data?.docs[index].id as String,
                                                                         )));
                                                       },
                                                       trailing: Wrap(
@@ -633,7 +631,6 @@ class _MainTaskState extends State<MainTask> {
                                         );
                                       }),
                                 ),
-                                
                               ],
                             ),
                           ),

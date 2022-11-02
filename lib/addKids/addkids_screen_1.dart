@@ -34,17 +34,13 @@ class AddKids_screen_1 extends StatefulWidget {
 
 class _AddKids_screen_1 extends State<AddKids_screen_1> {
   final TextEditingController nameController = TextEditingController();
-  final kidsDb = FirebaseFirestore.instance.collection('kids');
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    KidsNotifier kidsNotifier =
-        Provider.of<KidsNotifier>(context, listen: false);
-    getKids(kidsNotifier);
-    getKidsNames(kidsNotifier);
+  
   }
 
   final List<String> items = <String>["طفل", "طفلة"];

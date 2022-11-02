@@ -27,24 +27,34 @@ import '../widgets/new_text.dart';
 import 'package:intl/intl.dart';
 
 class AdultsKidProfile extends StatefulWidget {
-  const AdultsKidProfile({super.key});
+  const AdultsKidProfile({super.key,required this.document, required this.id});
+  final Map<String, dynamic> document;
+  final String id;
 
   @override
   State<AdultsKidProfile> createState() => _AdultsKidProfile();
 }
 
+
+
+class _AdultsKidProfile extends State<AdultsKidProfile> {
 final user = FirebaseAuth.instance.currentUser!;
 bool isLoading = false;
 String image = '';
 DateTime? date;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-class _AdultsKidProfile extends State<AdultsKidProfile> {
+
   TextEditingController nameController = TextEditingController();
   TextEditingController _familyController = TextEditingController();
   bool isEnabled = false;
   @override
   void initState() {
     // TODO: implement initState
+
+
+      TextEditingController nameController = TextEditingController(text: widget.document['name']);
+  TextEditingController _familyController = TextEditingController(text: widget.document['name']);
     KidsNotifier kidsNotifier =
         Provider.of<KidsNotifier>(context, listen: false);
     getKids(kidsNotifier);
@@ -98,16 +108,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
         .doc(kid.name + '@gmail.com')
         .delete();
 
-    /*final user = FirebaseAuth.instance.currentUser!;
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: kid.name + "@gmail.com", password: kid.pass);
-    final user2 = FirebaseAuth.instance.currentUser!;
-    user2.delete();
-    // print(user2.email);
-    // print(user.email);
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: user.email!, password: '123456');*/
-
+   
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return HomePage();
@@ -321,32 +322,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     SizedBox(
                       height: 10,
                     ),
-                    // NewText(
-                    //   text: ':الجنس ',
-                    //   fontWeight: FontWeight.bold,
-                    //   size: 18,
-                    // ),
-                    // SizedBox(
-                    //   width: 300,
-                    //   height: 50,
-                    //   child: new Directionality(
-                    //     textDirection: ui.TextDirection.rtl,
-                    //     child: Row(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //       children: [
-                    //         Text(
-                    //           currentKid.gender,
-                    //           style: const TextStyle(
-                    //             fontSize: 15,
-                    //             fontWeight: FontWeight.w400,
-                    //             color: Colors.grey,
-                    //           ),
-                    //         ),
-                    //         imgWidget(set(currentKid.gender), 32, 32),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
