@@ -162,11 +162,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
 
   Future _updateTask(String adult, String kid) async {
     //Navigator.of(context).pop();
-    if (
-        value != "" &&
-        _nameController.text != "" &&
-        date != "") {
-
+    if (value != "" && _nameController.text != "" && date != "") {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(adult)
@@ -178,11 +174,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
         'date': date,
       });
 
-      await FirebaseFirestore.instance
-          .collection('kids')
-          .doc(kid)
-         
-          .update({
+      await FirebaseFirestore.instance.collection('kids').doc(kid).update({
         'name': _nameController.text,
         'gender': value,
         'date': date,
@@ -201,7 +193,6 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
 
   void _showDialog2() {
     showDialog(
-
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -335,7 +326,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
                     ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text('الجنس:',
+                      child: Text('طفل أم طفلة:',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
