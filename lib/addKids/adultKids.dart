@@ -109,53 +109,66 @@ class _AdultKidsState extends State<AdultKids> {
                   Map<String, dynamic> document =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
 
-                  return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 10,
-                      ),
-                      child: Container(
-                        height: 150,
-                        color: chooseColor(index),
-                        child: new Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: new GridTile(
-                            child: Column(
-                              children: [
-                                SizedBox(height: 15),
-                                imgWidget(set(document['gender']), 64, 64),
-                                Text(
-                                  document['name'],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.account_circle_sharp),
-                                  color: Colors.black,
-                                  iconSize: 40,
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (builder) =>
-                                                AdultsKidProfile(
-                                                    document: document,
-                                                    id: snapshot
-                                                        .data
-                                                        ?.docs[index]
-                                                        .id as String
-                                                    //pass doc
-                                                    )));
-                                  },
-                                ),
-                              ],
-                            ),
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => AdultsKidProfile(
+                                    document: document,
+                                    id: snapshot.data?.docs[index].id as String
+                                    //pass doc
+                                    )));
+                      },
+                      child: Card(
+                          elevation: 5,
+                          margin: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 10,
                           ),
-                        ),
-                      ));
+                          child: Container(
+                            height: 150,
+                            padding: EdgeInsets.all(18),
+                            color: chooseColor(index),
+                            child: new Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: new GridTile(
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 15),
+                                    imgWidget(set(document['gender']), 64, 64),
+
+                                    Text(
+                                      document['name'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                    // IconButton(
+                                    //   icon: Icon(Icons.account_circle_sharp),
+                                    //   color: Colors.black,
+                                    //   iconSize: 40,
+                                    //   onPressed: () {
+                                    //     Navigator.push(
+                                    //         context,
+                                    //         MaterialPageRoute(
+                                    //             builder: (builder) =>
+                                    //                 AdultsKidProfile(
+                                    //                     document: document,
+                                    //                     id: snapshot
+                                    //                         .data
+                                    //                         ?.docs[index]
+                                    //                         .id as String
+                                    //                     //pass doc
+                                    //                     )));
+                                    //   },
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )));
                 },
                 itemCount: snapshot.data!.docs.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
