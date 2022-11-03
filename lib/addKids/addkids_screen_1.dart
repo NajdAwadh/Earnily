@@ -126,7 +126,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
     if (nameController.text.isEmpty || value == null || date == null) {
       _showDialog("ادخل البيانات المطلوبة");
     } else {
-      names =await lstKids();
+      names = await lstKids();
       if (myLoop(names)) {
         _showDialog("ممنوع إدخال معلومات مكررة");
       } else {
@@ -245,8 +245,6 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -330,16 +328,16 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                     // SizedBox(
                     //   height: 20,
                     // ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        " الجنس",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: Text(
+                    //     " الجنس",
+                    //     style: TextStyle(
+                    //         color: Colors.black,
+                    //         fontSize: 18,
+                    //         fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
 
                     Positioned(
                         right: 107,
@@ -348,6 +346,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                         height: 66,
                         child: Container(
                             alignment: Alignment.topRight,
+                            padding: EdgeInsets.all(18),
                             child: new Directionality(
                                 textDirection: ui.TextDirection.rtl,
                                 child: Row(
@@ -376,6 +375,7 @@ class _AddKids_screen_1 extends State<AddKids_screen_1> {
                                         SizedBox(
                                           width: 5,
                                         ),
+
                                         //Image.asset("assets/images/girl.png"),
                                         imgWidget("assets/images/girlIcon.png",
                                             32, 32),
