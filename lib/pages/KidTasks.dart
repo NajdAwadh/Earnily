@@ -218,6 +218,15 @@ class _kidTasksState extends State<kidTasks> {
     }
   }
 
+  String _notify() {
+    Notifications.showNotification(
+      title: "EARNILY",
+      body: ' تم تأكيد مهمتك',
+      payload: 'earnily',
+    );
+    return 'تمت المهمة';
+  }
+
   List<Color> myColors = [
     //ghada
     Color(0xffff6d6e),
@@ -479,6 +488,11 @@ class _kidTasksState extends State<kidTasks> {
                                                                         },
                                                                       ),
                                                                     ),
+                                                                  if (document[
+                                                                          'state'] ==
+                                                                      "complete")
+                                                                    Text(
+                                                                        _notify()),
                                                                 ],
                                                               ),
                                                             ),
