@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earnily/screen/profile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/driveactivity/v2.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../api/taskApi.dart';
 import '../models/task.dart';
 import '../notifier/taskNotifier.dart';
+import '../widgets/view_task.dart';
 import 'event.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -45,17 +48,26 @@ class _CalendarState extends State<Calendar> {
   }
 
   void addToCalendar(String name, DateTime date, String asignedKid,
-      String category, String points, Task task) {
+      String category, String points, String tid, Task task) {
     if (selectedDay == date) {
       list.add(task);
       if (selectedEvents[selectedDay] != null) {
         print('in if');
-        selectedEvents[selectedDay]
-            ?.add(Event(title: name, category: category, points: points));
+        selectedEvents[selectedDay]?.add(Event(
+            title: name,
+            category: category,
+            points: points,
+            asignedKid: asignedKid,
+            tid: tid));
       } else {
         print('else');
         selectedEvents[selectedDay] = [
-          Event(title: name, category: category, points: points)
+          Event(
+              title: name,
+              category: category,
+              points: points,
+              asignedKid: asignedKid,
+              tid: tid)
         ];
       }
     }
@@ -97,11 +109,12 @@ class _CalendarState extends State<Calendar> {
       String asignedKid = tasks[i].asignedKid;
       String category = tasks[i].category;
       String points = tasks[i].points;
+      String tid = tasks[i].tid;
 
       DateTime date = formatter.parseUTC(tasks[i].date);
 
       _getEventsfromDay(date);
-      addToCalendar(name, date, asignedKid, category, points, tasks[i]);
+      addToCalendar(name, date, asignedKid, category, points, tid, tasks[i]);
     }
   }
 
@@ -147,6 +160,8 @@ class _CalendarState extends State<Calendar> {
             calendarFormat: format,
             onFormatChanged: (CalendarFormat _format) {
               setState(() {
+                CircularProgressIndicator();
+                _getEventsfromDay(selectedDay);
                 format = _format;
                 selectedEvents.clear();
               });
@@ -157,6 +172,9 @@ class _CalendarState extends State<Calendar> {
             //Day Changed
             onDaySelected: (DateTime selectDay, DateTime focusDay) {
               setState(() {
+                CircularProgressIndicator();
+
+                _getEventsfromDay(selectDay);
                 selectedDay = selectDay;
                 focusedDay = focusDay;
                 selectedEvents.clear();
@@ -212,79 +230,7 @@ class _CalendarState extends State<Calendar> {
           ),
           ..._getEventsfromDay(selectedDay).map(
             (Event event) =>
-                /*Container(
-              child: ListView.builder(
-                  itemBuilder: (ctx, index) {
-                    IconData iconData;
-                    Color iconColor;
-                    switch (event.category) {
-                      case "النظافة":
-                        iconData = Icons.wash;
-
-                        iconColor = Color(0xffff6d6e);
-                        break;
-                      case "الأكل":
-                        iconData = Icons.flatware_rounded;
-                        iconColor = Color(0xfff29732);
-                        break;
-
-                      case "الدراسة":
-                        iconData = Icons.auto_stories_outlined;
-                        iconColor = Color(0xff6557ff);
-                        break;
-
-                      case "تطوير الشخصية":
-                        iconData = Icons.border_color_outlined;
-                        iconColor = Color(0xff2bc8d9);
-                        break;
-
-                      case "الدين":
-                        iconData = Icons.brightness_4_rounded;
-                        iconColor = Color(0xff234ebd);
-                        break;
-                      default:
-                        iconData = Icons.brightness_4_rounded;
-                        iconColor = Color(0xff6557ff);
-                    }
-                    return Card(
-                      elevation: 5,
-                      margin: EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 5,
-                      ),
-                      child: new Directionality(
-                        textDirection: ui.TextDirection.rtl,
-                        child: new ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: iconColor,
-                            foregroundColor: Colors.white,
-                            radius: 30,
-                            child: Padding(
-                                padding: EdgeInsets.all(6),
-                                child: Container(
-                                  height: 33,
-                                  width: 36,
-                                  child: Icon(iconData),
-                                )),
-                          ),
-                          title: Text(
-                            event.title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
-                          ),
-                          subtitle: Text(
-                            event.points,
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  itemCount: selectedEvents.length),
-            ),*/
-
+                ///////////////////////////////////////
                 Card(
               elevation: 5,
               margin: EdgeInsets.symmetric(
@@ -318,19 +264,30 @@ class _CalendarState extends State<Calendar> {
                       ),
                     ),
                   ),
-                  //subtitle: Text('test'),
+                  subtitle: Text(event.asignedKid + '\n' + event.points),
+                  isThreeLine: true,
                   /*
-              isThreeLine: true,
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                color: Theme.of(context).errorColor,
-                onPressed: () => {},
-              ),*/
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (builder) => View_task(
+                            document: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection('Task')
+                                .where('tid', isEqualTo: event.tid)
+                                .snapshots() as Map<String, dynamic>,
+                            id: event.tid
+                            //pass doc
+                            )));
+                  },
+                  */
                 ),
               ),
             ),
           ),
+          /////////////////////////////////////////////////
           /*
+          /////////////////////////////////////////////////
           IconData iconData;
                     Color iconColor;
                     switch (event.category) {
@@ -405,6 +362,7 @@ class _CalendarState extends State<Calendar> {
                 ),
               ),
             ),
+            //////////////////////////////////
             */
         ],
       ),
