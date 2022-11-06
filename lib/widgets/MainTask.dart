@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:earnily/widgets/add_task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -612,7 +610,8 @@ class _MainTaskState extends State<MainTask> {
                                                                     'state'] ==
                                                                 'pending')
                                                               IconButton(
-                                                                icon: Icon(Icons.check),
+                                                                icon: Icon(Icons
+                                                                    .check),
                                                                 color: Colors
                                                                     .black,
                                                                 onPressed: () =>

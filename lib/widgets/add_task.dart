@@ -1,7 +1,6 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api
 
 import 'dart:collection';
-import 'dart:html';
 import 'package:earnily/models/kids.dart';
 
 import 'package:earnily/api/kidtaskApi.dart';
@@ -150,12 +149,8 @@ class _Add_taskState extends State<Add_task> {
     if (formKey.currentState!.validate() &&
         categoty != "" &&
         points != "" &&
-        _selectedDate != ""
-        &&
-        childName != ""
-        
-        
-        ) {
+        _selectedDate != "" &&
+        childName != "") {
       addTask();
 
       showToastMessage("تمت إضافة نشاط بنجاح");
@@ -234,25 +229,20 @@ class _Add_taskState extends State<Add_task> {
         .where(name)
         .get();
 
-
-List<String> _kidsNamesList = [];
+    List<String> _kidsNamesList = [];
 
     for (var i = 0; i < snapshot.docs.length; i++) {
       Map<String, dynamic> document =
           snapshot.docs[i].data() as Map<String, dynamic>;
-      
+
       String name = document['name'];
       _kidsNamesList.add(name);
     }
-   
+
     return _kidsNamesList;
   }
 
-  
-
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -655,4 +645,3 @@ List<String> _kidsNamesList = [];
     }
   }
 }
-

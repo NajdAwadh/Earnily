@@ -34,12 +34,6 @@ void getCurrentUser() {
   }
 }
 
-
-
-
-
-  
-
 /*
 void kidsStream() async {
   await for (var snapshot in firebase
@@ -117,8 +111,6 @@ class _ChatScreenState extends State<ChatScreen> {
     messageController.clear();
     addMessages();
   }
-
-  
 
   void _showDialog(String text) {
     showDialog(
@@ -280,10 +272,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           messageText = value;
                         },
                         decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              onPressed: () => {},
-                              icon: Icon(Icons.photo),
-                            ),
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 20,

@@ -34,6 +34,46 @@ class _HomePageState extends State<HomePage> {
   var firstColor = Color(0xff5b86e5), secondColor = Color(0xff36d1dc);
   int _selectedIndex = 0;
 
+  void _showDialogCancel() {
+    showDialog(
+      //barrierDismissible = false;
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "لحظة",
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.red),
+          ),
+          content: Text(
+            'هل انت متأكد من تسجيل الخروج ؟',
+            textAlign: TextAlign.right,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return const SignInScreen();
+                    },
+                  ),
+                );
+                //do
+              },
+              child: const Text("تأكيد"),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text("إلغاء"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   void _navigationBar(int index) {
     setState(() {
       _selectedIndex = index;
@@ -135,24 +175,6 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                     ),
                   ),
-                  ListTile(
-                    title: Text(
-                      textAlign: TextAlign.right,
-                      'الاعدادات والخصوصية',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.settings_suggest_sharp,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {
-                      //do
-                    },
-                  ),
 
                   ListTile(
                     title: Text(
@@ -168,17 +190,7 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                       size: 30,
                     ),
-                    onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const SignInScreen();
-                          },
-                        ),
-                      );
-                      //do
-                    },
+                    onTap: _showDialogCancel,
                   ),
 
                   /* child: MaterialButton(
