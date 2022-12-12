@@ -83,7 +83,7 @@ class _AdultsKidProfile extends State<AdultsKidProfile> {
     if (gender == "طفلة")
       return "assets/images/girlIcon.png";
     else
-      return "assets/images/boy24.png";
+      return "assets/images/boyIcon.png";
   }
 
   void showToastMessage(String message) {
